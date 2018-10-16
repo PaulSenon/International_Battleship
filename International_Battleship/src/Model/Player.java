@@ -2,9 +2,14 @@ package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import Tools.PersonnalException;
+
 @objid ("f238657d-bdf0-4378-bd4d-31cf69f544c3")
 public class Player implements PlayerGame {
-    @objid ("3f33dd87-0c02-456e-9147-4d36c1941913")
+	//TODO : modifier cet attribut pour le faire varier en fonction du nombre de bateau.
+	final int maxActionPoint = 20;
+    
+	@objid ("3f33dd87-0c02-456e-9147-4d36c1941913")
     private Boat[] Fleet;
 
     @objid ("88768db5-cf22-41e6-9f3f-6b54186cf01c")
@@ -78,17 +83,52 @@ public class Player implements PlayerGame {
         // Automatically generated method. Please delete this comment before entering specific code.
         this.PortName = value;
     }
-
+    
+    /**
+     * This method returns the number of Action Point
+     * @return
+     */
     @objid ("bef56e38-69ff-4e7b-91cd-8a16a206e12b")
     public int getActionPoint() {
         // Automatically generated method. Please delete this comment before entering specific code.
         return this.ActionPoint;
     }
 
+    /**
+     * This method is used to set the value of Action Point
+     * @param value
+     */
     @objid ("b3fb1af7-f52b-4fbb-83f0-5be19d8970eb")
     public void setActionPoint(final int value) {
-        // Automatically generated method. Please delete this comment before entering specific code.
         this.ActionPoint = value;
     }
+    
+    /**
+     * This method is used to credit the value of Action Point
+     * @param value
+     * @throws PersonnalException 
+     */
+    public void creditActionPoint (final int value) throws PersonnalException {
+    	this.ActionPoint += value;
+    	if (this.ActionPoint > maxActionPoint) {
+    		this.ActionPoint = maxActionPoint;
+    		throw new PersonnalException("Too much Action Point");
+    	}
+    }
 
+    /**
+     * This method is used to debit the value of Action Point
+     * @param value
+     * @throws PersonnalException
+     */
+    public void debitActionPoint (final int value) throws PersonnalException {
+    	int verifDebitPossible = this.ActionPoint - value;
+    	if (verifDebitPossible < 0) {
+    		throw new PersonnalException("Not enough Action Point");
+    	}
+    	else {
+    		this.ActionPoint -= value;
+    	}
+    }
+    
 }
