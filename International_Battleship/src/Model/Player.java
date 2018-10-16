@@ -97,9 +97,13 @@ public class Player implements PlayerGame {
     /**
      * This method is used to set the value of Action Point
      * @param value
+     * @throws PersonnalException 
      */
     @objid ("b3fb1af7-f52b-4fbb-83f0-5be19d8970eb")
-    public void setActionPoint(final int value) {
+    public void setActionPoint(final int value) throws PersonnalException {
+    	if (value > maxActionPoint) {
+    		throw new PersonnalException("The value is higher tha expected");
+    	}
         this.ActionPoint = value;
     }
     
@@ -112,7 +116,6 @@ public class Player implements PlayerGame {
     	this.ActionPoint += value;
     	if (this.ActionPoint > maxActionPoint) {
     		this.ActionPoint = maxActionPoint;
-    		throw new PersonnalException("Too much Action Point");
     	}
     }
 
@@ -129,6 +132,14 @@ public class Player implements PlayerGame {
     	else {
     		this.ActionPoint -= value;
     	}
+    }
+    
+    /**
+     * This method returns the maxActionPoint
+     * @return
+     */
+    public int getMaxActionPoint () {
+    	return this.maxActionPoint;
     }
     
 }
