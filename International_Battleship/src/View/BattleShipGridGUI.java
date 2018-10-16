@@ -1,10 +1,18 @@
 package View;
 
+import javax.swing.JLayeredPane;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("59f3e563-cd95-4a58-982c-35a753e56132")
+
 public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI {
-    @objid ("36830e37-3f6b-4a49-9771-eecf425dec5c")
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@objid ("36830e37-3f6b-4a49-9771-eecf425dec5c")
     public BattleShipBoatGUI battleShipBoatGUI;
 
     @objid ("e78df3ec-ed3c-4ff8-a842-2ff369cb31a6")

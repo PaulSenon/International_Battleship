@@ -16,4 +16,16 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
     public void isPlayerOk() {
     }
 
+	@Override
+	public void ActionWhenBoatIsSelectedOnGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ActionWhenBoatIsMovedOnGUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

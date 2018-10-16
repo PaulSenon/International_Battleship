@@ -1,4 +1,6 @@
-package model;
+package Model;
+
+import java.util.Observable;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 

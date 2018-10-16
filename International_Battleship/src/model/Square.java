@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
