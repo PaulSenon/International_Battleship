@@ -4,7 +4,30 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements Boat {
-    @objid ("809e8204-31c8-42eb-bb6a-467d73259045")
+    
+	protected int x,y;
+	protected String name;
+	protected Boat boat;
+	
+	
+    @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
+    public AbstractBoat() {
+
+    }
+    
+	public int getX() {
+		return this.x;
+	}
+
+	public int getY() {
+		return this.y;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	@objid ("809e8204-31c8-42eb-bb6a-467d73259045")
     private String Color;
 
     @objid ("b61536b1-2df5-41fc-b99e-982da0c79602")
@@ -79,10 +102,6 @@ public abstract class AbstractBoat implements Boat {
 
     @objid ("8843f023-42d1-4d07-8e22-0e8d8adfa52e")
     public void getVisibleAera() {
-    }
-
-    @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
-    public AbstractBoat() {
     }
 
     @objid ("dfb55234-05af-4b32-b572-882581380e93")

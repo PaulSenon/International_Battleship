@@ -9,6 +9,7 @@ public class BattleshipImplementor implements BattleshipGameImplementor {
 
     @objid ("5ec8880b-f75d-4bee-8ed0-ecea6a4d4930")
     public BattleshipImplementor() {
+    	boat = new Cruiser();
     }
 
     @objid ("f561c936-de20-43ae-a170-a9290c7f975c")
