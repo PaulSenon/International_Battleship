@@ -108,5 +108,9 @@ public abstract class AbstractBoat implements Boat {
         // Automatically generated method. Please delete this comment before entering specific code.
         this.boatPart = value;
     }
+    
+    public int getSize() {
+    	return this.getSize();
+    }
 
 }
