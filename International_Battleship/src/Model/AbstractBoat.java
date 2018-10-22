@@ -6,7 +6,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 public abstract class AbstractBoat implements Boat {
     
 	protected int x,y;
-	protected String name;
+	protected BoatName name;
 	protected Boat boat;
 	
 	
@@ -23,7 +23,7 @@ public abstract class AbstractBoat implements Boat {
 		return this.y;
 	}
 
-	public String getName() {
+	public BoatName getName() {
 		return this.name;
 	}
 
@@ -128,4 +128,9 @@ public abstract class AbstractBoat implements Boat {
         this.boatPart = value;
     }
 
+    @Override
+	public String toString() {
+		return "Object Boat name=" + name + " [x=" + x + ", y=" + y + ", boat=" + boat + "]";
+	}
+    
 }
