@@ -4,6 +4,8 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("8381580b-805e-4d6a-adea-46b5df3bdced")
 public class Cruiser extends AbstractBoat {
+	final int size = 4;
+	
     @objid ("0872b78b-abde-49b9-aed9-dbf155af68e9")
     @Override
     public void shoot() {
@@ -32,4 +34,7 @@ public class Cruiser extends AbstractBoat {
     public Cruiser() {
     }
 
+    public int getSize( ) {
+    	return this.size;
+    }
 }
