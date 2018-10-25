@@ -26,7 +26,12 @@ public abstract class AbstractBoat implements Boat {
     private Square[] occuped;
 
     @objid ("0494bc65-840e-4841-82ae-0d3272bcaf6b")
-    public abstract void shoot();
+    public void shoot(Coord target) {
+    	Boat targetedBoat = null;
+    	if(isShootOk(target)) {
+    		targetedBoat = BattleshipImplementor.findBoatByCoord(target);
+    	}
+	}
 
     @objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
     public abstract void move();
@@ -70,15 +75,19 @@ public abstract class AbstractBoat implements Boat {
     }
 
     @objid ("5b8e138a-1e09-4beb-a980-60255795d4b7")
-    public void isShootOk() {
+    public boolean isShootOk(Coord target) {
+    	//TODO:implements method
+		return false;
     }
 
     @objid ("aa408278-c5e0-463b-812a-00b416431338")
-    public void isShootable() {
+    public boolean isShootable(Coord target) {
+    	//TODO:implements method
+		return false;
     }
 
     @objid ("8843f023-42d1-4d07-8e22-0e8d8adfa52e")
-    public void getVisibleAera() {
+    public void getVisibleArea() {
     }
 
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")

@@ -11,6 +11,6 @@ public interface BattleshipGameImplementor {
     void move();
 
     @objid ("5216da63-aac6-4fdd-8ebb-95e7c49e22e8")
-    void findBoatByCoord();
+    Boat findBoatByCoord(Coord coord);
 
 }

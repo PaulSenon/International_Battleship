@@ -5,10 +5,6 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 @objid ("b0f6e843-5b59-4e8c-8233-5a897083772c")
 public class AircraftCarrier extends AbstractBoat {
 	final int size = 5;
-	
-    @objid ("b3e9715b-61cd-4839-b539-8461c2f7c242")
-    public void shoot() {
-    }
 
     @objid ("3222a6aa-93ed-428b-a289-90062504d72b")
     public void move() {
@@ -29,4 +25,5 @@ public class AircraftCarrier extends AbstractBoat {
     public int getSize() {
     	return this.size;
     }
+
 }

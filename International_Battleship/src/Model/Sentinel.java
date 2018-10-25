@@ -5,12 +5,6 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 @objid ("6b6d0859-e740-493d-98e4-4636c5ba6350")
 public class Sentinel extends AbstractBoat {
 	final int size = 1;
-	
-    @objid ("64194498-4526-4adf-9189-6c2873dbc42f")
-    @Override
-    public void shoot() {
-        // TODO Auto-generated method stub
-    }
 
     @objid ("e3a0f19d-f496-4b18-8b34-c7953806c406")
     @Override

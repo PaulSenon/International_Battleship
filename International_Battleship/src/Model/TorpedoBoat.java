@@ -10,12 +10,6 @@ public class TorpedoBoat extends AbstractBoat {
     public TorpedoBoat() {
     }
 
-    @objid ("98961ac2-9fa5-485d-a769-f844cd66e86b")
-    @Override
-    public void shoot() {
-        // TODO Auto-generated method stub
-    }
-
     @objid ("30c44c71-c872-44ba-b56c-220f6f026b5f")
     @Override
     public void move() {
