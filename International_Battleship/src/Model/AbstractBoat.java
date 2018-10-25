@@ -9,9 +9,11 @@ import java.util.List;
 
 import static tools.Direction.*;
 
+import tools.ResultShoot;
+
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements Boat {
-    
+
 	protected Coord pivot;
 
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
@@ -51,11 +53,44 @@ public abstract class AbstractBoat implements Boat {
 	}
 
 
-    @objid ("0494bc65-840e-4841-82ae-0d3272bcaf6b")
-    public abstract void shoot();
+	@objid ("0494bc65-840e-4841-82ae-0d3272bcaf6b")
+	public ResultShoot shoot(Coord target) {
+		// TODO FIX#47 : Fix this, we do not use "getBoatPart()" anymore.
+		// TODO 	=> I think it's the implementor who has to call this method
+		// TODO 	=> but where to store the data to say that a boat is shot on one fragment ?
 
-    @objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
-    public abstract void move();
+//		int x = target.getX();
+//		int y = target.getY();
+//		Square part = getBoatPart(x,y);
+//		ResultShoot result = ResultShoot.MISSED;
+//		if (part != null) {
+//			if (part.isDestroyed) {
+//				//If a destoyed boat is targeted.
+//				result = ResultShoot.ALREADY_TOUCHED;
+//			} else {
+//				//If a functional boat is targeted
+//				part.destroy();
+//				result = ResultShoot.DESTROYED;
+//				//TODO: when a boat is destroyed, re-init its value
+//				for(Square fragment : boatPart) {
+//					if (!fragment.isDestroyed) {
+//						result = ResultShoot.TOUCHED;
+//					}
+//				}
+//			}
+//		}
+//		else {
+//			//If the sea is targeted
+//			result = ResultShoot.MISSED;
+//		}
+//		return result;
+
+		// TODO remove this, it's just a placeholder :
+		return ResultShoot.TOUCHED;
+	}
+
+	@objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
+	public abstract void move();
 
     @objid ("901d66d1-b1e1-4f7b-8c07-246f568ba2db")
     public void rotateClockWise(){
@@ -125,26 +160,26 @@ public abstract class AbstractBoat implements Boat {
     }
 
 
-    @objid ("7c56179d-d096-4f01-992b-2b6a8816e013")
-    public void useSpecialAction() {
-    }
+	@objid ("7c56179d-d096-4f01-992b-2b6a8816e013")
+	public void useSpecialAction() {
+	}
 
-    @objid ("1f7f3f00-23b8-4a7b-af22-acbdf24850ae")
-    public String getColor() {
-        // Automatically generated method. Please delete this comment before entering specific code.
-        return this.Color;
-    }
+	@objid ("1f7f3f00-23b8-4a7b-af22-acbdf24850ae")
+	public String getColor() {
+		// Automatically generated method. Please delete this comment before entering specific code.
+		return this.Color;
+	}
 
-    @objid ("e6dc5908-9d22-424e-97a3-b3ac8d752ce1")
-    public void setColor(final String value) {
-        // Automatically generated method. Please delete this comment before entering specific code.
-        this.Color = value;
-    }
+	@objid ("e6dc5908-9d22-424e-97a3-b3ac8d752ce1")
+	public void setColor(final String value) {
+		// Automatically generated method. Please delete this comment before entering specific code.
+		this.Color = value;
+	}
 
 
-    @objid ("ea27622f-ef86-414e-a871-91e521f336d4")
-    public void undoLastMove() {
-    }
+	@objid ("ea27622f-ef86-414e-a871-91e521f336d4")
+	public void undoLastMove() {
+	}
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")
     public int getMoveCost() {
@@ -158,17 +193,21 @@ public abstract class AbstractBoat implements Boat {
         this.moveCost = value;
     }
 
-    @objid ("5b8e138a-1e09-4beb-a980-60255795d4b7")
-    public void isShootOk() {
-    }
+	@objid ("5b8e138a-1e09-4beb-a980-60255795d4b7")
+	public boolean isShootOk(Coord target) {
+		//TODO:implements method
+		return false;
+	}
 
-    @objid ("aa408278-c5e0-463b-812a-00b416431338")
-    public void isShootable() {
-    }
+	@objid ("aa408278-c5e0-463b-812a-00b416431338")
+	public boolean isShootable(Coord target) {
+		//TODO:implements method
+		return false;
+	}
 
-    @objid ("8843f023-42d1-4d07-8e22-0e8d8adfa52e")
-    public void getVisibleAera() {
-    }
+	@objid ("8843f023-42d1-4d07-8e22-0e8d8adfa52e")
+	public void getVisibleArea() {
+	}
 
     @objid ("dfb55234-05af-4b32-b572-882581380e93")
     public Coord getPivot() {
@@ -182,25 +221,31 @@ public abstract class AbstractBoat implements Boat {
         this.pivot = value;
     }
 
-//    @objid ("c15251b2-c1fb-4ac8-9800-21b0b04c201b")
-//    public Square[] getBoatPart() {
-//        // Automatically generated method. Please delete this comment before entering specific code.
-//        return this.boatPart;
-//    }
-//
-//    @objid ("b9904940-cd00-4cc0-a704-ac5cae79ea57")
-//    public void setBoatPart(final Square[] value) {
-//        // Automatically generated method. Please delete this comment before entering specific code.
-//        this.boatPart = value;
-//    }
-    
-    public int getSize() {
-    	return this.size;
-    }
+//	@objid ("c15251b2-c1fb-4ac8-9800-21b0b04c201b")
+//	@Deprecated
+//	public Square getBoatPart(int x, int y) {
+//		//Browse all boats and get the part boat of the coord given, if it exists
+//		for (Square part : boatPart) {
+//			if (part.coord.getX() == x && part.coord.getY() == y) {
+//				return part;
+//			}
+//		}
+//		return null;
+//	}
+
+//	@objid ("b9904940-cd00-4cc0-a704-ac5cae79ea57")
+//	public void setBoatPart(final Square[] value) {
+//		// Automatically generated method. Please delete this comment before entering specific code.
+//		this.boatPart = value;
+//	}
+
+	public int getSize() {
+		return this.size;
+	}
 
     @Override
 	public String toString() {
 		return "Object Boat name=" + name + " " + this.pivot;
 	}
-    
+
 }

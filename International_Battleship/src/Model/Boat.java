@@ -5,10 +5,12 @@ import tools.Coord;
 
 import java.util.List;
 
+import tools.ResultShoot;
+
 @objid ("c1e77788-c863-45cf-bace-9f86e3b2f0cc")
 public interface Boat {
     @objid ("83fb710c-9713-4424-ae50-2f2fa0c5e14b")
-    void shoot();
+    ResultShoot shoot(Coord target);
 
     @objid ("40a00f44-2a87-4bdf-b47b-15f693d433c0")
     void move();

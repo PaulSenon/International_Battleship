@@ -2,6 +2,10 @@ package Controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import Model.Boat;
+import tools.Coord;
+import tools.ActionType;
+
 @objid ("0ba7d808-0e11-42c8-9e3f-0f056a59efa6")
 public interface BattleshipGameControlerModel {
 
@@ -14,5 +18,7 @@ public interface BattleshipGameControlerModel {
 
     @objid ("3b3496e7-3c7b-4770-8043-d0674ed20fc7")
     void ActionWhenBoatIsMovedOnGUI();
+
+    void ActionWhenAction(Boat boat, Coord target);
 
 }

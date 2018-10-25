@@ -17,8 +17,6 @@ public class AbstractBoatTest {
     public void setUp() throws Exception {
         this.boat = new AbstractBoat(BoatName.CRUISER, new Coord(10,10)) {
             @Override
-            public void shoot() { }
-            @Override
             public void move() { }
             @Override
             public void hourlyRotation() { }

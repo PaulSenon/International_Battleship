@@ -4,21 +4,32 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.EventListener;
 
+import Controler.BattleShipControlerLocal;
 import Controler.BattleshipGameControlerModelView;
+import tools.ActionType;
+import tools.ResultShoot;
 
 public class BattleShipGridGUIListener implements EventListener, MouseListener {
 
 	private BattleShipGridGUI gridGUI;
-	//private BattleshipGameControlerModelView controller;
-	
-	BattleShipGridGUIListener(BattleShipGridGUI gridGUI/*, BattleshipGameControlerModelView controller*/){
+    private BattleshipGameControlerModelView controller;
+
+	BattleShipGridGUIListener(BattleShipGridGUI gridGUI, BattleshipGameControlerModelView gameController){
 		this.gridGUI = gridGUI;
-		//this.controller = controller;
+		this.controller = gameController;
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+	    // TODO URGENT
 		gridGUI.selectSquare(e.getX(), e.getY());
+		ActionType actionType = this.controller.getCurrentAction();
+		System.out.println("GRID LISTENER ACTION TYPE " + actionType);
+		BattleShipSquareGUI squareSelected = gridGUI.selectSquare(e.getX(), e.getY());
+		if(actionType.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {
+			//Shoot on the target.
+			this.controller.shoot(squareSelected);
+		}
 	}
 
 	@Override

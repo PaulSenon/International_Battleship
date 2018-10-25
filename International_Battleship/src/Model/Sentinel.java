@@ -1,6 +1,5 @@
 package Model;
 
-
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 
@@ -11,12 +10,6 @@ public class Sentinel extends AbstractBoat {
 	@objid ("62b7f0e5-4f57-4a8c-bc19-9993b91246d0")
     public Sentinel(Coord coord) {
 		super(BoatName.SENTINEL, coord);
-    }
-
-	@objid ("64194498-4526-4adf-9189-6c2873dbc42f")
-    @Override
-    public void shoot() {
-        // TODO Auto-generated method stub
     }
 
     @objid ("e3a0f19d-f496-4b18-8b34-c7953806c406")

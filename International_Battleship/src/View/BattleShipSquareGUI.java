@@ -16,29 +16,29 @@ public class BattleShipSquareGUI extends JPanel {
 
 	private Coord coord;
 	private Color color;
-	
+
     @objid ("ca37a9e3-b4c7-4d33-9b0a-529b33df060e")
     public BattleShipSquareGUI(Coord coord) {
     	super();
     	this.coord = coord;
-    	
+
     	// TODO //
 	    	this.color = Color.BLACK;
 	    	this.setBackground(Color.ORANGE);
     	//////////
-    	
+
     	this.setLayout(new BorderLayout());
     }
-    
+
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        
+
         // draw an outline rectangle
         g.setColor(this.color);
-        g.drawRect(0, 0, 
-                this.getParent().getSize().width, 
+        g.drawRect(0, 0,
+                this.getParent().getSize().width,
                 this.getParent().getSize().height);
-        
+
     }
 
 
