@@ -7,7 +7,6 @@ public abstract class AbstractBoat implements Boat {
     
 	protected int x,y;
 	protected BoatName name;
-	protected Boat boat;
 	
 	
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
@@ -130,7 +129,7 @@ public abstract class AbstractBoat implements Boat {
 
     @Override
 	public String toString() {
-		return "Object Boat name=" + name + " [x=" + x + ", y=" + y + ", boat=" + boat + "]";
+		return "Object Boat name=" + name + " [x=" + x + ", y=" + y +"]";
 	}
     
 }

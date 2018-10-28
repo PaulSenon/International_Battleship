@@ -7,9 +7,10 @@ public class AircraftCarrier extends AbstractBoat {
     
     @objid ("d7f1e9b2-c61d-4f7a-8a81-a52d2389f794")
     public AircraftCarrier(Coord coord) {
-    	super.name = BoatName.AIRCRAFTCARRIER;
-    	super.x = coord.getX();
-    	super.y = coord.getY();
+    	super();
+    	this.name = BoatName.AIRCRAFTCARRIER;
+    	this.x = coord.getX();
+    	this.y = coord.getY();
     }
 
 	@objid ("b3e9715b-61cd-4839-b539-8461c2f7c242")

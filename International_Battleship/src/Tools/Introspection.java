@@ -78,33 +78,38 @@ public class Introspection {
 				}
 			}
 			Constructor<?> ct = classe.getConstructor(paramTypes);
-			
 			// on instantie un nouvel objet avec ce constructeur et le bon paramétre
-			o =  ct.newInstance (args);		
+			o =  ct.newInstance (args);	
 		}
 		catch (ClassNotFoundException e)		{
 			// La classe n'existe pas
+			System.out.println("Classe inéxistante");
 			e.printStackTrace();
 		}
 		catch (NoSuchMethodException e)		{
 			// La classe n'a pas le constructeur recherché
+			System.out.println("Constructeur introuvable");
 			e.printStackTrace();
 		}
 		catch (InstantiationException e)		{
 			// La classe est abstract ou est une interface
+			System.out.println("Classe Abstraite ou interface"); 
 			e.printStackTrace();
 		}
 		catch (IllegalAccessException e)		{
 			// La classe n'est pas accessible
+			System.out.println("Classe inaccesible");
 			e.printStackTrace();
 		}
 		catch (java.lang.reflect.InvocationTargetException e)		{
 			// Exception déclenchée si le constructeur invoqué
 			// a lui-méme déclenché une exception
+			System.out.println("Constructeur corompu");
 			e.printStackTrace();
 		}
 		catch (IllegalArgumentException e)		{
-			// Mauvais type de paramétre			
+			// Mauvais type de paramétre		
+			System.out.println("Parametre type invalid");
 			e.printStackTrace();
 		}
 		return o;

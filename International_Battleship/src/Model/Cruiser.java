@@ -7,9 +7,10 @@ public class Cruiser extends AbstractBoat {
 	
     @objid ("6bb6d6ef-55bb-484d-bb77-2d5b9fed816d")
     public Cruiser(Coord coord) {
-    	super.name = BoatName.CRUISER;
-    	super.x = coord.getX();
-    	super.y = coord.getY();
+    	super();
+    	this.name = BoatName.CRUISER;
+    	this.x = coord.getX();
+    	this.y = coord.getY();
     }
 
     @objid ("0872b78b-abde-49b9-aed9-dbf155af68e9")

@@ -1,15 +1,17 @@
 package Model;
 
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("6b6d0859-e740-493d-98e4-4636c5ba6350")
 public class Sentinel extends AbstractBoat {
-    
+
 	@objid ("62b7f0e5-4f57-4a8c-bc19-9993b91246d0")
     public Sentinel(Coord coord) {
-		super.name = BoatName.SENTINEL;
-		super.x = coord.getX();
-		super.y = coord.getY();
+		super();
+		this.name = BoatName.SENTINEL;
+		this.x = coord.getX();
+		this.y = coord.getY();
     }
 	
 	@objid ("64194498-4526-4adf-9189-6c2873dbc42f")
@@ -34,6 +36,5 @@ public class Sentinel extends AbstractBoat {
     @Override
     public void antiHourlyRotation() {
         // TODO Auto-generated method stub
-    }
-    
+    }    
 }
