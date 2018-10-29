@@ -2,7 +2,7 @@ package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import Tools.PersonnalException;
+import tools.PersonnalException;
 
 @objid ("f238657d-bdf0-4378-bd4d-31cf69f544c3")
 public class Player implements PlayerGame {
