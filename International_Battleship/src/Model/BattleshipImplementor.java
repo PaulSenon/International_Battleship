@@ -21,8 +21,7 @@ public class BattleshipImplementor implements BattleshipGameImplementor {
 
     @objid ("4643b543-6571-4c67-bf46-c267384eea71")
     public Boat findBoatByCoord(Coord coord) {
-    	//TODO: return Boat if there is one on the coord
-    	return null;
+		return boat;
     }
     
 }

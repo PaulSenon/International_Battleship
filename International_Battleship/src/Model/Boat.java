@@ -15,6 +15,9 @@ public interface Boat {
 
     @objid ("b621313c-9077-4c05-abd7-160fac2282a7")
     void antiHourlyRotation();
+    
+    @objid ("4643b543-6571-4c67-bf46-c267384eea71")
+    public Boat findBoatByCoord(Coord coord);
 
 	int getSize();
 
