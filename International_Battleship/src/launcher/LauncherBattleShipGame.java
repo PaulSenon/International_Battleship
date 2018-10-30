@@ -21,8 +21,9 @@ public class LauncherBattleShipGame {
 			);	
 		
 		// setup Game
+			// TODO
 			//BattleshipGameModel gameModel = //...;
-			BattleshipGameControlerModelView gameController = new BattleShipControlerLocal(/*gameModel*/);
+			//BattleshipGameControlerModelView gameController = new BattleShipControlerLocal(/*gameModel*/);
 		
 		// setup Frame
 			Dimension dim = new Dimension(720,712);

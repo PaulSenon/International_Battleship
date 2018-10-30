@@ -1,20 +1,25 @@
 package Controler;
 
+import Model.BattleshipModel;
+import View.BattleShipGridGUI;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import View.BattleShipGridGUI;
 
 @objid ("876e9f9a-d77c-4a9d-809e-0854b8d95d55")
 public class BattleShipControlerLocal implements BattleshipGameControlerModelView {
-	
-	//TODO private BattleshipGameModel battleShipGame;
-	private BattleShipGridGUI gridGUI;
-	
-	
+
+    private BattleshipModel battleshipModel;
+
+    //TODO private BattleshipGameModel battleShipGame;
+    private BattleShipGridGUI gridGUI;
+
     @objid ("be0371df-d97b-409c-a49c-c194011d27a8")
-    public BattleShipControlerLocal(/*TODO BattleshipGameModel gameModel*/) {
-    	//TODO this.battleShipGame = gameModel;
-    	this.gridGUI = new BattleShipGridGUI();
+    public BattleShipControlerLocal(BattleshipModel battleshipModel /*TODO BattleshipGameModel gameModel*/) {
+        this.battleshipModel = battleshipModel;
+
+        //TODO this.battleShipGame = gameModel;
+        this.gridGUI = new BattleShipGridGUI();
     }
 
     @objid ("c21b247b-b822-4b13-9953-43f65175301b")
