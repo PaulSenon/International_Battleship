@@ -1,11 +1,17 @@
 package Controler;
 
+import Model.BattleshipModel;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("876e9f9a-d77c-4a9d-809e-0854b8d95d55")
 public class BattleShipControlerLocal implements BattleshipGameControlerModelView {
-    @objid ("be0371df-d97b-409c-a49c-c194011d27a8")
-    public BattleShipControlerLocal() {
+    
+	private BattleshipModel battleshipModel;
+	
+	@objid ("be0371df-d97b-409c-a49c-c194011d27a8")
+    public BattleShipControlerLocal(BattleshipModel battleshipModel) {
+		this.battleshipModel = battleshipModel;
     }
 
     @objid ("c21b247b-b822-4b13-9953-43f65175301b")

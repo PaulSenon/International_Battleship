@@ -4,6 +4,15 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("b0f6e843-5b59-4e8c-8233-5a897083772c")
 public class AircraftCarrier extends AbstractBoat {
+	
+	 @objid ("d7f1e9b2-c61d-4f7a-8a81-a52d2389f794")
+	 public AircraftCarrier(Coord coord) {
+	 	super();
+	 	this.name = BoatName.AIRCRAFTCARRIER;
+	 	this.x = coord.getX();
+	 	this.y = coord.getY();
+	 }
+	 
     @objid ("b3e9715b-61cd-4839-b539-8461c2f7c242")
     public void shoot() {
     }
@@ -18,10 +27,6 @@ public class AircraftCarrier extends AbstractBoat {
 
     @objid ("1ed4e00e-e755-4fd5-8fe1-124173c4521c")
     public void antiHourlyRotation() {
-    }
-
-    @objid ("d7f1e9b2-c61d-4f7a-8a81-a52d2389f794")
-    public AircraftCarrier() {
     }
 
 }

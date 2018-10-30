@@ -4,6 +4,15 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("6e97e275-d4cc-4ebf-b561-c227b2cf71b7")
 public class Submarin extends AbstractBoat {
+	
+	@objid ("8258161e-781b-456d-b755-55f8df14bb0f")
+    public Submarin(Coord coord) {
+    	super();
+    	this.name = BoatName.SUBMARIN;
+    	this.x = coord.getX();
+    	this.y = coord.getY();
+    }
+	
     @objid ("43d21173-1bc4-4697-b15b-e68ebb16a070")
     public void shoot() {
     }
@@ -18,10 +27,6 @@ public class Submarin extends AbstractBoat {
 
     @objid ("42800ab6-df71-49e1-b549-e5be4dd190f5")
     public void antiHourlyRotation() {
-    }
-
-    @objid ("8258161e-781b-456d-b755-55f8df14bb0f")
-    public Submarin() {
     }
 
 }

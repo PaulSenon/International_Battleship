@@ -8,6 +8,11 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 public class BattleshipModelObs extends Observable implements BattleshipGameModel {
     @objid ("6ed5693f-ad1f-4ed4-bb92-f3b98a59fb76")
     public BattleshipModel battleshipModel;
+    
+    public BattleshipModelObs(BattleshipModel battleshipModel) {
+		super();
+		this.battleshipModel = new 	BattleshipModel();
+	}
 
     @objid ("7e8e12ff-249d-4017-80c7-a48eedb75d23")
     public void getColorCurrentPlayer() {
@@ -19,10 +24,6 @@ public class BattleshipModelObs extends Observable implements BattleshipGameMode
 
     @objid ("b3c114e7-46d1-4a99-bcf4-ae1c05b82a35")
     public void isEnd() {
-    }
-
-    @objid ("2c4997ba-5434-45ec-81a6-6db4c674fc43")
-    public BattleshipModelObs() {
     }
 
 }

@@ -4,6 +4,27 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements Boat {
+	protected int x,y;
+	protected BoatName name;
+	
+	
+	 @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
+	 public AbstractBoat() {
+	
+	 }
+	 
+	public int getX() {
+		return this.x;
+	}
+	
+	public int getY() {
+		return this.y;
+	}
+	
+	public BoatName getName() {
+		return this.name;
+	}
+	
     @objid ("809e8204-31c8-42eb-bb6a-467d73259045")
     private String Color;
 
@@ -20,7 +41,7 @@ public abstract class AbstractBoat implements Boat {
     public Square square;
 
     @objid ("7792e884-e1c1-4f24-a745-3a285a50c7d3")
-    public ActionSpécial actionSpécial;
+    public SpecialActionInterface actionSpécial;
 
     @objid ("02d2183f-ab50-48cd-a7c7-7c62d45b0ade")
     private Square[] occuped;
@@ -81,10 +102,6 @@ public abstract class AbstractBoat implements Boat {
     public void getVisibleAera() {
     }
 
-    @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
-    public AbstractBoat() {
-    }
-
     @objid ("dfb55234-05af-4b32-b572-882581380e93")
     public Square getPivot() {
         // Automatically generated method. Please delete this comment before entering specific code.
@@ -109,4 +126,9 @@ public abstract class AbstractBoat implements Boat {
         this.boatPart = value;
     }
 
+    @Override
+    public String toString() {
+    	return "Object Boat name=" + name + " [x=" + x + ", y=" + y +"]";
+    }
+     
 }
