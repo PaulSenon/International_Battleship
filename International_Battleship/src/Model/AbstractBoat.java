@@ -5,21 +5,18 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements Boat {
     
-	protected int x,y;
+	protected Coord coord;
 	protected BoatName name;
 	
 	
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
-    public AbstractBoat() {
-
+    public AbstractBoat(BoatName name, Coord coord) {
+        this.name = name;
+        this.coord = coord;
     }
     
-	public int getX() {
-		return this.x;
-	}
-
-	public int getY() {
-		return this.y;
+	public Coord getCoord() {
+		return this.coord;
 	}
 
 	public BoatName getName() {
@@ -133,7 +130,7 @@ public abstract class AbstractBoat implements Boat {
 
     @Override
 	public String toString() {
-		return "Object Boat name=" + name + " [x=" + x + ", y=" + y +"]";
+		return "Object Boat name=" + name + " " + this.coord;
 	}
     
 }

@@ -6,10 +6,15 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("8e40e397-dd7f-4d77-b403-4842a42c93f1")
 public class BattleshipModelObs extends Observable implements BattleshipGameModel {
+
+
+    // TODO POURQUOI ON A UN REF à UN BattleshipGameModel ALORS QUE CETTE CLASSE ETEND BattleshipGameModel ?
+
+
     @objid ("6ed5693f-ad1f-4ed4-bb92-f3b98a59fb76")
-    public BattleshipModel battleshipModel;
+    public BattleshipGameModel battleshipModel;
     
-    public BattleshipModelObs(BattleshipModel battleshipModel) {
+    public BattleshipModelObs(BattleshipGameModel battleshipModel) {
 		super();
 		this.battleshipModel = new 	BattleshipModel();
 	}

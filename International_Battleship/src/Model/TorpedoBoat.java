@@ -8,10 +8,7 @@ public class TorpedoBoat extends AbstractBoat {
 
     @objid ("626c2269-3ed4-48f9-9a35-95e47f65c6db")
     public TorpedoBoat(Coord coord) {
-    	super();
-    	this.name = BoatName.TORPEDOBOAT;
-    	this.x = coord.getX();
-    	this.y = coord.getY();
+    	super(BoatName.TORPEDOBOAT, coord);
     }
 
     @objid ("98961ac2-9fa5-485d-a769-f844cd66e86b")

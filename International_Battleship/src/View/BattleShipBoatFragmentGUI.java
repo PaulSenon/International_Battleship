@@ -50,11 +50,11 @@ public class BattleShipBoatFragmentGUI extends JLabel{
     	
     	// default direction of base image must be EAST
     	this.direction = Direction.EAST;
-    	
+
     	try {
     		// TODO instantiate the base image in an "BoatFramgmentImageManager" or something common.
-			this.baseImage = ImageIO.read(new File("resources/Sans-titre-1_02.png"));
-			
+			this.baseImage = ImageIO.read(new File("src/resources/Sans-titre-1_02.png"));
+
 			// copy the base image to allow post processing avoiding destroying source image 
 			this.image = BattleShipBoatFragmentGUI.deepCopy(this.baseImage);
     	}

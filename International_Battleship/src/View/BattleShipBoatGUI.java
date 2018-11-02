@@ -8,7 +8,6 @@ public class BattleShipBoatGUI {
 	
     @objid ("ebfb1aca-aff8-46b5-b450-22e1f24d47a0")
     public BattleShipBoatGUI(String name) {
-    	super();
     	this.name=name;
     }
 

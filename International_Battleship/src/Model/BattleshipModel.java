@@ -9,7 +9,7 @@ public class BattleshipModel implements BattleshipGameModel {
 
     @objid ("245404cb-acb3-41d4-b19d-5717b51a8f66")
     public BattleshipModel() {
-    	battleshipImplementor = new BattleshipImplementor("Sentinel");
+    	battleshipImplementor = new BoatsImplementor("Sentinel");
     }
     
     @objid ("2ae2da19-fa1b-4a19-bb09-b4aa95f3903c")

@@ -8,10 +8,7 @@ public class Submarin extends AbstractBoat {
 
     @objid ("8258161e-781b-456d-b755-55f8df14bb0f")
     public Submarin(Coord coord) {
-    	super();
-    	this.name = BoatName.SUBMARIN;
-    	this.x = coord.getX();
-    	this.y = coord.getY();
+    	super(BoatName.SUBMARIN, coord);
     }
 
 
