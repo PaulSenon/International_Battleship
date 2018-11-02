@@ -5,9 +5,10 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 @objid ("07eff5db-2976-4547-8f92-df67c63dfc1f")
 public class TorpedoBoat extends AbstractBoat {
 	final int size = 2;
-	
+
     @objid ("626c2269-3ed4-48f9-9a35-95e47f65c6db")
-    public TorpedoBoat() {
+    public TorpedoBoat(Coord coord) {
+    	super(BoatName.TORPEDOBOAT, coord);
     }
 
     @objid ("98961ac2-9fa5-485d-a769-f844cd66e86b")
@@ -33,7 +34,7 @@ public class TorpedoBoat extends AbstractBoat {
     public void antiHourlyRotation() {
         // TODO Auto-generated method stub
     }
-    
+
     public int getSize() {
     	return this.size;
     }
