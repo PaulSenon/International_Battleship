@@ -53,7 +53,7 @@ public class BattleShipBoatFragmentGUI extends JLabel{
 
     	try {
     		// TODO instantiate the base image in an "BoatFramgmentImageManager" or something common.
-			this.baseImage = ImageIO.read(new File("src/resources/Sans-titre-1_02.png"));
+			this.baseImage = ImageIO.read(new File("International_Battleship/src/resources/Sans-titre-1_02.png"));
 
 			// copy the base image to allow post processing avoiding destroying source image 
 			this.image = BattleShipBoatFragmentGUI.deepCopy(this.baseImage);
