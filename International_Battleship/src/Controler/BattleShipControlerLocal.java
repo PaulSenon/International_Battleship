@@ -1,5 +1,9 @@
 package Controler;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Model.Coord;
 import Model.BattleshipGameModel;
 import View.BattleShipGridGUI;
 
@@ -29,15 +33,33 @@ public class BattleShipControlerLocal implements BattleshipGameControlerModelVie
     }
 
 	@Override
-	public void ActionWhenBoatIsSelectedOnGUI() {
-		// TODO Auto-generated method stub
-		
+	public void ActionWhenBoatIsSelectedOnGUI(Coord boatToMoveCoord) {
+		System.out.println("boatToMoveCoord :" + boatToMoveCoord);
+		/*gridGUI.setBoatToMove(boatToMoveCoord);
+		List<Coord> coords = new ArrayList<Coord>();
+		coords = gameModel.getPieceListMoveOK(boatToMoveCoord.getX(),boatToMoveCoord.getY());
+		gridGUI.resetLight(coords,true);
+		System.out.println("La pièce selectionnée est à la position : ("  +boatToMoveCoord.getX() + ";" + boatToMoveCoord.getY()+")");*/
 	}
 
 	@Override
-	public void ActionWhenBoatIsMovedOnGUI() {
-		// TODO Auto-generated method stub
-		
+	public void ActionWhenBoatIsMovedOnGUI(Coord pieceToMoveCoord,Coord targetCoord) {
+		String movement = null;
+		if(targetCoord != null){
+			gameModel.move(pieceToMoveCoord.getX(),pieceToMoveCoord.getY(),targetCoord.getX(),targetCoord.getY());
+		}
+		/*switch (movement){
+
+		case "MOVE" :
+			gridGUI.movePiece(targetCoord);
+			break;
+		case "TAKE" :
+			gridGUI.movePiece(targetCoord);
+			break;
+		default://Illegal or Unknown
+			gridGUI.undoMovePiece(pieceToMoveCoord);
+
+		}*/
 	}
 
 }

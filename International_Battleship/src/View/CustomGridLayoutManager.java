@@ -31,7 +31,7 @@ public class CustomGridLayoutManager implements LayoutManager2 {
 
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {
-        if (constraints instanceof Point) {
+    	if (constraints instanceof Point) {
 
             mapComps.put((Point) constraints, comp);
 

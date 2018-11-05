@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("82d664fa-9274-4766-b754-b991176fe06c")
@@ -8,9 +10,11 @@ public interface BattleshipGameModel {
     void getColorCurrentPlayer();
 
     @objid ("b23fa4cb-4a24-4e7f-a704-671894685a3e")
-    void move();
+    String move(int xInit, int yInit, int xFinal, int yFinal);
 
     @objid ("70b98e64-650c-4441-80ad-81c55eb78c6d")
     void isEnd();
+
+	List<Coord> getPieceListMoveOK(int x, int y);
 
 }

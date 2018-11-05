@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("75a7604f-f615-4013-af67-b5d5bd901738")
@@ -13,4 +15,13 @@ public interface BattleshipGameImplementor {
     @objid ("5216da63-aac6-4fdd-8ebb-95e7c49e22e8")
     void findBoatByCoord();
 
+    public Boat getSelectedPiece();
+    
+    public void setSelectedPiece(Boat boat);
+    
+    public Boat findPiece(int x, int y);
+    
+    public Coord checkReachable(List<Coord> listCoord, Boat boat);
+    
+    public String manageCatch(int xFinal, int yFinal);
 }

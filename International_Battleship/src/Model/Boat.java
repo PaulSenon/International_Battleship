@@ -1,5 +1,9 @@
 package Model;
 
+import java.util.List;
+
+import Model.Coord;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("c1e77788-c863-45cf-bace-9f86e3b2f0cc")
@@ -17,5 +21,20 @@ public interface Boat {
     void antiHourlyRotation();
 
 	int getSize();
+
+	int getX();
+
+	int getY();
+	
+	public List<Coord> getMoveItinerary(int xFinal, int yFinal);
+	
+	public boolean isAlgoMoveOk(int xFinal, int yFinal);
+
+	boolean catchPiece();
+	
+	public String doMove(int xFinal, int yFinal);
+
+
+
 
 }

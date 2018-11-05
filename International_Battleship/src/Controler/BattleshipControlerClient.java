@@ -2,6 +2,7 @@ package Controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import Model.Coord;
 import View.BattleShipGridGUI;
 
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
@@ -20,14 +21,16 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
     public void isPlayerOk() {
     }
 
+
 	@Override
-	public void ActionWhenBoatIsSelectedOnGUI() {
+	public void ActionWhenBoatIsSelectedOnGUI(Coord pieceToMoveCoord) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void ActionWhenBoatIsMovedOnGUI() {
+	public void ActionWhenBoatIsMovedOnGUI(Coord pieceToMoveCoord,
+			Coord targetCoord) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,10 +1,17 @@
 package View;
 
 import Controler.BattleshipGameControlerModel;
+import Controler.BattleshipGameControlerModelView;
 
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.JLayeredPane;
+
+import Model.Coord;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
@@ -13,10 +20,16 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 public class BattleShipGUIListener1 implements MouseListener, MouseMotionListener {
     @objid ("1139f153-cb40-4460-a079-57bcb70fe1c4")
     public BattleShipGridGUI battleShipGridGUI;
-
     @objid ("acf2fc75-9866-4755-906f-0a3d5d09b879")
     public BattleshipGameControlerModel battleshipGameControlerModel;
 
+
+
+	public BattleShipGUIListener1(BattleShipGridGUI battleShipGridGUI,BattleshipGameControlerModelView boatControler){
+		this.battleShipGridGUI = battleShipGridGUI;
+	}
+
+    
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -49,14 +62,13 @@ public class BattleShipGUIListener1 implements MouseListener, MouseMotionListene
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

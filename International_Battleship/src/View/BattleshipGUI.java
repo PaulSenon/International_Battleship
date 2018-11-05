@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseListener;
 import java.util.EventListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,7 +19,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import Controler.BattleshipGameControlerModelView;
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
-public class BattleshipGUI extends JFrame{
+public class BattleshipGUI extends JFrame implements Observer{
 	private BattleShipGridGUI gridGUI;
 	
     @objid ("dc33ec30-907d-43b8-8b28-bbc7f57950c3")
@@ -28,7 +30,7 @@ public class BattleshipGUI extends JFrame{
 
     @objid ("81916075-5be2-4b77-b7e6-32f83af649a3")
     // Constructor
-    public BattleshipGUI(/*controller*/) {
+    public BattleshipGUI(BattleshipGameControlerModelView boatGameControler) {
     	super();
     	
     	Container contentPane = this.getContentPane();
@@ -69,10 +71,18 @@ public class BattleshipGUI extends JFrame{
 				
 		// Create and attach event listener on grid GUI
 			EventListener mouseEventListener = 
-					new BattleShipGridGUIListener( this.gridGUI/*, controller*/);
+					new BattleShipGridGUIListener( this.gridGUI, boatGameControler);
 			
 			this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 			this.pack();
+			
+			boatGameControler.setGridPanel(this.battleShipGridGUI);
     }
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

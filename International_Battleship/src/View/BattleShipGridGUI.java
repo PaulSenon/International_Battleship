@@ -1,7 +1,10 @@
 package View;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -12,6 +15,8 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import Model.Coord;
 import View.BattleShipBoatFragmentGUI.Direction;
 import tools.BattleShipGameConfig;
+import View.BattleShipBoatGUI;
+import View.BattleShipSquareGUI;
 
 @objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
@@ -23,8 +28,8 @@ public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI
 	
 	private HashMap<Coord, BattleShipSquareGUI> squares;
 	private HashMap<Coord, BattleShipBoatFragmentGUI> boatFragments;
-	
-	BattleShipSquareGUI selectedSquare;
+	private BattleShipBoatFragmentGUI boatToMove;
+	private BattleShipSquareGUI selectedSquare;
 	
     @objid ("3cceb1f5-4f21-4971-a3ba-024ed2eabd4e")
 	public BattleShipGridGUI() {
@@ -150,7 +155,8 @@ public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI
     public BattleShipSquareGUI battleShipSquareGUI;
 
     @objid ("ed7393e2-7af8-47c1-8c1f-5f74b55dec18")
-    public void setBoatToMove() {
+    public void setBoatToMove(Coord coord) {
+    	this.boatToMove =  (BattleShipBoatFragmentGUI) boatFragments.get(coord).getComponent(0);
     }
 
     @objid ("38933c80-466d-4813-922d-b72b050a2270")
@@ -158,11 +164,16 @@ public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI
     }
 
     @objid ("2522fe29-617f-406f-9437-7668af3a46ed")
-    public void movePiece() {
+    public void movePiece(Coord targetCoord) {
+    	BattleShipSquareGUI c = squares.get(targetCoord);
+    	c.removeAll();
+    	c.add(boatToMove);
     }
 
     @objid ("201de8c0-2b1b-4bdc-91e1-2bea44d1e06b")
-    public void undoMovePiece() {
+    public void undoMovePiece(Coord boatToMoveInitCoord) {
+    	BattleShipSquareGUI c = squares.get(boatToMoveInitCoord);
+    	c.add(boatToMove);
     }
 
     @objid ("324f210b-a38f-46f5-9460-357023fd912e")
@@ -176,5 +187,25 @@ public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI
     @objid ("7ec2238c-6895-4ae2-b0a1-378c4296fec6")
     private void createBattleshipBoard() {
     }
+
+	public Coord getCoordSquareGUI(int x, int y){
+		Coord co = null;
+		BattleShipSquareGUI csg;
+		Component c = this.getComponentAt(x, y);
+		if(c instanceof BattleShipBoatFragmentGUI){
+			csg = (BattleShipSquareGUI)c.getParent();
+			co = csg.getCoord();
+		}else if(c instanceof BattleShipSquareGUI){
+			csg = (BattleShipSquareGUI)c;
+			co = csg.getCoord();
+		}
+		return co;
+	}
+
+
+	public void resetLight(List<Coord> coords, boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

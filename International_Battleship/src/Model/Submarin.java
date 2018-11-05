@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("6e97e275-d4cc-4ebf-b561-c227b2cf71b7")
@@ -31,5 +33,26 @@ public class Submarin extends AbstractBoat {
     public int getSize () {
     	return this.size;
     }
+
+
+	@Override
+	public boolean isAlgoMoveOk(int xFinal, int yFinal) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public List<Coord> getMoveItinerary(int xFinal, int yFinal) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public boolean isAlgoMoveOk(int xFinal, int yFinal, String type) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

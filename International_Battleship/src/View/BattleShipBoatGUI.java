@@ -1,13 +1,17 @@
 package View;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("3b04865d-c08b-43d3-8e93-24b16ee484b7")
-public class BattleShipBoatGUI {
+public class BattleShipBoatGUI extends JLabel {
 	private String name;
 	
     @objid ("ebfb1aca-aff8-46b5-b450-22e1f24d47a0")
-    public BattleShipBoatGUI(String name) {
+    public BattleShipBoatGUI(String name, ImageIcon imageIcon) {
+    	super(imageIcon);
     	this.name=name;
     }
 

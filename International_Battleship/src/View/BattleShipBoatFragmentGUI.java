@@ -11,7 +11,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 
 import Model.Coord;
 
@@ -20,7 +23,6 @@ public class BattleShipBoatFragmentGUI extends JLabel{
 	
 	private Coord coord;
 	private Color color; // TODO currently useless (but maybe use to color something to show team color)
-	
 	private BufferedImage baseImage;
 	private BufferedImage image;
 	private Direction direction; // TODO may change

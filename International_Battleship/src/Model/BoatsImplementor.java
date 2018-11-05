@@ -1,7 +1,15 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Model.Boat;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.BattleshipBoatFactory;
+
+
 
 @objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
 public class BoatsImplementor implements BattleshipGameImplementor {
@@ -28,4 +36,49 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     public void findBoatByCoord() {
     }
 
+	public Boat getSelectedPiece(){
+		return this.boat;
+	}
+	public void setSelectedPiece(Boat boat){
+		this.boat = boat;
+	}
+	
+	public Boat findPiece(int x, int y) {
+		List<Boat> boats = null;
+		Boat boat = null;
+
+
+		//recherche de la piÃ¨ce en fonction de sa position
+		for(Boat p : boats){
+			if(p.getX() == x && p.getY() == y){
+				boat = p;
+				break;
+			}
+		}
+		return boat;
+	}
+	
+	public Coord checkReachable(List<Coord> listCoord, Boat boat){
+		Coord coord = null;
+		if(listCoord != null)
+			coord = listCoord.get(listCoord.size()-1);
+	
+		for(Coord c : listCoord){
+			Boat p = findPiece(c.getX(),c.getY());
+		}
+		return coord;		
+	}
+	
+	public String manageCatch(int xFinal, int yFinal) {
+		String ret = null;
+		Boat toCatch = findPiece(xFinal,yFinal);
+		if(toCatch != null){
+			if(toCatch.catchPiece())
+				ret = "J'ai pris la pièce";
+		}
+		else{
+			ret = "J'ai bougé la pièce";
+		}
+		return ret;
+	}
 }

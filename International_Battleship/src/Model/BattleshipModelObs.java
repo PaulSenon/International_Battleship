@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.List;
 import java.util.Observable;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
@@ -14,7 +15,7 @@ public class BattleshipModelObs extends Observable implements BattleshipGameMode
     @objid ("6ed5693f-ad1f-4ed4-bb92-f3b98a59fb76")
     public BattleshipGameModel battleshipModel;
     
-    public BattleshipModelObs(BattleshipGameModel battleshipModel) {
+    public BattleshipModelObs() {
 		super();
 		this.battleshipModel = new 	BattleshipModel();
 	}
@@ -31,5 +32,17 @@ public class BattleshipModelObs extends Observable implements BattleshipGameMode
     public void isEnd() {
     	
     }
+
+	@Override
+	public String move(int xInit, int yInit, int xFinal, int yFinal) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Coord> getPieceListMoveOK(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

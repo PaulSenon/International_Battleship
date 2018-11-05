@@ -1,12 +1,23 @@
 package Model;
 
+import java.util.List;
+
+import Model.Coord;
+
+
+
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements Boat {
-    
+	protected int x,y,xLast=-1,yLast=-1;
 	protected Coord coord;
 	protected BoatName name;
+	protected boolean isCaught = false;
+	protected boolean firstMove = true;
+
+
 	
 	
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
@@ -133,4 +144,37 @@ public abstract class AbstractBoat implements Boat {
 		return "Object Boat name=" + name + " " + this.coord;
 	}
     
+    public int getX(){
+    	return this.x;
+    }
+    
+    public int getY(){
+    	return this.y;
+    }
+    
+	abstract public List<Coord> getMoveItinerary(int xFinal, int yFinal);
+	
+	abstract public boolean isAlgoMoveOk(int xFinal, int yFinal, String type);
+
+	public boolean catchPiece() {
+		if(!this.name.equals("Roi")){
+			this.xLast = x;
+			this.yLast = y;
+			this.x = -1;
+			this.y = -1;
+			isCaught = true;
+		}
+		return isCaught;
+	}
+	
+	public String doMove(int xFinal, int yFinal) {
+		String ret = null;
+		this.xLast = x;
+		this.yLast = y;
+		this.x = xFinal;
+		this.y = yFinal;		
+		this.firstMove = false;
+		ret = "MOVE";
+		return ret;
+	}
 }

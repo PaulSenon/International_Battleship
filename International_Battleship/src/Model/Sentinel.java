@@ -1,6 +1,9 @@
 package Model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("6b6d0859-e740-493d-98e4-4636c5ba6350")
@@ -39,5 +42,36 @@ public class Sentinel extends AbstractBoat {
     public int getSize () {
     	return this.size;
     }
+
+	@Override
+	public boolean isAlgoMoveOk(int xFinal, int yFinal) {
+		boolean deplacement = false;
+		int deltamin = 0;
+		int deltasup = 0;
+		if (xFinal == x && yFinal-y <= deltasup && yFinal-y >= deltamin){
+			deplacement = true;
+		}
+		return deplacement;
+	}
+
+	@Override
+	public List<Coord> getMoveItinerary(int xFinal, int yFinal) {
+		List<Coord> coord = new ArrayList<Coord>();
+		int y = super.y;
+		int deltaY = yFinal-y;
+		if(deltaY > 1){
+			coord.add(new Coord(xFinal,yFinal-1));
+		}else if(deltaY < -1){
+			coord.add(new Coord(xFinal,yFinal+1));
+		}
+		coord.add(new Coord(xFinal,yFinal));
+		return coord;
+	}
+
+	@Override
+	public boolean isAlgoMoveOk(int xFinal, int yFinal, String type) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
