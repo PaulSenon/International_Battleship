@@ -2,15 +2,13 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import Model.Coord;
+import tools.Coord;
 
 @objid ("fbbe929d-a036-4054-8d2d-de1a1b3bc7c1")
 public class BattleShipSquareGUI extends JPanel {

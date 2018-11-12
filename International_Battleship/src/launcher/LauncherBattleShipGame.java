@@ -24,7 +24,7 @@ public class LauncherBattleShipGame {
 			//BattleshipGameControlerModelView gameController = new BattleShipControlerLocal(/*gameModel*/);
 		
 		// setup Frame
-			Dimension dim = new Dimension(720,712);
+			Dimension dim = new Dimension(850,570);
 			JFrame frame = new BattleshipGUI();	
 			frame.setTitle("International Battleship");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

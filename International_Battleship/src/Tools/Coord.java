@@ -1,4 +1,4 @@
-package Model;
+package tools;
 
 import java.io.Serializable;
 
@@ -31,9 +31,13 @@ public class Coord implements Serializable{
         return this.x;
     }
 
-    public static final Coord zero() {
-    	return new Coord(0,0);
-    }
+    public void setX(int x) {
+    	this.x = x;
+	}
+
+	public void setY(int y) {
+    	this.y = y;
+	}
 
 	@Override
 	public String toString() {

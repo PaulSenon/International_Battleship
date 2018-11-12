@@ -1,6 +1,7 @@
 package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
 
 @objid ("5385df1e-d6e5-4755-95ec-ee612f03941b")
 public class Square {

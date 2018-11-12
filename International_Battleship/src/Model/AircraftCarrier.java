@@ -1,6 +1,7 @@
 package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
 
 @objid ("b0f6e843-5b59-4e8c-8233-5a897083772c")
 public class AircraftCarrier extends AbstractBoat {
