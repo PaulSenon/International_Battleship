@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import tools.PersonnalException;
@@ -10,7 +12,7 @@ public class Player implements PlayerGame {
 	int maxActionPoint = 20;
 
 	@objid ("3f33dd87-0c02-456e-9147-4d36c1941913")
-	private Boat[] Fleet;
+	private List<Boat> fleet;
 
 	@objid ("88768db5-cf22-41e6-9f3f-6b54186cf01c")
 	private String PortName;
@@ -26,15 +28,15 @@ public class Player implements PlayerGame {
 	}
 
 	@objid ("5f3747e3-599d-4f3a-9a47-2d5e9c1e68e6")
-	public Boat[] getFleet() {
+	public List<Boat> getFleet() {
 		// Automatically generated method. Please delete this comment before entering specific code.
-		return this.Fleet;
+		return this.fleet;
 	}
 
 	@objid ("2ef16a01-3bc3-412a-9043-623b4bc2c470")
-	public void setFleet(final Boat[] value) {
+	public void setFleet() {
 		// Automatically generated method. Please delete this comment before entering specific code.
-		this.Fleet = value;
+		//this.fleet = value;
 	}
 
 	@objid ("f71f0f18-99aa-4b0d-a697-41e75baa6f7e")
@@ -144,9 +146,9 @@ public class Player implements PlayerGame {
 
 	public void calculationOfMaxActionPoint () {
 		this.maxActionPoint = 0;
-		if (Fleet != null) {
-			for (Boat Boat : Fleet) {
-				this.maxActionPoint += Boat.getSize();
+		if (fleet != null) {
+			for (Boat boat : fleet) {
+				this.maxActionPoint += boat.getSize();
 			}
 		}
 	}

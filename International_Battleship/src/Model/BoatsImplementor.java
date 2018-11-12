@@ -1,5 +1,8 @@
 package Model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.BattleshipBoatFactory;
 
@@ -10,10 +13,16 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     public Boat boat;
     
     @objid ("5ec8880b-f75d-4bee-8ed0-ecea6a4d4930")
-    public BoatsImplementor(String boatType) {
-    	boat = BattleshipBoatFactory.newBoat(boatType);
-    	//test
-    	System.out.println("L'implementor a générer un bateau de type "+ boat);
+    public BoatsImplementor(List<Player> players, List<BoatName> linkedList) {
+    	for (Player p : players) {
+    		int i=0;
+        	for (BoatName boatName  : linkedList) {
+        		p.getFleet().add(BattleshipBoatFactory.newBoat(boatName,new Coord(0,i)));
+        		i++;
+        	}
+        //test
+       	System.out.println("L'implementor a générer un bateau de type "+ p.getFleet());
+		}
     }
 
 	@objid ("f561c936-de20-43ae-a170-a9290c7f975c")

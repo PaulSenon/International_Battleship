@@ -1,11 +1,9 @@
-package launcher;
+ package launcher;
 
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import Controler.BattleShipControlerLocal;
-import Controler.BattleshipGameControlerModelView;
 import View.BattleshipGUI;
 import tools.BattleShipGameConfig;
 
