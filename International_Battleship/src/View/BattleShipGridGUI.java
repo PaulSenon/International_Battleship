@@ -10,8 +10,7 @@ import javax.swing.JPanel;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import Model.Coord;
-import View.BattleShipBoatFragmentGUI.Direction;
-import tools.BattleShipGameConfig;
+import Tools.BattleShipGameConfig;
 
 @objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
@@ -56,13 +55,13 @@ public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI
 	        JLabel tmp = createBoatFragments(coord);
 	        this.squares.get(coord).add(tmp);
 	        // demo rotation :
-	        ((BattleShipBoatFragmentGUI) tmp).rotate(Direction.SOUTH);
+//	        ((BattleShipBoatFragmentGUI) tmp).rotate(Direction.SOUTH);
 	        
 	        coord = new Coord(2,2);
 	        tmp = createBoatFragments(coord);
 	        this.squares.get(coord).add(tmp);
 	        // demo rotation : 
-	        ((BattleShipBoatFragmentGUI) tmp).rotate(Direction.WEST);
+//	        ((BattleShipBoatFragmentGUI) tmp).rotate(Direction.WEST);
         // DEBUG TEST
     }
     
@@ -92,12 +91,15 @@ public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI
      * PUBLIC It take some mouse click position and find the targeted square
      * @param int x
      * @param int y
+     * @return 
      */
-    public void selectSquare(int x, int y) {
+    public BattleShipSquareGUI selectSquare(int x, int y) {
     	this.selectedSquare = findSquareFromEvent(x, y);
-    	if(this.selectedSquare != null) {    		
+    	if(this.selectedSquare != null) {
     		System.out.println("You've clicked on : "+this.selectedSquare.getCoord().toString());
+    		return this.selectedSquare;
     	}
+    	return null;
     }
     
     /**

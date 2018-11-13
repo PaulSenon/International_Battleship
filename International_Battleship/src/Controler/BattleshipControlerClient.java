@@ -2,6 +2,8 @@ package Controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import Model.Boat;
+import Model.Coord;
 import View.BattleShipGridGUI;
 
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
@@ -30,6 +32,24 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
 	public void ActionWhenBoatIsMovedOnGUI() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void ActionWhenAction(Boat boat, Coord target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCurrentAction(String actionChosen) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getCurrentAction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

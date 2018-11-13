@@ -2,7 +2,7 @@ package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import tools.PersonnalException;
+import Tools.PersonnalException;
 
 @objid ("f238657d-bdf0-4378-bd4d-31cf69f544c3")
 public class Player implements PlayerGame {
@@ -142,6 +142,9 @@ public class Player implements PlayerGame {
 		return this.maxActionPoint;
 	}
 
+	/**
+	 * This method calculates the MaxActionPoint
+	 */
 	public void calculationOfMaxActionPoint () {
 		this.maxActionPoint = 0;
 		if (Fleet != null) {

@@ -1,4 +1,4 @@
-package tools;
+package Tools;
 
 public class BattleShipGameConfig {
 	private static int gameGridWidth;

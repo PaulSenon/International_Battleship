@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import Controler.BattleShipControlerLocal;
 import Controler.BattleshipGameControlerModelView;
 import View.BattleshipGUI;
-import tools.BattleShipGameConfig;
+import Tools.BattleShipGameConfig;
 
 public class LauncherBattleShipGame {
 	
