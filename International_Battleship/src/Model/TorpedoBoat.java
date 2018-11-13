@@ -1,6 +1,7 @@
 package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
 
 @objid ("07eff5db-2976-4547-8f92-df67c63dfc1f")
 public class TorpedoBoat extends AbstractBoat {

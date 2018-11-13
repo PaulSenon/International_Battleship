@@ -1,6 +1,7 @@
 package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
 
 @objid ("6e97e275-d4cc-4ebf-b561-c227b2cf71b7")
 public class Submarin extends AbstractBoat {

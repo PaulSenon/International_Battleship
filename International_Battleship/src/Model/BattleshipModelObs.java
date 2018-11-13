@@ -3,6 +3,8 @@ package Model;
 import java.util.Observable;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
+import tools.Direction;
 
 @objid ("8e40e397-dd7f-4d77-b403-4842a42c93f1")
 public class BattleshipModelObs extends Observable implements BattleshipGameModel {
@@ -23,6 +25,21 @@ public class BattleshipModelObs extends Observable implements BattleshipGameMode
     public void getColorCurrentPlayer() {
     }
 
+    @Override
+    public Coord moveBoat(int xDest, int yDest) {
+        return null;
+    }
+
+    @Override
+    public Direction rotateBoatClockWise() {
+        return null;
+    }
+
+    @Override
+    public Direction rotateBoatCounterClockWise() {
+        return null;
+    }
+
     @objid ("73f8ce41-88de-4db0-a003-adc06d04a60b")
     public void move() {
     }
@@ -30,6 +47,11 @@ public class BattleshipModelObs extends Observable implements BattleshipGameMode
     @objid ("b3c114e7-46d1-4a99-bcf4-ae1c05b82a35")
     public void isEnd() {
     	
+    }
+
+    @Override
+    public boolean selectBoat(int x, int y) {
+        return false;
     }
 
 }

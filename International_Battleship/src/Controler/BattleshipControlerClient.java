@@ -1,5 +1,6 @@
 package Controler;
 
+import View.GameGUIInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import View.BattleShipGridGUI;
@@ -16,11 +17,26 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
 		
 	}
 
+    @Override
+    public void setGUI(GameGUIInterface gameGUI) {
+
+    }
+
     @objid ("532b238e-1f09-4ffa-9f1f-d21388e8d3f8")
     public void isPlayerOk() {
     }
 
-	@Override
+    @Override
+    public void selectBoat(int x, int y) {
+
+    }
+
+    @Override
+    public void moveBoat(int xDest, int yDest) {
+
+    }
+
+    @Override
 	public void ActionWhenBoatIsSelectedOnGUI() {
 		// TODO Auto-generated method stub
 		

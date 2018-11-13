@@ -1,6 +1,7 @@
 package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
 
 @objid ("8381580b-805e-4d6a-adea-46b5df3bdced")
 public class Cruiser extends AbstractBoat {

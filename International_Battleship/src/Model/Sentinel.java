@@ -2,6 +2,7 @@ package Model;
 
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
 
 @objid ("6b6d0859-e740-493d-98e4-4636c5ba6350")
 public class Sentinel extends AbstractBoat {

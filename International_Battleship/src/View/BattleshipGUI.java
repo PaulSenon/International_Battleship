@@ -3,7 +3,6 @@ package View;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseListener;
@@ -13,11 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.ActionType;
+import tools.Coord;
+import tools.Direction;
 
-import Controler.BattleshipGameControlerModelView;
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
-public class BattleshipGUI extends JFrame{
+public class BattleshipGUI extends JFrame implements GameGUIInterface{
 	private BattleShipGridGUI gridGUI;
 	
     @objid ("dc33ec30-907d-43b8-8b28-bbc7f57950c3")
@@ -75,4 +76,19 @@ public class BattleshipGUI extends JFrame{
 			this.pack();
     }
 
+
+	@Override
+	public void setCurrentAction(ActionType move) {
+		// TODO setCurrentActionType
+	}
+
+	@Override
+	public void setBoatPos(Coord coord) {
+		// TODO move the selectedBoat to wanted location
+	}
+
+	@Override
+	public void setBoatDirection(Direction direction) {
+		// TODO rotate the selectedBoat in wanted Direction
+	}
 }

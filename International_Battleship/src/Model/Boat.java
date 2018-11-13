@@ -1,6 +1,9 @@
 package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.Coord;
+
+import java.util.List;
 
 @objid ("c1e77788-c863-45cf-bace-9f86e3b2f0cc")
 public interface Boat {
@@ -15,6 +18,12 @@ public interface Boat {
 
     @objid ("b621313c-9077-4c05-abd7-160fac2282a7")
     void antiHourlyRotation();
+
+    boolean hasCoord(Coord coord);
+
+    List<Coord> getCoords();
+
+    Coord getPivot();
 
 	int getSize();
 
