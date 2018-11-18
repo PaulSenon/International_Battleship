@@ -1,12 +1,12 @@
 package Model;
 
-import org.junit.Test;
+//import org.junit.Test;
 
 import tools.PersonnalException;
 
 public class PlayerTest extends Player{
 
-	@Test
+//	@Test
 	public void ActionPoint() throws PersonnalException {
 		int testActionPoint = 17;
 		setActionPoint(17);

@@ -39,7 +39,7 @@ public abstract class AbstractBoat implements Boat {
     public Square square;
 
     @objid ("7792e884-e1c1-4f24-a745-3a285a50c7d3")
-    public SpecialActionInterface actionSpécial;
+    public SpecialActionInterface actionSpecial;
 
     @objid ("02d2183f-ab50-48cd-a7c7-7c62d45b0ade")
     private Square[] occuped;

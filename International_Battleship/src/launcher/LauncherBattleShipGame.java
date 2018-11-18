@@ -7,13 +7,22 @@ import javax.swing.JFrame;
 import Controler.BattleShipControlerLocal;
 import Controler.BattleshipGameControlerModelView;
 import View.BattleshipGUI;
+import multiplayer.Client;
+import multiplayer.Server;
 import tools.BattleShipGameConfig;
 
 public class LauncherBattleShipGame {
 	
 	public static void main(String[] args) {
 		// TODO nothing definitive, just some debug config
-		
+
+		//Test de la connexion du server en localhost avant le lancement du jeu
+		Server server = new Server();
+		server.open();
+		Thread t = new Thread(new Client("127.0.0.1",8080));
+		t.start();
+
+
 		// setup game config :
 			BattleShipGameConfig.newInstance(
 					25, // gameGridWidth
