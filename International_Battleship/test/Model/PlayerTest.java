@@ -2,7 +2,7 @@ package Model;
 
 import org.junit.Test;
 
-import Tools.PersonnalException;
+import tools.PersonnalException;
 
 public class PlayerTest extends Player{
 

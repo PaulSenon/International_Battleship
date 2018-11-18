@@ -2,6 +2,9 @@ package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import View.BattleShipSquareGUI;
+import tools.ResultShoot;
+
 @objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
 public class BattleshipImplementor implements BattleshipGameImplementor {
     @objid ("6eaf860c-9a4a-4dab-888f-d3e4f31d9e77")
@@ -12,7 +15,9 @@ public class BattleshipImplementor implements BattleshipGameImplementor {
     }
 
     @objid ("f561c936-de20-43ae-a170-a9290c7f975c")
-    public void shoot() {
+    public ResultShoot shoot(Coord target) {
+    	return ResultShoot.MISSED;
+//    	return boat.shoot(target);
     }
 
     @objid ("262ccb08-0aa5-49fd-9237-4805c3304fb9")

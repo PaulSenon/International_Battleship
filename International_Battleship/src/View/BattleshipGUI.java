@@ -1,17 +1,24 @@
 package View;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import tools.ActionType;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
+import Controler.BattleshipGameControlerModelView;
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
 public class BattleshipGUI extends JFrame{
@@ -28,15 +35,16 @@ public class BattleshipGUI extends JFrame{
 	@objid ("a6ff4313-0cc1-4317-8f8f-cad40722f639")
 	public BattleShipButtonGUI battleShipButtonGUI;
 
+	public ArrayList<BattleShipButtonGUI> listOfButtons;
+
 	@objid ("81916075-5be2-4b77-b7e6-32f83af649a3")
 	// Constructor
-	public BattleshipGUI(/*controller*/) {
+	public BattleshipGUI(BattleshipGameControlerModelView gameController) {
 		super();
 
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
-
-
+		
 		// Create grid and add it to the left
 		this.gridGUI = new BattleShipGridGUI();
 		JPanel gridContainer = new JPanel(new BorderLayout());
@@ -61,11 +69,17 @@ public class BattleshipGUI extends JFrame{
 
 		// Create of Button in the "actions" panel
 		this.buttonGUITirer =  new BattleShipButtonGUI("Tirer");
-		this.buttonGUIDéplacer = new BattleShipButtonGUI("Déplacer");
-		this.buttonGUIActionSpéciale = new BattleShipButtonGUI("Action Spéciale");
+//		this.buttonGUIDéplacer = new BattleShipButtonGUI("Déplacer");
+//		this.buttonGUIActionSpéciale = new BattleShipButtonGUI("Action Spéciale");
 		actionPlaceholder.add(this.buttonGUITirer);
-		actionPlaceholder.add(this.buttonGUIDéplacer);
-		actionPlaceholder.add(this.buttonGUIActionSpéciale);
+//		actionPlaceholder.add(this.buttonGUIDéplacer);
+//		actionPlaceholder.add(this.buttonGUIActionSpéciale);
+		
+		//Store buttons in a list
+		this.listOfButtons = null;
+		listOfButtons.add(this.buttonGUITirer);
+//		listOfButtons.add(this.buttonGUIDéplacer);
+//		listOfButtons.add(this.buttonGUIActionSpéciale);
 
 		// tweak GridBagConstraints for "action" panel 
 		c.fill = GridBagConstraints.BOTH;
@@ -75,18 +89,26 @@ public class BattleshipGUI extends JFrame{
 		c.weighty = 1.0;
 		contentPane.add(actionPlaceholder, c);
 
+		
 		// Create and attach event listener on grid GUI
-		EventListener mouseEventListener = new BattleShipGridGUIListener(this.gridGUI/*, controller*/);
+		EventListener mouseEventListener = new BattleShipGridGUIListener(this.gridGUI, gameController);
 		this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 		this.pack();
 		
 		//Create and attach event listener on "actions" button
-		EventListener mouseEventListenerShoot = new BattleShipButtonGUIListener(this.buttonGUITirer/*,controller*/);
-		EventListener mouseEventListenerMove = new BattleShipButtonGUIListener(this.buttonGUIDéplacer/*,controller*/);
-		EventListener mouseEventListenerSpecialAction = new BattleShipButtonGUIListener(this.buttonGUIActionSpéciale/*,controller*/);
+		EventListener mouseEventListenerShoot = new BattleShipButtonGUIListener(this.buttonGUITirer, gameController);
+//		EventListener mouseEventListenerMove = new BattleShipButtonGUIListener(this.buttonGUIDéplacer/*,controller*/);
+//		EventListener mouseEventListenerSpecialAction = new BattleShipButtonGUIListener(this.buttonGUIActionSpéciale/*,controller*/);
 		this.buttonGUITirer.addMouseListener((MouseListener) mouseEventListenerShoot); 
-		this.buttonGUIDéplacer.addMouseListener((MouseListener) mouseEventListenerMove); 
-		this.buttonGUIActionSpéciale.addMouseListener((MouseListener) mouseEventListenerSpecialAction); 
+//		this.buttonGUIDéplacer.addMouseListener((MouseListener) mouseEventListenerMove); 
+//		this.buttonGUIActionSpéciale.addMouseListener((MouseListener) mouseEventListenerSpecialAction);
+		
+	}
+
+	public static void repaintAllButtons() {
+//		for (BattleShipButtonGUI button : listOfButtons) {
+//			button.setText(button.getDefaultText());
+//		}
 	}
 
 }

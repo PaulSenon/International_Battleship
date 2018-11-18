@@ -3,6 +3,9 @@ package View;
 import javax.swing.JButton;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import sun.awt.Graphics2Delegate;
+import tools.ActionType;
+
 @objid ("db9b5155-92c9-431f-aead-5e6646284610")
 public class BattleShipButtonGUI extends JButton{
 

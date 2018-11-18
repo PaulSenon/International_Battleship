@@ -24,17 +24,5 @@ public class BattleShipControlServer implements BattleshipGameControlerModel {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void setCurrentAction(String actionChosen) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getCurrentAction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

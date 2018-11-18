@@ -5,6 +5,9 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import Model.Boat;
 import Model.Coord;
 import View.BattleShipGridGUI;
+import View.BattleShipSquareGUI;
+import tools.ActionType;
+import tools.ResultShoot;
 
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
 public class BattleshipControlerClient implements BattleshipGameControlerModelView {
@@ -41,15 +44,20 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
 	}
 
 	@Override
-	public void setCurrentAction(String actionChosen) {
+	public void setCurrentAction(ActionType action) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public String getCurrentAction() {
+	public ActionType getCurrentAction() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void shoot(BattleShipSquareGUI squareSelected) {
+		// TODO Auto-generated method stub
 	}
 
 }

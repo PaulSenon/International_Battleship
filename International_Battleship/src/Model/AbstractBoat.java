@@ -2,6 +2,8 @@ package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import tools.ResultShoot;
+
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements Boat {
 	@objid ("809e8204-31c8-42eb-bb6a-467d73259045")
@@ -26,24 +28,32 @@ public abstract class AbstractBoat implements Boat {
 	private Square[] occuped;
 
 	@objid ("0494bc65-840e-4841-82ae-0d3272bcaf6b")
-	public void shoot(Coord target) {
+	public ResultShoot shoot(Coord target) {
 		int x = target.getX();
 		int y = target.getY();
-		Square part = getBoatPart(x, y);
+		Square part = getBoatPart(x,y);
+		ResultShoot result = ResultShoot.MISSED;
 		if (part != null) {
 			if (part.isDestroyed) {
 				//If a destoyed boat is targeted.
-				System.out.println("Boat Part already destroyed");
+				result = ResultShoot.ALREADY_TOUCHED;
 			} else {
-				part.destroy();
 				//If a functional boat is targeted
-				System.out.println("Boat Part touched");
+				part.destroy();
+				result = ResultShoot.DESTROYED;
+				//TODO: when a boat is destroyed, re-init its value
+				for(Square fragment : boatPart) {
+					if (!fragment.isDestroyed) {
+						result = ResultShoot.TOUCHED;
+					}
+				}
 			}
 		}
 		else {
 			//If the sea is targeted
-			System.out.println("Nothing touched");
+			result = ResultShoot.MISSED;
 		}
+		return result;
 	}
 
 	@objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")

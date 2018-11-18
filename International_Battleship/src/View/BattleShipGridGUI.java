@@ -5,12 +5,14 @@ import java.util.HashMap;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import Model.Coord;
-import Tools.BattleShipGameConfig;
+import tools.BattleShipGameConfig;
+import tools.ResultShoot;
 
 @objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
@@ -178,5 +180,10 @@ public class BattleShipGridGUI extends JLayeredPane implements BattleshipGameGUI
     @objid ("7ec2238c-6895-4ae2-b0a1-378c4296fec6")
     private void createBattleshipBoard() {
     }
+
+	public void messageToUser(ResultShoot shoot) {
+		String resultOfShoot = shoot.toString();
+		JOptionPane.showMessageDialog(null, resultOfShoot, null , JOptionPane.INFORMATION_MESSAGE);
+	}
 
 }

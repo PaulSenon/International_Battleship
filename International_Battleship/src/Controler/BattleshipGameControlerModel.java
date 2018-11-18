@@ -4,6 +4,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import Model.Boat;
 import Model.Coord;
+import tools.ActionType;
 
 @objid ("0ba7d808-0e11-42c8-9e3f-0f056a59efa6")
 public interface BattleshipGameControlerModel {
@@ -14,9 +15,5 @@ public interface BattleshipGameControlerModel {
     void ActionWhenBoatIsMovedOnGUI();
 
     void ActionWhenAction(Boat boat, Coord target);
-
-	void setCurrentAction(String actionChosen);
-	
-	String getCurrentAction();
 
 }
