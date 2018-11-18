@@ -3,6 +3,7 @@ package Model;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.Direction;
+import tools.ProcessedPosition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +18,17 @@ public abstract class AbstractBoat implements Boat {
 	protected Coord pivot;
 
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
-	protected List<Coord> coords;
+	private List<Coord> coords;
+	private boolean coordsNeedToBeProcessed;
 
 	protected BoatName name;
 
 	protected int size;
 
-	// protected List<Square> squares;
-
 	protected Direction facingDirection;
+
+	private Direction lastDirection;
+	private Coord lastPosition;
 
 	// TODO will probably be a Color enum
 	@objid ("809e8204-31c8-42eb-bb6a-467d73259045")
@@ -40,8 +43,13 @@ public abstract class AbstractBoat implements Boat {
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
     public AbstractBoat(BoatName name, Coord pivot) {
         this.pivot = pivot;
-        this.facingDirection = DEFAULT;
+        this.facingDirection = DEFAULT();
         this.name = name;
+        this.coords = new ArrayList<>();
+        this.coordsNeedToBeProcessed = true;
+
+        this.lastDirection = this.facingDirection;
+        this.lastPosition = this.pivot;
     }
 
 	public Coord getCoord() {
@@ -89,44 +97,75 @@ public abstract class AbstractBoat implements Boat {
 		return ResultShoot.TOUCHED;
 	}
 
-	@objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
-	public abstract void move();
+	// TODO mind to refreshCoords
+    @objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
+    public abstract void move();
 
     @objid ("901d66d1-b1e1-4f7b-8c07-246f568ba2db")
     public void rotateClockWise(){
-
+        // save last direction
+        this.lastDirection = this.facingDirection;
+        // rotate
+        this.facingDirection = this.facingDirection.next(true);
+        this.refreshCoords();
     }
 
     @objid ("c01df1a1-a009-44f4-a9a5-5e7c9d11b6ef")
     public void rotateCounterClockWise() {
-        this.rotate(-1);
-    }
-
-    private void rotate(int direction){
-
+        // save last direction
+        this.lastDirection = this.facingDirection;
+        // rotate
+        this.facingDirection = this.facingDirection.next(false);
+        this.refreshCoords();
     }
 
     public boolean hasCoord(Coord coord) {
         for (Coord coordTmp: this.getCoords()) {
-            if(coordTmp.getX() == coord.getX() && coordTmp.getY() == coord.getY()){
+            if(coordTmp.equals(coord)){
                 return true;
             }
         }
         return false;
     }
 
+    public void refreshCoords(){
+        this.coordsNeedToBeProcessed = true;
+    }
+
     // TODO : may needs some refactoring to remove crappy switch case and copy/pasts
-    // TESTED
+    //
+    // TODO : optimize, save processed coords and return them if no changes.
+    // TODO :   => Add a change notif in methods that change position
+    //
+    // => Optimization DONE !!!! mind to use "refreshCoords" when modify sensitive data
+    // => (8 nov 2018) for BattleshipModelTest, we skip the coords calculation 122/146 times
+    //      => that's an optimisation of 83%
+    /**
+     * __TESTED__
+     *
+     * It return the list of coords where the boat is
+     * @return List of Coord
+     */
     public List<Coord> getCoords() {
+        if(this.coordsNeedToBeProcessed){
+            this.coords = this.getCoordsForDirection(this.facingDirection);
+            this.coordsNeedToBeProcessed = false;
+        }
+        return this.coords;
+    }
+
+    /**
+     * __TESTED__
+     *
+     * @param direction the direction to process coords for
+     * @return a list of coords
+     */
+    public List<Coord> getCoordsForDirection(Direction direction){
         List<Coord> coords = new ArrayList<>();
-        // for (Square square: occuped) {
-        //     coords.add(square.coord);
-        // }
-        
         int frontParts = this.getSize()/2 - (this.getSize()%2==0 ? 1 : 0);
         int backParts = this.getSize()/2;
         int start, stop;
-        switch (this.facingDirection){
+        switch (direction){
             case EAST:
                 start = this.pivot.getX() - backParts;
                 stop = this.pivot.getX() + frontParts;
@@ -155,9 +194,6 @@ public abstract class AbstractBoat implements Boat {
                     coords.add(new Coord(this.pivot.getX(), i));
                 }
                 break;
-            case DEFAULT:
-            	coords.add(new Coord(this.pivot.getX(),this.pivot.getY()));
-            	break;
         }
         return coords;
     }
@@ -180,9 +216,26 @@ public abstract class AbstractBoat implements Boat {
 	}
 
 
-	@objid ("ea27622f-ef86-414e-a871-91e521f336d4")
-	public void undoLastMove() {
-	}
+    /**
+     * __PARTIALLY_TESTED__
+     *
+     * undo the last move (rotation or move)
+     */
+    @objid ("ea27622f-ef86-414e-a871-91e521f336d4")
+    public void undoLastMove() {
+        this.facingDirection = this.lastDirection;
+        this.pivot = this.lastPosition;
+        this.refreshCoords();
+    }
+
+    /**
+     * __PARTIALLY_TESTED__
+     *
+     * @return ProcessedPosition (coords + direction)
+     */
+    public ProcessedPosition getProcessedPosition(){
+        return new ProcessedPosition(this.facingDirection, this.getCoords());
+    }
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")
     public int getMoveCost() {
@@ -214,14 +267,13 @@ public abstract class AbstractBoat implements Boat {
 
     @objid ("dfb55234-05af-4b32-b572-882581380e93")
     public Coord getPivot() {
-        // Automatically generated method. Please delete this comment before entering specific code.
         return this.pivot;
     }
 
     @objid ("21694e9f-8e7d-41a8-b512-40f58f0c6c9a")
     public void setPivot(final Coord value) {
-        // Automatically generated method. Please delete this comment before entering specific code.
         this.pivot = value;
+        this.refreshCoords();
     }
 
 //	@objid ("c15251b2-c1fb-4ac8-9800-21b0b04c201b")
@@ -245,6 +297,21 @@ public abstract class AbstractBoat implements Boat {
 	public int getSize() {
 		return this.size;
 	}
+
+    protected void setSize(int size){
+        this.size = size;
+        this.refreshCoords();
+    }
+
+    public Direction getDirection(){
+        return this.facingDirection;
+    }
+
+    protected void setFacingDirection(Direction direction){
+        this.lastDirection = this.facingDirection;
+        this.facingDirection = direction;
+        this.refreshCoords();
+    }
 
     @Override
 	public String toString() {

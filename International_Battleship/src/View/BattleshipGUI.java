@@ -1,27 +1,16 @@
 package View;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.MouseListener;
-import java.util.EventListener;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.util.ArrayList;
-
 import Controler.BattleshipGameControlerModelView;
-
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
 import tools.ActionType;
 import tools.Coord;
-import tools.Direction;
+import tools.ProcessedPosition;
 
-
-import Controler.BattleshipGameControlerModelView;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.EventListener;
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
 public class BattleshipGUI extends JFrame implements GameGUIInterface{
@@ -135,8 +124,10 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
 	}
 
 	@Override
-	public void setBoatDirection(Direction direction) {
-		// TODO rotate the selectedBoat in wanted Direction
+	public void setBoatDirection(ProcessedPosition processedPosition) {
+    	// TODO add a boatGUI, add in this class a selectedBoat,
+		// TODO allow moving the boat by giving it a processedPosition
+		// this.selectedBoat.setPosition(processedPosition);
 	}
 
 

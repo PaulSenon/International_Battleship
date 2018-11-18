@@ -1,15 +1,14 @@
 package Controler;
 
 import Model.BattleshipGameModel;
-import tools.Coord;
+import Model.Boat;
+import View.BattleShipSquareGUI;
 import View.BattleshipGUI;
-
 import View.GameGUIInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
-import tools.Direction;
-import Model.Boat;
-import View.BattleShipSquareGUI;
+import tools.Coord;
+import tools.ProcessedPosition;
 
 @objid ("876e9f9a-d77c-4a9d-809e-0854b8d95d55")
 public class BattleShipControlerLocal implements BattleshipGameControlerModelView {
@@ -56,15 +55,15 @@ public class BattleShipControlerLocal implements BattleshipGameControlerModelVie
 
     public void rotateBoatClockWise(){
         // TODO move direction dans tools
-        Direction direction = this.gameModel.rotateBoatClockWise();
-        this.gameGUI.setBoatDirection(direction);
+        ProcessedPosition processedPosition = this.gameModel.rotateBoatClockWise();
+        this.gameGUI.setBoatDirection(processedPosition);
 
     }
 
     public void rotateBoatCounterClockWise(){
         // TODO move direction dans tools
-        Direction direction = this.gameModel.rotateBoatCounterClockWise();
-        this.gameGUI.setBoatDirection(direction);
+        ProcessedPosition processedPosition = this.gameModel.rotateBoatCounterClockWise();
+        this.gameGUI.setBoatDirection(processedPosition);
     }
 
     @Override

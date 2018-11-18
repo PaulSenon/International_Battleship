@@ -1,16 +1,12 @@
 package Controler;
 
-import tools.ActionType;
-import View.GameGUIInterface;
-
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
 import Model.Boat;
-import Model.Coord;
+import tools.Coord;
 import View.BattleShipGridGUI;
 import View.BattleShipSquareGUI;
+import View.GameGUIInterface;
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
-import tools.ResultShoot;
 
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
 public class BattleshipControlerClient implements BattleshipGameControlerModelView {

@@ -2,6 +2,8 @@ package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
+import tools.Direction;
+import tools.ProcessedPosition;
 
 import java.util.List;
 
@@ -24,10 +26,18 @@ public interface Boat {
     boolean hasCoord(Coord coord);
 
     List<Coord> getCoords();
+    List<Coord> getCoordsForDirection(Direction direction);
 
     Coord getPivot();
 
+    Direction getDirection();
+
 	int getSize();
 
-	 public void setPivot(final Coord value);
+	void setPivot(final Coord value);
+    void undoLastMove();
+    ProcessedPosition getProcessedPosition();
+
+    void rotateClockWise();
+    void rotateCounterClockWise();
 }
