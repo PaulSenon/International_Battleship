@@ -15,6 +15,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
 import tools.Coord;
 import tools.Direction;
+import tools.ProcessedPosition;
 
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
@@ -88,7 +89,9 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
 	}
 
 	@Override
-	public void setBoatDirection(Direction direction) {
-		// TODO rotate the selectedBoat in wanted Direction
+	public void setBoatDirection(ProcessedPosition processedPosition) {
+    	// TODO add a boatGUI, add in this class a selectedBoat,
+		// TODO allow moving the boat by giving it a processedPosition
+		// this.selectedBoat.setPosition(processedPosition);
 	}
 }

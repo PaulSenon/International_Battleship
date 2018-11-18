@@ -5,6 +5,7 @@ import java.util.Observable;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.Direction;
+import tools.ProcessedPosition;
 
 @objid ("8e40e397-dd7f-4d77-b403-4842a42c93f1")
 public class BattleshipModelObs extends Observable implements BattleshipGameModel {
@@ -31,12 +32,12 @@ public class BattleshipModelObs extends Observable implements BattleshipGameMode
     }
 
     @Override
-    public Direction rotateBoatClockWise() {
+    public ProcessedPosition rotateBoatClockWise() {
         return null;
     }
 
     @Override
-    public Direction rotateBoatCounterClockWise() {
+    public ProcessedPosition rotateBoatCounterClockWise() {
         return null;
     }
 

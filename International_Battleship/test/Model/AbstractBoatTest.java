@@ -2,6 +2,7 @@ package Model;
 
 import org.junit.Before;
 import org.junit.Test;
+import testTools.BaseTests;
 import tools.Coord;
 import tools.Direction;
 
@@ -9,30 +10,21 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class AbstractBoatTest {
+public class AbstractBoatTest extends BaseTests {
 
     private Boat boat;
 
     @Before
     public void setUp() throws Exception {
-        this.boat = new AbstractBoat(BoatName.CRUISER, new Coord(10,10)) {
-            @Override
-            public void shoot() { }
-            @Override
-            public void move() { }
-            @Override
-            public void hourlyRotation() { }
-            @Override
-            public void antiHourlyRotation() { }
-        };
+        this.boat = this.objGenerator.generateTestBoat(new Coord(10,10), 5, Direction.EAST);
     }
 
     @Test
     public void getCoords() {
         // EAST -> odd
         // ooOo>
-        ((AbstractBoat) this.boat).size = 5;
-        ((AbstractBoat) this.boat).facingDirection = Direction.EAST;
+        ((AbstractBoat) this.boat).setSize(5);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.EAST);
         List<Coord> coords = this.boat.getCoords();
 
         assertEquals(5, coords.size());
@@ -44,8 +36,8 @@ public class AbstractBoatTest {
 
         // EAST -> even
         // oooOo>
-        ((AbstractBoat) this.boat).size = 6;
-        ((AbstractBoat) this.boat).facingDirection = Direction.EAST;
+        ((AbstractBoat) this.boat).setSize(6);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.EAST);
         coords = this.boat.getCoords();
 
         assertEquals(6, coords.size());
@@ -58,8 +50,8 @@ public class AbstractBoatTest {
 
         // WEST -> odd
         // <oOoo
-        ((AbstractBoat) this.boat).size = 5;
-        ((AbstractBoat) this.boat).facingDirection = Direction.WEST;
+        ((AbstractBoat) this.boat).setSize(5);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.WEST);
         coords = this.boat.getCoords();
 
         assertEquals(5, coords.size());
@@ -71,8 +63,8 @@ public class AbstractBoatTest {
 
         // WEST -> even
         // <oOooo
-        ((AbstractBoat) this.boat).size = 6;
-        ((AbstractBoat) this.boat).facingDirection = Direction.WEST;
+        ((AbstractBoat) this.boat).setSize(6);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.WEST);
         coords = this.boat.getCoords();
 
         assertEquals(6, coords.size());
@@ -87,8 +79,8 @@ public class AbstractBoatTest {
         // ^
         // O
         // o
-        ((AbstractBoat) this.boat).size = 3;
-        ((AbstractBoat) this.boat).facingDirection = Direction.NORTH;
+        ((AbstractBoat) this.boat).setSize(3);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.NORTH);
         coords = this.boat.getCoords();
 
         assertEquals(3, coords.size());
@@ -101,8 +93,8 @@ public class AbstractBoatTest {
         // O
         // o
         // o
-        ((AbstractBoat) this.boat).size = 4;
-        ((AbstractBoat) this.boat).facingDirection = Direction.NORTH;
+        ((AbstractBoat) this.boat).setSize(4);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.NORTH);
         coords = this.boat.getCoords();
 
         assertEquals(4, coords.size());
@@ -115,8 +107,8 @@ public class AbstractBoatTest {
         // o
         // O
         // v
-        ((AbstractBoat) this.boat).size = 3;
-        ((AbstractBoat) this.boat).facingDirection = Direction.SOUTH;
+        ((AbstractBoat) this.boat).setSize(3);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.SOUTH);
         coords = this.boat.getCoords();
 
         assertEquals(3, coords.size());
@@ -129,8 +121,8 @@ public class AbstractBoatTest {
         // o
         // O
         // v
-        ((AbstractBoat) this.boat).size = 4;
-        ((AbstractBoat) this.boat).facingDirection = Direction.SOUTH;
+        ((AbstractBoat) this.boat).setSize(4);
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.SOUTH);
         coords = this.boat.getCoords();
 
         assertEquals(4, coords.size());

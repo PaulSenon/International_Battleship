@@ -3,6 +3,7 @@ package Model;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.Direction;
+import tools.ProcessedPosition;
 
 @objid ("82d664fa-9274-4766-b754-b991176fe06c")
 public interface BattleshipGameModel {
@@ -12,9 +13,9 @@ public interface BattleshipGameModel {
     @objid ("b23fa4cb-4a24-4e7f-a704-671894685a3e")
     Coord moveBoat(int xDest, int yDest);
 
-    Direction rotateBoatClockWise();
+    ProcessedPosition rotateBoatClockWise();
 
-    Direction rotateBoatCounterClockWise();
+    ProcessedPosition rotateBoatCounterClockWise();
 
     @objid ("70b98e64-650c-4441-80ad-81c55eb78c6d")
     void isEnd();

@@ -46,7 +46,7 @@ public class BattleShipBoatFragmentGUI extends JLabel{
     	// set attributes
     	this.coord = coord;
     	this.color = Color.BLACK;
-    	this.direction = Direction.DEFAULT;
+    	this.direction = Direction.DEFAULT();
 
 
     	try {
