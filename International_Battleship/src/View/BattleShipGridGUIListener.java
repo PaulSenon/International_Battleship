@@ -23,7 +23,7 @@ public class BattleShipGridGUIListener implements EventListener, MouseListener {
 		Coord coord = gridGUI.selectSquare(e.getX(), e.getY());
 		ActionType action = controller.selectBoat(coord.getX(), coord.getY());
 		if(action==ActionType.MOVE){
-			controller.moveBoat(coord.getX()+2, coord.getY()+2);
+			controller.moveBoat(coord.getX()+2, coord.getY()+2); //les coords de destination sont en durs pour le moment
 		}
 	}
 
