@@ -53,6 +53,7 @@ public class BattleshipModel implements BattleshipGameModel {
             System.out.println("No boat has been selected");
             return null;
         }
+        
 
         // processing :
         Coord destCoord = new Coord(xDest, yDest);

@@ -73,7 +73,7 @@ public abstract class AbstractBoat implements Boat {
 
     public boolean hasCoord(Coord coord) {
         for (Coord coordTmp: this.getCoords()) {
-            if(coordTmp == coord){
+            if(coordTmp.getX() == coord.getX() && coordTmp.getY() == coord.getY()){
                 return true;
             }
         }
@@ -91,8 +91,6 @@ public abstract class AbstractBoat implements Boat {
         int frontParts = this.getSize()/2 - (this.getSize()%2==0 ? 1 : 0);
         int backParts = this.getSize()/2;
         int start, stop;
-        System.out.println(frontParts);
-        System.out.println(backParts);
         switch (this.facingDirection){
             case EAST:
                 start = this.pivot.getX() - backParts;

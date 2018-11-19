@@ -66,7 +66,9 @@ public class BoatsImplementor implements BattleshipGameImplementor {
             // => le bateau va regarder si les coords sont bien devant lui
         // TODO faire le déplacement du bateau si possible, (et le plus loin possible)
         // => retourne les nouvelles coordonnées du pivot du bateau
-    	
+    	if(destination.getX()>0 && destination.getY()>0){
+    		selectedBoat.setPivot(destination);
+    	}
         return destination;//TODO
     }
 

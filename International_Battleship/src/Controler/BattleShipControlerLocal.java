@@ -35,6 +35,7 @@ public class BattleShipControlerLocal implements BattleshipGameControlerModelVie
 
 	public ActionType selectBoat(int x, int y) {
 		if(this.gameModel.selectBoat(x, y)){
+			System.out.println("YES boat has been selected");
 		    this.gameGUI.setCurrentAction(ActionType.MOVE);
         }
 		return this.gameGUI.getCurrentAction();

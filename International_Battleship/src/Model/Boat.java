@@ -26,5 +26,6 @@ public interface Boat {
     Coord getPivot();
 
 	int getSize();
-
+	
+	 public void setPivot(final Coord value);
 }
