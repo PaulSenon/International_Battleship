@@ -11,7 +11,10 @@ import java.util.EventListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Controler.BattleshipGameControlerModelView;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.ActionType;
 import tools.Coord;
 import tools.Direction;
@@ -28,13 +31,19 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
     public BattleShipButtonGUI battleShipButtonGUI;
 
     @objid ("81916075-5be2-4b77-b7e6-32f83af649a3")
+    public BattleshipGameControlerModelView controller;
+    
+    public ActionType actionType = null;
+     
+    
     // Constructor
-    public BattleshipGUI(/*controller*/) {
+    public BattleshipGUI(BattleshipGameControlerModelView controller) {
     	super();
     	
     	Container contentPane = this.getContentPane();
         contentPane.setLayout(new GridBagLayout());
     	
+        this.controller = controller;
         
     	// Create grid and add it to the left
 			this.gridGUI = new BattleShipGridGUI();
@@ -70,7 +79,7 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
 				
 		// Create and attach event listener on grid GUI
 			EventListener mouseEventListener = 
-					new BattleShipGridGUIListener( this.gridGUI/*, controller*/);
+					new BattleShipGridGUIListener( this.gridGUI, this.controller);
 			
 			this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 			this.pack();
@@ -78,17 +87,25 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
 
 
 	@Override
-	public void setCurrentAction(ActionType move) {
-		// TODO setCurrentActionType
+	public void setCurrentAction(ActionType actionType) {
+		this.actionType = actionType;
 	}
 
 	@Override
 	public void setBoatPos(Coord coord) {
 		// TODO move the selectedBoat to wanted location
+		//this.gridGUI.getComponentAt(coord.getX(), coord.getY());
+		//a compléter
 	}
 
 	@Override
 	public void setBoatDirection(Direction direction) {
 		// TODO rotate the selectedBoat in wanted Direction
+	}
+
+
+	@Override
+	public ActionType getCurrentAction() {
+		return this.actionType;
 	}
 }

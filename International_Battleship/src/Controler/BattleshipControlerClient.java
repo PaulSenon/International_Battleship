@@ -1,6 +1,8 @@
 package Controler;
 
+import tools.ActionType;
 import View.GameGUIInterface;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import View.BattleShipGridGUI;
@@ -27,8 +29,8 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
     }
 
     @Override
-    public void selectBoat(int x, int y) {
-
+    public ActionType selectBoat(int x, int y) {
+    	return null;
     }
 
     @Override

@@ -82,11 +82,12 @@ public class BattleShipGridGUI extends JLayeredPane {
      * @param  xEvent (int) x coordinate of the mouse pointer (from click event)
      * @param yEvent (int) y coordinate of the mouse pointer (from click event)
      */
-    void selectSquare(int xEvent, int yEvent) {
+    Coord selectSquare(int xEvent, int yEvent) {
     	this.selectedSquare = findSquareFromEvent(xEvent, yEvent);
     	if(this.selectedSquare != null) {
     		System.out.println("You've clicked on : "+this.selectedSquare.getCoord().toString());
     	}
+    	return this.selectedSquare.getCoord();
     }
 
     /**

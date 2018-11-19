@@ -19,7 +19,7 @@ public class BattleShipControlerLocal implements BattleshipGameControlerModelVie
     @objid ("be0371df-d97b-409c-a49c-c194011d27a8")
     public BattleShipControlerLocal(BattleshipGameModel gameModel) {
         this.gameModel = gameModel;
-        this.gameGUI = new BattleshipGUI(); // set latter
+        this.gameGUI = new BattleshipGUI(this); // set latter
     }
 
     @objid ("c21b247b-b822-4b13-9953-43f65175301b")
@@ -33,10 +33,12 @@ public class BattleShipControlerLocal implements BattleshipGameControlerModelVie
         // TODO Auto-generated method stub
     }
 
-	public void selectBoat(int x, int y) {
+	public ActionType selectBoat(int x, int y) {
 		if(this.gameModel.selectBoat(x, y)){
 		    this.gameGUI.setCurrentAction(ActionType.MOVE);
         }
+		return this.gameGUI.getCurrentAction();
+		
 	}
 
     public void moveBoat(int xDest, int yDest){

@@ -12,6 +12,8 @@ public interface GameGUIInterface {
 
     void setBoatDirection(Direction direction);
 
+	ActionType getCurrentAction();
+
     // OLD
 //    void setBoatToMove();
 //

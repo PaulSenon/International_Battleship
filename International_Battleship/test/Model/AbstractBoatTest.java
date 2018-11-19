@@ -15,7 +15,7 @@ public class AbstractBoatTest {
 
     @Before
     public void setUp() throws Exception {
-        this.boat = new AbstractBoat(BoatName.CRUISER, new Coord(10,10)) {
+        this.boat = new AbstractBoat(BoatName.Cruiser, new Coord(10,10)) {
             @Override
             public void shoot() { }
             @Override

@@ -24,7 +24,7 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     }
 
     private void generateBoatsFromFactory(List<Player> players, List<BoatName> fleetList){
-        for (Player p : players) {
+    	for (Player p : players) {
             int i=0;
             for (BoatName boatName  : fleetList) {
                 p.getFleet().add(BattleshipBoatFactory.newBoat(boatName,new Coord(0,i)));
@@ -32,6 +32,9 @@ public class BoatsImplementor implements BattleshipGameImplementor {
             }
             //test
             System.out.println("L'implementor a générer un bateau de type "+ p.getFleet());
+            for(Boat boat : p.getFleet()){
+            	this.boats.add(boat);
+            }
         }
 
     }
@@ -63,8 +66,8 @@ public class BoatsImplementor implements BattleshipGameImplementor {
             // => le bateau va regarder si les coords sont bien devant lui
         // TODO faire le déplacement du bateau si possible, (et le plus loin possible)
         // => retourne les nouvelles coordonnées du pivot du bateau
-
-        return new Coord(0,0 );//TODO
+    	
+        return destination;//TODO
     }
 
     /**
@@ -168,8 +171,8 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     @objid ("4643b543-6571-4c67-bf46-c267384eea71")
     public Boat findBoatByCoord(Coord coord) {
         // TODO gérer la notion de joueur
-        for (Boat boat : this.boats) {
-            if(boat.hasCoord(coord)){
+    	for (Boat boat : this.boats) {
+    		if(boat.hasCoord(coord)){
                 return boat;
             }
         }

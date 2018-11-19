@@ -4,6 +4,10 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import Controler.BattleShipControlerLocal;
+import Controler.BattleshipGameControlerModelView;
+import Model.BattleshipGameModel;
+import Model.BattleshipModel;
 import View.BattleshipGUI;
 import tools.BattleShipGameConfig;
 
@@ -20,12 +24,12 @@ public class LauncherBattleShipGame {
 		
 		// setup Game
 			// TODO
-			//BattleshipGameModel gameModel = //...;
-			//BattleshipGameControlerModelView gameController = new BattleShipControlerLocal(/*gameModel*/);
+			BattleshipGameModel gameModel = new BattleshipModel();
+			BattleshipGameControlerModelView gameController = new BattleShipControlerLocal(gameModel);
 		
 		// setup Frame
 			Dimension dim = new Dimension(850,570);
-			JFrame frame = new BattleshipGUI();	
+			JFrame frame = new BattleshipGUI(gameController);	
 			frame.setTitle("International Battleship");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocation(400, 10);

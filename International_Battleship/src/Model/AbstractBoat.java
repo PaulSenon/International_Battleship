@@ -87,10 +87,12 @@ public abstract class AbstractBoat implements Boat {
         // for (Square square: occuped) {
         //     coords.add(square.coord);
         // }
-
+        
         int frontParts = this.getSize()/2 - (this.getSize()%2==0 ? 1 : 0);
         int backParts = this.getSize()/2;
         int start, stop;
+        System.out.println(frontParts);
+        System.out.println(backParts);
         switch (this.facingDirection){
             case EAST:
                 start = this.pivot.getX() - backParts;
@@ -120,6 +122,9 @@ public abstract class AbstractBoat implements Boat {
                     coords.add(new Coord(this.pivot.getX(), i));
                 }
                 break;
+            case DEFAULT:
+            	coords.add(new Coord(this.pivot.getX(),this.pivot.getY()));
+            	break;
         }
         return coords;
     }
