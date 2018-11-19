@@ -9,7 +9,7 @@ public class Cruiser extends AbstractBoat {
 
     @objid ("6bb6d6ef-55bb-484d-bb77-2d5b9fed816d")
     public Cruiser(Coord coord) {
-    	super(BoatName.CRUISER, coord);
+    	super(BoatName.Cruiser, coord);
     }
 
     @objid ("4873fad4-fba9-407a-8784-4384d06ec67e")

@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
@@ -59,6 +60,7 @@ public class Player implements PlayerGame {
 
 	@objid ("f51afe71-7f94-42e7-a536-e386c3048b7c")
 	public Player() {
+		this.fleet = new LinkedList<Boat>();
 	}
 
 	@objid ("a5e853b4-d905-439e-9751-fa18148121b4")

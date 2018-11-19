@@ -9,7 +9,7 @@ public class Sentinel extends AbstractBoat {
 
 	@objid ("62b7f0e5-4f57-4a8c-bc19-9993b91246d0")
     public Sentinel(Coord coord) {
-		super(BoatName.SENTINEL, coord);
+		super(BoatName.Sentinel, coord);
     }
 
     @objid ("e3a0f19d-f496-4b18-8b34-c7953806c406")

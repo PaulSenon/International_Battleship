@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.EventListener;
 
+import tools.ActionType;
+import tools.Coord;
 import Controler.BattleShipControlerLocal;
 import Controler.BattleshipGameControlerModelView;
 import tools.ActionType;
@@ -29,6 +31,8 @@ public class BattleShipGridGUIListener implements EventListener, MouseListener {
 		if(actionType.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {
 			//Shoot on the target.
 			this.controller.shoot(squareSelected);
+		}else if(actionType.equals(ActionType.MOVE)){
+			controller.moveBoat(squareSelected.getX()+2, squareSelected.getY()+2); //les coords de destination sont en durs pour le moment
 		}
 	}
 

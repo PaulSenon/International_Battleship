@@ -9,7 +9,7 @@ public class Submarin extends AbstractBoat {
 
     @objid ("8258161e-781b-456d-b755-55f8df14bb0f")
     public Submarin(Coord coord) {
-    	super(BoatName.SUBMARIN, coord);
+    	super(BoatName.Submarin, coord);
     }
 
 

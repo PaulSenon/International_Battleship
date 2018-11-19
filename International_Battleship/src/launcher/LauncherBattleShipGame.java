@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import Controler.BattleShipControlerLocal;
 import Controler.BattleshipGameControlerModelView;
 import Model.BattleshipModel;
+import Controler.BattleShipControlerLocal;
+import Controler.BattleshipGameControlerModelView;
+import Model.BattleshipGameModel;
+import Model.BattleshipModel;
 import View.BattleshipGUI;
 import tools.BattleShipGameConfig;
 
@@ -22,7 +26,7 @@ public class LauncherBattleShipGame {
 			);
 
 		// setup Game
-		    // TODO URGENT VERIF QUE C4EST BIEN LES INTERFACES
+		    // TODO VERIF QUE C'EST BIEN LES INTERFACES
             BattleshipModel gameModel = new BattleshipModel();
             BattleshipGameControlerModelView gameController = new BattleShipControlerLocal(gameModel);
 

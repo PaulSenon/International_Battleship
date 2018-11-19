@@ -32,6 +32,8 @@ public class BattleshipModel implements BattleshipGameModel {
     public BattleshipModel() {
         // set attributes
         this.players = new ArrayList<>();
+        Player player = new Player();
+        this.players.add(player);
         this.selectedBoat = null;
     	battleshipImplementor = new BoatsImplementor(this.players, this.DEBUG_get_test_fleet_from_enum());
     }
@@ -54,6 +56,7 @@ public class BattleshipModel implements BattleshipGameModel {
             System.out.println("No boat has been selected");
             return null;
         }
+        
 
         // processing :
         Coord destCoord = new Coord(xDest, yDest);
