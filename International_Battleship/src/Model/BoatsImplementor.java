@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import tools.BattleshipBoatFactory;
 import tools.Coord;
 import tools.Direction;
+import tools.ResultShoot;
 
 @objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
 public class BoatsImplementor implements BattleshipGameImplementor {
@@ -157,6 +158,12 @@ public class BoatsImplementor implements BattleshipGameImplementor {
         newY += pivot.getY();
         // add to result list
         return new Coord(newX, newY);
+    }
+
+    @Override
+    public ResultShoot shoot(Coord target) {
+        return ResultShoot.MISSED;
+//        return boat.shoot(target);
     }
 
     /**

@@ -61,7 +61,7 @@ public class BattleShipBoatFragmentGUI extends JLabel{
 		catch(IOException exc) {
 			System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
 		}
-    	
+
     	// TODO : it's just placeholder yet
 		this.setBackground(Color.RED);
     	
@@ -115,10 +115,10 @@ public class BattleShipBoatFragmentGUI extends JLabel{
 	 */
 	protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        
+
         // draw its sprite image on the whole plane
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
-        
+
 //        //_OLD_ placeholder to activate for debug purpose if you do not have images
 //        g.setColor(this.color);
 //

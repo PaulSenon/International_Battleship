@@ -9,6 +9,9 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.Direction;
 
+import View.BattleShipSquareGUI;
+import tools.ResultShoot;
+
 @objid ("2d5b787d-2269-4d70-9e4e-dd727dfa9336")
 public class BattleshipModel implements BattleshipGameModel {
 
@@ -142,4 +145,11 @@ public class BattleshipModel implements BattleshipGameModel {
     public void getColorCurrentPlayer() {
         // TODO Auto-generated stub
     }
+
+	@Override
+	public ResultShoot shoot(Coord target) {
+		return ResultShoot.MISSED;
+//		return (battleshipImplementor.shoot(target));
+	}
+
 }

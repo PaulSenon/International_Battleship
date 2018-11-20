@@ -6,12 +6,15 @@ import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import tools.Coord;
 import tools.Direction;
 import tools.BattleShipGameConfig;
+import tools.ResultShoot;
 
 @objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
@@ -61,32 +64,35 @@ public class BattleShipGridGUI extends JLayeredPane {
             	this.add(tmpSquare, new Point(j,i));
             }
         }
-        
+
         // FOR TMP DEBUG PURPOSE : adding two boat fragments on the board
         	Coord coord = new Coord(2,1);
 	        JLabel tmp = createBoatFragments(coord);
 	        this.squares.get(coord).add(tmp);
 	        // demo rotation :
 	        ((BattleShipBoatFragmentGUI) tmp).rotate(Direction.SOUTH);
-	        
+
 	        coord = new Coord(2,2);
 	        tmp = createBoatFragments(coord);
 	        this.squares.get(coord).add(tmp);
-	        // demo rotation : 
+	        // demo rotation :
 	        ((BattleShipBoatFragmentGUI) tmp).rotate(Direction.WEST);
         // END DEBUG
     }
-    
+
     /**
      * PUBLIC It take some mouse click position and find the targeted square
      * @param  xEvent (int) x coordinate of the mouse pointer (from click event)
      * @param yEvent (int) y coordinate of the mouse pointer (from click event)
+	 * @return the selected squareGUI (not necessary to use it, it's just to avoid
+	 * a call to get selected square in case you need it)
      */
-    void selectSquare(int xEvent, int yEvent) {
+    BattleShipSquareGUI selectSquare(int xEvent, int yEvent) {
     	this.selectedSquare = findSquareFromEvent(xEvent, yEvent);
     	if(this.selectedSquare != null) {
     		System.out.println("You've clicked on : "+this.selectedSquare.getCoord().toString());
     	}
+    	return this.selectedSquare;
     }
 
     /**
@@ -119,6 +125,11 @@ public class BattleShipGridGUI extends JLayeredPane {
 	private BattleShipSquareGUI findSquare(Coord coord) {
     	return squares.get(coord);
     }
+
+	public void messageToUser(ResultShoot shoot) {
+		String resultOfShoot = shoot.toString();
+		JOptionPane.showMessageDialog(null, resultOfShoot, null , JOptionPane.INFORMATION_MESSAGE);
+	}
 
     /**
      * It take some mouse click position and find the targeted square
@@ -194,5 +205,6 @@ public class BattleShipGridGUI extends JLayeredPane {
 //    @objid ("7ec2238c-6895-4ae2-b0a1-378c4296fec6")
 //    private void createBattleshipBoard() {
 //    }
+
 
 }

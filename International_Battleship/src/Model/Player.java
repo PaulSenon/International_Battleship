@@ -144,6 +144,9 @@ public class Player implements PlayerGame {
 		return this.maxActionPoint;
 	}
 
+	/**
+	 * This method calculates the MaxActionPoint
+	 */
 	public void calculationOfMaxActionPoint () {
 		this.maxActionPoint = 0;
 		if (fleet != null) {

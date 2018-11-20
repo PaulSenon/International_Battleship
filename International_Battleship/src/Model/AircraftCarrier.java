@@ -12,10 +12,6 @@ public class AircraftCarrier extends AbstractBoat {
     	super(BoatName.AIRCRAFTCARRIER, coord);
     }
 
-	@objid ("b3e9715b-61cd-4839-b539-8461c2f7c242")
-    public void shoot() {
-    }
-
     @objid ("3222a6aa-93ed-428b-a289-90062504d72b")
     public void move() {
     }

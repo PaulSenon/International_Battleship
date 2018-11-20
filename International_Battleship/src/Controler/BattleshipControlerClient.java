@@ -3,7 +3,12 @@ package Controler;
 import View.GameGUIInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import Model.Boat;
+import Model.Coord;
 import View.BattleShipGridGUI;
+import View.BattleShipSquareGUI;
+import tools.ActionType;
+import tools.ResultShoot;
 
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
 public class BattleshipControlerClient implements BattleshipGameControlerModelView {
@@ -14,7 +19,7 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
     @objid ("62873f29-0bd5-4884-b3a4-4d9111923989")
     public void setGridPanel(BattleShipGridGUI gridGUI) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
     @Override
@@ -46,6 +51,29 @@ public class BattleshipControlerClient implements BattleshipGameControlerModelVi
 	public void ActionWhenBoatIsMovedOnGUI() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void ActionWhenAction(Boat boat, Coord target) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setCurrentAction(ActionType action) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ActionType getCurrentAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void shoot(BattleShipSquareGUI squareSelected) {
+		// TODO Auto-generated method stub
 	}
 
 }
