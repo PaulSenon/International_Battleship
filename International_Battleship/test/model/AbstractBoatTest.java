@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class AbstractBoatTest extends BaseTests {
 
-    private Boat boat;
+    private BoatInterface boat;
 
     @Before
     public void setUp() throws Exception {

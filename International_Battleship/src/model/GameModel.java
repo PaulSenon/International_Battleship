@@ -1,35 +1,34 @@
 package model;
 
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.GameConfig;
+import tools.Coord;
+import tools.ProcessedPosition;
+import tools.ResultShoot;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import tools.BattleShipGameConfig;
-import tools.Coord;
-import tools.ProcessedPosition;
-
-import tools.ResultShoot;
-
 @objid ("2d5b787d-2269-4d70-9e4e-dd727dfa9336")
-public class BattleshipModel implements BattleshipGameModel {
+public class GameModel implements GameModelInterface {
 
     // The implementor use to manage boats
     @objid ("873f53fc-6221-4e2d-bc75-1d8495bf8ce6")
-    private BattleshipGameImplementor battleshipImplementor;
+    private BoatsImplementorInterface battleshipImplementor;
 
     // player list
     private List<Player> players;
 
     // The selected boat (may be null)
-    private Boat selectedBoat;
+    private BoatInterface selectedBoat;
 
     /**
      * __CONSTRUCTOR__
      */
     @objid ("245404cb-acb3-41d4-b19d-5717b51a8f66")
-    public BattleshipModel() {
+    public GameModel() {
         // set attributes
         this.players = new ArrayList<>();
         Player player = new Player();
@@ -133,8 +132,8 @@ public class BattleshipModel implements BattleshipGameModel {
             if( // check out of bounds
                     coord.getX()< 0
                     || coord.getY() < 0
-                    || coord.getX() > BattleShipGameConfig.getGameGridWidth() - 1
-                    || coord.getY() > BattleShipGameConfig.getGameGridHeight() -1
+                    || coord.getX() > GameConfig.getGameGridWidth() - 1
+                    || coord.getY() > GameConfig.getGameGridHeight() -1
             ){
                 return false;
             }

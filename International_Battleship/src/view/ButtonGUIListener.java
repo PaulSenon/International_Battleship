@@ -10,17 +10,17 @@ import javax.swing.JOptionPane;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import controler.BattleshipGameControlerModelView;
+import controler.ControllerModelViewInterface;
 
 @objid ("d08db42b-d9c7-47cb-bb6c-514be0a9c2d4")
-public class BattleShipButtonGUIListener implements MouseListener, MouseMotionListener {
+public class ButtonGUIListener implements MouseListener, MouseMotionListener {
 
 	@objid ("07628c86-32d9-4fc3-87b9-306a78896cba")
-	public BattleShipButtonGUI battleShipButtonGUI;
+	public ButtonGUI battleShipButtonGUI;
 	private ActionType actionType;
-	private BattleshipGameControlerModelView controller;
+	private ControllerModelViewInterface controller;
 
-	public BattleShipButtonGUIListener(BattleShipButtonGUI battleShipButtonGUI, BattleshipGameControlerModelView gameController) {
+	public ButtonGUIListener(ButtonGUI battleShipButtonGUI, ControllerModelViewInterface gameController) {
 		this.battleShipButtonGUI = battleShipButtonGUI;
 		this.controller = gameController;
 		this.actionType = this.controller.getCurrentAction();

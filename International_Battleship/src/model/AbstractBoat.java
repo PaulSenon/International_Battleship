@@ -13,7 +13,7 @@ import static tools.Direction.*;
 import tools.ResultShoot;
 
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
-public abstract class AbstractBoat implements Boat {
+public abstract class AbstractBoat implements BoatInterface {
 
 	protected Coord pivot;
 
@@ -315,7 +315,7 @@ public abstract class AbstractBoat implements Boat {
 
     @Override
 	public String toString() {
-		return "Object Boat name=" + name + " " + this.pivot;
+		return "Object BoatInterface name=" + name + " " + this.pivot;
 	}
 
 }

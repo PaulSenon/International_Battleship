@@ -1,13 +1,13 @@
 package controler;
 
-import model.Boat;
+import model.BoatInterface;
 import tools.Coord;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("31e2f2be-c2e9-48ea-be70-92cebcaf0f2c")
-public class BattleShipControlServer implements BattleshipGameControlerModel {
+public class ControllerServer implements ControllerModelInterface {
     @objid ("9cf86f69-39f0-4fec-ada2-f344df0d32e8")
-    public BattleShipControlServer() {
+    public ControllerServer() {
     }
 
     @objid ("d2d5007b-3dcb-4bfa-905c-71954251ed69")
@@ -19,7 +19,7 @@ public class BattleShipControlServer implements BattleshipGameControlerModel {
     }
 
 	@Override
-	public void ActionWhenAction(Boat boat, Coord target) {
+	public void ActionWhenAction(BoatInterface boat, Coord target) {
 		// TODO Auto-generated method stub
 		
 	}

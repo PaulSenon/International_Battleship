@@ -83,7 +83,7 @@ public class BoatsImplementorTest extends BaseTests {
 
 
         // create a boat on the map that block rotation
-            List<Boat> boats = new ArrayList<>();
+            List<BoatInterface> boats = new ArrayList<>();
             boats.add(this.objGenerator.generateTestBoat(new Coord(10, 12), 5, Direction.EAST));
 
             Reflection.setFieldByReflection(this.boatsImplementor, "boats", boats);
