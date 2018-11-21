@@ -6,8 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.BattleShipGameConfig;
 import tools.Coord;
-import tools.Direction;
+import tools.ProcessedPosition;
 
 import View.BattleShipSquareGUI;
 import tools.ResultShoot;
@@ -39,6 +40,7 @@ public class BattleshipModel implements BattleshipGameModel {
     }
 
     /**
+     * // TODO Tests
      * TO BE CALLED FROM CONTROLLER
      *
      * Move the selectedBoat to the desired position if possible.
@@ -66,36 +68,39 @@ public class BattleshipModel implements BattleshipGameModel {
     }
 
     /**
+     * __TESTED__
      * TO BE CALLED FROM CONTROLLER
      *
      * Rotate the selectedBoat clock wise.
      * You must select a boat before calling this method.
      *
-     * @return Direction is the direction of the boat after processing (may not change)
+     * @return ProcessedPositions (coords + direction)
      */
-    public Direction rotateBoatClockWise() {
-        // error case :
-        if(this.selectedBoat == null){
-            // TODO just placeholder yet.
-            System.out.println("No boat has been selected");
-            return null;
-        }
-
-        // processing :
-        // TODO demander au boatImplementor la list des coords potentielels (sans effectuer le déplacement)
-        // TODO     => et regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines
-        return this.battleshipImplementor.rotateBoatClockWise(this.selectedBoat);
+    public ProcessedPosition rotateBoatClockWise() {
+        return this.rotateSelectedBoat(true);
     }
 
     /**
+     * __TESTED__
      * TO BE CALLED FROM CONTROLLER
      *
-     * Rotate the selectedBoat COUNTER clock wise.
+     * Rotate the selectedBoat counter clock wise.
      * You must select a boat before calling this method.
      *
-     * @return Direction is the direction of the boat after processing (may not change)
+     * @return ProcessedPositions (coords + direction)
      */
-    public Direction rotateBoatCounterClockWise() {
+    public ProcessedPosition rotateBoatCounterClockWise() {
+        return this.rotateSelectedBoat(false);
+    }
+
+    /**
+     * __TESTED__
+     *
+     * Rotate the selectedBoat.
+     *
+     * @return ProcessedPositions (coords + direction)
+     */
+    private ProcessedPosition rotateSelectedBoat(boolean clockWise){
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -103,13 +108,43 @@ public class BattleshipModel implements BattleshipGameModel {
             return null;
         }
 
-        // processing :
-        // TODO demander au boatImplementor la list des coords potentielels (sans effectuer le déplacement)
-        // TODO     => et regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines
-        return this.battleshipImplementor.rotateBoatCounterClockWise(this.selectedBoat);
+        // processing : boat rotation
+        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.selectedBoat, clockWise);
+
+        // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines
+        if(this.isNewPosOk(processedPosition.coords)){
+            return processedPosition;
+        }else{
+            processedPosition = this.battleshipImplementor.undoLastBoatMove(this.selectedBoat);
+            return processedPosition;
+        }
     }
 
     /**
+     * TODO
+     * __PARTIALLY_TESTED__
+     *
+     * @param coords list of coords to check
+     * @return is coords are accessible
+     */
+    private boolean isNewPosOk(List<Coord> coords){
+        // TODO, just a placeholder yet
+        // TODO     => handle mine collision
+        for(Coord coord : coords){
+            if( // check out of bounds
+                    coord.getX()< 0
+                    || coord.getY() < 0
+                    || coord.getX() > BattleShipGameConfig.getGameGridWidth() - 1
+                    || coord.getY() > BattleShipGameConfig.getGameGridHeight() -1
+            ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * // TODO Tests
      * TO BE CALLED FROM CONTROLLER
      *
      * This method tell the model to set its selectedBoat instance

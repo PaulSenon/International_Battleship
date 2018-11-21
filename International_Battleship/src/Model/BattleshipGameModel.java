@@ -3,6 +3,7 @@ package Model;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.Direction;
+import tools.ProcessedPosition;
 
 import View.BattleShipSquareGUI;
 import tools.ResultShoot;
@@ -15,9 +16,9 @@ public interface BattleshipGameModel {
     @objid ("b23fa4cb-4a24-4e7f-a704-671894685a3e")
     Coord moveBoat(int xDest, int yDest);
 
-    Direction rotateBoatClockWise();
+    ProcessedPosition rotateBoatClockWise();
 
-    Direction rotateBoatCounterClockWise();
+    ProcessedPosition rotateBoatCounterClockWise();
 
     @objid ("70b98e64-650c-4441-80ad-81c55eb78c6d")
     void isEnd();

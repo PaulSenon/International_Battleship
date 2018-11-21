@@ -1,15 +1,13 @@
 package Model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.BattleshipBoatFactory;
+import tools.Coord;
+import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
-
-import tools.BattleshipBoatFactory;
-import tools.Coord;
-import tools.Direction;
-import tools.ResultShoot;
 
 @objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
 public class BoatsImplementor implements BattleshipGameImplementor {
@@ -25,7 +23,7 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     }
 
     private void generateBoatsFromFactory(List<Player> players, List<BoatName> fleetList){
-    	for (Player p : players) {
+        for (Player p : players) {
             int i=0;
             for (BoatName boatName  : fleetList) {
                 p.getFleet().add(BattleshipBoatFactory.newBoat(boatName,new Coord(0,i)));
@@ -41,6 +39,8 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     }
 
     /**
+     * // TODO Tests
+     *
      * Shoot from a boat to somewhere
      * @param boatCoord to select the boat to shoot with
      * @param target to select the destination coordinates
@@ -52,6 +52,7 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     }
 
     /**
+     * // TODO Tests
      * TO BE CALLED FROM MODEL
      *
      * Move move a boat to the wanted destination if possible
@@ -74,67 +75,73 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     }
 
     /**
+     * __TESTED__
      * TO BE CALLED FROM MODEL
      *
-     * Perform a quarter clock wise rotation for a boat
+     * Perform a quarter rotation for a boat
      *
      * @param selectedBoat is the boat to rotate
-     * @return Direction is the boat facing direction after processing (may not change)
+     * @param clockWise direction of rotation
+     * @return ProcessedPositions (coords + direction)
      */
-    public Direction rotateBoatClockWise(Boat selectedBoat) {
-        List<Coord> coords = this.rotate(selectedBoat,1);
-        // TODO vérifier que la liste de coords soit accessible (pas bateau)
-        // TODO si ok selectedBoat.rotateCW()
-        // TODO return selectedBoat.getDirection()
-
-        // TODO just a debug placeholder :
-        return Direction.DEFAULT;
-    }
-
-    /**
-     * TO BE CALLED FROM MODEL
-     *
-     * Perform a quarter counter clock wise rotation for a boat
-     *
-     * @param selectedBoat is the boat to rotate
-     * @return Direction is the boat facing direction after processing (may not change)
-     */
-    public Direction rotateBoatCounterClockWise(Boat selectedBoat) {
-
-        // get the list of POTENTIALS coordinate where the boat should be after
-        // performing the desired rotation. But it do not rotate it !
-        List<Coord> coords = this.rotate(selectedBoat,-1);
-
-        // TODO vérifier que la liste de coords soit accessible (pas de bateau)
-        // TODO si ok selectedBoat.rotateCW()
-        // TODO return selectedBoat.getDirection()
-
-        // TODO just a debug placeholder
-        return Direction.DEFAULT;
-    }
-
-    /**
-     * Get a boat new coordinate after a quarter rotation
-     * >=1 = clock wise
-     * <1  = counter clock wise
-     * @param direction use 0 or 1 for example
-     * @return successful
-     */
-    private List<Coord> rotate(Boat boat, int direction){
-        float angleRadius = (float) ((direction > 0) ? Math.PI/2 : -Math.PI/2);
-
-        Coord pivot = boat.getPivot();
-        List<Coord> coords = boat.getCoords();
-        List<Coord> newCoords = new ArrayList<>();
-        for (Coord coord : coords) {
-            newCoords.add(this.rotateAround(coord, pivot, angleRadius));
+    public ProcessedPosition rotateBoat(Boat selectedBoat, boolean clockWise){
+        // rotate the boat
+        if(clockWise){
+            selectedBoat.rotateClockWise();
+        }else{
+            selectedBoat.rotateCounterClockWise();
         }
 
-        return newCoords;
+        // get its position
+        ProcessedPosition processedPosition = selectedBoat.getProcessedPosition();
+
+        // check if OK
+        if(!this.areCoordsAccessible(selectedBoat)){
+            // if boat collision, undo the move
+            selectedBoat.undoLastMove();
+            return selectedBoat.getProcessedPosition();
+        }
+
+        // else, it's OK, return new pos
+        return processedPosition;
     }
 
     /**
-     * TODO move in Coord class or a new tool class for geometric computation
+     * __PARTIALLY_TESTED__
+     * TO BE CALLED FROM MODEL
+     *
+     * @param selectedBoat the boat to undo move
+     * @return the new position data after undo (coords + direction)
+     */
+    public ProcessedPosition undoLastBoatMove(Boat selectedBoat){
+        selectedBoat.undoLastMove();
+        return selectedBoat.getProcessedPosition();
+    }
+
+    /**
+     * __PARTIALLY_TESTED__
+     *
+     * @param selectedBoat the boat to check for
+     * @return if this position is allowed (else, undo it)
+     */
+    private boolean areCoordsAccessible(Boat selectedBoat) {
+        Boat foundBoat;
+        for(Coord coord : selectedBoat.getCoords()){
+            foundBoat = this.findBoatByCoord(coord);
+            if(
+                foundBoat != null               // if we found something here
+                && foundBoat != selectedBoat    // and it's not the boat we are moving
+            ){
+                // coord not accessible (there is collision)
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * __TESTED__
+     * TODO Remove, deprecated, but algorithm may be useful ?
      *
      * Take a point (coord) and rotate it around another point (pivot)
      * by a given angle (in radius)
@@ -147,7 +154,8 @@ public class BoatsImplementor implements BattleshipGameImplementor {
      * @param angleRadian rotation angle (in radian)
      * @return coord after rotation
      */
-    private Coord rotateAround(Coord coord, Coord pivot, float angleRadian){
+    @Deprecated
+    protected Coord rotateAround(Coord coord, Coord pivot, float angleRadian){
         float sin = (float)Math.sin(angleRadian);
         float cos = (float)Math.cos(angleRadian);
         int x = coord.getX();
@@ -172,6 +180,8 @@ public class BoatsImplementor implements BattleshipGameImplementor {
     }
 
     /**
+     * __PARTIALLY_TESTED__
+     *
      * This just find if there is a boat at the desired coordinates.
      * It accept any coordinate. Not only the pivot point.
      * @param coord is where to search for a boat

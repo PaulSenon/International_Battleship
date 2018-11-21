@@ -1,10 +1,8 @@
 package Controler;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
 import Model.Boat;
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
-import tools.ActionType;
 
 @objid ("0ba7d808-0e11-42c8-9e3f-0f056a59efa6")
 public interface BattleshipGameControlerModel {
