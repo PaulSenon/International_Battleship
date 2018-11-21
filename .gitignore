@@ -56,4 +56,5 @@ pom.xml.releaseBackup
 pom.xml.tag
 /.metadata/
 /bin/
-.recommenders/
+/.recommenders/*
+.recommenders
