@@ -11,14 +11,14 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 
 @objid ("fbbe929d-a036-4054-8d2d-de1a1b3bc7c1")
-public class BattleShipSquareGUI extends JPanel {
+public class SquareGUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Coord coord;
 	private Color color;
 
     @objid ("ca37a9e3-b4c7-4d33-9b0a-529b33df060e")
-    public BattleShipSquareGUI(Coord coord) {
+    public SquareGUI(Coord coord) {
     	super();
     	this.coord = coord;
 

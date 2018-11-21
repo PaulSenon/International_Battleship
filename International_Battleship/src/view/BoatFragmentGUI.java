@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import tools.Coord;
 import tools.Direction;
 
-public class BattleShipBoatFragmentGUI extends JLabel{
+public class BoatFragmentGUI extends JLabel{
 	private static final long serialVersionUID = 1L;
 
 	// the coordinate associated with this boatFragment
@@ -40,7 +40,7 @@ public class BattleShipBoatFragmentGUI extends JLabel{
 	 * __CONSTRUCTOR__
 	 * @param coord is the coord associated to this boatFragment
 	 */
-	public BattleShipBoatFragmentGUI(Coord coord) {
+	public BoatFragmentGUI(Coord coord) {
     	super();
 
     	// set attributes
@@ -56,7 +56,7 @@ public class BattleShipBoatFragmentGUI extends JLabel{
 			this.baseImage = ImageIO.read(new File("src/resources/Sans-titre-1_02.png"));
 
 			// copy the base image to allow post processing avoiding destroying source image 
-			this.image = BattleShipBoatFragmentGUI.deepCopy(this.baseImage);
+			this.image = BoatFragmentGUI.deepCopy(this.baseImage);
     	}
 		catch(IOException exc) {
 			System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");

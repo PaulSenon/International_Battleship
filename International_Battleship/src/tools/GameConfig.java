@@ -1,18 +1,18 @@
 package tools;
 
-public class BattleShipGameConfig {
+public class GameConfig {
 	private static int gameGridWidth;
 	private static int gameGridHeight;
 	
-	private static BattleShipGameConfig instance = null;
+	private static GameConfig instance = null;
 	
-	public static BattleShipGameConfig newInstance(int gameGridWidth, int gameGridHeight) {
+	public static GameConfig newInstance(int gameGridWidth, int gameGridHeight) {
 		if (instance == null)
-			instance = new BattleShipGameConfig(gameGridWidth, gameGridHeight);
+			instance = new GameConfig(gameGridWidth, gameGridHeight);
 		return instance;
 	}
 	
-	private BattleShipGameConfig(int gameGridWidth, int gameGridHeight) {
+	private GameConfig(int gameGridWidth, int gameGridHeight) {
 		this.gameGridWidth = gameGridWidth;
 		this.gameGridHeight = gameGridHeight;
 	}

@@ -1,26 +1,25 @@
 package model;
 
-import java.util.Observable;
-
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.ProcessedPosition;
-
 import tools.ResultShoot;
 
+import java.util.Observable;
+
 @objid ("8e40e397-dd7f-4d77-b403-4842a42c93f1")
-public class BattleshipModelObs extends Observable implements BattleshipGameModel {
+public class GameModelObs extends Observable implements GameModelInterface {
 
 
-    // TODO POURQUOI ON A UN REF à UN BattleshipGameModel ALORS QUE CETTE CLASSE ETEND BattleshipGameModel ?
+    // TODO POURQUOI ON A UN REF à UN GameModelInterface ALORS QUE CETTE CLASSE ETEND GameModelInterface ?
 
 
     @objid ("6ed5693f-ad1f-4ed4-bb92-f3b98a59fb76")
-    public BattleshipGameModel battleshipModel;
+    public GameModelInterface battleshipModel;
     
-    public BattleshipModelObs(BattleshipGameModel battleshipModel) {
+    public GameModelObs(GameModelInterface battleshipModel) {
 		super();
-		this.battleshipModel = new 	BattleshipModel();
+		this.battleshipModel = new GameModel();
 	}
 
 	@objid ("7e8e12ff-249d-4017-80c7-a48eedb75d23")

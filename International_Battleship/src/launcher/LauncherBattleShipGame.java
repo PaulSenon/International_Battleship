@@ -1,12 +1,12 @@
 package launcher;
 
-import controler.BattleShipControlerLocal;
-import controler.BattleshipGameControlerModelView;
-import model.BattleshipModel;
-import view.BattleshipGUI;
+import controler.ControllerLocal;
+import controler.ControllerModelViewInterface;
+import model.GameModel;
+import tools.GameConfig;
+import view.GameGUI;
 import multiplayer.Client;
 import multiplayer.Server;
-import tools.BattleShipGameConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,19 +23,19 @@ public class LauncherBattleShipGame {
 		t.start();
 
 		// setup game config :
-			BattleShipGameConfig.newInstance(
+			GameConfig.newInstance(
 					25, // gameGridWidth
 					25 // gameGridHeight
 			);
 
 		// setup Game
 		    // TODO VERIF QUE C'EST BIEN LES INTERFACES
-            BattleshipModel gameModel = new BattleshipModel();
-            BattleshipGameControlerModelView gameController = new BattleShipControlerLocal(gameModel);
+            GameModel gameModel = new GameModel();
+            ControllerModelViewInterface gameController = new ControllerLocal(gameModel);
 
 		// setup Frame
 			Dimension dim = new Dimension(850,570);
-			JFrame frame = new BattleshipGUI(gameController);
+			JFrame frame = new GameGUI(gameController);
 			frame.setTitle("International Battleship");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocation(400, 10);

@@ -5,10 +5,10 @@ import view.GameGUIInterface;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import view.BattleShipSquareGUI;
+import view.SquareGUI;
 
 @objid ("d20af2ff-acab-4682-873f-cb742c29d82c")
-public interface BattleshipGameControlerModelView extends BattleshipGameControlerModel {
+public interface ControllerModelViewInterface extends ControllerModelInterface {
 
     @objid ("54ce427a-8242-4cae-afb2-d0448d125757")
     void setGUI(GameGUIInterface gameGUI);
@@ -24,6 +24,6 @@ public interface BattleshipGameControlerModelView extends BattleshipGameControle
 
 	ActionType getCurrentAction();
 
-	void shoot(BattleShipSquareGUI squareSelected);
+	void shoot(SquareGUI squareSelected);
 
 }

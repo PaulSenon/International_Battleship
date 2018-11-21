@@ -8,12 +8,12 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.PersonnalException;
 
 @objid ("f238657d-bdf0-4378-bd4d-31cf69f544c3")
-public class Player implements PlayerGame {
+public class Player implements PlayerInterface {
 	//TODO : modifier cet attribut pour le faire varier en fonction du nombre de bateau.
 	int maxActionPoint = 20;
 
 	@objid ("3f33dd87-0c02-456e-9147-4d36c1941913")
-	private List<Boat> fleet;
+	private List<BoatInterface> fleet;
 
 	@objid ("88768db5-cf22-41e6-9f3f-6b54186cf01c")
 	private String PortName;
@@ -29,7 +29,7 @@ public class Player implements PlayerGame {
 	}
 
 	@objid ("5f3747e3-599d-4f3a-9a47-2d5e9c1e68e6")
-	public List<Boat> getFleet() {
+	public List<BoatInterface> getFleet() {
 		// Automatically generated method. Please delete this comment before entering specific code.
 		return this.fleet;
 	}
@@ -60,19 +60,19 @@ public class Player implements PlayerGame {
 
 	@objid ("f51afe71-7f94-42e7-a536-e386c3048b7c")
 	public Player() {
-		this.fleet = new LinkedList<Boat>();
+		this.fleet = new LinkedList<BoatInterface>();
 	}
 
 	@objid ("a5e853b4-d905-439e-9751-fa18148121b4")
 	@Override
-	public Boat getBoat() {
+	public BoatInterface getBoat() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@objid ("3a452fcc-08c9-4245-b719-bb8ee3854eba")
 	@Override
-	public void setBoat(Boat value) {
+	public void setBoat(BoatInterface value) {
 		// TODO Auto-generated method stub
 	}
 
@@ -152,7 +152,7 @@ public class Player implements PlayerGame {
 	public void calculationOfMaxActionPoint () {
 		this.maxActionPoint = 0;
 		if (fleet != null) {
-			for (Boat boat : fleet) {
+			for (BoatInterface boat : fleet) {
 				this.maxActionPoint += boat.getSize();
 			}
 		}

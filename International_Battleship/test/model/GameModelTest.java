@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import testTools.BaseTests;
 import testTools.Reflection;
-import tools.BattleShipGameConfig;
+import tools.GameConfig;
 import tools.Coord;
 import tools.Direction;
 
@@ -14,14 +14,14 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class BattleshipModelTest extends BaseTests {
-    private BattleshipGameModel gameModel;
+public class GameModelTest extends BaseTests {
+    private GameModelInterface gameModel;
     private BoatsImplementor boatsImplementor;
 
     @Before
     public void setUp() throws Exception {
         // create a game config for game board bounds test
-        BattleShipGameConfig.newInstance(
+        GameConfig.newInstance(
                 25, // gameGridWidth
                 25 // gameGridHeight
         );
@@ -33,13 +33,13 @@ public class BattleshipModelTest extends BaseTests {
 
         // add some test boats on the game board
         // TODO change values
-        List<Boat> boats = new ArrayList<>();
+        List<BoatInterface> boats = new ArrayList<>();
         boats.add(this.objGenerator.generateTestBoat(new Coord(10, 11), 5, Direction.EAST));
 
         Reflection.setFieldByReflection(this.boatsImplementor, "boats", boats);
 
         // create game model
-        this.gameModel = new BattleshipModel();
+        this.gameModel = new GameModel();
         Reflection.setFieldByReflection(this.gameModel, "battleshipImplementor", this.boatsImplementor);
 
         // add some mines on the game board
@@ -52,7 +52,7 @@ public class BattleshipModelTest extends BaseTests {
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(15, 15), 4, Direction.EAST);
             // add it to implementor
-            List<Boat> boats = (List<Boat>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
+            List<BoatInterface> boats = (List<BoatInterface>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
             boats.add(boat);
             Reflection.setFieldByReflection(this.gameModel, "selectedBoat", boat);
 
@@ -91,7 +91,7 @@ public class BattleshipModelTest extends BaseTests {
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 4, Direction.EAST);
             // add it to implementor
-            List<Boat> boats = (List<Boat>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
+            List<BoatInterface> boats = (List<BoatInterface>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
             boats.add(boat);
             Reflection.setFieldByReflection(this.gameModel, "selectedBoat", boat);
 
@@ -111,7 +111,7 @@ public class BattleshipModelTest extends BaseTests {
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 1), 4, Direction.EAST);
             // add it to implementor
-            List<Boat> boats = (List<Boat>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
+            List<BoatInterface> boats = (List<BoatInterface>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
             boats.add(boat);
             Reflection.setFieldByReflection(this.gameModel, "selectedBoat", boat);
 

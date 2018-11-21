@@ -1,7 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import tools.BattleshipBoatFactory;
+import tools.BoatFactory;
 import tools.Coord;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
-public class BoatsImplementor implements BattleshipGameImplementor {
+public class BoatsImplementor implements BoatsImplementorInterface {
 
     @objid ("6eaf860c-9a4a-4dab-888f-d3e4f31d9e77")
-    private List<Boat> boats;
+    private List<BoatInterface> boats;
 
 
     @objid ("5ec8880b-f75d-4bee-8ed0-ecea6a4d4930")
@@ -26,12 +26,12 @@ public class BoatsImplementor implements BattleshipGameImplementor {
         for (Player p : players) {
             int i=0;
             for (BoatName boatName  : fleetList) {
-                p.getFleet().add(BattleshipBoatFactory.newBoat(boatName,new Coord(0,i)));
+                p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(0,i)));
                 i++;
             }
             //test
             System.out.println("L'implementor a générer un bateau de type "+ p.getFleet());
-            for(Boat boat : p.getFleet()){
+            for(BoatInterface boat : p.getFleet()){
             	this.boats.add(boat);
             }
         }
@@ -63,7 +63,7 @@ public class BoatsImplementor implements BattleshipGameImplementor {
      * @return Coord is the coordinates of boat pivot after processing
      */
     @objid ("262ccb08-0aa5-49fd-9237-4805c3304fb9")
-    public Coord move(Boat selectedBoat, Coord destination) {
+    public Coord move(BoatInterface selectedBoat, Coord destination) {
         // TODO selectedBoat.isMoveOk(coord) ?
             // => le bateau va regarder si les coords sont bien devant lui
         // TODO faire le déplacement du bateau si possible, (et le plus loin possible)
@@ -84,7 +84,7 @@ public class BoatsImplementor implements BattleshipGameImplementor {
      * @param clockWise direction of rotation
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoat(Boat selectedBoat, boolean clockWise){
+    public ProcessedPosition rotateBoat(BoatInterface selectedBoat, boolean clockWise){
         // rotate the boat
         if(clockWise){
             selectedBoat.rotateClockWise();
@@ -113,7 +113,7 @@ public class BoatsImplementor implements BattleshipGameImplementor {
      * @param selectedBoat the boat to undo move
      * @return the new position data after undo (coords + direction)
      */
-    public ProcessedPosition undoLastBoatMove(Boat selectedBoat){
+    public ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat){
         selectedBoat.undoLastMove();
         return selectedBoat.getProcessedPosition();
     }
@@ -124,8 +124,8 @@ public class BoatsImplementor implements BattleshipGameImplementor {
      * @param selectedBoat the boat to check for
      * @return if this position is allowed (else, undo it)
      */
-    private boolean areCoordsAccessible(Boat selectedBoat) {
-        Boat foundBoat;
+    private boolean areCoordsAccessible(BoatInterface selectedBoat) {
+        BoatInterface foundBoat;
         for(Coord coord : selectedBoat.getCoords()){
             foundBoat = this.findBoatByCoord(coord);
             if(
@@ -185,12 +185,12 @@ public class BoatsImplementor implements BattleshipGameImplementor {
      * This just find if there is a boat at the desired coordinates.
      * It accept any coordinate. Not only the pivot point.
      * @param coord is where to search for a boat
-     * @return Boat | null
+     * @return BoatInterface | null
      */
     @objid ("4643b543-6571-4c67-bf46-c267384eea71")
-    public Boat findBoatByCoord(Coord coord) {
+    public BoatInterface findBoatByCoord(Coord coord) {
         // TODO gérer la notion de joueur
-    	for (Boat boat : this.boats) {
+    	for (BoatInterface boat : this.boats) {
     		if(boat.hasCoord(coord)){
                 return boat;
             }

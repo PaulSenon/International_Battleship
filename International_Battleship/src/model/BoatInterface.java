@@ -10,7 +10,7 @@ import java.util.List;
 import tools.ResultShoot;
 
 @objid ("c1e77788-c863-45cf-bace-9f86e3b2f0cc")
-public interface Boat {
+public interface BoatInterface {
     @objid ("83fb710c-9713-4424-ae50-2f2fa0c5e14b")
     ResultShoot shoot(Coord target);
 

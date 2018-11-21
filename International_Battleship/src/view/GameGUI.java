@@ -1,6 +1,6 @@
 package view;
 
-import controler.BattleshipGameControlerModelView;
+import controler.ControllerModelViewInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
 import tools.Coord;
@@ -14,30 +14,30 @@ import java.util.EventListener;
 import java.util.List;
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
-public class BattleshipGUI extends JFrame implements GameGUIInterface{
+public class GameGUI extends JFrame implements GameGUIInterface{
     private static final long serialVersionUID = 7636412061294453620L;
 
-    private BattleShipGridGUI gridGUI;
-    private BattleShipButtonGUI buttonGUITirer;
-    private BattleShipButtonGUI buttonGUIDéplacer;
-    private BattleShipButtonGUI buttonGUIActionSpéciale;
+    private GridGUI gridGUI;
+    private ButtonGUI buttonGUITirer;
+    private ButtonGUI buttonGUIDéplacer;
+    private ButtonGUI buttonGUIActionSpéciale;
 
     @objid ("dc33ec30-907d-43b8-8b28-bbc7f57950c3")
-    public BattleShipGridGUI battleShipGridGUI;
+    public GridGUI battleShipGridGUI;
 
     @objid ("a6ff4313-0cc1-4317-8f8f-cad40722f639")
-    public BattleShipButtonGUI battleShipButtonGUI;
+    public ButtonGUI battleShipButtonGUI;
 
-    public List<BattleShipButtonGUI> listOfButtons;
+    public List<ButtonGUI> listOfButtons;
 
     @objid ("81916075-5be2-4b77-b7e6-32f83af649a3")
-    public BattleshipGameControlerModelView controller;
+    public ControllerModelViewInterface controller;
 
     public ActionType actionType = null;
 
 
     // Constructor
-    public BattleshipGUI(BattleshipGameControlerModelView gameController) {
+    public GameGUI(ControllerModelViewInterface gameController) {
     	super();
 
     	Container contentPane = this.getContentPane();
@@ -46,7 +46,7 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
         this.controller = gameController;
 
     	// Create grid and add it to the left
-			this.gridGUI = new BattleShipGridGUI();
+			this.gridGUI = new GridGUI();
 			JPanel gridContainer = new JPanel(new BorderLayout());
 			gridContainer.setBackground(Color.BLACK);
 			gridContainer.add(this.gridGUI);
@@ -68,9 +68,9 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
 			actionPlaceholder.setBackground(Color.GRAY);
 
             // Create of Button in the "actions" panel
-            this.buttonGUITirer =  new BattleShipButtonGUI("Tirer");
-    		//this.buttonGUIDéplacer = new BattleShipButtonGUI("Déplacer");
-    		//this.buttonGUIActionSpéciale = new BattleShipButtonGUI("Action Spéciale");
+            this.buttonGUITirer =  new ButtonGUI("Tirer");
+    		//this.buttonGUIDéplacer = new ButtonGUI("Déplacer");
+    		//this.buttonGUIActionSpéciale = new ButtonGUI("Action Spéciale");
             actionPlaceholder.add(this.buttonGUITirer);
     		//actionPlaceholder.add(this.buttonGUIDéplacer);
     		//actionPlaceholder.add(this.buttonGUIActionSpéciale);
@@ -92,14 +92,14 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
 
 
 		// Create and attach event listener on grid GUI
-			EventListener mouseEventListener = new BattleShipGridGUIListener( this.gridGUI, gameController);
+			EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
 			this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 			this.pack();
 
         //Create and attach event listener on "actions" button
-        EventListener mouseEventListenerShoot = new BattleShipButtonGUIListener(this.buttonGUITirer, gameController);
-//		EventListener mouseEventListenerMove = new BattleShipButtonGUIListener(this.buttonGUIDéplacer/*,controller*/);
-//		EventListener mouseEventListenerSpecialAction = new BattleShipButtonGUIListener(this.buttonGUIActionSpéciale/*,controller*/);
+        EventListener mouseEventListenerShoot = new ButtonGUIListener(this.buttonGUITirer, gameController);
+//		EventListener mouseEventListenerMove = new ButtonGUIListener(this.buttonGUIDéplacer/*,controller*/);
+//		EventListener mouseEventListenerSpecialAction = new ButtonGUIListener(this.buttonGUIActionSpéciale/*,controller*/);
         this.buttonGUITirer.addMouseListener((MouseListener) mouseEventListenerShoot);
 //		this.buttonGUIDéplacer.addMouseListener((MouseListener) mouseEventListenerMove);
 //		this.buttonGUIActionSpéciale.addMouseListener((MouseListener) mouseEventListenerSpecialAction);
@@ -107,7 +107,7 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
     }
 
     public static void repaintAllButtons() {
-//		for (BattleShipButtonGUI button : listOfButtons) {
+//		for (ButtonGUI button : listOfButtons) {
 //			button.setText(button.getDefaultText());
 //		}
     }
