@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
 public class BattleshipGUI extends JFrame implements GameGUIInterface{
@@ -27,7 +28,7 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
     @objid ("a6ff4313-0cc1-4317-8f8f-cad40722f639")
     public BattleShipButtonGUI battleShipButtonGUI;
 
-    public ArrayList<BattleShipButtonGUI> listOfButtons;
+    public List<BattleShipButtonGUI> listOfButtons;
 
     @objid ("81916075-5be2-4b77-b7e6-32f83af649a3")
     public BattleshipGameControlerModelView controller;
@@ -75,7 +76,7 @@ public class BattleshipGUI extends JFrame implements GameGUIInterface{
     		//actionPlaceholder.add(this.buttonGUIActionSpéciale);
 
             //Store buttons in a list
-            this.listOfButtons = null;
+            this.listOfButtons = new ArrayList<>();
             listOfButtons.add(this.buttonGUITirer);
     		//listOfButtons.add(this.buttonGUIDéplacer);
     		//listOfButtons.add(this.buttonGUIActionSpéciale);
