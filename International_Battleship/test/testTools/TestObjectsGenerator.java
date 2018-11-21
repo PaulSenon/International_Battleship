@@ -1,7 +1,7 @@
 package testTools;
 
-import Model.AbstractBoat;
-import Model.BoatName;
+import model.AbstractBoat;
+import model.BoatName;
 import tools.Coord;
 import tools.Direction;
 

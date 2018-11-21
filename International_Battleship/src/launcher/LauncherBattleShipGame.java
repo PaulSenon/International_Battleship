@@ -1,9 +1,9 @@
 package launcher;
 
-import Controler.BattleShipControlerLocal;
-import Controler.BattleshipGameControlerModelView;
-import Model.BattleshipModel;
-import View.BattleshipGUI;
+import controler.BattleShipControlerLocal;
+import controler.BattleshipGameControlerModelView;
+import model.BattleshipModel;
+import view.BattleshipGUI;
 import multiplayer.Client;
 import multiplayer.Server;
 import tools.BattleShipGameConfig;
