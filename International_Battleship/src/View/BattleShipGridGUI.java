@@ -206,5 +206,4 @@ public class BattleShipGridGUI extends JLayeredPane {
 //    private void createBattleshipBoard() {
 //    }
 
-
 }

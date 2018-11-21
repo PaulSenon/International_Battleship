@@ -29,4 +29,5 @@ public interface Boat {
 
 	int getSize();
 
+	 public void setPivot(final Coord value);
 }

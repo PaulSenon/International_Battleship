@@ -39,10 +39,13 @@ public class BattleShipControlerLocal implements BattleshipGameControlerModelVie
         // TODO Auto-generated method stub
     }
 
-	public void selectBoat(int x, int y) {
+	public ActionType selectBoat(int x, int y) {
 		if(this.gameModel.selectBoat(x, y)){
-		    this.gameGUI.setCurrentAction(ActionType.MOVE);
+			System.out.println("YES boat has been selected");//pour debug mais je laisse tant que la vue n'est géré
+		    this.gameGUI.setCurrentAction(ActionType.MOVE);//on change la valeur du ActionType pour la return après
         }
+		return this.gameGUI.getCurrentAction();
+
 	}
 
     public void moveBoat(int xDest, int yDest){

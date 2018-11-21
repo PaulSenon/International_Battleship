@@ -9,7 +9,7 @@ public class AircraftCarrier extends AbstractBoat {
 
     @objid ("d7f1e9b2-c61d-4f7a-8a81-a52d2389f794")
     public AircraftCarrier(Coord coord) {
-    	super(BoatName.AIRCRAFTCARRIER, coord);
+    	super(BoatName.AircraftCarrier, coord);
     }
 
     @objid ("3222a6aa-93ed-428b-a289-90062504d72b")
