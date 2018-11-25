@@ -1,8 +1,8 @@
 package tools;
 
-import java.io.Serializable;
-
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
+import java.io.Serializable;
 
 @objid ("32513812-f778-410d-8f17-b0cd7e2f800d")
 public class Coord implements Serializable{
@@ -37,6 +37,15 @@ public class Coord implements Serializable{
 
 	public void setY(int y) {
     	this.y = y;
+	}
+
+	public void addStepDirection(Direction direction, int step){
+    	switch (direction){
+			case EAST: this.x += step; break;
+			case WEST: this.x -= step; break;
+			case SOUTH: this.y += step; break;
+			case NORTH: this.y -= step; break;
+		}
 	}
 
 	@Override
