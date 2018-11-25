@@ -1,7 +1,7 @@
 package view;
 
-import controler.ControllerModelViewInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import controler.ControllerModelViewInterface;
 import model.BoatInterface;
 import model.BoatName;
 import tools.ActionType;
@@ -33,21 +33,15 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
     public List<ButtonGUI> listOfButtons;
 
-    @objid ("81916075-5be2-4b77-b7e6-32f83af649a3")
-    public ControllerModelViewInterface controller;
-
     public ActionType actionType = null;
 
 
     // Constructor
-    public GameGUI(ControllerModelViewInterface gameController) {
+    public GameGUI() {
     	super();
 
-    	System.out.println("GameGUI\n");
     	Container contentPane = this.getContentPane();
         contentPane.setLayout(new GridBagLayout());
-    	
-        this.controller = gameController;
 
     	// Create grid and add it to the left
 			this.gridGUI = new GridGUI();
@@ -93,52 +87,38 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		        c.weighty = 1.0;
 			contentPane.add(actionPlaceholder, c);
 
+		this.pack();
+    }
 
-
+    public void initListeners(ControllerModelViewInterface gameController){
 		// Create and attach event listener on grid GUI
-			EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
-			this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
-			this.pack();
+		EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
+		this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 
-        //Create and attach event listener on "actions" button
-        EventListener mouseEventListenerShoot = new ButtonGUIListener(this.buttonGUITirer, gameController);
-//		EventListener mouseEventListenerMove = new ButtonGUIListener(this.buttonGUIDéplacer/*,controller*/);
-//		EventListener mouseEventListenerSpecialAction = new ButtonGUIListener(this.buttonGUIActionSpéciale/*,controller*/);
-        this.buttonGUITirer.addMouseListener((MouseListener) mouseEventListenerShoot);
-//		this.buttonGUIDéplacer.addMouseListener((MouseListener) mouseEventListenerMove);
-//		this.buttonGUIActionSpéciale.addMouseListener((MouseListener) mouseEventListenerSpecialAction);
-
-    }
-
-    public static void repaintAllButtons() {
-//		for (ButtonGUI button : listOfButtons) {
-//			button.setText(button.getDefaultText());
-//		}
-    }
+		//Create and attach event listener on "actions" button
+		EventListener mouseEventListenerShoot = new ButtonGUIListener(this.buttonGUITirer, gameController);
+		this.buttonGUITirer.addMouseListener((MouseListener) mouseEventListenerShoot);
+	}
 
 	@Override
 	public void setCurrentAction(ActionType actionType) {
 		this.actionType = actionType;
+		this.gridGUI.setCurrentAction(actionType);
 	}
-
-	@Override
-	public void setBoatPos(Coord coord) {
-		// TODO move the selectedBoat to wanted location
-		//this.gridGUI.getComponentAt(coord.getX(), coord.getY());
-		//a compléter
-	}
-
-	@Override
-	public void setBoatDirection(ProcessedPosition processedPosition) {
-    	// TODO add a boatGUI, add in this class a selectedBoat,
-		// TODO allow moving the boat by giving it a processedPosition
-		// this.selectedBoat.setPosition(processedPosition);
-	}
-
 
 	@Override
 	public ActionType getCurrentAction() {
 		return this.actionType;
+	}
+
+	@Override
+	public void setSelectedBoatByCoord(int x, int y) {
+		this.gridGUI.setSelectedBoat(new Coord(x, y));
+	}
+
+	@Override
+	public void setProcessedPotion(ProcessedPosition processedPosition) {
+		this.gridGUI.setProcessedPosition(processedPosition);
 	}
 
 
@@ -146,7 +126,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		return this.listOfBoat;
 	}
 
-
+    @Override
 	public void setListOfBoat(List<BoatInterface> listOfBoat) {
 		this.listOfBoat = listOfBoat;
 	}

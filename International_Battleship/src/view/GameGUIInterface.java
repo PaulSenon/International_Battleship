@@ -13,24 +13,15 @@ public interface GameGUIInterface {
 
     void setCurrentAction(ActionType move);
 
-    void setBoatPos(Coord coord);
-
-    void setBoatDirection(ProcessedPosition processedPosition);
-
 	ActionType getCurrentAction();
+
+    void setSelectedBoatByCoord(int x, int y);
+
+    void setProcessedPotion(ProcessedPosition processedPosition);
 
     List<BoatInterface> getListOfBoat();
 
     void setListOfBoat(List<BoatInterface> listOfBoat);
 
     void initGame(Map<BoatName,ProcessedPosition> initBoatPos);
-
-    // OLD
-//    void setBoatToMove();
-//
-//    void setVisibility();
-//
-//    void movePiece();
-//
-//    void undoMovePiece();
 }

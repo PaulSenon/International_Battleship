@@ -1,16 +1,13 @@
 package view;
 
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import controler.ControllerModelViewInterface;
 import tools.ActionType;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import javax.swing.JOptionPane;
-
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
-import controler.ControllerModelViewInterface;
 
 @objid ("d08db42b-d9c7-47cb-bb6c-514be0a9c2d4")
 public class ButtonGUIListener implements MouseListener, MouseMotionListener {

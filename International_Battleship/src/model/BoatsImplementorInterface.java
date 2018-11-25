@@ -1,9 +1,8 @@
 package model;
-import tools.ResultShoot;
-
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public interface BoatsImplementorInterface {
     BoatInterface findBoatByCoord(Coord coord);
 
     @objid ("37d29d69-fc60-40fa-81d7-2d4a1000d1e2")
-    Coord move(BoatInterface selectedBoat, Coord destination);
+    ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination);
 
     ProcessedPosition rotateBoat(BoatInterface selectedBoat, boolean clockWise);
 
