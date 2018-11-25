@@ -48,8 +48,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
 	}
 
     public void moveBoat(int xDest, int yDest){
-        Coord coord = this.gameModel.moveBoat(xDest, yDest);
-        this.gameGUI.setBoatPos(coord);
+        ProcessedPosition processedPosition = this.gameModel.moveBoat(xDest, yDest);
+        this.gameGUI.setBoatPos(processedPosition);
         this.gameGUI.setCurrentAction(ActionType.SELECT);
     }
 

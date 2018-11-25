@@ -10,7 +10,7 @@ import tools.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class BoatsImplementorTest extends BaseTests {
 
@@ -99,6 +99,300 @@ public class BoatsImplementorTest extends BaseTests {
             assertEquals(Direction.EAST, boat.getDirection());
             assertEquals(0, boat.getDirection().rotation);
         // --------------------------------
+    }
+
+    @Test
+    public void testMoveOdd(){
+        AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10,10), 5, Direction.EAST);
+
+        // create a boat on the map that block rotation
+        List<BoatInterface> boats = new ArrayList<>();
+        boats.add(boat);
+        boats.add(this.objGenerator.generateTestBoat(new Coord(100, 10), 5, Direction.EAST));
+        boats.add(this.objGenerator.generateTestBoat(new Coord(-100, 10), 5, Direction.WEST));
+        boats.add(this.objGenerator.generateTestBoat(new Coord(10, 100), 5, Direction.SOUTH));
+        boats.add(this.objGenerator.generateTestBoat(new Coord(10, -100), 5, Direction.NORTH));
+
+        Reflection.setFieldByReflection(this.boatsImplementor, "boats", boats);
+        // --------------------------------------------
+
+        Coord coord;
+
+
+        // EAST
+        boat.setFacingDirection(Direction.EAST);
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,11);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(50,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(1000,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(95, 10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(-50,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(-1000,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10, 10), boat.getCoord());
+
+        // WEST
+        boat.setFacingDirection(Direction.WEST);
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,11);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(-50,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(-1000,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(-95, 10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(50,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(1000,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10, 10), boat.getCoord());
+
+        // SOUTH
+        boat.setFacingDirection(Direction.SOUTH);
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(11,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,50);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,100);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10, 95), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,-50);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,-100);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10, 10), boat.getCoord());
+
+        // NORTH
+        boat.setFacingDirection(Direction.NORTH);
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(11,10);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,-50);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(coord, boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,-100);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10, -95), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,50);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10,10), boat.getCoord());
+
+            boat.moveHard(new Coord(10,10));
+            coord = new Coord(10,100);
+            this.boatsImplementor.moveBoat(boat, coord);
+            assertEquals(new Coord(10, 10), boat.getCoord());
+    }
+
+    @Test
+    public void testMoveEven(){
+        AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10,10), 4, Direction.EAST);
+
+        // create a boat on the map that block rotation
+        List<BoatInterface> boats = new ArrayList<>();
+        boats.add(boat);
+        boats.add(this.objGenerator.generateTestBoat(new Coord(100, 10), 5, Direction.EAST));
+        boats.add(this.objGenerator.generateTestBoat(new Coord(-100, 10), 5, Direction.WEST));
+        boats.add(this.objGenerator.generateTestBoat(new Coord(10, 100), 5, Direction.SOUTH));
+        boats.add(this.objGenerator.generateTestBoat(new Coord(10, -100), 5, Direction.NORTH));
+
+        Reflection.setFieldByReflection(this.boatsImplementor, "boats", boats);
+        // --------------------------------------------
+
+        Coord coord;
+
+
+        // EAST
+        boat.setFacingDirection(Direction.EAST);
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,11);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(50,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(1000,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(96, 10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(-50,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(-1000,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10, 10), boat.getCoord());
+
+        // WEST
+        boat.setFacingDirection(Direction.WEST);
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,11);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(-50,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(-1000,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(-96, 10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(50,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(1000,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10, 10), boat.getCoord());
+
+        // SOUTH
+        boat.setFacingDirection(Direction.SOUTH);
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(11,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,50);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,100);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10, 96), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,-50);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,-100);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10, 10), boat.getCoord());
+
+        // NORTH
+        boat.setFacingDirection(Direction.NORTH);
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(11,10);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,-50);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(coord, boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,-100);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10, -96), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,50);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10,10), boat.getCoord());
+
+        boat.moveHard(new Coord(10,10));
+        coord = new Coord(10,100);
+        this.boatsImplementor.moveBoat(boat, coord);
+        assertEquals(new Coord(10, 10), boat.getCoord());
     }
 
 }

@@ -1,6 +1,5 @@
 package view;
 
-import tools.Coord;
 import tools.ActionType;
 import tools.ProcessedPosition;
 
@@ -8,7 +7,7 @@ public interface GameGUIInterface {
 
     void setCurrentAction(ActionType move);
 
-    void setBoatPos(Coord coord);
+    void setBoatPos(ProcessedPosition processedPosition);
 
     void setBoatDirection(ProcessedPosition processedPosition);
 

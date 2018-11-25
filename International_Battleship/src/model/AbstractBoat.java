@@ -4,13 +4,12 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.Direction;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static tools.Direction.*;
-
-import tools.ResultShoot;
+import static tools.Direction.DEFAULT;
 
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements BoatInterface {
@@ -99,7 +98,21 @@ public abstract class AbstractBoat implements BoatInterface {
 
 	// TODO mind to refreshCoords
     @objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
-    public abstract void move();
+    public void move(Coord destCoord){
+        if(this.isMoveOk(destCoord)){
+            this.lastPosition = this.pivot;
+            this.setPivot(destCoord); // It does the refreshCoord()
+        }
+    }
+
+    /**
+     *  same as move() but without check
+     * @param destCoord is the coordinate where to move the boat
+     */
+    public void moveHard(Coord destCoord){
+        this.lastPosition = this.pivot;
+        this.setPivot(destCoord); // It does the refreshCoord()
+    }
 
     @objid ("901d66d1-b1e1-4f7b-8c07-246f568ba2db")
     public void rotateClockWise(){
@@ -119,6 +132,11 @@ public abstract class AbstractBoat implements BoatInterface {
         this.refreshCoords();
     }
 
+    /**
+     * TODO TEST
+     * @param coord is the coord you want to check for
+     * @return if the given coord belong to this boat
+     */
     public boolean hasCoord(Coord coord) {
         for (Coord coordTmp: this.getCoords()) {
             if(coordTmp.equals(coord)){
@@ -128,6 +146,11 @@ public abstract class AbstractBoat implements BoatInterface {
         return false;
     }
 
+    /**
+     * This method is used to say we changed something in the boat position
+     * it may be direction or coords update.
+     * MIND TO USE IT when changed something
+     */
     public void refreshCoords(){
         this.coordsNeedToBeProcessed = true;
     }
@@ -157,11 +180,42 @@ public abstract class AbstractBoat implements BoatInterface {
     /**
      * __TESTED__
      *
+     * This method return how many front part of a boat has (with pivot)
+     * for example :
+     *   - boat size of 5 will return 3
+     *   - boat size of 4 will return 2
+     * @return nb front parts of the boat
+     */
+    public int getNbFrontParts(){
+        if(this.getSize()%2 ==0){
+            return this.getSize()/2;
+        }else{
+            return (this.getSize()/2) + 1;
+        }
+    }
+
+    /**
+     * __TESTED__
+     *
+     * This method return how many back part of a boat has (without pivot)
+     * for example :
+     *   - boat size of 5 will return 2
+     *   - boat size of 4 will return 2
+     * @return nb back parts of the boat
+     */
+    public int getNbBackParts(){
+        return this.getSize()/2;
+    }
+
+    /**
+     * __TESTED__
+     *
      * @param direction the direction to process coords for
      * @return a list of coords
      */
     public List<Coord> getCoordsForDirection(Direction direction){
         List<Coord> coords = new ArrayList<>();
+        // TODO @Paul use getNbParts
         int frontParts = this.getSize()/2 - (this.getSize()%2==0 ? 1 : 0);
         int backParts = this.getSize()/2;
         int start, stop;
@@ -196,6 +250,40 @@ public abstract class AbstractBoat implements BoatInterface {
                 break;
         }
         return coords;
+    }
+
+    /**
+     * __TESTED__
+     *
+     * Just supposed to check if destination coordinates are in straight line toward facing direction.
+     * @param coord is the destination coordinate
+     * @return if move is allowed or not
+     */
+    public boolean isMoveOk(Coord coord){
+        switch (this.getDirection()){
+            case EAST:
+                return (
+                    coord.getY() == this.pivot.getY() // freeze Y
+                    && coord.getX() >= this.pivot.getX() // go forward on X
+                );
+            case WEST:
+                return (
+                    coord.getY() == this.pivot.getY() // freeze Y
+                    && coord.getX() <= this.pivot.getX() // go backward on X
+                );
+            case SOUTH:
+                return (
+                    coord.getX() == this.pivot.getX() // freeze X
+                    && coord.getY() >= this.pivot.getY() // go downward on Y
+                );
+            case NORTH:
+                return (
+                    coord.getX() == this.pivot.getX() // freeze X
+                    && coord.getY() <= this.pivot.getY() // go upward on Y
+                );
+            default:
+                return false;
+        }
     }
 
 
@@ -271,7 +359,7 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     @objid ("21694e9f-8e7d-41a8-b512-40f58f0c6c9a")
-    public void setPivot(final Coord value) {
+    private void setPivot(final Coord value) {
         this.pivot = value;
         this.refreshCoords();
     }
@@ -311,6 +399,10 @@ public abstract class AbstractBoat implements BoatInterface {
         this.lastDirection = this.facingDirection;
         this.facingDirection = direction;
         this.refreshCoords();
+    }
+
+    public void setLastPosition(Coord pivot){
+        this.lastPosition = pivot;
     }
 
     @Override

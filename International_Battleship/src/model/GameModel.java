@@ -49,20 +49,25 @@ public class GameModel implements GameModelInterface {
      * @return Coord is the pivot coordinate where the boat is after processing (may no change)
      */
     @objid ("fa9a7c83-14a9-4a47-8786-28afdc857cac")
-    public Coord moveBoat(int xDest, int yDest) {
+    public ProcessedPosition moveBoat(int xDest, int yDest) {
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
             return null;
         }
-        
 
         // processing :
         Coord destCoord = new Coord(xDest, yDest);
-        // TODO tests si cout déplacement ok
-        // TODO tests si trajectoire ok (pas de mine...)
-        return this.battleshipImplementor.move(this.selectedBoat, destCoord);
+        ProcessedPosition processedPosition = this.battleshipImplementor.moveBoat(this.selectedBoat, destCoord);
+
+        // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
+        if(this.isNewPosOk(processedPosition.coords)){
+            return processedPosition;
+        }else{
+            processedPosition = this.battleshipImplementor.undoLastBoatMove(this.selectedBoat);
+            return processedPosition;
+        }
     }
 
     /**
@@ -109,7 +114,7 @@ public class GameModel implements GameModelInterface {
         // processing : boat rotation
         ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.selectedBoat, clockWise);
 
-        // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines
+        // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
             return processedPosition;
         }else{

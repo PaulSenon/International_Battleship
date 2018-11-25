@@ -52,7 +52,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
     }
 
     /**
-     * // TODO Tests
+     * __TESTED__
      * TO BE CALLED FROM MODEL
      *
      * Move move a boat to the wanted destination if possible
@@ -60,18 +60,52 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      *
      * @param selectedBoat is the boat to move
      * @param destination is the desired destination for the boat
-     * @return Coord is the coordinates of boat pivot after processing
+     * @return ProcessedPositions (coords + direction)
      */
     @objid ("262ccb08-0aa5-49fd-9237-4805c3304fb9")
-    public Coord move(BoatInterface selectedBoat, Coord destination) {
-        // TODO selectedBoat.isMoveOk(coord) ?
-            // => le bateau va regarder si les coords sont bien devant lui
-        // TODO faire le déplacement du bateau si possible, (et le plus loin possible)
-        // => retourne les nouvelles coordonnées du pivot du bateau
-    	if(destination.getX()>0 && destination.getY()>0){
-    		selectedBoat.setPivot(destination);
-    	}
-        return destination;//TODO
+    public ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination) {
+        if(selectedBoat.isMoveOk(destination)){
+            return this.moveBoatStepByStep(selectedBoat, destination);
+        }
+
+        return selectedBoat.getProcessedPosition();
+    }
+
+    /**
+     * __TESTED__
+     * called by moveBoat()
+     * @param boat is the boat to move
+     * @param destination is the desired destination for the boat
+     * @return ProcessedPositions (coords + direction)
+     */
+    private ProcessedPosition moveBoatStepByStep(BoatInterface boat, Coord destination){
+        // TODO sauvegarder valeur pivot bateau
+        // TODO déplacer le bateau de 1 pas dans sa direction, et tant que ça marche, on continu jusqu'à destination
+        // TODO appeler this.areCoordsAccessible(boat) à chaque fois. Si ça fail on stop
+        // TODO set boat.lastPosition à la valeur sauvegardée (== on supprime l'historique de déplacement du step by step)
+
+        // TODO => DONE
+        Coord coord = new Coord(boat.getPivot().getX(), boat.getPivot().getY());
+        Coord savedPivot = new Coord(boat.getPivot().getX(), boat.getPivot().getY());
+
+        while(!coord.equals(destination)) {
+            coord.addStepDirection(boat.getDirection(), 1);
+            boat.move(coord);
+            if (!this.areCoordsAccessible(boat)) {
+                // move boat next to the ship without overlapping
+                // TODO if you want to add an offset for the ship do not touch each other, it's here
+                coord.addStepDirection(boat.getDirection(), -1);
+                boat.moveHard(coord);
+
+                // cancel historic of our multiple calls to move()
+                boat.setLastPosition(savedPivot);
+
+                return boat.getProcessedPosition();
+            }
+        }
+
+        boat.setLastPosition(savedPivot);
+        return boat.getProcessedPosition();
     }
 
     /**
@@ -125,15 +159,17 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @return if this position is allowed (else, undo it)
      */
     private boolean areCoordsAccessible(BoatInterface selectedBoat) {
-        BoatInterface foundBoat;
+        List<BoatInterface> boatsFound;
         for(Coord coord : selectedBoat.getCoords()){
-            foundBoat = this.findBoatByCoord(coord);
-            if(
-                foundBoat != null               // if we found something here
-                && foundBoat != selectedBoat    // and it's not the boat we are moving
-            ){
-                // coord not accessible (there is collision)
-                return false;
+            boatsFound = this.findBoatsByCoord(coord);
+            for(BoatInterface boatFound : boatsFound){
+                if(
+                    boatFound != null               // if we found something here
+                    && boatFound != selectedBoat    // and it's not the boat we are moving
+                ){
+                    // coord not accessible (there is collision)
+                    return false;
+                }
             }
         }
         return true;
@@ -196,6 +232,17 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             }
         }
         return null;
+    }
+
+    private List<BoatInterface> findBoatsByCoord(Coord coord) {
+        // TODO gérer la notion de joueur
+        List<BoatInterface> boatFound = new ArrayList<>();
+        for (BoatInterface boat : this.boats) {
+            if(boat.hasCoord(coord)){
+                boatFound.add(boat);
+            }
+        }
+        return boatFound;
     }
 
 }

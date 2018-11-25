@@ -1,9 +1,8 @@
 package view;
 
-import controler.ControllerModelViewInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import controler.ControllerModelViewInterface;
 import tools.ActionType;
-import tools.Coord;
 import tools.ProcessedPosition;
 
 import javax.swing.*;
@@ -118,7 +117,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	}
 
 	@Override
-	public void setBoatPos(Coord coord) {
+	public void setBoatPos(ProcessedPosition processedPosition) {
 		// TODO move the selectedBoat to wanted location
 		//this.gridGUI.getComponentAt(coord.getX(), coord.getY());
 		//a compléter
