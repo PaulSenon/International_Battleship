@@ -12,24 +12,6 @@ public class Cruiser extends AbstractBoat {
     	super(BoatName.Cruiser, coord);
     }
 
-    @objid ("4873fad4-fba9-407a-8784-4384d06ec67e")
-    @Override
-    public void move() {
-        // TODO Auto-generated method stub
-    }
-
-    @objid ("df462c13-7058-490a-8e61-5eef54851c5c")
-    @Override
-    public void hourlyRotation() {
-        // TODO Auto-generated method stub
-    }
-
-    @objid ("cc5603b7-ddd9-4d16-802b-d8e00a5ead3d")
-    @Override
-    public void antiHourlyRotation() {
-        // TODO Auto-generated method stub
-    }
-
     public int getSize( ) {
     	return this.size;
     }

@@ -148,4 +148,43 @@ public class GameModelTest extends BaseTests {
         // TODO
     }
 
+    @Test
+    public void testMoveBoatBlockedByAnotherShip(){
+        // setup
+            // create the boat
+            AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(25, 11), 5, Direction.WEST);
+            // add it to implementor
+            List<BoatInterface> boats = (List<BoatInterface>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
+            boats.add(boat);
+            Reflection.setFieldByReflection(this.gameModel, "selectedBoat", boat);
+
+        this.gameModel.moveBoat(20, 11);
+        assertEquals(new Coord(20, 11),boat.getPivot());
+        this.gameModel.moveBoat(5, 11);
+        assertEquals(new Coord(15, 11),boat.getPivot());
+    }
+
+    @Test
+    @Ignore
+    public void testMoveBoatOutOfGameBoard(){
+        // setup
+        // create the boat
+        AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 5, Direction.EAST);
+        // add it to implementor
+        List<BoatInterface> boats = (List<BoatInterface>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
+        boats.add(boat);
+        Reflection.setFieldByReflection(this.gameModel, "selectedBoat", boat);
+
+        this.gameModel.moveBoat(15, 10);
+        assertEquals(new Coord(15, 10),boat.getPivot());
+        this.gameModel.moveBoat(25, 10);
+        assertEquals(new Coord(15, 10),boat.getPivot());
+    }
+
+    @Test
+    @Ignore
+    public void testMoveBoatOnMine(){
+        // TODO !!
+    }
+
 }

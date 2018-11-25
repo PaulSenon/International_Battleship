@@ -1,21 +1,18 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import model.BoatName;
+import tools.Coord;
+import tools.Direction;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.JLabel;
-
-import model.BoatName;
-import tools.Coord;
-import tools.Direction;
 
 public class BoatFragmentGUI extends JLabel{
 	private static final long serialVersionUID = 1L;
@@ -201,5 +198,8 @@ public class BoatFragmentGUI extends JLabel{
     public Coord getCoord() {
     	return this.coord;
     }
-	
+	public void setCoord(Coord coord){
+		this.coord = coord;
+	}
+
 }

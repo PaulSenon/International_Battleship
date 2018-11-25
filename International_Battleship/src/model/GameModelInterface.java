@@ -14,7 +14,7 @@ public interface GameModelInterface {
     void getColorCurrentPlayer();
 
     @objid ("b23fa4cb-4a24-4e7f-a704-671894685a3e")
-    Coord moveBoat(int xDest, int yDest);
+    ProcessedPosition moveBoat(int xDest, int yDest);
 
     ProcessedPosition rotateBoatClockWise();
 

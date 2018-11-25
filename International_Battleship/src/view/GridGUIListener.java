@@ -1,11 +1,12 @@
 package view;
 
+import controler.ControllerModelViewInterface;
+import tools.ActionType;
+import tools.Coord;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.EventListener;
-
-import tools.ActionType;
-import controler.ControllerModelViewInterface;
 
 public class GridGUIListener implements EventListener, MouseListener {
 
@@ -20,16 +21,29 @@ public class GridGUIListener implements EventListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	    // TODO URGENT
-		gridGUI.selectSquare(e.getX(), e.getY());
-		ActionType actionType = this.controller.getCurrentAction();
+		Coord coordSquare = gridGUI.selectSquare(e.getX(), e.getY());
+		ActionType actionType = this.gridGUI.getCurrentAction();
 		System.out.println("GRID LISTENER ACTION TYPE " + actionType);
-		SquareGUI squareSelected = gridGUI.selectSquare(e.getX(), e.getY());
-		if(actionType.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {
-			//Shoot on the target.
-			this.controller.shoot(squareSelected);
-		}else if(actionType.equals(ActionType.MOVE)){
-			controller.moveBoat(squareSelected.getX()+2, squareSelected.getY()+2); //les coords de destination sont en durs pour le moment
+
+		switch (actionType){
+			case SELECT:
+				this.controller.selectBoat(coordSquare.getX(), coordSquare.getY());
+				break;
+			case MOVE:
+				this.controller.moveBoat(coordSquare.getX(), coordSquare.getY());
+				break;
+			case SHOOT:
+				this.controller.shoot(coordSquare.getX(), coordSquare.getY());
+				break;
+			case SPECIAL:
+//				this.controller.specialAction(coordSquare);
+				break;
 		}
+//		if(actionType.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {
+//			//Shoot on the target.
+//		}else if(actionType.equals(ActionType.MOVE)){
+//			controller.moveBoat(squareSelected.getX()+2, squareSelected.getY()+2); //les coords de destination sont en durs pour le moment
+//		}
 	}
 
 	@Override

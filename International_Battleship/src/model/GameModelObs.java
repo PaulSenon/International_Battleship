@@ -29,7 +29,7 @@ public class GameModelObs extends Observable implements GameModelInterface {
     }
 
     @Override
-    public Coord moveBoat(int xDest, int yDest) {
+    public ProcessedPosition moveBoat(int xDest, int yDest) {
         return null;
     }
 
