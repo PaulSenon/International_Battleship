@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
+import model.BoatName;
 import tools.Coord;
 import tools.Direction;
 
@@ -40,33 +41,98 @@ public class BoatFragmentGUI extends JLabel{
 	 * __CONSTRUCTOR__
 	 * @param coord is the coord associated to this boatFragment
 	 */
-	public BoatFragmentGUI(Coord coord) {
-    	super();
+	public BoatFragmentGUI(Coord coord, BoatName name, int imageIndex) throws IOException {
+			super();
 
-    	// set attributes
-    	this.coord = coord;
-    	this.color = Color.BLACK;
-    	this.direction = Direction.DEFAULT();
+			// set attributes
+			this.coord = coord;
+			this.color = Color.BLACK;
+			this.direction = Direction.DEFAULT();
 
+			/*
+			try {
+				// TODO REFACTORING OPTIMIZATION MEMORY USE (will divide by almost 2 boat fragment image mem consumption):
+				// TODO 	=> instantiate the base image in an "ImageManager" or something common.
+				// load the image from file
+				this.baseImage = ImageIO.read(new File("resources/Sans-titre-1_02.png"));
 
-    	try {
-    		// TODO REFACTORING OPTIMIZATION MEMORY USE (will divide by almost 2 boat fragment image mem consumption):
-			// TODO 	=> instantiate the base image in an "ImageManager" or something common.
-			// load the image from file
-			this.baseImage = ImageIO.read(new File("src/resources/Sans-titre-1_02.png"));
+				// copy the base image to allow post processing avoiding destroying source image
+				this.image = BoatFragmentGUI.deepCopy(this.baseImage);
+			}
+			catch(IOException exc) {
+				System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+			}
 
-			// copy the base image to allow post processing avoiding destroying source image 
-			this.image = BoatFragmentGUI.deepCopy(this.baseImage);
-    	}
-		catch(IOException exc) {
-			System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+			// TODO : it's just placeholder yet
+			this.setBackground(Color.RED);
+			*/
+
+			switch (name) {
+				case AircraftCarrier:
+					try {
+						if(imageIndex==0)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\0.png"));
+						if(imageIndex==1)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\1.png"));
+						if(imageIndex==2)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\2.png"));
+						if(imageIndex==3)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\3.png"));
+						if(imageIndex==4)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\4.png"));
+					}catch(IOException exc){
+						System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					}
+					break;
+				case Cruiser:
+					try {
+						if(imageIndex==0)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\0.png"));
+						if(imageIndex==1)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\1.png"));
+						if(imageIndex==2)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\2.png"));
+						if(imageIndex==3)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\3.png"));
+					}catch(IOException exc){
+						System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					}
+					break;
+				case Submarin:
+					try {
+						if(imageIndex==0)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Submarin\\0.png"));
+						if(imageIndex==1)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Submarin\\1.png"));
+						if(imageIndex==2)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Submarin\\2.png"));
+					}catch(IOException exc){
+						System.out.println("Submarin[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					}
+					break;
+				case TorpedoBoat:
+					try {
+						if(imageIndex==0)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Torpedo\\0.png"));
+						if(imageIndex==1)
+							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Torpedo\\1.png"));
+					}catch(IOException exc){
+						System.out.println("Torpedo[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					}
+					break;
+				case Sentinel:
+					try {
+						this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Sentinel\\0.png"));
+					}catch(IOException exc){
+						System.out.println("Sentinel [BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					}
+					break;
+				default:
+					break;
+			}
 		}
 
-    	// TODO : it's just placeholder yet
-		this.setBackground(Color.RED);
-    	
-    }
-    
+
     // TODO move into some images Tools class
     /**
      * Just copy a image to another, not just the reference

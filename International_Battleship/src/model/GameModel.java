@@ -6,10 +6,7 @@ import tools.Coord;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @objid ("2d5b787d-2269-4d70-9e4e-dd727dfa9336")
 public class GameModel implements GameModelInterface {
@@ -187,5 +184,9 @@ public class GameModel implements GameModelInterface {
 		return ResultShoot.MISSED;
 //		return (battleshipImplementor.shoot(target));
 	}
+
+    public Map<BoatName, ProcessedPosition> getListOfBoat(){
+        return this.battleshipImplementor.getBoats();
+    }
 
 }

@@ -40,4 +40,6 @@ public interface BoatInterface {
 
     void rotateClockWise();
     void rotateCounterClockWise();
+
+    BoatName getName();
 }

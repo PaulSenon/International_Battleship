@@ -8,8 +8,11 @@ import view.GameGUIInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
 
+import java.util.LinkedList;
+
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
 public class ControllerClient implements ControllerModelViewInterface {
+
     @objid ("4209c7bb-9f52-40e1-b7aa-fe5edb441cdd")
     public ControllerClient() {
     }
@@ -71,6 +74,11 @@ public class ControllerClient implements ControllerModelViewInterface {
 
 	@Override
 	public void shoot(SquareGUI squareSelected) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void initGame() {
 		// TODO Auto-generated method stub
 	}
 

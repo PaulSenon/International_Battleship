@@ -15,13 +15,13 @@ public class LauncherBattleShipGame {
 
 	public static void main(String[] args) {
 		// TODO nothing definitive, just some debug config
-
+/*
 		//Test de la connexion du server en localhost avant le lancement du jeu
 		Server server = new Server();
 		server.open();
 		Thread t = new Thread(new Client("127.0.0.1",8080));
 		t.start();
-
+*/
 		// setup game config :
 			GameConfig.newInstance(
 					25, // gameGridWidth
@@ -35,7 +35,7 @@ public class LauncherBattleShipGame {
 
 		// setup Frame
 			Dimension dim = new Dimension(850,570);
-			JFrame frame = new GameGUI(gameController);
+			JFrame frame = (JFrame) ((ControllerLocal) gameController).getGameGUI();//new GameGUI(gameController);
 			frame.setTitle("International Battleship");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocation(400, 10);

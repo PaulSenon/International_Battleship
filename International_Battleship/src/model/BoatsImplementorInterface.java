@@ -5,6 +5,8 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
 import tools.ProcessedPosition;
 
+import java.util.Map;
+
 @objid ("75a7604f-f615-4013-af67-b5d5bd901738")
 public interface BoatsImplementorInterface {
     @objid ("292fef80-59e0-4f72-99c4-35036676c47b")
@@ -19,4 +21,6 @@ public interface BoatsImplementorInterface {
     ProcessedPosition rotateBoat(BoatInterface selectedBoat, boolean clockWise);
 
     ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat);
+
+    Map<BoatName, ProcessedPosition> getBoats();
 }
