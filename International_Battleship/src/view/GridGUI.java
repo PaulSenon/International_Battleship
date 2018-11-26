@@ -197,26 +197,20 @@ public class GridGUI extends JLayeredPane {
     }
 
 	public void initGrid(Map<BoatName, ProcessedPosition> initBoatPos) {
-		List<JLabel> boatFragments = new ArrayList<>();
 		this.listOfBoat = new ArrayList<>();
 		int i;
 		for (BoatName name: initBoatPos.keySet()) {
-			i=0;
-			for (Coord coord: initBoatPos.get(name).coords) {
-                JLabel boatFragment = createBoatFragments(coord,name,i);
+            List<JLabel> boatFragments = new ArrayList<>();
+            i = 0;
+            for (Coord coord : initBoatPos.get(name).coords) {
+                JLabel boatFragment = createBoatFragments(coord, name, i);
                 boatFragments.add(boatFragment);
-                System.out.println("Fragment de "+name+" généré au coord : "+coord);
+                System.out.println("Fragment de " + name + " généré au coord : " + coord);
                 this.squares.get(coord).add(boatFragment);
-                /*this.squares.get(coord).invalidate();
-                this.squares.get(coord).validate();
-                this.squares.get(coord).repaint();*/
                 i++;
-			}
-			this.listOfBoat.add(new BoatGUI(name,boatFragments,initBoatPos.get(name).direction));
-		}
-		this.invalidate();
-		this.validate();
-		this.repaint();
+            }
+            this.listOfBoat.add(new BoatGUI(name, boatFragments, initBoatPos.get(name).direction));
+        }
 	}
 
 //	@objid ("36830e37-3f6b-4a49-9771-eecf425dec5c")
