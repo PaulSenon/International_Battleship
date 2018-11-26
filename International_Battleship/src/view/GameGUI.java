@@ -2,6 +2,8 @@ package view;
 
 import controler.ControllerModelViewInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import model.BoatInterface;
+import model.BoatName;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
@@ -12,11 +14,12 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
+import java.util.Map;
 
 @objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
 public class GameGUI extends JFrame implements GameGUIInterface{
     private static final long serialVersionUID = 7636412061294453620L;
-
+	private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
     private ButtonGUI buttonGUITirer;
     private ButtonGUI buttonGUIDéplacer;
@@ -40,6 +43,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     public GameGUI(ControllerModelViewInterface gameController) {
     	super();
 
+    	System.out.println("GameGUI\n");
     	Container contentPane = this.getContentPane();
         contentPane.setLayout(new GridBagLayout());
     	
@@ -135,5 +139,20 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	@Override
 	public ActionType getCurrentAction() {
 		return this.actionType;
+	}
+
+
+	public List<BoatInterface> getListOfBoat() {
+		return this.listOfBoat;
+	}
+
+
+	public void setListOfBoat(List<BoatInterface> listOfBoat) {
+		this.listOfBoat = listOfBoat;
+	}
+
+
+	public void initGame(Map<BoatName,ProcessedPosition> initBoatPos){
+		this.gridGUI.initGrid(initBoatPos);
 	}
 }

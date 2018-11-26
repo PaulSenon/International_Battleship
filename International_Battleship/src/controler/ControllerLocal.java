@@ -1,6 +1,7 @@
 package controler;
 
 import model.BoatInterface;
+import model.BoatName;
 import model.GameModelInterface;
 import view.SquareGUI;
 import view.GameGUI;
@@ -9,6 +10,8 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+
+import java.util.Map;
 
 @objid ("876e9f9a-d77c-4a9d-809e-0854b8d95d55")
 public class ControllerLocal implements ControllerModelViewInterface {
@@ -19,12 +22,15 @@ public class ControllerLocal implements ControllerModelViewInterface {
 
     @objid ("be0371df-d97b-409c-a49c-c194011d27a8")
     public ControllerLocal(GameModelInterface gameModel) {
+        System.out.println("Controller\n");
         this.gameModel = gameModel;
         this.gameGUI = new GameGUI(this); // set latter
 //		Uncomment the next line for normal use
 //    	setCurrentAction(ActionType.SELECT);
 //		This line is for test :
         setCurrentAction(ActionType.MOVE);
+        System.out.println("init\n");
+        initGame();
     }
 
     @objid ("c21b247b-b822-4b13-9953-43f65175301b")
@@ -100,4 +106,19 @@ public class ControllerLocal implements ControllerModelViewInterface {
 //		GameGUI.repaintAllButtons();
 	}
 
+    public void initGame() {
+        // TODO Auto-generated method stub
+        System.out.println("test print list of boat");
+        System.out.println(this.gameModel.getListOfBoat());
+        Map<BoatName,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
+        this.gameGUI.initGame(initBoatPos);
+    }
+
+    /**
+     * FOR DEBUG
+     * @return GameGUIInterface
+     */
+    public GameGUIInterface getGameGUI() {
+        return gameGUI;
+    }
 }
