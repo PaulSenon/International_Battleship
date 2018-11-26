@@ -103,6 +103,10 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
     }
 
+    /**
+     * This method enbale to init the Listener in launcher
+     * @param gameController
+     */
     public void initListeners(ControllerModelViewInterface gameController){
 		// Create and attach event listener on grid GUI
 		EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
@@ -160,6 +164,10 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.repaint();
 	}
 
+    /**
+     * This method propagate the info to the Grid that a boat is selected
+     * @param processedPosition the processed pos containing all infos about the boat
+     */
 	@Override
 	public void setSelectedBoat(ProcessedPosition processedPosition) {
 		this.gridGUI.setSelectedBoat(processedPosition);
