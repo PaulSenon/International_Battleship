@@ -130,6 +130,7 @@ public class BoatFragmentGUI extends JLabel{
 				default:
 					break;
 			}
+        this.rotate(direction);
 		}
 
 
