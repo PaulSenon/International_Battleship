@@ -200,8 +200,15 @@ public class BoatFragmentGUI extends JLabel{
     public Coord getCoord() {
     	return this.coord;
     }
+
 	public void setCoord(Coord coord){
 		this.coord = coord;
 	}
+
+    @Override
+    public String toString(){
+        String s = "X : " + this.getCoord().getX() + " Y : "+ this.getCoord().getY();
+        return s;
+    }
 
 }

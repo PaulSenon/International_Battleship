@@ -254,6 +254,11 @@ public class GridGUI extends JLayeredPane {
     	}*/
     }
 
+    /**
+     * This method allow to move a fragment on the grid
+     * @param fragmentGUI the fragment
+     * @param dest (coord) coord who fragment must be move
+     */
 	public void moveFragment(BoatFragmentGUI fragmentGUI, Coord dest){
     	// move in HashMap
     	this.boatFragments.remove(fragmentGUI.getCoord());
