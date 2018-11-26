@@ -7,7 +7,9 @@ import tools.ProcessedPosition;
 import tools.ResultShoot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
 public class BoatsImplementor implements BoatsImplementorInterface {
@@ -26,11 +28,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         for (Player p : players) {
             int i=0;
             for (BoatName boatName  : fleetList) {
-                p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(0,i)));
+                p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(10,i)));
                 i++;
             }
             //test
-            System.out.println("L'implementor a générer un bateau de type "+ p.getFleet());
+            System.out.println("L'implementor a générer la flotte suivante : "+ p.getFleet());
             for(BoatInterface boat : p.getFleet()){
             	this.boats.add(boat);
             }
@@ -196,6 +198,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             }
         }
         return null;
+    }
+
+    public Map<BoatName, ProcessedPosition> getBoats() {
+        Map<BoatName,ProcessedPosition> boatInitPos = new HashMap<>();
+        for (BoatInterface boat: this.boats) {
+            boatInitPos.put(boat.getName(),boat.getProcessedPosition());
+        }
+        return boatInitPos;
     }
 
 }
