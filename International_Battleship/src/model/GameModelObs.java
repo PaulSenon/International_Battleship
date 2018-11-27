@@ -5,7 +5,6 @@ import tools.Coord;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Observable;
 
@@ -53,8 +52,9 @@ public class GameModelObs extends Observable implements GameModelInterface {
     }
 
     @Override
-    public boolean selectBoat(int x, int y) {
-        return false;
+    public ProcessedPosition selectBoat(int x, int y) {
+        // TODO dégueulasse
+        return new ProcessedPosition(null, null, null);
     }
 
     @Override

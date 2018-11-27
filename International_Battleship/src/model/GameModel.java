@@ -157,7 +157,7 @@ public class GameModel implements GameModelInterface {
      * @param y is the y coordinate on the game board
      * @return boolean (to tell if it's doing well or not)
      */
-    public boolean selectBoat(int x, int y){
+    public ProcessedPosition selectBoat(int x, int y){
         // transform into coord to use through model
         Coord coord = new Coord(x, y);
 
@@ -165,7 +165,12 @@ public class GameModel implements GameModelInterface {
         this.selectedBoat = this.battleshipImplementor.findBoatByCoord(coord);
 
         // tell if it doing great or not
-        return this.selectedBoat != null;
+        // TODO it might by undefined, do tests
+        try {
+            return this.selectedBoat.getProcessedPosition();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @objid ("0afc1bfb-1667-4d42-92d9-745fb5663841")

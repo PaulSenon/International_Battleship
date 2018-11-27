@@ -2,7 +2,6 @@ package view;
 
 import model.BoatInterface;
 import model.BoatName;
-import tools.Coord;
 import tools.ActionType;
 import tools.ProcessedPosition;
 
@@ -15,8 +14,6 @@ public interface GameGUIInterface {
 
 	ActionType getCurrentAction();
 
-    void setSelectedBoatByCoord(int x, int y);
-
     void setProcessedPotion(ProcessedPosition processedPosition);
 
     List<BoatInterface> getListOfBoat();
@@ -24,4 +21,6 @@ public interface GameGUIInterface {
     void setListOfBoat(List<BoatInterface> listOfBoat);
 
     void initGame(Map<BoatName,ProcessedPosition> initBoatPos);
+
+    void setSelectedBoat(ProcessedPosition processedPosition);
 }

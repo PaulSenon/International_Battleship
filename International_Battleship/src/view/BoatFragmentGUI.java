@@ -38,7 +38,7 @@ public class BoatFragmentGUI extends JLabel{
 	 * __CONSTRUCTOR__
 	 * @param coord is the coord associated to this boatFragment
 	 */
-	public BoatFragmentGUI(Coord coord, BoatName name, int imageIndex) throws IOException {
+	public BoatFragmentGUI(Coord coord, BoatName name, int imageIndex) {
 			super();
 
 			// set attributes
@@ -68,15 +68,15 @@ public class BoatFragmentGUI extends JLabel{
 				case AircraftCarrier:
 					try {
 						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\0.png"));
+							this.baseImage = ImageIO.read(new File("resources/Aircraft/0.png"));
 						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\1.png"));
+							this.baseImage = ImageIO.read(new File("resources/Aircraft/1.png"));
 						if(imageIndex==2)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\2.png"));
+							this.baseImage = ImageIO.read(new File("resources/Aircraft/2.png"));
 						if(imageIndex==3)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\3.png"));
+							this.baseImage = ImageIO.read(new File("resources/Aircraft/3.png"));
 						if(imageIndex==4)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Aircraft\\4.png"));
+							this.baseImage = ImageIO.read(new File("resources/Aircraft/4.png"));
 					}catch(IOException exc){
 						System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
 					}
@@ -84,13 +84,13 @@ public class BoatFragmentGUI extends JLabel{
 				case Cruiser:
 					try {
 						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\0.png"));
+							this.baseImage = ImageIO.read(new File("resources/Cruiser/0.png"));
 						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\1.png"));
+							this.baseImage = ImageIO.read(new File("resources/Cruiser/1.png"));
 						if(imageIndex==2)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\2.png"));
+							this.baseImage = ImageIO.read(new File("resources/Cruiser/2.png"));
 						if(imageIndex==3)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Cruiser\\3.png"));
+							this.baseImage = ImageIO.read(new File("resources/Cruiser/3.png"));
 					}catch(IOException exc){
 						System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
 					}
@@ -98,11 +98,11 @@ public class BoatFragmentGUI extends JLabel{
 				case Submarin:
 					try {
 						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Submarin\\0.png"));
+							this.baseImage = ImageIO.read(new File("resources/Submarin/0.png"));
 						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Submarin\\1.png"));
+							this.baseImage = ImageIO.read(new File("resources/Submarin/1.png"));
 						if(imageIndex==2)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Submarin\\2.png"));
+							this.baseImage = ImageIO.read(new File("resources/Submarin/2.png"));
 					}catch(IOException exc){
 						System.out.println("Submarin[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
 					}
@@ -110,24 +110,26 @@ public class BoatFragmentGUI extends JLabel{
 				case TorpedoBoat:
 					try {
 						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Torpedo\\0.png"));
+							this.baseImage = ImageIO.read(new File("resources/Torpedo/0.png"));
 						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Torpedo\\1.png"));
+							this.baseImage = ImageIO.read(new File("resources/Torpedo/1.png"));
 					}catch(IOException exc){
 						System.out.println("Torpedo[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
 					}
 					break;
 				case Sentinel:
 					try {
-						this.baseImage = ImageIO.read(new File("International_Battleship\\resources\\Sentinel\\0.png"));
+						this.baseImage = ImageIO.read(new File("resources/Sentinel/0.png"));
 					}catch(IOException exc){
 						System.out.println("Sentinel [BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
 					}
 					break;
 				default:
+					System.out.println("Wrong boat name");
 					break;
 			}
-        this.rotate(direction);
+			this.image = BoatFragmentGUI.deepCopy(this.baseImage);
+			this.repaint();
 		}
 
 
@@ -182,7 +184,7 @@ public class BoatFragmentGUI extends JLabel{
 
         // draw its sprite image on the whole plane
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
-
+//
 //        //_OLD_ placeholder to activate for debug purpose if you do not have images
 //        g.setColor(this.color);
 //

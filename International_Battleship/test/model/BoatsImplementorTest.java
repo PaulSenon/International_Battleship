@@ -57,29 +57,44 @@ public class BoatsImplementorTest extends BaseTests {
         this.boatsImplementor.rotateBoat(boat, true);
         assertEquals(Direction.SOUTH, boat.getDirection());
         assertEquals(90, boat.getDirection().rotation);
+        assertEquals(Direction.EAST, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
+
         this.boatsImplementor.rotateBoat(boat, true);
         assertEquals(Direction.WEST, boat.getDirection());
         assertEquals(180, boat.getDirection().rotation);
+        assertEquals(Direction.SOUTH, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
+
         this.boatsImplementor.rotateBoat(boat, true);
         assertEquals(Direction.NORTH, boat.getDirection());
         assertEquals(-90, boat.getDirection().rotation);
+        assertEquals(Direction.WEST, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
+
         this.boatsImplementor.rotateBoat(boat, true);
         assertEquals(Direction.EAST, boat.getDirection());
         assertEquals(0, boat.getDirection().rotation);
+        assertEquals(Direction.NORTH, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
+
 
         // rotate counter clock wise
         this.boatsImplementor.rotateBoat(boat, false);
         assertEquals(Direction.NORTH, boat.getDirection());
         assertEquals(-90, boat.getDirection().rotation);
+        assertEquals(Direction.EAST, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
+
         this.boatsImplementor.rotateBoat(boat, false);
         assertEquals(Direction.WEST, boat.getDirection());
         assertEquals(180, boat.getDirection().rotation);
+        assertEquals(Direction.NORTH, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
+
         this.boatsImplementor.rotateBoat(boat, false);
         assertEquals(Direction.SOUTH, boat.getDirection());
         assertEquals(90, boat.getDirection().rotation);
+        assertEquals(Direction.WEST, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
+
         this.boatsImplementor.rotateBoat(boat, false);
         assertEquals(Direction.EAST, boat.getDirection());
         assertEquals(0, boat.getDirection().rotation);
+        assertEquals(Direction.SOUTH, Reflection.getFieldByReflection2(AbstractBoat.class, boat, "lastDirection"));
 
 
         // create a boat on the map that block rotation
