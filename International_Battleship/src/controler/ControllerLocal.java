@@ -18,9 +18,9 @@ public class ControllerLocal implements ControllerModelViewInterface {
     private ActionType actionType;
 
     @objid ("be0371df-d97b-409c-a49c-c194011d27a8")
-    public ControllerLocal(GameModelInterface gameModel) {
+    public ControllerLocal(GameModelInterface gameModel, GameGUI gameGUI) {
         this.gameModel = gameModel;
-        this.gameGUI = new GameGUI(this); // set latter
+        this.gameGUI =gameGUI; // set latter
 //		Uncomment the next line for normal use
 //    	setCurrentAction(ActionType.SELECT);
 //		This line is for test :

@@ -37,74 +37,70 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 
     // Constructor
-    public GameGUI(ControllerModelViewInterface gameController) {
+    public GameGUI() {
     	super();
 
-    	Container contentPane = this.getContentPane();
-        contentPane.setLayout(new GridBagLayout());
-    	
-        this.controller = gameController;
 
-    	// Create grid and add it to the left
-			this.gridGUI = new GridGUI();
-			JPanel gridContainer = new JPanel(new BorderLayout());
-			gridContainer.setBackground(Color.BLACK);
-			gridContainer.add(this.gridGUI);
 
-			// tweak GridBagConstraints for GridGUI
-		        GridBagConstraints c = new GridBagConstraints();
-		        c.anchor = GridBagConstraints.FIRST_LINE_START;
-		        c.fill = GridBagConstraints.BOTH;
-		        c.gridx = 0;
-		        c.gridy = 0;
-		        c.weightx = 2.0;
-		        c.weighty = 2.0;
-			contentPane.add(gridContainer, c);
+    }
+
+	public void initListeners(ControllerModelViewInterface gameController) {
+
+
+		Container contentPane = this.getContentPane();
+		contentPane.setLayout(new GridBagLayout());
+
+		this.controller = gameController;
+
+		// Create grid and add it to the left
+		this.gridGUI = new GridGUI();
+		JPanel gridContainer = new JPanel(new BorderLayout());
+		gridContainer.setBackground(Color.BLACK);
+		gridContainer.add(this.gridGUI);
+
+		// tweak GridBagConstraints for GridGUI
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 2.0;
+		c.weighty = 2.0;
+		contentPane.add(gridContainer, c);
 
 
 		// TODO currently, just a placeholder
 		// Create "actions" panel and add it to the right
-			JPanel actionPlaceholder = new JPanel();
-			actionPlaceholder.setBackground(Color.GRAY);
+		JPanel actionPlaceholder = new JPanel();
+		actionPlaceholder.setBackground(Color.GRAY);
 
-            // Create of Button in the "actions" panel
-            this.buttonGUITirer =  new ButtonGUI("Tirer");
-    		//this.buttonGUIDéplacer = new ButtonGUI("Déplacer");
-    		//this.buttonGUIActionSpéciale = new ButtonGUI("Action Spéciale");
-            actionPlaceholder.add(this.buttonGUITirer);
-    		//actionPlaceholder.add(this.buttonGUIDéplacer);
-    		//actionPlaceholder.add(this.buttonGUIActionSpéciale);
+		// Create of Button in the "actions" panel
+		this.buttonGUITirer =  new ButtonGUI("Tirer");
+		actionPlaceholder.add(this.buttonGUITirer);
 
-            //Store buttons in a list
-            this.listOfButtons = new ArrayList<>();
-            listOfButtons.add(this.buttonGUITirer);
-    		//listOfButtons.add(this.buttonGUIDéplacer);
-    		//listOfButtons.add(this.buttonGUIActionSpéciale);
+		//Store buttons in a list
+		this.listOfButtons = new ArrayList<>();
+		listOfButtons.add(this.buttonGUITirer);
 
-        // tweak GridBagConstraints for "action" panel
-				c.fill = GridBagConstraints.BOTH;
-		        c.gridx = 1;
-		        c.gridy = 0;
-		        c.weightx = 1.0;
-		        c.weighty = 1.0;
-			contentPane.add(actionPlaceholder, c);
+		// tweak GridBagConstraints for "action" panel
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		contentPane.add(actionPlaceholder, c);
 
 
 
 		// Create and attach event listener on grid GUI
-			EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
-			this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
-			this.pack();
+		EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
+		this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
+		this.pack();
 
-        //Create and attach event listener on "actions" button
-        EventListener mouseEventListenerShoot = new ButtonGUIListener(this.buttonGUITirer, gameController);
-//		EventListener mouseEventListenerMove = new ButtonGUIListener(this.buttonGUIDéplacer/*,controller*/);
-//		EventListener mouseEventListenerSpecialAction = new ButtonGUIListener(this.buttonGUIActionSpéciale/*,controller*/);
-        this.buttonGUITirer.addMouseListener((MouseListener) mouseEventListenerShoot);
-//		this.buttonGUIDéplacer.addMouseListener((MouseListener) mouseEventListenerMove);
-//		this.buttonGUIActionSpéciale.addMouseListener((MouseListener) mouseEventListenerSpecialAction);
-
-    }
+		//Create and attach event listener on "actions" button
+		EventListener mouseEventListenerShoot = new ButtonGUIListener(this.buttonGUITirer, gameController);
+		this.buttonGUITirer.addMouseListener((MouseListener) mouseEventListenerShoot);
+	}
 
     public static void repaintAllButtons() {
 //		for (ButtonGUI button : listOfButtons) {
