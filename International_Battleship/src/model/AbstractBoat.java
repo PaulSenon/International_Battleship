@@ -100,7 +100,6 @@ public abstract class AbstractBoat implements BoatInterface {
     @objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
     public void move(Coord destCoord){
         if(this.isMoveOk(destCoord)){
-            this.lastPosition = this.pivot;
             this.setPivot(destCoord); // It does the refreshCoord()
         }
     }
@@ -110,7 +109,6 @@ public abstract class AbstractBoat implements BoatInterface {
      * @param destCoord is the coordinate where to move the boat
      */
     public void moveHard(Coord destCoord){
-        this.lastPosition = this.pivot;
         this.setPivot(destCoord); // It does the refreshCoord()
     }
 
@@ -175,36 +173,6 @@ public abstract class AbstractBoat implements BoatInterface {
             this.coordsNeedToBeProcessed = false;
         }
         return this.coords;
-    }
-
-    /**
-     * __TESTED__
-     *
-     * This method return how many front part of a boat has (with pivot)
-     * for example :
-     *   - boat size of 5 will return 3
-     *   - boat size of 4 will return 2
-     * @return nb front parts of the boat
-     */
-    public int getNbFrontParts(){
-        if(this.getSize()%2 ==0){
-            return this.getSize()/2;
-        }else{
-            return (this.getSize()/2) + 1;
-        }
-    }
-
-    /**
-     * __TESTED__
-     *
-     * This method return how many back part of a boat has (without pivot)
-     * for example :
-     *   - boat size of 5 will return 2
-     *   - boat size of 4 will return 2
-     * @return nb back parts of the boat
-     */
-    public int getNbBackParts(){
-        return this.getSize()/2;
     }
 
     /**
@@ -333,7 +301,6 @@ public abstract class AbstractBoat implements BoatInterface {
 		this.Color = value;
 	}
 
-
     /**
      * __PARTIALLY_TESTED__
      *
@@ -347,12 +314,10 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     /**
-     * __PARTIALLY_TESTED__
-     *
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
-        return new ProcessedPosition(this.facingDirection, this.getCoords());
+        return new ProcessedPosition(this.name, this.facingDirection, this.getCoords());
     }
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")
@@ -390,6 +355,7 @@ public abstract class AbstractBoat implements BoatInterface {
 
     @objid ("21694e9f-8e7d-41a8-b512-40f58f0c6c9a")
     private void setPivot(final Coord value) {
+        this.lastPosition = this.pivot;
         this.pivot = value;
         this.refreshCoords();
     }

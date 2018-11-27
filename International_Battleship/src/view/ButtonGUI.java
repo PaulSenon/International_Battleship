@@ -9,30 +9,54 @@ public class ButtonGUI extends JButton{
 
 	private static final long serialVersionUID = -8274321262994721188L;
 	private String defaultText;
+	private ButtonType type;
+	private ButtonType state;
 	
-	/**
-	 * This method creates a JButton with a message inside
-	 * @param buttonMessage
-	 */
-	public ButtonGUI(String buttonMessage) {
-		setDefaultText(buttonMessage);
-		this.setText(buttonMessage);
-	}
-	
-	/**
-	 * This methods initializes the defaulText value of the Button by the String given for the construction of the Button.
-	 * @param buttonMessage
-	 */
-	private void setDefaultText(String buttonMessage) {
-		this.defaultText = buttonMessage;
+
+	public ButtonGUI(ButtonType type, String defaultText) {
+		super(defaultText);
+
+		this.defaultText = defaultText;
+		this.state = ButtonType.DEFAULT_STATE;
+		this.type = type;
 	}
 
-	/**
-	 * This method returns the defaultText value of the Button.
-	 * @return
-	 */
-	public String getDefaultText() {
-		return this.defaultText;
+	public void resetDefaultText(){
+		this.setText(this.defaultText);
 	}
+
+	public ButtonType getType() {
+		return type;
+	}
+
+	public ButtonType getState() {
+		return state;
+	}
+
+	public void switchState(){
+		if(this.state == ButtonType.DEFAULT_STATE){
+			this.state = ButtonType.CANCEL_STATE;
+		}else if (this.state == ButtonType.CANCEL_STATE){
+			this.state = ButtonType.DEFAULT_STATE;
+		}
+	}
+
+
+
+	//	/**
+//	 * This methods initializes the defaulText value of the Button by the String given for the construction of the Button.
+//	 * @param buttonMessage
+//	 */
+//	private void setDefaultText(String buttonMessage) {
+//		this.defaultText = buttonMessage;
+//	}
+//
+//	/**
+//	 * This method returns the defaultText value of the Button.
+//	 * @return
+//	 */
+//	public String getDefaultText() {
+//		return this.defaultText;
+//	}
 	
 }

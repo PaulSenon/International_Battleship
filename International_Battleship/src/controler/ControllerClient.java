@@ -1,14 +1,7 @@
 package controler;
 
-import model.BoatInterface;
-import tools.Coord;
-import view.GridGUI;
-import view.SquareGUI;
-import view.GameGUIInterface;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import tools.ActionType;
-
-import java.util.LinkedList;
+import view.GridGUI;
 
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
 public class ControllerClient implements ControllerModelViewInterface {
@@ -23,63 +16,33 @@ public class ControllerClient implements ControllerModelViewInterface {
 
 	}
 
-    @Override
-    public void setGUI(GameGUIInterface gameGUI) {
-
-    }
-
     @objid ("532b238e-1f09-4ffa-9f1f-d21388e8d3f8")
     public void isPlayerOk() {
     }
 
     @Override
-    public ActionType selectBoat(int x, int y) {
-    	return null;
-    }
+    public void selectBoat(int x, int y) {
+		// TODO Auto-generated method stub
+
+	}
 
     @Override
     public void moveBoat(int xDest, int yDest) {
 
     }
 
+	@Override
+	public void shoot(int x, int y) {
+
+	}
+
     @Override
-	public void ActionWhenBoatIsSelectedOnGUI() {
-		// TODO Auto-generated method stub
-		
-	}
+    public void rotateBoatClockWise() {
 
-	@Override
-	public void ActionWhenBoatIsMovedOnGUI() {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	public void ActionWhenAction(BoatInterface boat, Coord target) {
-		// TODO Auto-generated method stub
+    @Override
+    public void rotateBoatCounterClockWise() {
 
-	}
-
-	@Override
-	public void setCurrentAction(ActionType action) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ActionType getCurrentAction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void shoot(SquareGUI squareSelected) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void initGame() {
-		// TODO Auto-generated method stub
-	}
-
+    }
 }

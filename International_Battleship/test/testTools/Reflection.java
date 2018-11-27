@@ -63,5 +63,17 @@ public class Reflection {
         return null;
     }
 
+    public static Object getFieldByReflection2(Class<?> _class, Object object, String fieldName){
+        try {
+            Field field;
+            field = _class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(object);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        return null;
+    }
+
     // TODO accessMethodByReflection
 }

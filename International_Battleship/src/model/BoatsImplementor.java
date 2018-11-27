@@ -26,9 +26,9 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
     private void generateBoatsFromFactory(List<Player> players, List<BoatName> fleetList){
         for (Player p : players) {
-            int i=0;
+            int i=5;
             for (BoatName boatName  : fleetList) {
-                p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(10,i)));
+                p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(5,i)));
                 i++;
             }
             //test
@@ -100,13 +100,13 @@ public class BoatsImplementor implements BoatsImplementorInterface {
                 boat.moveHard(coord);
 
                 // cancel historic of our multiple calls to move()
-                boat.setLastPosition(savedPivot);
+//                boat.setLastPosition(coord);
 
                 return boat.getProcessedPosition();
             }
         }
 
-        boat.setLastPosition(savedPivot);
+//        boat.setLastPosition(destination);
         return boat.getProcessedPosition();
     }
 

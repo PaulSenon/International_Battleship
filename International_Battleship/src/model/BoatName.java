@@ -8,6 +8,6 @@ public enum BoatName {
     Sentinel(1);
 
     private final int size;
-    private BoatName(int size) { this.size = size; }
+    BoatName(int size) { this.size = size; }
     public int getValue() { return size; }
 }
