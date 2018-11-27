@@ -28,8 +28,12 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         for (Player p : players) {
             int i=5;
             for (BoatName boatName  : fleetList) {
-                p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(5,i)));
-                i++;
+                try {
+                    p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(5,i)));
+                    i++;
+                }catch (IllegalArgumentException e){
+                    e.getMessage();
+                }
             }
             //test
             System.out.println("L'implementor a générer la flotte suivante : "+ p.getFleet());
