@@ -1,6 +1,7 @@
 package controler;
 
 import tools.ActionType;
+import view.ButtonGUI;
 import view.GameGUIInterface;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
@@ -26,4 +27,5 @@ public interface ControllerModelViewInterface extends ControllerModelInterface {
 
 	void shoot(SquareGUI squareSelected);
 
+    void changeButtonText(ButtonGUI button, String text);
 }

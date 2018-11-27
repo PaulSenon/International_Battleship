@@ -2,6 +2,8 @@ package controler;
 
 import model.BoatInterface;
 import model.GameModelInterface;
+import tools.ResultShoot;
+import view.ButtonGUI;
 import view.SquareGUI;
 import view.GameGUI;
 import view.GameGUIInterface;
@@ -9,6 +11,8 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+
+import java.util.List;
 
 @objid ("876e9f9a-d77c-4a9d-809e-0854b8d95d55")
 public class ControllerLocal implements ControllerModelViewInterface {
@@ -18,9 +22,9 @@ public class ControllerLocal implements ControllerModelViewInterface {
     private ActionType actionType;
 
     @objid ("be0371df-d97b-409c-a49c-c194011d27a8")
-    public ControllerLocal(GameModelInterface gameModel) {
+    public ControllerLocal(GameModelInterface gameModel, GameGUIInterface gameGUI) {
         this.gameModel = gameModel;
-        this.gameGUI = new GameGUI(this); // set latter
+        this.gameGUI = gameGUI;
 //		Uncomment the next line for normal use
 //    	setCurrentAction(ActionType.SELECT);
 //		This line is for test :
@@ -83,21 +87,26 @@ public class ControllerLocal implements ControllerModelViewInterface {
 
     @Override
 	public void setCurrentAction(ActionType action) {
-		this.actionType = action;
+        this.gameGUI.setCurrentAction(action);
 	}
 
 	public ActionType getCurrentAction() {
-		return this.actionType;
+		return this.gameGUI.getCurrentAction();
 	}
 
 	@Override
 	public void shoot(SquareGUI squareSelected) {
 		Coord target = squareSelected.getCoord();
+        ResultShoot result = this.gameModel.shoot(target);
+        this.gameGUI.messageToUser(result);
+        //Repaint all buttons with their default text
+        this.gameGUI.repaintAllButtons();
+        setCurrentAction(ActionType.MOVE);
+    }
 
-            // TODO FIX#46 : CHANGE THIS CO COMMUNICATE WITH GLOBALE GUI INSTEAD OF GRIDGUI
-            //this.gameGUI.messageToUser(this.battleShipGame.shoot(target));
-
-//		GameGUI.repaintAllButtons();
-	}
+    @Override
+    public void changeButtonText(ButtonGUI button, String text) {
+        this.gameGUI.changeButtonText(button, text);
+    }
 
 }

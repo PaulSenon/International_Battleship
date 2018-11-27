@@ -12,9 +12,9 @@ import java.util.List;
 public class ProcessedPosition {
     public Direction direction;
     // TODO we do not transfer Coord from model to view. So do we need to change this here ?
-    public List<Coord> coords;
+    public List<CoordInfos> coords;
 
-    public ProcessedPosition(Direction direction, List<Coord> coord){
+    public ProcessedPosition(Direction direction, List<CoordInfos> coord){
         this.direction = direction;
         this.coords = coord;
     }

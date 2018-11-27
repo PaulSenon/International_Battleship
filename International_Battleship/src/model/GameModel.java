@@ -1,10 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import tools.GameConfig;
-import tools.Coord;
-import tools.ProcessedPosition;
-import tools.ResultShoot;
+import tools.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,10 +122,10 @@ public class GameModel implements GameModelInterface {
      * @param coords list of coords to check
      * @return is coords are accessible
      */
-    private boolean isNewPosOk(List<Coord> coords){
+    private boolean isNewPosOk(List<CoordInfos> coords){
         // TODO, just a placeholder yet
         // TODO     => handle mine collision
-        for(Coord coord : coords){
+        for(CoordInfos coord : coords){
             if( // check out of bounds
                     coord.getX()< 0
                     || coord.getY() < 0
@@ -184,8 +181,7 @@ public class GameModel implements GameModelInterface {
 
 	@Override
 	public ResultShoot shoot(Coord target) {
-		return ResultShoot.MISSED;
-//		return (battleshipImplementor.shoot(target));
+		return (battleshipImplementor.shoot(target));
 	}
 
 }

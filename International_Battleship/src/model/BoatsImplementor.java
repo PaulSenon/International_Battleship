@@ -3,6 +3,7 @@ package model;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.BoatFactory;
 import tools.Coord;
+import tools.CoordInfos;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
@@ -32,23 +33,24 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             //test
             System.out.println("L'implementor a générer un bateau de type "+ p.getFleet());
             for(BoatInterface boat : p.getFleet()){
-            	this.boats.add(boat);
+                this.boats.add(boat);
             }
         }
 
     }
 
     /**
-     * // TODO Tests
-     *
-     * Shoot from a boat to somewhere
-     * @param boatCoord to select the boat to shoot with
-     * @param target to select the destination coordinates
-     * @return hit
+     * This is the model in the model which shoot at a target
+     * @param target
+     * @return the result of the shoot
      */
-	@objid ("f561c936-de20-43ae-a170-a9290c7f975c")
-    public boolean shoot(Coord boatCoord, Coord target) {
-        return false;
+    @Override
+    public ResultShoot shoot(Coord target){
+        BoatInterface boat = findBoatByCoord(target);
+        if (boat != null){
+            return(boat.shoot(target));
+        }
+        return ResultShoot.MISSED;
     }
 
     /**
@@ -65,12 +67,12 @@ public class BoatsImplementor implements BoatsImplementorInterface {
     @objid ("262ccb08-0aa5-49fd-9237-4805c3304fb9")
     public Coord move(BoatInterface selectedBoat, Coord destination) {
         // TODO selectedBoat.isMoveOk(coord) ?
-            // => le bateau va regarder si les coords sont bien devant lui
+        // => le bateau va regarder si les coords sont bien devant lui
         // TODO faire le déplacement du bateau si possible, (et le plus loin possible)
         // => retourne les nouvelles coordonnées du pivot du bateau
-    	if(destination.getX()>0 && destination.getY()>0){
-    		selectedBoat.setPivot(destination);
-    	}
+        if(destination.getX()>0 && destination.getY()>0){
+            selectedBoat.setPivot(destination);
+        }
         return destination;//TODO
     }
 
@@ -129,8 +131,8 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         for(Coord coord : selectedBoat.getCoords()){
             foundBoat = this.findBoatByCoord(coord);
             if(
-                foundBoat != null               // if we found something here
-                && foundBoat != selectedBoat    // and it's not the boat we are moving
+                    foundBoat != null               // if we found something here
+                            && foundBoat != selectedBoat    // and it's not the boat we are moving
             ){
                 // coord not accessible (there is collision)
                 return false;
@@ -173,12 +175,6 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return new Coord(newX, newY);
     }
 
-    @Override
-    public ResultShoot shoot(Coord target) {
-        return ResultShoot.MISSED;
-//        return boat.shoot(target);
-    }
-
     /**
      * __PARTIALLY_TESTED__
      *
@@ -190,8 +186,8 @@ public class BoatsImplementor implements BoatsImplementorInterface {
     @objid ("4643b543-6571-4c67-bf46-c267384eea71")
     public BoatInterface findBoatByCoord(Coord coord) {
         // TODO gérer la notion de joueur
-    	for (BoatInterface boat : this.boats) {
-    		if(boat.hasCoord(coord)){
+        for (BoatInterface boat : this.boats) {
+            if(boat.hasCoord(coord)){
                 return boat;
             }
         }

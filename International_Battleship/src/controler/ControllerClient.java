@@ -2,6 +2,7 @@ package controler;
 
 import model.BoatInterface;
 import tools.Coord;
+import view.ButtonGUI;
 import view.GridGUI;
 import view.SquareGUI;
 import view.GameGUIInterface;
@@ -72,6 +73,10 @@ public class ControllerClient implements ControllerModelViewInterface {
 	@Override
 	public void shoot(SquareGUI squareSelected) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void changeButtonText(ButtonGUI button, String text) {
 	}
 
 }

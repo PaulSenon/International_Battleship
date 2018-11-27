@@ -5,6 +5,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,20 +31,15 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
     public List<ButtonGUI> listOfButtons;
 
-    @objid ("81916075-5be2-4b77-b7e6-32f83af649a3")
-    public ControllerModelViewInterface controller;
-
     public ActionType actionType = null;
 
 
     // Constructor
-    public GameGUI(ControllerModelViewInterface gameController) {
+    public GameGUI() {
     	super();
 
     	Container contentPane = this.getContentPane();
         contentPane.setLayout(new GridBagLayout());
-    	
-        this.controller = gameController;
 
     	// Create grid and add it to the left
 			this.gridGUI = new GridGUI();
@@ -88,31 +84,31 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		        c.weightx = 1.0;
 		        c.weighty = 1.0;
 			contentPane.add(actionPlaceholder, c);
+        this.pack();
+    }
 
-
-
-		// Create and attach event listener on grid GUI
-			EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
-			this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
-			this.pack();
+    public void initListeners(ControllerModelViewInterface gameController){
+        // Create and attach event listener on grid GUI
+        EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
+        this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 
         //Create and attach event listener on "actions" button
         EventListener mouseEventListenerShoot = new ButtonGUIListener(this.buttonGUITirer, gameController);
-//		EventListener mouseEventListenerMove = new ButtonGUIListener(this.buttonGUIDéplacer/*,controller*/);
-//		EventListener mouseEventListenerSpecialAction = new ButtonGUIListener(this.buttonGUIActionSpéciale/*,controller*/);
         this.buttonGUITirer.addMouseListener((MouseListener) mouseEventListenerShoot);
-//		this.buttonGUIDéplacer.addMouseListener((MouseListener) mouseEventListenerMove);
-//		this.buttonGUIActionSpéciale.addMouseListener((MouseListener) mouseEventListenerSpecialAction);
-
     }
 
-    public static void repaintAllButtons() {
-//		for (ButtonGUI button : listOfButtons) {
-//			button.setText(button.getDefaultText());
-//		}
+    public void repaintAllButtons() {
+		for(ButtonGUI button : this.listOfButtons){
+		    button.setText(button.getDefaultText());
+        }
     }
 
-	@Override
+    @Override
+    public void changeButtonText(ButtonGUI button, String text) {
+        button.setText(text);
+    }
+
+    @Override
 	public void setCurrentAction(ActionType actionType) {
 		this.actionType = actionType;
 	}
@@ -136,4 +132,17 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	public ActionType getCurrentAction() {
 		return this.actionType;
 	}
+
+    /**
+     * Pop up for the user with the result of the shoot
+     * @param shoot
+     */
+	public void messageToUser(ResultShoot shoot) {
+		String resultOfShoot = shoot.toString();
+		JOptionPane.showMessageDialog(null, resultOfShoot, null , JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public List<ButtonGUI> getListButton(){
+	    return this.listOfButtons;
+    }
 }

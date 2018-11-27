@@ -53,7 +53,7 @@ public class BoatFragmentGUI extends JLabel{
     		// TODO REFACTORING OPTIMIZATION MEMORY USE (will divide by almost 2 boat fragment image mem consumption):
 			// TODO 	=> instantiate the base image in an "ImageManager" or something common.
 			// load the image from file
-			this.baseImage = ImageIO.read(new File("src/resources/Sans-titre-1_02.png"));
+			this.baseImage = ImageIO.read(new File("International_Battleship\\src\\resources\\Sans-titre-1_02.png"));
 
 			// copy the base image to allow post processing avoiding destroying source image 
 			this.image = BoatFragmentGUI.deepCopy(this.baseImage);

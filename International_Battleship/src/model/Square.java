@@ -13,8 +13,6 @@ public class Square {
 
     @objid ("36a823ea-0db8-4dfc-b6e6-4f3944a7a965")
     private boolean isMined;
-    
-    public boolean isDestroyed;
 
     @objid ("7fc5366a-c5b7-439b-9a40-3f26a1f0e737")
     private String isOccupied;
@@ -38,8 +36,4 @@ public class Square {
     public Square() {
     }
 
-	public void destroy() {
-		this.isDestroyed = true;
-	}
-    
 }
