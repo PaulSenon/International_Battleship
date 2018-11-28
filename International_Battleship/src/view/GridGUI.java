@@ -1,20 +1,14 @@
 package view;
 
-import java.awt.Point;
-import java.util.HashMap;
-
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JOptionPane;
-
-
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import model.BoatName;
+import tools.*;
 
-import tools.Coord;
-import tools.Direction;
-import tools.GameConfig;
-import tools.ResultShoot;
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
@@ -33,6 +27,9 @@ public class GridGUI extends JLayeredPane {
 
     // TODO may need some complex stuff, because we have to manipulate multiple boatFragment across multiple SquareGUI instances
 	private BoatGUI selectedBoat;
+	private List<BoatGUI> listOfBoat;
+
+	private ActionType currentAction;
 
     /**
      * __CONSTRUCTOR__
@@ -46,6 +43,7 @@ public class GridGUI extends JLayeredPane {
 		this.boatFragments = new HashMap<Coord, BoatFragmentGUI>();
 		this.selectedSquare = null;
 		this.selectedBoat = null;
+//		this.listOfBoat = new ArrayList<>();
 
 		// init display
 		this.setLayout(new CustomGridLayoutManager());
@@ -65,20 +63,103 @@ public class GridGUI extends JLayeredPane {
             }
         }
 
-        // FOR TMP DEBUG PURPOSE : adding two boat fragments on the board
-        	Coord coord = new Coord(2,1);
-	        JLabel tmp = createBoatFragments(coord);
-	        this.squares.get(coord).add(tmp);
-	        // demo rotation :
-	        ((BoatFragmentGUI) tmp).rotate(Direction.SOUTH);
-
-	        coord = new Coord(2,2);
-	        tmp = createBoatFragments(coord);
-	        this.squares.get(coord).add(tmp);
-	        // demo rotation :
-	        ((BoatFragmentGUI) tmp).rotate(Direction.WEST);
-        // END DEBUG
+//        // FOR TMP DEBUG PURPOSE : adding two boat fragments on the board
+//        	Coord coord = new Coord(2,1);
+//	        JLabel tmp = createBoatFragments(coord, BoatName.Cruiser, 1);
+//	        this.squares.get(coord).add(tmp);
+//	        // demo rotation :
+//
+//	        coord = new Coord(2,2);
+//	        tmp = createBoatFragments(coord, BoatName.Cruiser, 0);
+//	        this.squares.get(coord).add(tmp);
+//	        // demo rotation :
+//	        ((BoatFragmentGUI) tmp).rotate(Direction.WEST);
+//        // END DEBUG
     }
+
+//    public void qdsgfljhsqgldjvh(){
+//		for (Map.Entry<Coord, BoatFragmentGUI> frag : this.boatFragments.keySet()) {
+//
+//		}
+//	}
+
+	/**
+	 * TODO write description
+	 * @param processedPosition
+	 */
+	public void setProcessedPosition(ProcessedPosition processedPosition) {
+		this.setProcessedPosForBoat(this.selectedBoat, processedPosition);
+	}
+
+	/**
+	 * TODO write description
+	 * @param boat
+	 * @param processedPosition
+	 */
+	private void setProcessedPosForBoat(BoatGUI boat, ProcessedPosition processedPosition){
+		HashMap<Coord, BoatFragmentGUI> tmpFragments = new HashMap<>();
+
+		// move fragments
+		// TODO may need a rework, no so clean,
+		// TODO but mind we MUST do to loop, because if some of new pos == last pos,
+		// TODO we cannot have multiple ref for the same coord in boatFragments
+
+		int i = 0;
+		for(Coord coord : boat.coords){
+			BoatFragmentGUI fragment = this.boatFragments.get(coord);
+			fragment.rotate(processedPosition.direction);
+
+			Coord dest = processedPosition.coords.get(i);
+			// save and remove from HashMap
+			tmpFragments.put(fragment.getCoord(), fragment);
+			this.boatFragments.remove(fragment.getCoord());
+			// update fragment prop
+			fragment.setCoord(dest);
+			// remove from UI
+			this.squares.get(dest).remove(fragment);
+
+			i++;
+		}
+		i = 0;
+		for(Coord coord : boat.coords){
+			BoatFragmentGUI fragment = tmpFragments.get(coord);
+			Coord dest = processedPosition.coords.get(i);
+
+			// add to fragments HashMap
+			this.boatFragments.put(dest, fragment);
+
+			// add in GUI
+			this.squares.get(dest).add(fragment);
+			this.repaint();
+
+			i++;
+		}
+		// update the boat with these new data
+		boat.coords = processedPosition.coords;
+		boat.facingDirection = processedPosition.direction;
+	}
+
+	/**
+	 * TODO write description
+	 * @param initBoatPos
+	 */
+	public void initGrid(Map<BoatName, ProcessedPosition> initBoatPos) {
+		int i;
+		// foreach boat to create
+		for (BoatName name: initBoatPos.keySet()) {
+			i = 0;
+			// foreach boatFragment to create
+			System.out.println("OSKOUR: "+name);
+			for (Coord coord : initBoatPos.get(name).coords) {
+				System.out.println("Fragment de " + name + " généré au coord : " + coord);
+				BoatFragmentGUI boatFragment = (BoatFragmentGUI)createBoatFragments(coord, name, i);
+				this.squares.get(coord).add(boatFragment);
+				i++;
+			}
+			// create boat with processedPotion and name, and add store it
+//			this.listOfBoat.add(new BoatGUI(name, initBoatPos.get(name).coords, initBoatPos.get(name).direction));
+		}
+	}
 
     /**
      * PUBLIC It take some mouse click position and find the targeted square
@@ -87,12 +168,13 @@ public class GridGUI extends JLayeredPane {
 	 * @return the selected squareGUI (not necessary to use it, it's just to avoid
 	 * a call to get selected square in case you need it)
      */
-    SquareGUI selectSquare(int xEvent, int yEvent) {
+    Coord selectSquare(int xEvent, int yEvent) {
     	this.selectedSquare = findSquareFromEvent(xEvent, yEvent);
     	if(this.selectedSquare != null) {
     		System.out.println("You've clicked on : "+this.selectedSquare.getCoord().toString());
+    		return this.selectedSquare.getCoord();
     	}
-    	return this.selectedSquare;
+    	return null;
     }
 
     /**
@@ -111,10 +193,11 @@ public class GridGUI extends JLayeredPane {
      * @param coord is the coordinate of the SquareGUI where to create the boatFragmentGUI
      * @return JLabel is the created boatFragmentGUI
      */
-    private JLabel createBoatFragments(Coord coord){
-    	BoatFragmentGUI fragment = new BoatFragmentGUI(coord);
-    	this.boatFragments.put(coord, fragment);
-    	return fragment;
+    private JLabel createBoatFragments(Coord coord,BoatName name, int index){
+        BoatFragmentGUI fragment = null;
+		fragment = new BoatFragmentGUI(coord, name, index);
+        this.boatFragments.put(coord, fragment);
+        return fragment;
     }
 
 	/**
@@ -171,39 +254,30 @@ public class GridGUI extends JLayeredPane {
     	}*/
     }
 
+	public void moveFragment(BoatFragmentGUI fragmentGUI, Coord dest){
+    	// move in HashMap
+    	this.boatFragments.remove(fragmentGUI.getCoord());
+    	this.boatFragments.put(dest, fragmentGUI);
 
-//	@objid ("36830e37-3f6b-4a49-9771-eecf425dec5c")
-//    public BoatGUI battleShipBoatGUI;
-//
-//    @objid ("e78df3ec-ed3c-4ff8-a842-2ff369cb31a6")
-//    public SquareGUI battleShipSquareGUI;
-//
-//    @objid ("ed7393e2-7af8-47c1-8c1f-5f74b55dec18")
-//    public void setBoatToMove() {
-//    }
-//
-//    @objid ("38933c80-466d-4813-922d-b72b050a2270")
-//    public void setVisibility() {
-//    }
-//
-//    @objid ("2522fe29-617f-406f-9437-7668af3a46ed")
-//    public void movePiece() {
-//    }
-//
-//    @objid ("201de8c0-2b1b-4bdc-91e1-2bea44d1e06b")
-//    public void undoMovePiece() {
-//    }
-//
-//    @objid ("324f210b-a38f-46f5-9460-357023fd912e")
-//    public void findCoord() {
-//    }
-//
-//    @objid ("717ace36-b5e2-4191-b136-6dee37668dc1")
-//    public void setCheckerBoard() {
-//    }
-//
-//    @objid ("7ec2238c-6895-4ae2-b0a1-378c4296fec6")
-//    private void createBattleshipBoard() {
-//    }
+    	// update fragment prop
+		fragmentGUI.setCoord(dest);
+
+		// move in GUI
+    	this.squares.get(dest).add(fragmentGUI);
+    	this.repaint();
+	}
+
+	public void setSelectedBoat(ProcessedPosition processedPosition) {
+//    	this.selectedBoat = this.boatFragments.get(coord).getBoat();
+    	this.selectedBoat = new BoatGUI(processedPosition.name, processedPosition.coords, processedPosition.direction);
+	}
+
+	public void setCurrentAction(ActionType actionType) {
+    	this.currentAction = actionType;
+	}
+
+	public ActionType getCurrentAction() {
+		return currentAction;
+	}
 
 }

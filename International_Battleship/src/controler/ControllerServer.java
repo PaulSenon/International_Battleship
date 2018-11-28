@@ -1,7 +1,5 @@
 package controler;
 
-import model.BoatInterface;
-import tools.Coord;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("31e2f2be-c2e9-48ea-be70-92cebcaf0f2c")
@@ -17,11 +15,5 @@ public class ControllerServer implements ControllerModelInterface {
     @objid ("6ba95062-7c96-4d3e-8b74-6ac6db8a67a7")
     public void ActionWhenBoatIsMovedOnGUI() {
     }
-
-	@Override
-	public void ActionWhenAction(BoatInterface boat, Coord target) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

@@ -1,25 +1,26 @@
 package view;
 
-import tools.Coord;
+import model.BoatInterface;
+import model.BoatName;
 import tools.ActionType;
 import tools.ProcessedPosition;
+
+import java.util.List;
+import java.util.Map;
 
 public interface GameGUIInterface {
 
     void setCurrentAction(ActionType move);
 
-    void setBoatPos(Coord coord);
-
-    void setBoatDirection(ProcessedPosition processedPosition);
-
 	ActionType getCurrentAction();
 
-    // OLD
-//    void setBoatToMove();
-//
-//    void setVisibility();
-//
-//    void movePiece();
-//
-//    void undoMovePiece();
+    void setProcessedPotion(ProcessedPosition processedPosition);
+
+    List<BoatInterface> getListOfBoat();
+
+    void setListOfBoat(List<BoatInterface> listOfBoat);
+
+    void initGame(Map<BoatName,ProcessedPosition> initBoatPos);
+
+    void setSelectedBoat(ProcessedPosition processedPosition);
 }

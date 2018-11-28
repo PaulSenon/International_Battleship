@@ -5,6 +5,7 @@ import tools.Coord;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
+import java.util.Map;
 import java.util.Observable;
 
 @objid ("8e40e397-dd7f-4d77-b403-4842a42c93f1")
@@ -27,7 +28,7 @@ public class GameModelObs extends Observable implements GameModelInterface {
     }
 
     @Override
-    public Coord moveBoat(int xDest, int yDest) {
+    public ProcessedPosition moveBoat(int xDest, int yDest) {
         return null;
     }
 
@@ -51,11 +52,17 @@ public class GameModelObs extends Observable implements GameModelInterface {
     }
 
     @Override
-    public boolean selectBoat(int x, int y) {
-        return false;
+    public ProcessedPosition selectBoat(int x, int y) {
+        // TODO dégueulasse
+        return new ProcessedPosition(null, null, null);
     }
 
-	@Override
+    @Override
+    public Map<BoatName, ProcessedPosition> getListOfBoat() {
+        return null;
+    }
+
+    @Override
 	public ResultShoot shoot(Coord target) {
 		return ResultShoot.MISSED;
 		// TODO Auto-generated method stub
