@@ -1,6 +1,7 @@
 package controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.ActionType;
 import view.GridGUI;
 
 @objid ("648a3fb1-933c-4097-8cb6-e5b72780ae69")
@@ -43,6 +44,11 @@ public class ControllerClient implements ControllerModelViewInterface {
 
     @Override
     public void rotateBoatCounterClockWise() {
+
+    }
+
+    @Override
+    public void requestActioType(ActionType actionType) {
 
     }
 }
