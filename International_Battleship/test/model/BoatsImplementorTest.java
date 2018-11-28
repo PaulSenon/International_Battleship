@@ -18,9 +18,9 @@ public class BoatsImplementorTest extends BaseTests {
 
     @Before
     public void setUp() throws Exception {
-        List<Player> players = new ArrayList<>();
+        List<PlayerInterface> players = new ArrayList<>();
         List<BoatName> boatNames = new ArrayList<>();
-        this.boatsImplementor = new BoatsImplementor(players, boatNames);
+        this.boatsImplementor = new BoatsImplementor(players);
     }
 
     @Test

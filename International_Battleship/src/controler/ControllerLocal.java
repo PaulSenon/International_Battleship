@@ -3,6 +3,11 @@ package controler;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import model.BoatName;
 import model.GameModelInterface;
+import model.Player;
+import view.SquareGUI;
+import view.GameGUI;
+import view.GameGUIInterface;
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.*;
 import view.GameGUIInterface;
 
@@ -19,7 +24,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
     public ControllerLocal(GameModelInterface gameModel, GameGUIInterface gameGUI) {
         System.out.println("Controller\n");
         this.gameModel = gameModel;
-        this.gameGUI = gameGUI; // set latter
+        this.gameGUI = gameGUI;// set latter
         initGame();
     }
 

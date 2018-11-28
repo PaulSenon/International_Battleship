@@ -26,8 +26,9 @@ public class LauncherBattleShipGame {
 		// setup game config :
 		GameConfig.newInstance(
 				25, // gameGridWidth
-				25 // gameGridHeight
-		);
+				25, // gameGridHeight
+				20 //maxActionPoint
+			);
 
 		JFrame jframe = new JFrame("Menu");
 		jframe.setSize(300, 500);
