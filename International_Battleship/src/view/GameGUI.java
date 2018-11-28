@@ -73,15 +73,15 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 			controlsPanel.setBackground(Color.GRAY);
 
             // Create of Button in the "actions" panel
-			this.buttonGUITirer = new ButtonGUI(ButtonType.SHOOT, "Tirer");
+			this.buttonGUITirer = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
 			this.controlsPanel.add(this.buttonGUITirer, buttonsConstraints);
 
             buttonsConstraints.gridy++;
-            this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW");
+            this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
             this.controlsPanel.add(this.buttonRotateClockWise, buttonsConstraints);
 
 			buttonsConstraints.gridy++;
-			this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW");
+			this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
 			this.controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
 
 
@@ -108,17 +108,10 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
 		this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 
-		ActionListener buttonListener = new ButtonGUIListener(this, gameController);
+		ActionListener buttonListener = new ButtonGUIListener(gameController);
 		this.buttonGUITirer.addActionListener(buttonListener);
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
 		this.buttonRotateClockWise.addActionListener(buttonListener);
-
-
-		//Create and attach event listener on "actions" button
-//		EventListener buttonListener = new ButtonGUIListener(this.buttonGUITirer, this);
-//		this.buttonGUITirer.addMouseListener((MouseListener) buttonListener);
-//		this.buttonRotateClockWise.addMouseListener((MouseListener) buttonListener);
-//		this.buttonRotateCounterClockWise.addMouseListener((MouseListener) buttonListener);
 	}
 
 	@Override
@@ -126,6 +119,20 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.actionType = actionType;
 		this.gridGUI.setCurrentAction(actionType);
 		System.out.println("GameGUI : Action is now : "+this.actionType);
+
+		notifyChanges();
+	}
+
+	/**
+	 * Used to notify some classes of some changes
+	 */
+	private void notifyChanges(){
+    	// notify all buttons
+		for(ButtonGUI button : this.listOfButtons){
+			button.notifyActionChanged(this.actionType);
+		}
+
+		// add some other notif here if you need it
 	}
 
 	@Override

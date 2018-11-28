@@ -5,6 +5,7 @@ import model.BoatName;
 import model.GameModelInterface;
 import tools.ActionType;
 import tools.ProcessedPosition;
+import view.ButtonType;
 import view.GameGUIInterface;
 
 import javax.swing.*;
@@ -93,6 +94,10 @@ public class ControllerLocal implements ControllerModelViewInterface {
         Map<BoatName,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
         this.gameGUI.initGame(initBoatPos);
         this.gameGUI.setCurrentAction(ActionType.SELECT);
+    }
+
+    public void requestActioType(ActionType actionType){
+        this.gameGUI.setCurrentAction(actionType);
     }
 
     /**
