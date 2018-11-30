@@ -1,7 +1,9 @@
 package controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.ActionType;
+import tools.Coord;
 
 @objid ("d20af2ff-acab-4682-873f-cb742c29d82c")
 public interface ControllerModelViewInterface extends ControllerModelInterface {
@@ -11,4 +13,5 @@ public interface ControllerModelViewInterface extends ControllerModelInterface {
     void rotateBoatClockWise();
     void rotateBoatCounterClockWise();
     void requestActioType(ActionType actionType);
+	void specialAction(Coord coordSquare);
 }

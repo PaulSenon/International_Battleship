@@ -149,9 +149,9 @@ public class GridGUI extends JLayeredPane {
 		for (BoatName name: initBoatPos.keySet()) {
 			i = 0;
 			// foreach boatFragment to create
-			System.out.println("OSKOUR: "+name);
+			//System.out.println("OSKOUR: "+name);
 			for (Coord coord : initBoatPos.get(name).coords) {
-				System.out.println("Fragment de " + name + " généré au coord : " + coord);
+				//System.out.println("Fragment de " + name + " généré au coord : " + coord);
 				BoatFragmentGUI boatFragment = (BoatFragmentGUI)createBoatFragments(coord, name, i);
 				this.squares.get(coord).add(boatFragment);
 				i++;

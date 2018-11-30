@@ -259,4 +259,15 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boatInitPos;
     }
 
+	@Override
+	public void specialAction(BoatInterface selectedBoat,Coord coordSquare) {
+		System.out.println(selectedBoat);
+		for(BoatInterface boat : this.boats){
+			if(boat.equals(selectedBoat)){
+				boat.actionSpecial(coordSquare);
+			}
+		}
+		
+	}
+
 }

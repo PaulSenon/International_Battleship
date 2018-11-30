@@ -22,4 +22,6 @@ public interface BoatsImplementorInterface {
     ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat);
 
     Map<BoatName, ProcessedPosition> getBoats();
+
+	void specialAction(BoatInterface selectedBoat, Coord coordSquare);
 }

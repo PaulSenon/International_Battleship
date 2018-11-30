@@ -1,14 +1,17 @@
 package controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import model.BoatName;
 import model.GameModelInterface;
 import tools.ActionType;
+import tools.Coord;
 import tools.ProcessedPosition;
 import view.ButtonType;
 import view.GameGUIInterface;
 
 import javax.swing.*;
+
 import java.util.Map;
 
 @objid ("876e9f9a-d77c-4a9d-809e-0854b8d95d55")
@@ -107,4 +110,10 @@ public class ControllerLocal implements ControllerModelViewInterface {
     public GameGUIInterface getGameGUI() {
         return gameGUI;
     }
+
+	@Override
+	public void specialAction(Coord coordSquare) {
+		this.gameModel.specialAction(coordSquare);
+		this.gameGUI.setCurrentAction(ActionType.MOVE);
+	}
 }

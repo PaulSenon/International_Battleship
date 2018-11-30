@@ -15,6 +15,7 @@ import static tools.Direction.DEFAULT;
 public abstract class AbstractBoat implements BoatInterface {
 
 	protected Coord pivot;
+	protected SpecialActionInterface mySpecialAction;
 
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
 	private List<Coord> coords;

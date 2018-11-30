@@ -41,4 +41,6 @@ public interface BoatInterface {
     int getNbBackParts();
 
     BoatName getName();
+
+	void actionSpecial(Coord target);
 }

@@ -29,4 +29,6 @@ public interface GameModelInterface {
 
     Map<BoatName, ProcessedPosition> getListOfBoat();
 
+	void specialAction(Coord coordSquare);
+
 }
