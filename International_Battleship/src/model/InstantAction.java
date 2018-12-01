@@ -6,8 +6,9 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 public class InstantAction extends SpecialAction {
     @objid ("3133d4b7-ad4f-41c6-a505-8452ba09a4c4")
     @Override
-    public void doAction() {
+    public ResultSpecialAction doAction() {
         System.out.println("Je suis instant action");
+        return ResultSpecialAction.INSTANT;
     }
 
 }

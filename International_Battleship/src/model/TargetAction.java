@@ -11,8 +11,9 @@ public class TargetAction extends SpecialAction {
 	
 	@objid ("5763df9b-ec15-4555-9f5f-e413d42b83ac")
     @Override
-    public void doAction() {
+    public ResultSpecialAction doAction() {
         System.out.println("Je suis Target action");
+        return ResultSpecialAction.TARGET;
     }
 
 	/**

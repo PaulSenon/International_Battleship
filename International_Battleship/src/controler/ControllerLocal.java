@@ -4,6 +4,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import model.BoatName;
 import model.GameModelInterface;
+import model.ResultSpecialAction;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
@@ -113,7 +114,18 @@ public class ControllerLocal implements ControllerModelViewInterface {
 
 	@Override
 	public void specialAction(Coord coordSquare) {
-		this.gameModel.specialAction(coordSquare);
+		ResultSpecialAction ret = this.gameModel.specialAction(coordSquare);
 		this.gameGUI.setCurrentAction(ActionType.MOVE);
+		switch(ret){
+			case FAIL:
+				JOptionPane.showMessageDialog(null, "L'action spécial n'a pas pu être réalisé correctement.", null , JOptionPane.INFORMATION_MESSAGE);
+				break;
+			case TARGET:
+				JOptionPane.showMessageDialog(null, "L'action spéciale ciblé a été réussi avec succès.", null , JOptionPane.INFORMATION_MESSAGE);
+				break;
+			case INSTANT:
+				JOptionPane.showMessageDialog(null, "L'action spéciale instantané a été réussi avec succès.", null , JOptionPane.INFORMATION_MESSAGE);
+				break;
+		}
 	}
 }

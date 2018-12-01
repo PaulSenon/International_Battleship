@@ -23,5 +23,5 @@ public interface BoatsImplementorInterface {
 
     Map<BoatName, ProcessedPosition> getBoats();
 
-	void specialAction(BoatInterface selectedBoat, Coord coordSquare);
+	ResultSpecialAction specialAction(BoatInterface selectedBoat, Coord coordSquare);
 }

@@ -42,5 +42,5 @@ public interface BoatInterface {
 
     BoatName getName();
 
-	void actionSpecial(Coord target);
+	ResultSpecialAction actionSpecial(Coord target);
 }

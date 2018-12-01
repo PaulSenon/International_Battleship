@@ -20,6 +20,6 @@ public abstract class SpecialAction implements SpecialActionInterface {
     }
 
     @objid ("a468340f-b143-465a-ade8-cc1850be0ecf")
-    public abstract void doAction();
+    public abstract ResultSpecialAction doAction();
 
 }

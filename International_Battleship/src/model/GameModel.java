@@ -200,8 +200,10 @@ public class GameModel implements GameModelInterface {
     }
 
 	@Override
-	public void specialAction(Coord coordSquare) {
-		this.battleshipImplementor.specialAction(this.selectedBoat,coordSquare);
+	public ResultSpecialAction specialAction(Coord coordSquare) {
+		ResultSpecialAction ret = null;
+		ret = this.battleshipImplementor.specialAction(this.selectedBoat,coordSquare);
+		return ret;
 		
 	}
 

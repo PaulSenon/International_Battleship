@@ -260,14 +260,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
     }
 
 	@Override
-	public void specialAction(BoatInterface selectedBoat,Coord coordSquare) {
-		System.out.println(selectedBoat);
+	public ResultSpecialAction specialAction(BoatInterface selectedBoat,Coord coordSquare) {
+		ResultSpecialAction ret =  null;
 		for(BoatInterface boat : this.boats){
 			if(boat.equals(selectedBoat)){
-				boat.actionSpecial(coordSquare);
+				ret = boat.actionSpecial(coordSquare);
 			}
 		}
-		
+		return ret;
 	}
 
 }

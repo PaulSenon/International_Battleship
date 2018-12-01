@@ -38,8 +38,10 @@ public class Submarin extends AbstractBoat {
 
 
 	@Override
-	public void actionSpecial(Coord target) {
-		this.mySpecialAction.doAction();
+	public ResultSpecialAction actionSpecial(Coord target) {
+		ResultSpecialAction ret;
+		ret = this.mySpecialAction.doAction();
+		return ret;
 		
 	}
 

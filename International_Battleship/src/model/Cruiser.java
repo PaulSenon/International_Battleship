@@ -15,9 +15,10 @@ public class Cruiser extends AbstractBoat {
     	mySpecialAction = new TargetAction(){
     		
     		@Override
-    		public void doAction(){
+    		public ResultSpecialAction doAction(){
     			//TODO
     			System.out.println("Target action dans le croiseur"); //to test
+    			return ResultSpecialAction.TARGET;
     		}
     	};
     }
@@ -27,14 +28,16 @@ public class Cruiser extends AbstractBoat {
     }
 
 	@Override
-	public void actionSpecial(Coord target) {
+	public ResultSpecialAction actionSpecial(Coord target) {
+		ResultSpecialAction ret =  null;
 		if(this.mySpecialAction.getTarget() == null){
 			this.mySpecialAction.setTarget(target);
+			ret = this.mySpecialAction.doAction();
 		}
 		else{
-			System.out.println("Attention : l'attribut target de TargetAction n'est pas null");
+			ret = ResultSpecialAction.FAIL;
 		}
-		this.mySpecialAction.doAction();
+		return ret;
 		
 	}
 }
