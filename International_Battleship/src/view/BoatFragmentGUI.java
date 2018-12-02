@@ -3,15 +3,11 @@ package view;
 import model.BoatName;
 import tools.Coord;
 import tools.Direction;
+import tools.ImageManager;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.IOException;
 
 public class BoatFragmentGUI extends JLabel{
@@ -23,9 +19,7 @@ public class BoatFragmentGUI extends JLabel{
 	// TODO not used yet.
 	private Color color;
 
-	// TODO moving this in a ImageManager may be cool
-	// the base sprite image (for reference) => never modify it
-	private BufferedImage baseImage;
+	private String imageName;
 
 	// the base image copy to play with
 	private BufferedImage image;
@@ -54,6 +48,7 @@ public class BoatFragmentGUI extends JLabel{
 			this.boatId = boatId;
 			this.broken = false;
 			this.index = imageIndex;
+			this.imageName = "";
 
 			/*
 			try {
@@ -75,114 +70,100 @@ public class BoatFragmentGUI extends JLabel{
 
 			switch (name) {
 				case AircraftCarrier:
-					try {
-						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("resources/Aircraft/0.png"));
-						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("resources/Aircraft/1.png"));
-						if(imageIndex==2)
-							this.baseImage = ImageIO.read(new File("resources/Aircraft/2.png"));
-						if(imageIndex==3)
-							this.baseImage = ImageIO.read(new File("resources/Aircraft/3.png"));
-						if(imageIndex==4)
-							this.baseImage = ImageIO.read(new File("resources/Aircraft/4.png"));
-					}catch(IOException exc){
-						System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					switch (imageIndex) {
+						case 0:
+							this.imageName = "Aircraft/0.png";
+							break;
+						case 1:
+							this.imageName = "Aircraft/1.png";
+							break;
+						case 2:
+							this.imageName = "Aircraft/2.png";
+							break;
+						case 3:
+							this.imageName = "Aircraft/3.png";
+							break;
+						case 4:
+							this.imageName = "Aircraft/4.png";
+							break;
 					}
 					break;
 				case Cruiser:
-					try {
-						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("resources/Cruiser/0.png"));
-						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("resources/Cruiser/1.png"));
-						if(imageIndex==2)
-							this.baseImage = ImageIO.read(new File("resources/Cruiser/2.png"));
-						if(imageIndex==3)
-							this.baseImage = ImageIO.read(new File("resources/Cruiser/3.png"));
-					}catch(IOException exc){
-						System.out.println("[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					switch (imageIndex) {
+						case 0:
+							this.imageName = "Cruiser/0.png";
+							break;
+						case 1:
+							this.imageName = "Cruiser/1.png";
+							break;
+						case 2:
+							this.imageName = "Cruiser/2.png";
+							break;
+						case 3:
+							this.imageName = "Cruiser/3.png";
+							break;
 					}
 					break;
 				case Submarin:
-					try {
-						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("resources/Submarin/0.png"));
-						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("resources/Submarin/1.png"));
-						if(imageIndex==2)
-							this.baseImage = ImageIO.read(new File("resources/Submarin/2.png"));
-					}catch(IOException exc){
-						System.out.println("Submarin[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					switch (imageIndex) {
+						case 0:
+							this.imageName = "Submarin/0.png";
+							break;
+						case 1:
+							this.imageName = "Submarin/1.png";
+							break;
+						case 2:
+							this.imageName = "Submarin/2.png";
+							break;
 					}
 					break;
 				case TorpedoBoat:
-					try {
-						if(imageIndex==0)
-							this.baseImage = ImageIO.read(new File("resources/Torpedo/0.png"));
-						if(imageIndex==1)
-							this.baseImage = ImageIO.read(new File("resources/Torpedo/1.png"));
-					}catch(IOException exc){
-						System.out.println("Torpedo[BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					switch (imageIndex) {
+						case 0:
+							this.imageName = "Torpedo/0.png";
+							break;
+						case 1:
+							this.imageName = "Torpedo/1.png";
+							break;
 					}
 					break;
 				case Sentinel:
-					try {
-						this.baseImage = ImageIO.read(new File("resources/Sentinel/0.png"));
-					}catch(IOException exc){
-						System.out.println("Sentinel [BoatFragmentGUI.constructor] Error loading image (maybe wrong path)");
+					switch (imageIndex) {
+						case 0:
+							this.imageName = "Sentinel/0.png";
+							break;
 					}
 					break;
 				default:
 					System.out.println("Wrong boat name");
 					break;
 			}
-			this.image = BoatFragmentGUI.deepCopy(this.baseImage);
+
+			try {
+				this.image = ImageManager.getImageCopy(this.imageName);
+			}catch (IOException e){
+				System.out.println("ERROR BoatFragmentGUI : Loading images failed");
+			}
+
 			this.repaint();
 		}
 
-
-    // TODO move into some images Tools class
-    /**
-     * Just copy a image to another, not just the reference
-     * @param bufferedImage is the image to copy byte by byte
-     * @return BufferedImage is a total new ref, but look the same as input image
-     */
-    static BufferedImage deepCopy(BufferedImage bufferedImage) {
-    	 ColorModel cm = bufferedImage.getColorModel();
-    	 boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-    	 WritableRaster raster = bufferedImage.copyData(null);
-    	 return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
-	}
-    
     /**
      * PUBLIC : It rotate its displayed image in the wanted direction
      * @param direction is the direction where you want the ship to look toward
      */
     void rotate(Direction direction) {
+    	// optimization avoiding new image loading
+    	if(this.direction.equals(direction)){
+    		return;
+		}
     	this.direction = direction;
-    	this.image = this.rotateImage(this.baseImage, direction.rotation);
-    }
-
-    /**
-     * It rotate an image to a desired angle (in degree)
-     * @param sourceImage is the image you want to rotate
-     * @param angleDegree is the rotation angle in degree
-     * @return resultImage
-     */
-    private BufferedImage rotateImage(BufferedImage sourceImage, double angleDegree) {
-        int width = sourceImage.getWidth();
-        int height = sourceImage.getHeight();
-        BufferedImage destImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = destImage.createGraphics();
-
-        AffineTransform transform = new AffineTransform();
-        transform.rotate(angleDegree / 180 * Math.PI, width / 2 , height / 2);
-        g2d.drawRenderedImage(sourceImage, transform);
-
-        g2d.dispose();
-        return destImage;
-    }
+		try {
+			this.image = ImageManager.getImageCopyRotated(this.imageName, direction.rotation);
+		} catch (IOException e) {
+			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
+		}
+	}
 
 	/**
 	 * Method called AUTOMATICALLY on repaint() on this or parent UI components
