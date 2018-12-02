@@ -8,26 +8,8 @@ public class TorpedoBoat extends AbstractBoat {
 	final int size = 2;
 
     @objid ("626c2269-3ed4-48f9-9a35-95e47f65c6db")
-    public TorpedoBoat(Coord coord) {
-    	super(BoatName.TorpedoBoat, coord);
-    }
-
-    @objid ("30c44c71-c872-44ba-b56c-220f6f026b5f")
-    @Override
-    public void move() {
-        // TODO Auto-generated method stub
-    }
-
-    @objid ("c0ff792b-88e9-4386-b087-6b29b9d43703")
-    @Override
-    public void hourlyRotation() {
-        // TODO Auto-generated method stub
-    }
-
-    @objid ("5346be0a-7f59-46ed-9968-2ded9dc6d0ff")
-    @Override
-    public void antiHourlyRotation() {
-        // TODO Auto-generated method stub
+    public TorpedoBoat(Coord coord, int id) {
+    	super(BoatName.TorpedoBoat, coord, id);
     }
 
     public int getSize() {

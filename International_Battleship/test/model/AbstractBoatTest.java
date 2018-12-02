@@ -1,10 +1,13 @@
 package model;
 
+import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import testTools.BaseTests;
 import tools.Coord;
 import tools.Direction;
+import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import java.util.List;
 
@@ -130,5 +133,149 @@ public class AbstractBoatTest extends BaseTests {
         assertEquals(new Coord(10,9), coords.get(1));
         assertEquals(new Coord(10,10), coords.get(2)); // pivot
         assertEquals(new Coord(10,11), coords.get(3)); // head
+    }
+
+    @Test
+    public void testIsMoveOk(){
+        // boat coord is 10;10
+        boolean ok;
+
+        // EAST
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.EAST);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,10));
+            assertTrue(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(11,10));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(123456789,10));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(9,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(-123456789,10));
+            assertFalse(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,9));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,-123456789));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,11));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,123456789));
+            assertFalse(ok);
+
+        // WEST
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.WEST);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,10));
+            assertTrue(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(9,10));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(-123456789,10));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(11,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(123456789,10));
+            assertFalse(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,9));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,-123456789));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,11));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,123456789));
+            assertFalse(ok);
+
+        // SOUTH
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.SOUTH);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,10));
+            assertTrue(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,11));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,123456789));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,9));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,-123456789));
+            assertFalse(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(9,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(-123456789,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(11,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(123456789,10));
+            assertFalse(ok);
+
+        // NORTH
+        ((AbstractBoat) this.boat).setFacingDirection(Direction.NORTH);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,10));
+            assertTrue(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,9));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,-123456789));
+            assertTrue(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,11));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(10,123456789));
+            assertFalse(ok);
+
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(9,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(-123456789,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(11,10));
+            assertFalse(ok);
+            ok = ((AbstractBoat) this.boat).isMoveOk(new Coord(123456789,10));
+            assertFalse(ok);
+    }
+
+    @Test
+    public void testNbParts(){
+        BoatInterface boat = this.objGenerator.generateTestBoat(new Coord(10,10), 6, Direction.EAST);
+        assertEquals(3, boat.getNbFrontParts());
+        assertEquals(3, boat.getNbBackParts());
+
+        boat = this.objGenerator.generateTestBoat(new Coord(10,10), 5, Direction.EAST);
+        assertEquals(3, boat.getNbFrontParts());
+        assertEquals(2, boat.getNbBackParts());
+
+        boat = this.objGenerator.generateTestBoat(new Coord(10,10), 4, Direction.EAST);
+        assertEquals(2, boat.getNbFrontParts());
+        assertEquals(2, boat.getNbBackParts());
+
+        boat = this.objGenerator.generateTestBoat(new Coord(10,10), 3, Direction.EAST);
+        assertEquals(2, boat.getNbFrontParts());
+        assertEquals(1, boat.getNbBackParts());
+    }
+
+    @Test
+    public void testShoot(){
+        Pair<ResultShoot, ProcessedPosition> result;
+        try {
+            result = boat.shoot(new Coord(12,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(12,10));
+            assertEquals(ResultShoot.ALREADY_TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(11,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(10,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(9,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(8,10));
+            assertEquals(ResultShoot.DESTROYED, result.getKey());
+        } catch (Exception e) {
+            fail();
+        }
+        try {
+            result = boat.shoot(new Coord(180,10));
+        } catch (Exception e) {
+            assertTrue(e.getClass().getName().equals(Exception.class.getName()) );
+        }
+
     }
 }

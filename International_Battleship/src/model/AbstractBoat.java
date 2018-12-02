@@ -1,16 +1,13 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import tools.Coord;
-import tools.Direction;
-import tools.ProcessedPosition;
+import javafx.util.Pair;
+import tools.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static tools.Direction.*;
-
-import tools.ResultShoot;
+import static tools.Direction.DEFAULT;
 
 @objid ("b8092a75-8965-4c51-bf15-701b45673ed5")
 public abstract class AbstractBoat implements BoatInterface {
@@ -19,11 +16,13 @@ public abstract class AbstractBoat implements BoatInterface {
 
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
 	private List<Coord> coords;
+	private List<Integer> touchedGragmentIds;
 	private boolean coordsNeedToBeProcessed;
 
 	protected BoatName name;
 
 	protected int size;
+	protected int id;
 
 	protected Direction facingDirection;
 
@@ -41,12 +40,14 @@ public abstract class AbstractBoat implements BoatInterface {
     public SpecialActionInterface actionSpeciale;
 
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
-    public AbstractBoat(BoatName name, Coord pivot) {
+    public AbstractBoat(BoatName name, Coord pivot, int id) {
         this.pivot = pivot;
         this.facingDirection = DEFAULT();
         this.name = name;
         this.coords = new ArrayList<>();
         this.coordsNeedToBeProcessed = true;
+        this.touchedGragmentIds = new ArrayList<>();
+        this.id = id;
 
         this.lastDirection = this.facingDirection;
         this.lastPosition = this.pivot;
@@ -61,45 +62,53 @@ public abstract class AbstractBoat implements BoatInterface {
 	}
 
 
+    /**
+     * __TESTED__
+     * @param target
+     * @return
+     * @throws Exception
+     */
 	@objid ("0494bc65-840e-4841-82ae-0d3272bcaf6b")
-	public ResultShoot shoot(Coord target) {
-		// TODO FIX#47 : Fix this, we do not use "getBoatPart()" anymore.
-		// TODO 	=> I think it's the implementor who has to call this method
-		// TODO 	=> but where to store the data to say that a boat is shot on one fragment ?
-
-//		int x = target.getX();
-//		int y = target.getY();
-//		Square part = getBoatPart(x,y);
-//		ResultShoot result = ResultShoot.MISSED;
-//		if (part != null) {
-//			if (part.isDestroyed) {
-//				//If a destoyed boat is targeted.
-//				result = ResultShoot.ALREADY_TOUCHED;
-//			} else {
-//				//If a functional boat is targeted
-//				part.destroy();
-//				result = ResultShoot.DESTROYED;
-//				//TODO: when a boat is destroyed, re-init its value
-//				for(Square fragment : boatPart) {
-//					if (!fragment.isDestroyed) {
-//						result = ResultShoot.TOUCHED;
-//					}
-//				}
-//			}
-//		}
-//		else {
-//			//If the sea is targeted
-//			result = ResultShoot.MISSED;
-//		}
-//		return result;
-
-		// TODO remove this, it's just a placeholder :
-		return ResultShoot.TOUCHED;
+    // TODO throw a custom exception like a "ShootException" instead of an "Exception"
+	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws Exception {
+            int id = this.getIdOfFragment(target);
+            if(this.touchedGragmentIds.contains(id)){
+                return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
+            }else{
+                this.touchedGragmentIds.add(id);
+                if(this.getCoords().size() == this.touchedGragmentIds.size()){
+                    return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
+                }
+                return new Pair<>(ResultShoot.TOUCHED, this.getProcessedPosition());
+            }
 	}
+
+	private int getIdOfFragment(Coord coord) throws Exception {
+        int i=0;
+        for(Coord fragment : this.getCoords()){
+            if(coord.equals(fragment)){
+                return i;
+            }
+            i++;
+        }
+        throw new Exception("Coord not on this boat");
+    }
 
 	// TODO mind to refreshCoords
     @objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
-    public abstract void move();
+    public void move(Coord destCoord){
+        if(this.isMoveOk(destCoord)){
+            this.setPivot(destCoord); // It does the refreshCoord()
+        }
+    }
+
+    /**
+     *  same as move() but without check
+     * @param destCoord is the coordinate where to move the boat
+     */
+    public void moveHard(Coord destCoord){
+        this.setPivot(destCoord); // It does the refreshCoord()
+    }
 
     @objid ("901d66d1-b1e1-4f7b-8c07-246f568ba2db")
     public void rotateClockWise(){
@@ -119,6 +128,11 @@ public abstract class AbstractBoat implements BoatInterface {
         this.refreshCoords();
     }
 
+    /**
+     * TODO TEST
+     * @param coord is the coord you want to check for
+     * @return if the given coord belong to this boat
+     */
     public boolean hasCoord(Coord coord) {
         for (Coord coordTmp: this.getCoords()) {
             if(coordTmp.equals(coord)){
@@ -128,6 +142,11 @@ public abstract class AbstractBoat implements BoatInterface {
         return false;
     }
 
+    /**
+     * This method is used to say we changed something in the boat position
+     * it may be direction or coords update.
+     * MIND TO USE IT when changed something
+     */
     public void refreshCoords(){
         this.coordsNeedToBeProcessed = true;
     }
@@ -157,11 +176,42 @@ public abstract class AbstractBoat implements BoatInterface {
     /**
      * __TESTED__
      *
+     * This method return how many front part of a boat has (with pivot)
+     * for example :
+     *   - boat size of 5 will return 3
+     *   - boat size of 4 will return 2
+     * @return nb front parts of the boat
+     */
+    public int getNbFrontParts(){
+        if(this.getSize()%2 ==0){
+            return this.getSize()/2;
+        }else{
+            return (this.getSize()/2) + 1;
+        }
+    }
+
+    /**
+     * __TESTED__
+     *
+     * This method return how many back part of a boat has (without pivot)
+     * for example :
+     *   - boat size of 5 will return 2
+     *   - boat size of 4 will return 2
+     * @return nb back parts of the boat
+     */
+    public int getNbBackParts(){
+        return this.getSize()/2;
+    }
+
+    /**
+     * __TESTED__
+     *
      * @param direction the direction to process coords for
      * @return a list of coords
      */
     public List<Coord> getCoordsForDirection(Direction direction){
         List<Coord> coords = new ArrayList<>();
+        // TODO @Paul use getNbParts
         int frontParts = this.getSize()/2 - (this.getSize()%2==0 ? 1 : 0);
         int backParts = this.getSize()/2;
         int start, stop;
@@ -198,6 +248,40 @@ public abstract class AbstractBoat implements BoatInterface {
         return coords;
     }
 
+    /**
+     * __TESTED__
+     *
+     * Just supposed to check if destination coordinates are in straight line toward facing direction.
+     * @param coord is the destination coordinate
+     * @return if move is allowed or not
+     */
+    public boolean isMoveOk(Coord coord){
+        switch (this.getDirection()){
+            case EAST:
+                return (
+                    coord.getY() == this.pivot.getY() // freeze Y
+                    && coord.getX() >= this.pivot.getX() // go forward on X
+                );
+            case WEST:
+                return (
+                    coord.getY() == this.pivot.getY() // freeze Y
+                    && coord.getX() <= this.pivot.getX() // go backward on X
+                );
+            case SOUTH:
+                return (
+                    coord.getX() == this.pivot.getX() // freeze X
+                    && coord.getY() >= this.pivot.getY() // go downward on Y
+                );
+            case NORTH:
+                return (
+                    coord.getX() == this.pivot.getX() // freeze X
+                    && coord.getY() <= this.pivot.getY() // go upward on Y
+                );
+            default:
+                return false;
+        }
+    }
+
 
 	@objid ("7c56179d-d096-4f01-992b-2b6a8816e013")
 	public void useSpecialAction() {
@@ -215,7 +299,6 @@ public abstract class AbstractBoat implements BoatInterface {
 		this.Color = value;
 	}
 
-
     /**
      * __PARTIALLY_TESTED__
      *
@@ -229,12 +312,10 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     /**
-     * __PARTIALLY_TESTED__
-     *
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
-        return new ProcessedPosition(this.facingDirection, this.getCoords());
+        return new ProcessedPosition(this.id, this.name, this.facingDirection, this.getCoords(), this.touchedGragmentIds);
     }
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")
@@ -271,7 +352,8 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     @objid ("21694e9f-8e7d-41a8-b512-40f58f0c6c9a")
-    public void setPivot(final Coord value) {
+    private void setPivot(final Coord value) {
+        this.lastPosition = this.pivot;
         this.pivot = value;
         this.refreshCoords();
     }
@@ -313,9 +395,16 @@ public abstract class AbstractBoat implements BoatInterface {
         this.refreshCoords();
     }
 
+    public void setLastPosition(Coord pivot){
+        this.lastPosition = pivot;
+    }
+
     @Override
 	public String toString() {
 		return "Object BoatInterface name=" + name + " " + this.pivot;
 	}
 
+    public int getId() {
+        return id;
+    }
 }

@@ -8,8 +8,8 @@ public class AircraftCarrier extends AbstractBoat {
 	final int size = 5;
 
     @objid ("d7f1e9b2-c61d-4f7a-8a81-a52d2389f794")
-    public AircraftCarrier(Coord coord) {
-    	super(BoatName.AircraftCarrier, coord);
+    public AircraftCarrier(Coord coord, int id) {
+    	super(BoatName.AircraftCarrier, coord, id);
     }
 
     @objid ("3222a6aa-93ed-428b-a289-90062504d72b")
