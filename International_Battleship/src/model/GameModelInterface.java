@@ -1,6 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import javafx.util.Pair;
 import tools.Coord;
 import tools.ProcessedPosition;
 
@@ -25,7 +26,7 @@ public interface GameModelInterface {
     @objid ("70b98e64-650c-4441-80ad-81c55eb78c6d")
     void isEnd();
 
-	ResultShoot shoot(Coord target);
+    Pair<ResultShoot, ProcessedPosition> shoot(Coord target);
 
     Map<BoatName, ProcessedPosition> getListOfBoat();
 

@@ -1,11 +1,13 @@
 package controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import javafx.util.Pair;
 import model.BoatName;
 import model.GameModelInterface;
 import tools.ActionType;
+import tools.Coord;
 import tools.ProcessedPosition;
-import view.ButtonType;
+import tools.ResultShoot;
 import view.GameGUIInterface;
 
 import javax.swing.*;
@@ -45,46 +47,49 @@ public class ControllerLocal implements ControllerModelViewInterface {
     public void moveBoat(int xDest, int yDest){
         ProcessedPosition processedPosition = this.gameModel.moveBoat(xDest, yDest);
         if(processedPosition != null){
-            this.gameGUI.setProcessedPotion(processedPosition);
             this.gameGUI.setCurrentAction(ActionType.SELECT);
+            this.gameGUI.setProcessedPotion(processedPosition);
         }else{
-            this.gameGUI.setCurrentAction(ActionType.MOVE);
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public void rotateBoatClockWise(){
-        // TODO move direction dans tools
         ProcessedPosition processedPosition = this.gameModel.rotateBoatClockWise();
         if(processedPosition != null){
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
         }else{
+        this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
         }
-        this.gameGUI.setCurrentAction(ActionType.SELECT);
     }
 
     public void rotateBoatCounterClockWise(){
-        // TODO move direction dans tools
         ProcessedPosition processedPosition = this.gameModel.rotateBoatCounterClockWise();
         if(processedPosition != null){
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
         }else{
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
         }
-        this.gameGUI.setCurrentAction(ActionType.SELECT);
     }
 
 	@Override
 	public void shoot(int x, int y) {
-        System.out.println("Controller.shoot not yet implemented");
-        this.gameGUI.setCurrentAction(ActionType.SELECT);
-//		Coord target = squareSelected.getCoord();
-
-            // TODO FIX#46 : CHANGE THIS CO COMMUNICATE WITH GLOBALE GUI INSTEAD OF GRIDGUI
-            //this.gameGUI.messageToUser(this.battleShipGame.shoot(target));
-
-//		GameGUI.repaintAllButtons();
+        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(new Coord(x, y));
+        if(result != null){
+            if(result.getValue() != null){
+                this.gameGUI.setProcessedPotion(result.getValue());
+            }
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
+            this.gameGUI.message("shoot result : "+result.getKey());
+        }else{
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
+            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+        }
 	}
 
     public void initGame() {

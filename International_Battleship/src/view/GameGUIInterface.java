@@ -23,4 +23,6 @@ public interface GameGUIInterface {
     void initGame(Map<BoatName,ProcessedPosition> initBoatPos);
 
     void setSelectedBoat(ProcessedPosition processedPosition);
+
+    void message(String message);
 }

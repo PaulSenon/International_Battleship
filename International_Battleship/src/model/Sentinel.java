@@ -8,8 +8,8 @@ public class Sentinel extends AbstractBoat {
     final int size = 1;
 
 	@objid ("62b7f0e5-4f57-4a8c-bc19-9993b91246d0")
-    public Sentinel(Coord coord) {
-		super(BoatName.Sentinel, coord);
+    public Sentinel(Coord coord, int id) {
+		super(BoatName.Sentinel, coord, id);
     }
 
     public int getSize () {

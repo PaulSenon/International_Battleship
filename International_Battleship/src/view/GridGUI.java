@@ -6,9 +6,8 @@ import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 @objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
@@ -25,9 +24,7 @@ public class GridGUI extends JLayeredPane {
 	// TODO not used yet
 	private SquareGUI selectedSquare;
 
-    // TODO may need some complex stuff, because we have to manipulate multiple boatFragment across multiple SquareGUI instances
-	private BoatGUI selectedBoat;
-	private List<BoatGUI> listOfBoat;
+	private List<BoatFragmentGUI> selectedBoat;
 
 	private ActionType currentAction;
 
@@ -42,8 +39,7 @@ public class GridGUI extends JLayeredPane {
 		this.squares = new HashMap<Coord, SquareGUI>();
 		this.boatFragments = new HashMap<Coord, BoatFragmentGUI>();
 		this.selectedSquare = null;
-		this.selectedBoat = null;
-//		this.listOfBoat = new ArrayList<>();
+		this.selectedBoat = new ArrayList<>();
 
 		// init display
 		this.setLayout(new CustomGridLayoutManager());
@@ -77,26 +73,31 @@ public class GridGUI extends JLayeredPane {
 //        // END DEBUG
     }
 
-//    public void qdsgfljhsqgldjvh(){
-//		for (Map.Entry<Coord, BoatFragmentGUI> frag : this.boatFragments.keySet()) {
-//
-//		}
-//	}
-
 	/**
 	 * TODO write description
 	 * @param processedPosition
 	 */
 	public void setProcessedPosition(ProcessedPosition processedPosition) {
-		this.setProcessedPosForBoat(this.selectedBoat, processedPosition);
+		List<BoatFragmentGUI> boat = this.getBoatFragmentsById(processedPosition.boatId);
+		this.setProcessedPosForBoat(boat, processedPosition);
 	}
 
 	/**
 	 * TODO write description
-	 * @param boat
+	 * @param boatId
 	 * @param processedPosition
 	 */
-	private void setProcessedPosForBoat(BoatGUI boat, ProcessedPosition processedPosition){
+	public void setProcessedPosition(int boatId, ProcessedPosition processedPosition){
+		List<BoatFragmentGUI> boat = this.getBoatFragmentsById(boatId);
+		this.setProcessedPosForBoat(boat, processedPosition);
+	}
+
+	/**
+	 * TODO write description
+	 * @param boatFragments
+	 * @param processedPosition
+	 */
+	private void setProcessedPosForBoat(List<BoatFragmentGUI> boatFragments, ProcessedPosition processedPosition){
 		HashMap<Coord, BoatFragmentGUI> tmpFragments = new HashMap<>();
 
 		// move fragments
@@ -105,8 +106,7 @@ public class GridGUI extends JLayeredPane {
 		// TODO we cannot have multiple ref for the same coord in boatFragments
 
 		int i = 0;
-		for(Coord coord : boat.coords){
-			BoatFragmentGUI fragment = this.boatFragments.get(coord);
+		for(BoatFragmentGUI fragment : boatFragments){
 			fragment.rotate(processedPosition.direction);
 
 			Coord dest = processedPosition.coords.get(i);
@@ -115,14 +115,14 @@ public class GridGUI extends JLayeredPane {
 			this.boatFragments.remove(fragment.getCoord());
 			// update fragment prop
 			fragment.setCoord(dest);
+			fragment.setBroken(processedPosition.brokenPartIds.contains(i));
 			// remove from UI
 			this.squares.get(dest).remove(fragment);
 
 			i++;
 		}
 		i = 0;
-		for(Coord coord : boat.coords){
-			BoatFragmentGUI fragment = tmpFragments.get(coord);
+		for(BoatFragmentGUI fragment : boatFragments){
 			Coord dest = processedPosition.coords.get(i);
 
 			// add to fragments HashMap
@@ -134,9 +134,6 @@ public class GridGUI extends JLayeredPane {
 
 			i++;
 		}
-		// update the boat with these new data
-		boat.coords = processedPosition.coords;
-		boat.facingDirection = processedPosition.direction;
 	}
 
 	/**
@@ -149,10 +146,9 @@ public class GridGUI extends JLayeredPane {
 		for (BoatName name: initBoatPos.keySet()) {
 			i = 0;
 			// foreach boatFragment to create
-			System.out.println("OSKOUR: "+name);
 			for (Coord coord : initBoatPos.get(name).coords) {
 				System.out.println("Fragment de " + name + " généré au coord : " + coord);
-				BoatFragmentGUI boatFragment = (BoatFragmentGUI)createBoatFragments(coord, name, i);
+				BoatFragmentGUI boatFragment = (BoatFragmentGUI)createBoatFragments(initBoatPos.get(name).boatId, coord, name, i);
 				this.squares.get(coord).add(boatFragment);
 				i++;
 			}
@@ -193,9 +189,9 @@ public class GridGUI extends JLayeredPane {
      * @param coord is the coordinate of the SquareGUI where to create the boatFragmentGUI
      * @return JLabel is the created boatFragmentGUI
      */
-    private JLabel createBoatFragments(Coord coord,BoatName name, int index){
+    private JLabel createBoatFragments(int boatId, Coord coord,BoatName name, int index){
         BoatFragmentGUI fragment = null;
-		fragment = new BoatFragmentGUI(coord, name, index);
+		fragment = new BoatFragmentGUI(boatId, coord, name, index);
         this.boatFragments.put(coord, fragment);
         return fragment;
     }
@@ -272,9 +268,34 @@ public class GridGUI extends JLayeredPane {
     	this.repaint();
 	}
 
+	private List<BoatFragmentGUI> getBoatFragmentsById(int boatId){
+		BoatFragmentGUI[] boatFragments = new BoatFragmentGUI[this.getBoatSizeFromId(boatId)];
+		for(BoatFragmentGUI boatFragment : this.boatFragments.values()){
+			if(boatFragment.getBoatId() == boatId){
+				boatFragments[boatFragment.getIndex()] = boatFragment;
+			}
+		}
+
+		return new ArrayList<>(Arrays.asList(boatFragments));
+	}
+
+	private int getBoatSizeFromId(int boatId){
+		int res = 0;
+		for(BoatFragmentGUI boatFragment : this.boatFragments.values()){
+			if(boatFragment.getBoatId() == boatId){
+				res++;
+			}
+		}
+		return res;
+	}
+
 	public void setSelectedBoat(ProcessedPosition processedPosition) {
-//    	this.selectedBoat = this.boatFragments.get(coord).getBoat();
-    	this.selectedBoat = new BoatGUI(processedPosition.name, processedPosition.coords, processedPosition.direction);
+//    	this.selectedBoat = new BoatGUI(processedPosition.boatId, processedPosition.name, processedPosition.coords, processedPosition.direction);
+		List<BoatFragmentGUI> selectedFragments = new ArrayList<>();
+		for(Coord coord : processedPosition.coords){
+			selectedFragments.add(this.boatFragments.get(coord));
+		}
+		this.selectedBoat = selectedFragments;
 	}
 
 	public void setCurrentAction(ActionType actionType) {

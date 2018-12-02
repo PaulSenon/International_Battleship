@@ -1,6 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import javafx.util.Pair;
 import tools.BoatFactory;
 import tools.Coord;
 import tools.ProcessedPosition;
@@ -29,7 +30,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             int i=5;
             for (BoatName boatName  : fleetList) {
                 try {
-                    p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(5,i)));
+                    p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(5,i), i));
                     i++;
                 }catch (IllegalArgumentException e){
                     e.getMessage();
@@ -47,14 +48,19 @@ public class BoatsImplementor implements BoatsImplementorInterface {
     /**
      * // TODO Tests
      *
-     * Shoot from a boat to somewhere
-     * @param boatCoord to select the boat to shoot with
+     * Shoot somewhere
      * @param target to select the destination coordinates
-     * @return hit
+     * @return result of shot
      */
 	@objid ("f561c936-de20-43ae-a170-a9290c7f975c")
-    public boolean shoot(Coord boatCoord, Coord target) {
-        return false;
+    public Pair<ResultShoot, ProcessedPosition> shootBoat(Coord target) {
+        BoatInterface boat = findBoatByCoord(target);
+        try {
+            return(boat.shoot(target));
+        } catch (Exception e) { // TODO catch a custom exception like a "ShootException"
+            return new Pair<>(ResultShoot.MISSED, null);
+        }
+
     }
 
     /**
@@ -213,12 +219,6 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         newY += pivot.getY();
         // add to result list
         return new Coord(newX, newY);
-    }
-
-    @Override
-    public ResultShoot shoot(Coord target) {
-        return ResultShoot.MISSED;
-//        return boat.shoot(target);
     }
 
     /**

@@ -15,12 +15,15 @@ public class ProcessedPosition {
     public Direction direction;
     // TODO we do not transfer Coord from model to view. So do we need to change this here ?
     public List<Coord> coords;
-
+    public int boatId;
     public BoatName name;
+    public List<Integer> brokenPartIds;
 
-    public ProcessedPosition(BoatName name, Direction direction, List<Coord> coord){
+    public ProcessedPosition(int boatId, BoatName name, Direction direction, List<Coord> coord, List<Integer> brokenPartIds){
+        this.boatId = boatId;
         this.direction = direction;
         this.coords = coord;
         this.name = name;
+        this.brokenPartIds = brokenPartIds;
     }
 }

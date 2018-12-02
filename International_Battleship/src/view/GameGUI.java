@@ -164,7 +164,13 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.repaint();
 	}
 
-    /**
+	@Override
+	public void message(String message) {
+		// TODO add visual
+		System.out.println("MESSAGE TO USER : "+message);
+	}
+
+	/**
      * This method propagate the info to the Grid that a boat is selected
      * @param processedPosition the processed pos containing all infos about the boat
      */

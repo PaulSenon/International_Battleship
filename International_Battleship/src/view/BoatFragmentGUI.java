@@ -34,17 +34,26 @@ public class BoatFragmentGUI extends JLabel{
 	// the facing direction of the sprite image
 	private Direction direction;
 
+	private int boatId;
+
+	private boolean broken;
+
+	private int index;
+
 	/**
 	 * __CONSTRUCTOR__
 	 * @param coord is the coord associated to this boatFragment
 	 */
-	public BoatFragmentGUI(Coord coord, BoatName name, int imageIndex) {
+	public BoatFragmentGUI(int boatId, Coord coord, BoatName name, int imageIndex) {
 			super();
 
 			// set attributes
 			this.coord = coord;
-			this.color = Color.BLACK;
+			this.color = Color.RED;
 			this.direction = Direction.DEFAULT();
+			this.boatId = boatId;
+			this.broken = false;
+			this.index = imageIndex;
 
 			/*
 			try {
@@ -184,17 +193,19 @@ public class BoatFragmentGUI extends JLabel{
 
         // draw its sprite image on the whole plane
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
-//
-//        //_OLD_ placeholder to activate for debug purpose if you do not have images
-//        g.setColor(this.color);
-//
-//        // draw cross
-//        g.drawLine(0, 0,
-//        		this.getSize().width,
-//        		this.getSize().height);
-//        g.drawLine(
-//        		this.getSize().width, 0,
-//        		0, this.getSize().height);
+
+        // display something to show that the fragment is broken
+		if(this.broken){
+			g.setColor(this.color);
+
+			// draw cross
+			g.drawLine(0, 0,
+					this.getSize().width,
+					this.getSize().height);
+			g.drawLine(
+					this.getSize().width, 0,
+					0, this.getSize().height);
+		}
     }
 
     public Coord getCoord() {
@@ -211,4 +222,15 @@ public class BoatFragmentGUI extends JLabel{
         return s;
     }
 
+	public int getBoatId() {
+		return boatId;
+	}
+
+	public void setBroken(boolean broken) {
+		this.broken = broken;
+	}
+
+	public int getIndex() {
+		return index;
+	}
 }

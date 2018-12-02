@@ -1,10 +1,13 @@
 package model;
 
+import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import testTools.BaseTests;
 import tools.Coord;
 import tools.Direction;
+import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import java.util.List;
 
@@ -247,5 +250,32 @@ public class AbstractBoatTest extends BaseTests {
         boat = this.objGenerator.generateTestBoat(new Coord(10,10), 3, Direction.EAST);
         assertEquals(2, boat.getNbFrontParts());
         assertEquals(1, boat.getNbBackParts());
+    }
+
+    @Test
+    public void testShoot(){
+        Pair<ResultShoot, ProcessedPosition> result;
+        try {
+            result = boat.shoot(new Coord(12,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(12,10));
+            assertEquals(ResultShoot.ALREADY_TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(11,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(10,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(9,10));
+            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            result = boat.shoot(new Coord(8,10));
+            assertEquals(ResultShoot.DESTROYED, result.getKey());
+        } catch (Exception e) {
+            fail();
+        }
+        try {
+            result = boat.shoot(new Coord(180,10));
+        } catch (Exception e) {
+            assertTrue(e.getClass().getName().equals(Exception.class.getName()) );
+        }
+
     }
 }

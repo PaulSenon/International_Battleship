@@ -74,7 +74,12 @@ public class Introspection {
 			if(args != null){
 				paramTypes = new Class[args.length];
 				for(int i=0;i<args.length;++i)	{
-					paramTypes[i] = args[i].getClass();
+					Class<?> class_ = args[i].getClass();
+					if(class_ == Integer.class){
+						paramTypes[i] = int.class;
+					}else{
+						paramTypes[i] = class_;
+					}
 				}
 			}
 			Constructor<?> ct = classe.getConstructor(paramTypes);

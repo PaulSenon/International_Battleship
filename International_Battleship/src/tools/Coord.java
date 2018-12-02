@@ -5,7 +5,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import java.io.Serializable;
 
 @objid ("32513812-f778-410d-8f17-b0cd7e2f800d")
-public class Coord implements Serializable{
+public class Coord implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@objid ("00be0f63-df7c-40e7-bcd2-30549050842b")

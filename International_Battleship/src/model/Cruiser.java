@@ -8,8 +8,8 @@ public class Cruiser extends AbstractBoat {
     final int size = 4;
 
     @objid ("6bb6d6ef-55bb-484d-bb77-2d5b9fed816d")
-    public Cruiser(Coord coord) {
-    	super(BoatName.Cruiser, coord);
+    public Cruiser(Coord coord, int id) {
+    	super(BoatName.Cruiser, coord, id);
     }
 
     public int getSize( ) {

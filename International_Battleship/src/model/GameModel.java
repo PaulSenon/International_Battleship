@@ -1,6 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import javafx.util.Pair;
 import tools.GameConfig;
 import tools.Coord;
 import tools.ProcessedPosition;
@@ -190,9 +191,14 @@ public class GameModel implements GameModelInterface {
     }
 
 	@Override
-	public ResultShoot shoot(Coord target) {
-		return ResultShoot.MISSED;
-//		return (battleshipImplementor.shoot(target));
+	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
+        // error case :
+        if(this.selectedBoat == null){
+            // TODO just placeholder yet.
+            System.out.println("No boat has been selected");
+            return null;
+        }
+		return battleshipImplementor.shootBoat(target);
 	}
 
     public Map<BoatName, ProcessedPosition> getListOfBoat(){

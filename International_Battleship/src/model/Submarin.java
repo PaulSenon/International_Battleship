@@ -8,8 +8,8 @@ public class Submarin extends AbstractBoat {
     final int size = 3;
 
     @objid ("8258161e-781b-456d-b755-55f8df14bb0f")
-    public Submarin(Coord coord) {
-    	super(BoatName.Submarin, coord);
+    public Submarin(Coord coord, int id) {
+    	super(BoatName.Submarin, coord, id);
     }
 
 

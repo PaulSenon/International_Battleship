@@ -1,6 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import javafx.util.Pair;
 import tools.Coord;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
@@ -54,7 +55,7 @@ public class GameModelObs extends Observable implements GameModelInterface {
     @Override
     public ProcessedPosition selectBoat(int x, int y) {
         // TODO dégueulasse
-        return new ProcessedPosition(null, null, null);
+        return null;
     }
 
     @Override
@@ -63,8 +64,8 @@ public class GameModelObs extends Observable implements GameModelInterface {
     }
 
     @Override
-	public ResultShoot shoot(Coord target) {
-		return ResultShoot.MISSED;
+	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
