@@ -1,11 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import javafx.util.Pair;
-import tools.GameConfig;
-import tools.Coord;
-import tools.ProcessedPosition;
-import tools.ResultShoot;
+import tools.*;
 
 import java.util.*;
 
