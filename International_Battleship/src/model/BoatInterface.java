@@ -1,7 +1,6 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import javafx.util.Pair;
 import tools.*;
 
 import java.util.List;

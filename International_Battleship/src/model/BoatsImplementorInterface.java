@@ -1,7 +1,7 @@
 package model;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import javafx.util.Pair;
 import tools.Coord;
+import tools.Pair;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
