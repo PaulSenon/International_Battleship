@@ -1,11 +1,7 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import javafx.util.Pair;
-import tools.BoatFactory;
-import tools.Coord;
-import tools.ProcessedPosition;
-import tools.ResultShoot;
+import tools.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,29 +16,23 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
 
     @objid ("5ec8880b-f75d-4bee-8ed0-ecea6a4d4930")
-    public BoatsImplementor(List<Player> players, List<BoatName> fleetList) {
+    public BoatsImplementor(List<PlayerInterface> players) {
         this.boats = new ArrayList<>();
-        this.generateBoatsFromFactory(players, fleetList);
+        this.generateBoatsFromFactory(players);
     }
 
-    private void generateBoatsFromFactory(List<Player> players, List<BoatName> fleetList){
-        for (Player p : players) {
-            int i=5;
-            for (BoatName boatName  : fleetList) {
-                try {
-                    p.getFleet().add(BoatFactory.newBoat(boatName,new Coord(5,i), i));
-                    i++;
-                }catch (IllegalArgumentException e){
-                    e.getMessage();
-                }
-            }
-            //test
-            System.out.println("L'implementor a générer la flotte suivante : "+ p.getFleet());
-            for(BoatInterface boat : p.getFleet()){
-            	this.boats.add(boat);
+    /**
+     * This method generates boat from Factory
+     * @param players
+     */
+    private void generateBoatsFromFactory(List<PlayerInterface> players){
+        //For each players add its boat to a list with all boats
+        for (PlayerInterface p : players) {
+            List<BoatInterface> fleet = p.getFleet();
+            for (BoatInterface boat : fleet) {
+                this.boats.add(boat);
             }
         }
-
     }
 
     /**

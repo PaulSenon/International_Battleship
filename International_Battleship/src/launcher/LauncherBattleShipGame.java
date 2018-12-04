@@ -6,23 +6,29 @@ import model.GameModel;
 import multiplayer.Client;
 import multiplayer.Server;
 import tools.GameConfig;
+import tools.ImageManager;
 import view.GameGUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LauncherBattleShipGame {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO nothing definitive, just some debug config
 
-// setup game config :
+		// setup image manager :
+		ImageManager.newInstance();
+
+		// setup game config :
 		GameConfig.newInstance(
 				25, // gameGridWidth
-				25 // gameGridHeight
-		);
+				25, // gameGridHeight
+				20 //maxActionPoint
+			);
 
 		JFrame jframe = new JFrame("Menu");
 		jframe.setSize(300, 500);

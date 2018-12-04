@@ -1,13 +1,12 @@
 package model;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import testTools.BaseTests;
 import testTools.Reflection;
-import tools.GameConfig;
-import tools.Coord;
-import tools.Direction;
+import tools.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,14 @@ public class GameModelTest extends BaseTests {
         // create a game config for game board bounds test
         GameConfig.newInstance(
                 25, // gameGridWidth
-                25 // gameGridHeight
+                25, // gameGridHeight
+                20 //maxActionPoint
         );
 
         // create boats implementor
-        List<Player> players = new ArrayList<>();
+        List<PlayerInterface> players = new ArrayList<>();
         List<BoatName> boatNames = new ArrayList<>();
-        this.boatsImplementor = new BoatsImplementor(players, boatNames);
+        this.boatsImplementor = new BoatsImplementor(players);
 
         // add some test boats on the game board
         // TODO change values
@@ -148,6 +148,70 @@ public class GameModelTest extends BaseTests {
         // TODO
     }
 
+    @Test
+    public void testCreatePlayer(){
+        //Test the creation of Player1 when setting of a GameModel
+        GameModel gameModel = new GameModel();
+        List<PlayerInterface> players = gameModel.getPlayers();
+        assertEquals(1,players.size());
+        assertEquals("Player1",players.get(0).getName());
+        assertEquals("Port1",players.get(0).getPortName());
+        //Adding a player to the model
+        try {
+            gameModel.createPlayer("Player2","Port2");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(2,players.size());
+        assertEquals("Player2",players.get(1).getName());
+        assertEquals("Port2",players.get(1).getPortName());
+        //Test the creation of a player already existing
+        try {
+            gameModel.createPlayer("Player2","Port2");
+            fail("Should have thrown an exception");
+        } catch (Exception e) {
+            String expectedMessage = "Player or Port already existing";
+            assertEquals(expectedMessage,e.getMessage());
+        }
+        assertEquals(2,players.size());
+    }
+
+    @Test
+    public void testDeletePlayer(){
+        GameModel gameModel = new GameModel();
+        //Trying to delete a non-existing player
+        try {
+            gameModel.deletePlayer("Player2");
+            fail();
+        } catch (Exception e) {
+            assertEquals("The player you want to delete isn't existing",e.getMessage());
+        }
+        try {
+            gameModel.deletePlayer("Player1");
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+        List<PlayerInterface> players = gameModel.getPlayers();
+        assertEquals(0,players.size());
+    }
+
+    @Test
+    public void testAddBoat() {
+        //Trying to add a boat to the fleet of a player
+        //Uncomment the tests commented when the debug to see boat in GUI is removed in addBoat function in GameModel class
+        GameModel gameModel = new GameModel();
+        List<PlayerInterface> players = gameModel.getPlayers();
+        Player player1 = (Player) players.get(0);
+        List<BoatInterface> fleet = player1.getFleet();
+        //assertEquals(0,fleet.size());
+        gameModel.addBoat(player1,BoatName.Submarin, new Coord(0,0));
+        //assertEquals(1,fleet.size());
+
+        //Testing that the boat is correctly added
+        BoatInterface boat = fleet.get(0);
+        //assertEquals(new Coord(0,0),boat.getPivot());
+    }
     @Test
     public void testMoveBoatBlockedByAnotherShip(){
         // setup

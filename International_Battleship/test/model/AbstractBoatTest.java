@@ -1,13 +1,9 @@
 package model;
 
-import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import testTools.BaseTests;
-import tools.Coord;
-import tools.Direction;
-import tools.ProcessedPosition;
-import tools.ResultShoot;
+import tools.*;
 
 import java.util.List;
 
@@ -257,17 +253,17 @@ public class AbstractBoatTest extends BaseTests {
         Pair<ResultShoot, ProcessedPosition> result;
         try {
             result = boat.shoot(new Coord(12,10));
-            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            assertEquals(ResultShoot.TOUCHED, result.getFirst());
             result = boat.shoot(new Coord(12,10));
-            assertEquals(ResultShoot.ALREADY_TOUCHED, result.getKey());
+            assertEquals(ResultShoot.ALREADY_TOUCHED, result.getFirst());
             result = boat.shoot(new Coord(11,10));
-            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            assertEquals(ResultShoot.TOUCHED, result.getFirst());
             result = boat.shoot(new Coord(10,10));
-            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            assertEquals(ResultShoot.TOUCHED, result.getFirst());
             result = boat.shoot(new Coord(9,10));
-            assertEquals(ResultShoot.TOUCHED, result.getKey());
+            assertEquals(ResultShoot.TOUCHED, result.getFirst());
             result = boat.shoot(new Coord(8,10));
-            assertEquals(ResultShoot.DESTROYED, result.getKey());
+            assertEquals(ResultShoot.DESTROYED, result.getFirst());
         } catch (Exception e) {
             fail();
         }

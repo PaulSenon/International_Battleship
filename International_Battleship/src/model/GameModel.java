@@ -1,13 +1,10 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import javafx.util.Pair;
-import tools.GameConfig;
-import tools.Coord;
-import tools.ProcessedPosition;
-import tools.ResultShoot;
+import tools.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @objid ("2d5b787d-2269-4d70-9e4e-dd727dfa9336")
 public class GameModel implements GameModelInterface {
@@ -17,22 +14,31 @@ public class GameModel implements GameModelInterface {
     private BoatsImplementorInterface battleshipImplementor;
 
     // player list
-    private List<Player> players;
+    private List<PlayerInterface> players;
 
     // The selected boat (may be null)
     private BoatInterface selectedBoat;
+
+    AtomicInteger atomicInteger;
 
     /**
      * __CONSTRUCTOR__
      */
     @objid ("245404cb-acb3-41d4-b19d-5717b51a8f66")
     public GameModel() {
+        //Set the ids for boats
+        this.atomicInteger = new AtomicInteger();
         // set attributes
         this.players = new ArrayList<>();
-        Player player = new Player();
-        this.players.add(player);
+        //For testing the creation of player in model in the setting of the GameModel
+        try {
+            createPlayer("Player1", "Port1");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.selectedBoat = null;
-    	battleshipImplementor = new BoatsImplementor(this.players, this.DEBUG_get_test_fleet_from_enum());
+    	//battleshipImplementor = new BoatsImplementor(this.players, this.DEBUG_get_test_fleet_from_enum());
+        battleshipImplementor = new BoatsImplementor(this.players);
     }
 
     /**
@@ -205,4 +211,57 @@ public class GameModel implements GameModelInterface {
         return this.battleshipImplementor.getBoats();
     }
 
+    /**
+     * Create a player and add it to the list of players
+     * @param name
+     * @param port
+     */
+	public void createPlayer(String name, String port) throws Exception{
+        for (PlayerInterface player : players){
+            if (player.getName().equals(name) || player.getPortName().equals(port)){
+                throw new Exception("Player or Port already existing");
+            }
+        }
+	    Player player = new Player(name, port);
+        //TODO : Remove the following lines, it's just for DEBUG
+        List<BoatName> fleetList = new LinkedList<>();
+        Collections.addAll(fleetList, BoatName.values());
+        int i = 5;
+        for (BoatName boat : fleetList){
+            addBoat(player,boat,new Coord(5,i));
+            i++;
+        }
+        //END of lines for DEBUG
+        this.players.add(player);
+    }
+
+    public void addBoat(Player player, BoatName boatName, Coord coord){
+	    int id = this.atomicInteger.getAndIncrement();
+	    player.addBoatInFleet(boatName, coord, id);
+    }
+
+    /**
+     * Delete a player thanks to its name and delete it from the list of the players in the GameModel
+     * @param name
+     * @return result of the destruction of the player
+     */
+    public void deletePlayer(String name) throws Exception{
+        PlayerInterface toDestroy = null;
+        for (PlayerInterface player : this.players){
+            if (player.getName().equals(name)) {
+                toDestroy = player;
+                //TODO: delete object player
+            }
+        }
+        if (toDestroy != null) {
+            this.players.remove(toDestroy);
+        }
+        else {
+            throw new Exception("The player you want to delete isn't existing");
+        }
+    }
+
+    public List<PlayerInterface> getPlayers() {
+        return players;
+    }
 }

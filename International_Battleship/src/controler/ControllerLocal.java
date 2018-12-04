@@ -1,13 +1,14 @@
 package controler;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import javafx.util.Pair;
 import model.BoatName;
 import model.GameModelInterface;
-import tools.ActionType;
-import tools.Coord;
-import tools.ProcessedPosition;
-import tools.ResultShoot;
+import model.Player;
+import view.SquareGUI;
+import view.GameGUI;
+import view.GameGUIInterface;
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import tools.*;
 import view.GameGUIInterface;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
     public ControllerLocal(GameModelInterface gameModel, GameGUIInterface gameGUI) {
         System.out.println("Controller\n");
         this.gameModel = gameModel;
-        this.gameGUI = gameGUI; // set latter
+        this.gameGUI = gameGUI;// set latter
         initGame();
     }
 
@@ -81,11 +82,11 @@ public class ControllerLocal implements ControllerModelViewInterface {
 	public void shoot(int x, int y) {
         Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(new Coord(x, y));
         if(result != null){
-            if(result.getValue() != null){
-                this.gameGUI.setProcessedPotion(result.getValue());
+            if(result.getFirst() != null){
+                this.gameGUI.setProcessedPotion(result.getSecond());
             }
             this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.message("shoot result : "+result.getKey());
+            this.gameGUI.message("shoot result : "+result.getFirst());
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
