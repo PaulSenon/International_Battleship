@@ -5,12 +5,17 @@ import java.util.List;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import tools.BoatFactory;
+import tools.Coord;
+import tools.GameConfig;
 import tools.PersonnalException;
 
 @objid ("f238657d-bdf0-4378-bd4d-31cf69f544c3")
 public class Player implements PlayerInterface {
+    private final String name;
+
 	//TODO : modifier cet attribut pour le faire varier en fonction du nombre de bateau.
-	int maxActionPoint = 20;
+	int maxActionPoint;
 
 	@objid ("3f33dd87-0c02-456e-9147-4d36c1941913")
 	private List<BoatInterface> fleet;
@@ -24,6 +29,15 @@ public class Player implements PlayerInterface {
 	@objid ("34e61417-a489-4dd3-a9bd-7d7edf60a067")
 	private AbstractBoat selectedBoat;
 
+    @objid ("f51afe71-7f94-42e7-a536-e386c3048b7c")
+    public Player(String name, String port) {
+        this.name = name;
+        this.PortName = port;
+        this.fleet = new LinkedList<BoatInterface>();
+        this.maxActionPoint = GameConfig.getMaxActionPoint();
+		this.ActionPoint = GameConfig.getMaxActionPoint();
+    }
+
 	@objid ("1d956215-4939-4f01-984b-461bfa06531f")
 	private void isPlay() {
 	}
@@ -34,14 +48,15 @@ public class Player implements PlayerInterface {
 		return this.fleet;
 	}
 
-	@objid ("2ef16a01-3bc3-412a-9043-623b4bc2c470")
-	public void setFleet() {
-		// Automatically generated method. Please delete this comment before entering specific code.
-		//this.fleet = value;
-	}
-
+    /**
+     * Add a boat in the fleet of the player
+     * @param boatName
+     * @param coord
+     */
 	@objid ("f71f0f18-99aa-4b0d-a697-41e75baa6f7e")
-	public void addBoatInFleet() {
+	public void addBoatInFleet(BoatName boatName, Coord coord, int id){
+        BoatInterface boat = BoatFactory.newBoat(boatName, coord, id);
+        this.fleet.add(boat);
 	}
 
 	@objid ("30029abf-d2e3-49ed-bd95-f43be5fa5c17")
@@ -56,11 +71,6 @@ public class Player implements PlayerInterface {
 	public AbstractBoat getSelectedBoat() {
 		// Automatically generated method. Please delete this comment before entering specific code.
 		return this.selectedBoat;
-	}
-
-	@objid ("f51afe71-7f94-42e7-a536-e386c3048b7c")
-	public Player() {
-		this.fleet = new LinkedList<BoatInterface>();
 	}
 
 	@objid ("a5e853b4-d905-439e-9751-fa18148121b4")
@@ -106,7 +116,7 @@ public class Player implements PlayerInterface {
 	@objid ("b3fb1af7-f52b-4fbb-83f0-5be19d8970eb")
 	public void setActionPoint(final int value) throws PersonnalException {
 		if (value > maxActionPoint) {
-			throw new PersonnalException("The value is higher tha expected");
+			throw new PersonnalException("The value is higher than expected");
 		}
 		this.ActionPoint = value;
 	}
@@ -116,7 +126,7 @@ public class Player implements PlayerInterface {
 	 * @param value
 	 * @throws PersonnalException 
 	 */
-	public void creditActionPoint (final int value) throws PersonnalException {
+	public void creditActionPoint (final int value) {
 		this.ActionPoint += value;
 		if (this.ActionPoint > maxActionPoint) {
 			this.ActionPoint = maxActionPoint;
@@ -157,5 +167,13 @@ public class Player implements PlayerInterface {
 			}
 		}
 	}
+
+    /**
+     *
+     * @return the name of the player
+     */
+    public String getName() {
+        return this.name;
+    }
 
 }
