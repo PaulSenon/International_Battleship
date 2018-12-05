@@ -5,7 +5,7 @@ import tools.Coord;
 
 @objid ("b0f6e843-5b59-4e8c-8233-5a897083772c")
 public class AircraftCarrier extends AbstractBoat {
-	final int size = 5;
+	final int size = BoatName.AircraftCarrier.getValue();
 
     @objid ("d7f1e9b2-c61d-4f7a-8a81-a52d2389f794")
     public AircraftCarrier(Coord coord, int id) {

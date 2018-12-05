@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class LauncherBattleShipGame {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		// TODO nothing definitive, just some debug config
 
 		// setup image manager :

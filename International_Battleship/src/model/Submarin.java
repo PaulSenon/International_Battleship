@@ -5,7 +5,7 @@ import tools.Coord;
 
 @objid ("6e97e275-d4cc-4ebf-b561-c227b2cf71b7")
 public class Submarin extends AbstractBoat {
-    final int size = 3;
+    final int size = BoatName.Submarin.getValue();
 
     @objid ("8258161e-781b-456d-b755-55f8df14bb0f")
     public Submarin(Coord coord, int id) {
