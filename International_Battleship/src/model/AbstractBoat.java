@@ -12,6 +12,8 @@ import static tools.Direction.DEFAULT;
 public abstract class AbstractBoat implements BoatInterface {
 
 	protected Coord pivot;
+	protected SpecialActionInterface mySpecialAction;
+
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
 	private List<Coord> coords;
 	private List<Integer> touchedGragmentIds;
@@ -269,8 +271,8 @@ public abstract class AbstractBoat implements BoatInterface {
         }
     }
 
-
-	public void useSpecialAction() {}
+	public void actionSpecial(Coord target) {
+		this.mySpecialAction.doAction(target);}
 
 	public String getColor() {
 		// Automatically generated method. Please delete this comment before entering specific code.

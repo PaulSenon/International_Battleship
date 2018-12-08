@@ -61,6 +61,13 @@ public class ButtonGUI extends JButton{
 				break;
 			case ROTATECCW:
 				break;
+			case SPECIALACTION:
+					if(actionType == ActionType.SPECIAL){
+						this.setActive();
+					}else{
+						this.resetDefault();
+					}
+					break;
 			default:
 				System.out.println("Error ButtonGUI wrong action type");
 		}

@@ -2,6 +2,7 @@ package controler;
 
 
 import tools.ActionType;
+import tools.Coord;
 import view.GridGUI;
 
 public class ControllerClient implements ControllerModelViewInterface {
@@ -44,7 +45,13 @@ public class ControllerClient implements ControllerModelViewInterface {
     }
 
     @Override
-    public void requestActioType(ActionType actionType) {
+    public void requestActionType(ActionType actionType) {
 
     }
+
+	@Override
+	public void specialAction(Coord coordSquare) {
+		// TODO Auto-generated method stub
+
+	}
 }

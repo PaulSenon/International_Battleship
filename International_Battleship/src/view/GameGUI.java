@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -85,14 +84,18 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                     this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
                     controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
 
+			buttonsConstraints.gridy++;
+			this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
+			controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
+
+
 
                 //Store buttons in a list // TODO is this useful ?
                     this.listOfButtons = new ArrayList<>();
                     listOfButtons.add(this.buttonGUITirer);
                     listOfButtons.add(this.buttonRotateClockWise);
                     listOfButtons.add(this.buttonRotateCounterClockWise);
-                    //listOfButtons.add(this.buttonGUIDéplacer);
-                    //listOfButtons.add(this.buttonGUIActionSpéciale);
+                    listOfButtons.add(this.buttonGUIActionSpéciale);
 
             // Add ButtonPanel in center of the BorderLayout
 			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
@@ -126,6 +129,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.buttonGUITirer.addActionListener(buttonListener);
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
 		this.buttonRotateClockWise.addActionListener(buttonListener);
+		this.buttonGUIActionSpéciale.addActionListener(buttonListener);
 	}
 
 	@Override

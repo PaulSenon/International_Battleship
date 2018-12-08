@@ -28,4 +28,7 @@ public interface GameModelInterface {
     List<Coord> getVisibleCoords(PlayerInterface player);
 
     List<Coord> getVisibleCoordsCurrentPlayer();
+
+	void specialAction(Coord coordSquare);
+
 }

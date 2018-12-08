@@ -1,6 +1,5 @@
 package model;
 
-
 import tools.*;
 
 import java.util.List;
@@ -46,4 +45,6 @@ public interface BoatInterface {
     int getPlayerId();
 
     List<Coord> getVisibleCoords();
+
+	void actionSpecial(Coord coordSquare);
 }

@@ -36,7 +36,7 @@ public class GridGUIListener implements EventListener, MouseListener {
 				this.controller.shoot(coordSquare.getX(), coordSquare.getY());
 				break;
 			case SPECIAL:
-//				this.controller.specialAction(coordSquare);
+				this.controller.specialAction(coordSquare);
 				break;
 		}
 //		if(actionType.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {

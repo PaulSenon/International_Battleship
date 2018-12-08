@@ -304,4 +304,9 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return null;
     }
 
+	@Override
+	public void specialAction(BoatInterface selectedBoat, Coord coordSquare) {
+		selectedBoat.actionSpecial(coordSquare);
+	}
+
 }
