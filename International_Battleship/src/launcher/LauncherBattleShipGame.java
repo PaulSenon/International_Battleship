@@ -5,6 +5,8 @@ import controler.ControllerModelViewInterface;
 import model.GameModel;
 import multiplayer.Client;
 import multiplayer.Server;
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
+import tools.ConsoleOutputStream;
 import tools.GameConfig;
 import tools.ImageManager;
 import view.GameGUI;
@@ -14,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.PrintStream;
 
 public class LauncherBattleShipGame {
 
@@ -38,12 +41,25 @@ public class LauncherBattleShipGame {
 		c.add(jp);
 
 
+		//Init of console on launcher
+		JTextArea textArea = new JTextArea();
+		textArea.setPreferredSize(new Dimension(250,400));
+		textArea.setBackground(Color.BLACK);
+		textArea.setForeground(Color.LIGHT_GRAY);
+		//TODO fix the scroll and the encodage problem
+
+		//Redirect Standard output to launcher
+		PrintStream printStream = new PrintStream(new ConsoleOutputStream(textArea));
+		System.setOut(printStream);
+		System.setErr(printStream);
+
+
 		//Bouton pour lancer le solo
 		JButton solo = new JButton("Solo");
 		solo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				launchSolo();
+				launchSolo(jframe);
 			}
 		});
 
@@ -52,7 +68,7 @@ public class LauncherBattleShipGame {
 		multi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				launchMultiplayer();
+				launchMultiplayer(textArea);
 			}
 		});
 
@@ -68,6 +84,7 @@ public class LauncherBattleShipGame {
 		jp.add(solo);
 		jp.add(multi);
 		jp.add(close);
+		jp.add(textArea);
 
 		jframe.setVisible(true);
 	}
@@ -76,7 +93,7 @@ public class LauncherBattleShipGame {
 	 * Cette fonction permet de lancer la mode multijoueur
 	 * Elle instancie le serveur, connecte le premier joueur dessus
 	 */
-	public static void launchMultiplayer(){
+	public static void launchMultiplayer(JTextArea textArea){
 		Server server = new Server();
 		server.open();
 		Thread t = new Thread(new Client("127.0.0.1",8080));
@@ -87,11 +104,12 @@ public class LauncherBattleShipGame {
 	 * Cette fonction permet de lancer le mode solo
 	 * Elle configure la fenêtre, les joueurs et lance la partie
 	 */
-	public static void launchSolo() {
+	public static void launchSolo(JFrame jframe) {
 		GameGUI gameGUI = setupFrame();
 		GameModel gameModel = setupGameModel();
 		setupGame(gameModel,gameGUI);
 		gameGUI.setVisible(true);
+		jframe.setVisible(false);//Hide the launcher
 
 	}
 	/**
