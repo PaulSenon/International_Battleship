@@ -17,6 +17,8 @@ public class Player implements PlayerInterface {
 	private String PortName;
 	private List<Coord> visibleCoords;
 
+	private static final long serialVersionUID = 5950874519310163575L;
+
 	//TODO : modifier cet attribut pour le faire varier en fonction du nombre de bateau.
 	private int maxActionPoint;
 
@@ -88,7 +90,7 @@ public class Player implements PlayerInterface {
 	/**
 	 * This method is used to set the value of Action Point
 	 * @param value
-	 * @throws PersonnalException 
+	 * @throws PersonnalException
 	 */
 	public void setNbActionPoint(final int value) throws PersonnalException {
 		if (value > maxActionPoint) {
@@ -100,7 +102,7 @@ public class Player implements PlayerInterface {
 	/**
 	 * This method is used to credit the value of Action Point
 	 * @param value
-	 * @throws PersonnalException 
+	 * @throws PersonnalException
 	 */
 	public void creditActionPoint (final int value) {
 		// save last nb AP
@@ -167,5 +169,10 @@ public class Player implements PlayerInterface {
 		this.visibleCoords = visibleCoords;
 	}
 
+
+    @Override
+	public String toString(){
+    	return "Player : " + getName() + " | Port : " + getPortName();
+	}
 
 }

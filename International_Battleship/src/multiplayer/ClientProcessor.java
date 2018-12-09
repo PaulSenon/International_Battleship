@@ -3,94 +3,89 @@
  */
 package multiplayer;
 
-import java.io.BufferedInputStream;
+import model.Player;
+
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
 public class ClientProcessor implements Runnable{
 
-    private Socket sock;
-    private PrintWriter writer = null;
-    private BufferedInputStream reader = null;
+	private Socket sock;
+	private ObjectOutputStream writer = null;
+	private ObjectInputStream reader = null;
+	private int idPlayer = 1;
 
-    public ClientProcessor(Socket pSock){
-        sock = pSock;
-    }
+	public ClientProcessor(Socket pSock){
+		this.sock = pSock;
+	}
 
-    //Le traitement lancé dans un thread séparé
-    public void run(){
-        System.err.println("Lancement du traitement de la connexion cliente");
+	public ClientProcessor(Socket pSock,int idPlayer){
+		this.sock = pSock;
+		this.idPlayer = idPlayer;
+	}
 
-        boolean closeConnexion = false;
-        //Tant que la connexion est active, on traite les demandes
-        while(!sock.isClosed()){
+	//Le traitement lancé dans un thread séparé
+	public void run(){
+		try {
+			System.err.println("Lancement du traitement de la connexion cliente");
+			writer = new ObjectOutputStream(sock.getOutputStream());
+			reader = new ObjectInputStream(sock.getInputStream());
+			boolean closeConnexion = false;
+			//Tant que la connexion est active, on traite les demandes
+			while(!sock.isClosed()){
 
-            try {
 
 
-                writer = new PrintWriter(sock.getOutputStream());
-                reader = new BufferedInputStream(sock.getInputStream());
 
-                //On attend la demande du client
-                String response = read();
-                InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
+				//On attend la demande du client
+				System.out.println("J'attends une commande client");
+				Object response = read();
+		
+				//On traite la demande du client
+				String className = response.getClass().getName();
+				if(response instanceof Player){
+					System.out.println(((Player)response).toString());
+				}
+				if(response instanceof String){
+					switch((String)response){
+					case "getPlayer":
+						System.out.println("Je suis dans la fonction getPlayer");
+						writer.writeObject(new Player(1, "Player"+idPlayer,"Port"+idPlayer));
+						writer.flush();
+						break;
+					case "close":
+						closeConnexion = true;
+					}
 
-                //On affiche quelques infos, pour le débuggage
-                String debug = "";
-                debug = "Thread : " + Thread.currentThread().getName() + ". ";
-                debug += "Demande de l'adresse : " + remote.getAddress().getHostAddress() +".";
-                debug += " Sur le port : " + remote.getPort() + ".\n";
-                debug += "\t -> Commande reçue : " + response + "\n";
-                System.err.println("\n" + debug);
+				}
 
-                //On traite la demande du client (Ici : Je suis un joueur connecté)
-                String toSend;
 
-                switch(response.toUpperCase()){
-                    case "PLAYER":
-                        toSend = "Je suis un joueur connecté";
-                        closeConnexion = true;
-                        break;
-                    case "CLOSE":
-                        toSend = "Communication terminée";
-                        closeConnexion = true;
-                        break;
-                    default :
-                        toSend = "Commande inconnu !";
-                        break;
-                }
+				if(closeConnexion){
+					System.err.println("COMMANDE CLOSE DETECTEE ! ");
+					writer = null;
+					reader = null;
+					sock.close();
+					break;
+				}
 
-                //On envoie la réponse au client
-                writer.write(toSend);
-                writer.flush();
+			}
+		}catch(SocketException e){
+			System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	} 
 
-                if(closeConnexion){
-                    System.err.println("COMMANDE CLOSE DETECTEE ! ");
-                    writer = null;
-                    reader = null;
-                    sock.close();
-                    break;
-                }
-            }catch(SocketException e){
-                System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
-                break;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //La méthode que nous utilisons pour lire les réponses
-    private String read() throws IOException{
-        String response = "";
-        int stream;
-        byte[] b = new byte[4096];
-        stream = reader.read(b);
-        response = new String(b, 0, stream);
-        return response;
-    }
+	//La méthode que nous utilisons pour lire les réponses
+	private Object read() throws IOException, ClassNotFoundException {
+		Object response;
+		response =  reader.readObject();
+		return response;
+	}
 
 }
