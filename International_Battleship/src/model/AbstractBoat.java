@@ -46,6 +46,7 @@ public abstract class AbstractBoat implements BoatInterface {
         this.name = name;
         this.coords = new ArrayList<>();
         this.coordsNeedToBeProcessed = true;
+        this.coordsVisibleToBeProcessed = true;
         this.touchedGragmentIds = new ArrayList<>();
         this.id = id;
 
@@ -320,8 +321,8 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     public List<Coord> getVisibleCoords(){
+        List<Coord> visibleCoords = new ArrayList<Coord>();
         if(this.coordsVisibleToBeProcessed){
-            List<Coord> visibleCoords = new ArrayList<Coord>();
             int radius = this.getSize() /2 ;
             if(radius == 0){radius = 1;}
             for (Coord coord : this.getCoords()){
@@ -339,8 +340,8 @@ public abstract class AbstractBoat implements BoatInterface {
                 }
             }
             this.coordsVisibleToBeProcessed = false;
-            return visibleCoords;
         }
+        return visibleCoords;
     }
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")
