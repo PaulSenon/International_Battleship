@@ -40,4 +40,6 @@ public interface BoatInterface {
     BoatName getName();
 
     int getId();
+
+    List<Coord> getVisibleCoords();
 }

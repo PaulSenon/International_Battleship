@@ -3,6 +3,7 @@ package view;
 import model.BoatInterface;
 import model.BoatName;
 import tools.ActionType;
+import tools.Coord;
 import tools.ProcessedPosition;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface GameGUIInterface {
     void setSelectedBoat(ProcessedPosition processedPosition);
 
     void message(String message);
+
+    void setVisibleCoord(List<Coord> visibleCoords);
 }

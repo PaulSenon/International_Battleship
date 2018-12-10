@@ -5,7 +5,7 @@ import org.junit.Test;
 import testTools.BaseTests;
 import tools.*;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 

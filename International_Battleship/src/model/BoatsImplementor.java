@@ -249,4 +249,19 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boatInitPos;
     }
 
+    public List<Coord> getVisibleCoords(Player player){
+        List<BoatInterface> fleet = player.getFleet();
+        List<Coord> visibleCoords = new ArrayList<>();
+        for (BoatInterface boat : fleet) {
+            List<Coord> coords = boat.getVisibleCoords();
+            for (Coord visibleCoord : coords){
+                if (!visibleCoords.contains(visibleCoord)){
+                    visibleCoords.add(visibleCoord);
+                }
+            }
+        }
+        player.visibleCoords = visibleCoords;
+        return visibleCoords;
+    }
+
 }

@@ -5,6 +5,7 @@ import tools.Pair;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
+import java.util.List;
 import java.util.Map;
 
 @objid ("75a7604f-f615-4013-af67-b5d5bd901738")
@@ -23,4 +24,6 @@ public interface BoatsImplementorInterface {
     ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat);
 
     Map<BoatName, ProcessedPosition> getBoats();
+
+    List<Coord> getVisibleCoords(Player player);
 }

@@ -314,7 +314,28 @@ public abstract class AbstractBoat implements BoatInterface {
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
-        return new ProcessedPosition(this.id, this.name, this.facingDirection, this.getCoords(), this.touchedGragmentIds);
+        return new ProcessedPosition(this.id, this.name, this.facingDirection, this.getCoords(), this.touchedGragmentIds, getVisibleCoords());
+    }
+
+    public List<Coord> getVisibleCoords(){
+        List<Coord> visibleCoords = new ArrayList<Coord>();
+        int radius = this.getSize() /2 ;
+        if(radius == 0){radius = 1;}
+        for (Coord coord : this.getCoords()){
+            int lineBeginning = coord.getY() - radius;
+            int lineEnd = coord.getY() + radius + 1;
+            int columnBeginning = coord.getX() - radius;
+            int columnEnd = coord.getX() + radius + 1;
+            for (int line = lineBeginning; line<lineEnd; line ++){
+                for(int column = columnBeginning; column<columnEnd; column ++) {
+                    if (!((line==lineBeginning && column==columnBeginning) || (line==lineBeginning && column==columnEnd - 1) || (line==lineEnd - 1 && column==columnBeginning) || (line==lineEnd - 1 && column==columnEnd - 1))){
+                        Coord visibleCoord = new Coord(column, line);
+                        visibleCoords.add(visibleCoord);
+                    }
+                }
+            }
+        }
+        return visibleCoords;
     }
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")

@@ -5,6 +5,7 @@ import controler.ControllerModelViewInterface;
 import model.BoatInterface;
 import model.BoatName;
 import tools.ActionType;
+import tools.Coord;
 import tools.ProcessedPosition;
 
 import javax.swing.*;
@@ -168,6 +169,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	public void message(String message) {
 		// TODO add visual
 		System.out.println("MESSAGE TO USER : "+message);
+	}
+
+	@Override
+	public void setVisibleCoord(List<Coord> visibleCoords) {
+		this.gridGUI.setVisibleCoords(visibleCoords);
 	}
 
 	/**

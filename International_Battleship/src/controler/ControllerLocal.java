@@ -12,6 +12,7 @@ import tools.*;
 import view.GameGUIInterface;
 
 import javax.swing.*;
+import java.util.Collection;
 import java.util.Map;
 
 @objid ("876e9f9a-d77c-4a9d-809e-0854b8d95d55")
@@ -50,6 +51,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
@@ -61,6 +63,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
         }else{
         this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
@@ -72,6 +75,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
@@ -100,6 +104,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         Map<BoatName,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
         this.gameGUI.initGame(initBoatPos);
         this.gameGUI.setCurrentAction(ActionType.SELECT);
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
     }
 
     public void requestActioType(ActionType actionType){

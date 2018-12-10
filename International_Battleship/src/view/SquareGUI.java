@@ -41,6 +41,10 @@ public class SquareGUI extends JPanel {
 
     }
 
+    public void changeBackground(Color color){
+        this.setBackground(color);
+    }
+
 
     @objid ("011f52f4-99dd-4985-8a89-7dcb60504ac2")
     public void getWhatSquareIs() {

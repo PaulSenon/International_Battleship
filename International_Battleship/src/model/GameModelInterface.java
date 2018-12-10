@@ -7,6 +7,7 @@ import tools.ProcessedPosition;
 
 import tools.ResultShoot;
 
+import java.util.List;
 import java.util.Map;
 
 @objid ("82d664fa-9274-4766-b754-b991176fe06c")
@@ -29,5 +30,9 @@ public interface GameModelInterface {
     Pair<ResultShoot, ProcessedPosition> shoot(Coord target);
 
     Map<BoatName, ProcessedPosition> getListOfBoat();
+
+    List<Coord> getVisibleCoords(Player player);
+
+    List<PlayerInterface> getPlayers();
 
 }

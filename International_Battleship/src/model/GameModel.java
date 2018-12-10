@@ -231,6 +231,11 @@ public class GameModel implements GameModelInterface {
             addBoat(player,boat,new Coord(5,i));
             i++;
         }
+        //addBoat(player,BoatName.Sentinel, new Coord(2,2));
+        //addBoat(player,BoatName.TorpedoBoat, new Coord(4,4));
+        //addBoat(player,BoatName.Submarin, new Coord(6,6));
+        //addBoat(player,BoatName.Cruiser, new Coord(9,9));
+        //addBoat(player,BoatName.AircraftCarrier, new Coord(13,13));
         //END of lines for DEBUG
         this.players.add(player);
     }
@@ -262,6 +267,11 @@ public class GameModel implements GameModelInterface {
     }
 
     public List<PlayerInterface> getPlayers() {
-        return players;
+        return this.players;
     }
+
+    public List<Coord> getVisibleCoords(Player player) {
+        return this.battleshipImplementor.getVisibleCoords(player);
+    }
+
 }

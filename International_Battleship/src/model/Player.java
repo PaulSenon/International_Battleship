@@ -13,6 +13,7 @@ import tools.PersonnalException;
 @objid ("f238657d-bdf0-4378-bd4d-31cf69f544c3")
 public class Player implements PlayerInterface {
     private final String name;
+	public List<Coord> visibleCoords;
 
 	//TODO : modifier cet attribut pour le faire varier en fonction du nombre de bateau.
 	int maxActionPoint;
@@ -36,6 +37,7 @@ public class Player implements PlayerInterface {
         this.fleet = new LinkedList<BoatInterface>();
         this.maxActionPoint = GameConfig.getMaxActionPoint();
 		this.ActionPoint = GameConfig.getMaxActionPoint();
+		this.visibleCoords = null;
     }
 
 	@objid ("1d956215-4939-4f01-984b-461bfa06531f")
@@ -176,4 +178,9 @@ public class Player implements PlayerInterface {
         return this.name;
     }
 
+    public List<Coord> getVisibleCoords (){ return this.visibleCoords; }
+
+	public void setVisibleCoords(List<Coord> visibleCoords) {
+		this.visibleCoords = visibleCoords;
+	}
 }
