@@ -6,6 +6,7 @@ import tools.Pair;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -63,6 +64,16 @@ public class GameModelObs extends Observable implements GameModelInterface {
     @Override
     public int getApCurrentPlayer() {
         return 0;
+    }
+
+    @Override
+    public List<Coord> getVisibleCoords(PlayerInterface player) {
+        return null;
+    }
+
+    @Override
+    public List<Coord> getVisibleCoordsCurrentPlayer() {
+        return null;
     }
 
     @Override

@@ -6,9 +6,9 @@ import tools.*;
 import java.util.List;
 
 public interface BoatInterface {
-        Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws Exception;
+    Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws Exception;
 
-        void move(Coord destCoord);
+    void move(Coord destCoord);
     void moveHard(Coord destCoord);
 
     boolean hasCoord(Coord coord);
@@ -44,4 +44,6 @@ public interface BoatInterface {
     int getSpecialActionCost();
 
     int getPlayerId();
+
+    List<Coord> getVisibleCoords();
 }

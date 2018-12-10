@@ -5,6 +5,7 @@ import tools.Pair;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
+import java.util.List;
 import java.util.Map;
 
 public interface BoatsImplementorInterface {
@@ -22,4 +23,6 @@ public interface BoatsImplementorInterface {
     Map<Integer, ProcessedPosition> getBoats();
 
     int findPlayerIdFromBoat(BoatInterface boat);
+
+    List<Coord> getVisibleCoords(PlayerInterface player);
 }

@@ -57,6 +57,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+//            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
@@ -72,6 +74,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+//            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{
         this.gameGUI.setCurrentAction(ActionType.SELECT);
@@ -87,6 +91,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+//            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
@@ -125,6 +131,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
         Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
         this.gameGUI.initGame(initBoatPos);
         this.gameGUI.setCurrentAction(ActionType.SELECT);
+//        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
     }
 

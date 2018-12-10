@@ -2,6 +2,7 @@ package view;
 
 import model.BoatInterface;
 import tools.ActionType;
+import tools.Coord;
 import tools.ProcessedPosition;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface GameGUIInterface {
     void setNbAP(int actionPoint);
 
     void disableAction();
+
+    void setVisibleCoord(List<Coord> visibleCoords);
 }

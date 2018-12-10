@@ -3,6 +3,7 @@ package model;
 
 import tools.*;
 
+import java.util.List;
 import java.util.Map;
 
 public interface GameModelInterface {
@@ -23,4 +24,8 @@ public interface GameModelInterface {
     Map<Integer, ProcessedPosition> getListOfBoat();
 
     int getApCurrentPlayer();
+
+    List<Coord> getVisibleCoords(PlayerInterface player);
+
+    List<Coord> getVisibleCoordsCurrentPlayer();
 }

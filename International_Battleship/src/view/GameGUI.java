@@ -4,12 +4,14 @@ package view;
 import controler.ControllerModelViewInterface;
 import model.BoatInterface;
 import tools.ActionType;
+import tools.Coord;
 import tools.ProcessedPosition;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -178,7 +180,12 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		System.out.println("MESSAGE TO USER : "+message);
 	}
 
-    /**
+    @Override
+	public void setVisibleCoord(List<Coord> visibleCoords){
+		this.gridGUI.setVisibleCoords(visibleCoords);
+	}
+
+	/**
      * This method propagate the info to the Grid that a boat is selected
      * @param processedPosition the processed pos containing all infos about the boat
      */
