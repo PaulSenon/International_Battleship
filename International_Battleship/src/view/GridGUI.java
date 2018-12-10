@@ -7,6 +7,7 @@ import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -307,15 +308,26 @@ public class GridGUI extends JLayeredPane {
 		return currentAction;
 	}
 
-	public void setVisibleCoords(List<Coord> visibleCoords) {
+	public void setVisibleCoords(List<Coord> visibleCoords){
+		Direction randDirection = Direction.DEFAULT();
 		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
 			Coord coord = entry.getKey();
 			SquareGUI square = entry.getValue();
-			if(visibleCoords.contains(coord)) {
+			if (visibleCoords.contains(coord)) {
 				square.changeBackground(Color.BLUE);
-			} else{
-				square.changeBackground(Color.GRAY);
+				square.image = null;
+			} else {
+				square.changeBackground(Color.BLUE);
+				try {
+					Random random = new Random();
+					randDirection = Direction.values()[random.nextInt(Direction.values().length)];
+					square.image = ImageManager.getImageCopyRotated("fog.png",randDirection.rotation);
+					square.repaint();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
+			//square.changeBackground(Color.GRAY);
 		}
 	}
 }

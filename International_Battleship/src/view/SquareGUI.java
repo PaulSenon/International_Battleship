@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -14,8 +15,10 @@ import tools.Coord;
 public class SquareGUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private Coord coord;
+    private Coord coord;
 	private Color color;
+    // the base image copy to play with
+    public BufferedImage image;
 
     @objid ("ca37a9e3-b4c7-4d33-9b0a-529b33df060e")
     public SquareGUI(Coord coord) {
@@ -32,6 +35,8 @@ public class SquareGUI extends JPanel {
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
+
+        g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
 
         // draw an outline rectangle
         g.setColor(this.color);

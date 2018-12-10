@@ -51,7 +51,8 @@ public class ImageManager {
                 "Submarin/2.png",
                 "Torpedo/0.png",
                 "Torpedo/1.png",
-                "Sentinel/0.png"
+                "Sentinel/0.png",
+                "fog.png"
         };
 
         for(String name : imageNames){

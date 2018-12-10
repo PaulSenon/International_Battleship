@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -172,7 +173,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	}
 
 	@Override
-	public void setVisibleCoord(List<Coord> visibleCoords) {
+	public void setVisibleCoord(List<Coord> visibleCoords){
 		this.gridGUI.setVisibleCoords(visibleCoords);
 	}
 
