@@ -16,6 +16,7 @@ public abstract class AbstractBoat implements BoatInterface {
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
 	private List<Coord> coords;
 	private List<Integer> touchedGragmentIds;
+	private List<Coord> visibleCoords;
 	private boolean coordsNeedToBeProcessed;
 
 	protected BoatName name;
@@ -339,9 +340,16 @@ public abstract class AbstractBoat implements BoatInterface {
                     }
                 }
             }
+            List <Coord> cleanList = new ArrayList<Coord>();
+            for (Coord coord : visibleCoords){
+                if (!cleanList.contains(coord)){
+                    cleanList.add(coord);
+                }
+            }
             this.coordsVisibleToBeProcessed = false;
+            this.visibleCoords = cleanList;
         }
-        return visibleCoords;
+        return this.visibleCoords;
     }
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")
