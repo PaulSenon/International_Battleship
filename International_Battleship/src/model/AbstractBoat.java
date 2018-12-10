@@ -37,6 +37,7 @@ public abstract class AbstractBoat implements BoatInterface {
 
     @objid ("7792e884-e1c1-4f24-a745-3a285a50c7d3")
     public SpecialActionInterface actionSpeciale;
+    private boolean coordsVisibleToBeProcessed;
 
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
     public AbstractBoat(BoatName name, Coord pivot, int id) {
@@ -148,6 +149,7 @@ public abstract class AbstractBoat implements BoatInterface {
      */
     public void refreshCoords(){
         this.coordsNeedToBeProcessed = true;
+        this.coordsVisibleToBeProcessed = true;
     }
 
     // TODO : may needs some refactoring to remove crappy switch case and copy/pasts
@@ -318,24 +320,27 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     public List<Coord> getVisibleCoords(){
-        List<Coord> visibleCoords = new ArrayList<Coord>();
-        int radius = this.getSize() /2 ;
-        if(radius == 0){radius = 1;}
-        for (Coord coord : this.getCoords()){
-            int lineBeginning = coord.getY() - radius;
-            int lineEnd = coord.getY() + radius + 1;
-            int columnBeginning = coord.getX() - radius;
-            int columnEnd = coord.getX() + radius + 1;
-            for (int line = lineBeginning; line<lineEnd; line ++){
-                for(int column = columnBeginning; column<columnEnd; column ++) {
-                    if (!((line==lineBeginning && column==columnBeginning) || (line==lineBeginning && column==columnEnd - 1) || (line==lineEnd - 1 && column==columnBeginning) || (line==lineEnd - 1 && column==columnEnd - 1))){
-                        Coord visibleCoord = new Coord(column, line);
-                        visibleCoords.add(visibleCoord);
+        if(this.coordsVisibleToBeProcessed){
+            List<Coord> visibleCoords = new ArrayList<Coord>();
+            int radius = this.getSize() /2 ;
+            if(radius == 0){radius = 1;}
+            for (Coord coord : this.getCoords()){
+                int lineBeginning = coord.getY() - radius;
+                int lineEnd = coord.getY() + radius + 1;
+                int columnBeginning = coord.getX() - radius;
+                int columnEnd = coord.getX() + radius + 1;
+                for (int line = lineBeginning; line<lineEnd; line ++){
+                    for(int column = columnBeginning; column<columnEnd; column ++) {
+                        if (!((line==lineBeginning && column==columnBeginning) || (line==lineBeginning && column==columnEnd - 1) || (line==lineEnd - 1 && column==columnBeginning) || (line==lineEnd - 1 && column==columnEnd - 1))){
+                            Coord visibleCoord = new Coord(column, line);
+                            visibleCoords.add(visibleCoord);
+                        }
                     }
                 }
             }
+            this.coordsVisibleToBeProcessed = false;
+            return visibleCoords;
         }
-        return visibleCoords;
     }
 
     @objid ("b5186b6f-fae1-4d24-9f3b-377baa516a55")
