@@ -1,17 +1,16 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
 
 import tools.Coord;
 
-public class SquareGUI extends JPanel {
+public class SquareGUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 
     private Coord coord;
@@ -41,19 +40,15 @@ public class SquareGUI extends JPanel {
         g.drawRect(0, 0,
                 this.getParent().getSize().width,
                 this.getParent().getSize().height);
-
     }
 
     public void changeBackground(Color color){
         this.setBackground(color);
     }
 
+    public void getWhatSquareIs() {}
 
-        public void getWhatSquareIs() {
-    }
-
-        public Coord getCoord() {
+    public Coord getCoord() {
     	return this.coord;
     }
-
 }

@@ -6,6 +6,7 @@ import model.BoatInterface;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,8 @@ import java.util.Map;
 public class GameGUI extends JFrame implements GameGUIInterface{
 
     private static final long serialVersionUID = 7636412061294453620L;
-    private ActionPointGUI PAPanel;
+	private final JTextArea textArea;
+	private ActionPointGUI PAPanel;
     private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
     private ButtonGUI buttonGUITirer;
@@ -99,6 +101,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
             // Add ButtonPanel in center of the BorderLayout
 			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
+
+			//Create text area
+				this.textArea = new JTextArea();
+				this.textArea.setEditable(false);
+				layoutControlPanel.add(this.textArea, BorderLayout.NORTH);
 
 		    //Create PA Panel in the south of BorderLayout
                 this.PAPanel = new ActionPointGUI();
@@ -212,5 +219,15 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     @Override
     public void disableAction() {
         this.PAPanel.disableAction();
+    }
+
+	public void displayResult(ResultShoot result, Coord target){
+    	if(!result.equals(ResultShoot.DESTROYED)) {
+    		this.textArea.setText("");
+			this.gridGUI.displayResult(result, target);
+		}
+		else {
+			this.textArea.setText("Le bateau ciblé a été détruit.");
+		}
     }
 }

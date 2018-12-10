@@ -164,24 +164,18 @@ public class BoatFragmentGUI extends JLabel{
 	 * @param g is the graphic component used to custom draw
 	 */
 	protected void paintComponent(Graphics g){
-        super.paintComponent(g);
+		super.paintComponent(g);
 
-        // draw its sprite image on the whole plane
-        g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+		// draw its sprite image on the whole plane
+		g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
 
-        // display something to show that the fragment is broken
+		// display something to show that the fragment is broken
 		if(this.broken){
 			g.setColor(this.color);
-
-			// draw cross
-			g.drawLine(0, 0,
-					this.getSize().width,
-					this.getSize().height);
-			g.drawLine(
-					this.getSize().width, 0,
-					0, this.getSize().height);
+			BufferedImage explosion = ImageManager.getImageCopy("explosion.png");
+			g.drawImage(explosion, 0, 0, getWidth(), getHeight(), this);
 		}
-    }
+	}
 
     public Coord getCoord() {
     	return this.coord;

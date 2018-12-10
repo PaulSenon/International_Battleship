@@ -2,18 +2,27 @@ package view;
 
 
 import model.BoatType;
+import model.Square;
 import tools.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.List;
 
 
 public class GridGUI extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
+	private final int delay = 10;
+	private Timer animator;
 
 	// Map of Coord <=> Square
 	private HashMap<Coord, SquareGUI> squares;
@@ -312,28 +321,70 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	public void setVisibleCoords(List<Coord> visibleCoords){
-		List<BufferedImage> directions = new ArrayList<>();
+		List<BufferedImage> fogs = new ArrayList<>();
 		try {
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		List<BufferedImage> seas = new ArrayList<>();
+		try {
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.EAST.rotation));
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.WEST.rotation));
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.NORTH.rotation));
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.SOUTH.rotation));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
 			Coord coord = entry.getKey();
 			SquareGUI square = entry.getValue();
+			Random random = new Random();
+			int randomDirection = random.nextInt(fogs.size());
 			if (visibleCoords.contains(coord)) {
-				square.changeBackground(Color.BLUE);
-				square.image = null;
+				square.image = seas.get(randomDirection);
+				square.repaint();
 			} else {
-				square.changeBackground(Color.BLUE);
-				Random random = new Random();
-				int randomDirection = random.nextInt(directions.size());
-				square.image = directions.get(randomDirection);
+				square.image = fogs.get(randomDirection);
 				square.repaint();
 			}
+		}
+
+
+
+		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
+			Coord coord = entry.getKey();
+			SquareGUI square = entry.getValue();
+			Random random = new Random();
+			Direction randDirection = Direction.values()[random.nextInt(Direction.values().length)];
+			if (visibleCoords.contains(coord)) {
+				try {
+					square.image = ImageManager.getImageCopyRotated("sea.jpg",randDirection.rotation);
+					square.repaint();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					square.image = ImageManager.getImageCopyRotated("fog.png",randDirection.rotation);
+					square.repaint();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void displayResult(ResultShoot result, Coord target) {
+		if(!result.equals(ResultShoot.DESTROYED)) {
+			JLabel explosion = new Explosion(result);
+			this.squares.get(target).add(explosion, 0);
+			this.squares.remove(explosion);
+		} else {
+			System.out.println("Le bateau ciblé a été détruit.");
 		}
 	}
 }

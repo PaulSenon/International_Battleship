@@ -230,7 +230,7 @@ public class GameModel implements GameModelInterface {
             System.out.println("No boat has been selected");
             return null;
         }
-		return battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
+        return battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
 	}
 
     public Map<Integer, ProcessedPosition> getListOfBoat(){

@@ -5,6 +5,7 @@ import view.GameGUIInterface;
 
 import tools.*;
 import javax.swing.*;
+import java.util.Collection;
 import java.util.Map;
 
 public class ControllerLocal implements ControllerModelViewInterface {
@@ -103,10 +104,13 @@ public class ControllerLocal implements ControllerModelViewInterface {
      */
 	@Override
 	public void shoot(int x, int y) {
-        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(new Coord(x, y));
+        Coord target = new Coord(x, y);
+        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(target);
         if(result != null){
             if(result.getFirst() != null){
-                this.gameGUI.setProcessedPotion(result.getSecond());
+                if (result.getSecond() != null){this.gameGUI.setProcessedPotion(result.getSecond());}
+                this.gameGUI.displayResult(result.getFirst(), target);
+                this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             }
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.message("shoot result : "+result.getFirst());
