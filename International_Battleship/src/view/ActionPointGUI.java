@@ -55,6 +55,6 @@ public class ActionPointGUI extends JPanel{
      * When the player haven't enough Action Point, all action are disable
      */
     public void disableAction() {
-        this.APJpan.add(new JLabel("Point d'action insuffisant pour effectuer cette action"),BorderLayout.NORTH);
+        this.add(new JLabel("Point d'action insuffisant pour effectuer cette action"),BorderLayout.NORTH);
     }
 }
