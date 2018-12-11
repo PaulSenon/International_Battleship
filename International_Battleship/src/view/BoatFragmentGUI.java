@@ -138,13 +138,7 @@ public class BoatFragmentGUI extends JLabel{
 					System.out.println("Wrong boat name");
 					break;
 			}
-
-			try {
-				this.image = ImageManager.getImageCopy(this.imageName);
-			}catch (IOException e){
-				System.out.println("ERROR BoatFragmentGUI : Loading images failed");
-			}
-
+			this.image = ImageManager.getImageCopy(this.imageName);
 			this.repaint();
 		}
 

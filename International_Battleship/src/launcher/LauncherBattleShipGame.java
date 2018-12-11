@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class LauncherBattleShipGame {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO nothing definitive, just some debug config
 
 		// setup image manager :
@@ -43,7 +43,11 @@ public class LauncherBattleShipGame {
 		solo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				launchSolo();
+				try {
+					launchSolo();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -87,7 +91,7 @@ public class LauncherBattleShipGame {
 	 * Cette fonction permet de lancer le mode solo
 	 * Elle configure la fenêtre, les joueurs et lance la partie
 	 */
-	public static void launchSolo() {
+	public static void launchSolo() throws IOException {
 		GameGUI gameGUI = setupFrame();
 		GameModel gameModel = setupGameModel();
 		setupGame(gameModel,gameGUI);
@@ -97,7 +101,7 @@ public class LauncherBattleShipGame {
 	/**
 	 * Permet de générer le plateau de jeu
 	 */
-	public static GameGUI setupFrame(){
+	public static GameGUI setupFrame() throws IOException {
 		Dimension dim = new Dimension(850,570);
 		GameGUI gameGUI = new GameGUI();
 		gameGUI.setTitle("International Battleship");

@@ -51,7 +51,9 @@ public class ImageManager {
                 "Submarin/2.png",
                 "Torpedo/0.png",
                 "Torpedo/1.png",
-                "Sentinel/0.png"
+                "Sentinel/0.png",
+                "PA/torpedoUsed.png",
+                "PA/torpedoLoad.png"
         };
 
         for(String name : imageNames){
@@ -87,8 +89,13 @@ public class ImageManager {
      * @return a BufferedImage (copy from base image)
      * @throws IOException
      */
-    public static BufferedImage getImageCopy(String imageName) throws IOException {
-        return ImageManager.deepCopy(ImageManager.getImageRef(imageName));
+    public static BufferedImage getImageCopy(String imageName){
+        try {
+            return ImageManager.deepCopy(ImageManager.getImageRef(imageName));
+        } catch (IOException e) {
+            System.out.printf("ImageManager: Fail to load copy");
+            return null;
+        }
     }
 
     /**

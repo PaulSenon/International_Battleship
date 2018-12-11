@@ -5,6 +5,8 @@ import model.BoatName;
 import tools.ActionType;
 import tools.ProcessedPosition;
 
+import javax.swing.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,4 +27,8 @@ public interface GameGUIInterface {
     void setSelectedBoat(ProcessedPosition processedPosition);
 
     void message(String message);
+
+    void setNbAP(int actionPoint);
+
+    void disableAction();
 }

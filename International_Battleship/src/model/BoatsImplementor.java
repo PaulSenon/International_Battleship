@@ -1,6 +1,6 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.*;
 
 import java.util.ArrayList;
@@ -8,15 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
 public class BoatsImplementor implements BoatsImplementorInterface {
 
-    @objid ("6eaf860c-9a4a-4dab-888f-d3e4f31d9e77")
-    private List<BoatInterface> boats;
+        private List<BoatInterface> boats;
 
 
-    @objid ("5ec8880b-f75d-4bee-8ed0-ecea6a4d4930")
-    public BoatsImplementor(List<PlayerInterface> players) {
+        public BoatsImplementor(List<PlayerInterface> players) {
         this.boats = new ArrayList<>();
         this.generateBoatsFromFactory(players);
     }
@@ -42,8 +39,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param target to select the destination coordinates
      * @return result of shot
      */
-	@objid ("f561c936-de20-43ae-a170-a9290c7f975c")
-    public Pair<ResultShoot, ProcessedPosition> shootBoat(Coord target) {
+	    public Pair<ResultShoot, ProcessedPosition> shootBoat(Coord target) {
         BoatInterface boat = findBoatByCoord(target);
         try {
             return(boat.shoot(target));
@@ -64,8 +60,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param destination is the desired destination for the boat
      * @return ProcessedPositions (coords + direction)
      */
-    @objid ("262ccb08-0aa5-49fd-9237-4805c3304fb9")
-    public ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination) {
+        public ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination) {
         if(selectedBoat.isMoveOk(destination)){
             return this.moveBoatStepByStep(selectedBoat, destination);
         }
@@ -219,8 +214,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param coord is where to search for a boat
      * @return BoatInterface | null
      */
-    @objid ("4643b543-6571-4c67-bf46-c267384eea71")
-    public BoatInterface findBoatByCoord(Coord coord) {
+        public BoatInterface findBoatByCoord(Coord coord) {
         // TODO gérer la notion de joueur
     	for (BoatInterface boat : this.boats) {
     		if(boat.hasCoord(coord)){

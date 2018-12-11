@@ -1,11 +1,12 @@
 package view;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import controler.ControllerModelViewInterface;
 import model.BoatInterface;
 import model.BoatName;
 import tools.ActionType;
 import tools.GameConfig;
+import tools.ImageManager;
 import tools.ProcessedPosition;
 
 import javax.imageio.ImageIO;
@@ -21,22 +22,18 @@ import java.util.EventListener;
 import java.util.List;
 import java.util.Map;
 
-@objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
 public class GameGUI extends JFrame implements GameGUIInterface{
+
     private static final long serialVersionUID = 7636412061294453620L;
-	private List<BoatInterface> listOfBoat;
+    private ActionPointGUI PAPanel;
+    private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
     private ButtonGUI buttonGUITirer;
     private ButtonGUI buttonRotateCounterClockWise;
 	private ButtonGUI buttonRotateClockWise;
     private ButtonGUI buttonGUIDéplacer;
     private ButtonGUI buttonGUIActionSpéciale;
-
-
-    @objid ("dc33ec30-907d-43b8-8b28-bbc7f57950c3")
     public GridGUI battleShipGridGUI;
-
-    @objid ("a6ff4313-0cc1-4317-8f8f-cad40722f639")
     public ButtonGUI battleShipButtonGUI;
 
     public List<ButtonGUI> listOfButtons;
@@ -45,7 +42,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 
     // Constructor
-    public GameGUI() throws IOException {
+    public GameGUI(){
     	super();
 
     	Container contentPane = this.getContentPane();
@@ -106,20 +103,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
 
 		    //Create PA Panel in the south of BorderLayout
-                JPanel PAPanel = new JPanel();
-                PAPanel.setLayout(new GridLayout(2,10));
+                this.PAPanel = new ActionPointGUI();
                 //GridBagConstraints PAConstraints = new GridBagConstraints();
                 //PAConstraints.gridx = 0;
                 //PAConstraints.gridy = 0;
                 PAPanel.setBackground(Color.GRAY);
-
-                //Add Player Name + PA
-					JLabel name;
-                //for (Integer maxPA : GameConfig.getmaxActionPoint) { ADD THIS WHEN CLEMENT PLAYER PR IS MERGED
-                    for (int i=0; i<20; i++){
-                        BufferedImage torpedoImageforPA = ImageIO.read(new File("International_Battleship\\resources\\PA\\torpedoUsed.png"));
-                        PAPanel.add(new JLabel(new ImageIcon(torpedoImageforPA)));
-                    }
             // Add ButtonPanel in center of the BorderLayout
                 layoutControlPanel.add(PAPanel, BorderLayout.SOUTH);
 
@@ -200,12 +188,32 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		System.out.println("MESSAGE TO USER : "+message);
 	}
 
-	/**
+    /**
      * This method propagate the info to the Grid that a boat is selected
      * @param processedPosition the processed pos containing all infos about the boat
      */
 	@Override
 	public void setSelectedBoat(ProcessedPosition processedPosition) {
-		this.gridGUI.setSelectedBoat(processedPosition);
+	    this.gridGUI.setSelectedBoat(processedPosition);
 	}
+
+    /**
+     * Distribute the controller request when the nb of ActionPoint is changed to the ActionPoint class
+     * @param nbActionPoint
+     */
+	public void setNbAP(int nbActionPoint) {
+        try {
+            this.PAPanel.setNbAP(nbActionPoint);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Distribute the controller request when the nb of ActionPoint is equal zero to the ActionPoint Class
+     */
+    @Override
+    public void disableAction() {
+        this.PAPanel.disableAction();
+    }
 }

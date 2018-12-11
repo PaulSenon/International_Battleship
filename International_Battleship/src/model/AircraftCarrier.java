@@ -1,27 +1,47 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.Coord;
 
-@objid ("b0f6e843-5b59-4e8c-8233-5a897083772c")
 public class AircraftCarrier extends AbstractBoat {
-	final int size = BoatName.AircraftCarrier.getValue();
 
-    @objid ("d7f1e9b2-c61d-4f7a-8a81-a52d2389f794")
-    public AircraftCarrier(Coord coord, int id) {
+    final int size = BoatName.AircraftCarrier.getValue();
+    final int moveCost = BoatName.AircraftCarrier.getValue();
+    final int shootCost = BoatName.AircraftCarrier.getValue()+1;
+    final int specialActionCost = BoatName.AircraftCarrier.getValue()+2;
+
+        public AircraftCarrier(Coord coord, int id) {
     	super(BoatName.AircraftCarrier, coord, id);
+
     }
 
-    @objid ("3222a6aa-93ed-428b-a289-90062504d72b")
-    public void move() {
+        public void move() {
     }
 
-    @objid ("40ff6d2b-b949-4bad-9f34-a102728a0beb")
-    public void hourlyRotation() {
+        public void hourlyRotation() {
     }
 
-    @objid ("1ed4e00e-e755-4fd5-8fe1-124173c4521c")
-    public void antiHourlyRotation() {
+        public void antiHourlyRotation() {
+    }
+
+    @Override
+    public int getMoveCost() {
+        return this.moveCost;
+    }
+
+    @Override
+    public int getShootCost() {
+        return this.shootCost;
+    }
+
+    @Override
+    public int getSpecialActionCost() {
+        return this.specialActionCost;
+    }
+
+    @Override
+    public void getVisibleArea() {
+
     }
 
     public int getSize() {

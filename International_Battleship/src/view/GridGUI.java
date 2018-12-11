@@ -1,6 +1,6 @@
 package view;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import model.BoatName;
 import tools.*;
 
@@ -9,7 +9,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-@objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
 public class GridGUI extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
@@ -31,8 +30,7 @@ public class GridGUI extends JLayeredPane {
     /**
      * __CONSTRUCTOR__
      */
-    @objid ("3cceb1f5-4f21-4971-a3ba-024ed2eabd4e")
-	public GridGUI() {
+    	public GridGUI() {
 		super();
 
 		// init class attributes

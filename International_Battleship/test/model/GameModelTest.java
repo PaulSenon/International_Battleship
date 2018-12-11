@@ -47,7 +47,7 @@ public class GameModelTest extends BaseTests {
     }
 
     @Test
-    public void testRotateBoat(){
+    public void testRotateBoat() throws PersonnalException {
         // setup
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(15, 15), 4, Direction.EAST);
@@ -86,7 +86,7 @@ public class GameModelTest extends BaseTests {
     }
 
     @Test
-    public void testRotateBoatBlockedByAnotherShip(){
+    public void testRotateBoatBlockedByAnotherShip() throws PersonnalException {
         // setup
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 4, Direction.EAST);
@@ -106,7 +106,7 @@ public class GameModelTest extends BaseTests {
     }
 
     @Test
-    public void testRotateBoatOutOfGameBoard(){
+    public void testRotateBoatOutOfGameBoard() throws PersonnalException {
         // setup
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 1), 4, Direction.EAST);
@@ -213,7 +213,7 @@ public class GameModelTest extends BaseTests {
         //assertEquals(new Coord(0,0),boat.getPivot());
     }
     @Test
-    public void testMoveBoatBlockedByAnotherShip(){
+    public void testMoveBoatBlockedByAnotherShip() throws PersonnalException {
         // setup
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(25, 11), 5, Direction.WEST);
@@ -230,7 +230,7 @@ public class GameModelTest extends BaseTests {
 
     @Test
     @Ignore
-    public void testMoveBoatOutOfGameBoard(){
+    public void testMoveBoatOutOfGameBoard() throws PersonnalException {
         // setup
         // create the boat
         AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 5, Direction.EAST);

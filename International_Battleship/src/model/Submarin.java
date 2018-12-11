@@ -1,32 +1,49 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.Coord;
 
-@objid ("6e97e275-d4cc-4ebf-b561-c227b2cf71b7")
 public class Submarin extends AbstractBoat {
-    final int size = BoatName.Submarin.getValue();
 
-    @objid ("8258161e-781b-456d-b755-55f8df14bb0f")
-    public Submarin(Coord coord, int id) {
+    final int size = BoatName.Submarin.getValue();
+    final int moveCost = BoatName.Submarin.getValue();
+    final int shootCost = BoatName.Submarin.getValue()+1;
+    final int specialActionCost = BoatName.Submarin.getValue()+2;
+
+        public Submarin(Coord coord, int id) {
     	super(BoatName.Submarin, coord, id);
     }
 
-
-    @objid ("43d21173-1bc4-4697-b15b-e68ebb16a070")
-    public void shoot() {
+        public void shoot() {
     }
 
-    @objid ("fc227ee8-9e1b-432c-95c1-dea5ed968186")
-    public void move() {
+        public void move() {
     }
 
-    @objid ("61aa8350-5b14-44f6-bb96-9db7182264d2")
-    public void hourlyRotation() {
+        public void hourlyRotation() {
     }
 
-    @objid ("42800ab6-df71-49e1-b549-e5be4dd190f5")
-    public void antiHourlyRotation() {
+        public void antiHourlyRotation() {
+    }
+
+    @Override
+    public int getMoveCost() {
+        return this.moveCost;
+    }
+
+    @Override
+    public int getShootCost() {
+        return this.shootCost;
+    }
+
+    @Override
+    public int getSpecialActionCost() {
+        return this.specialActionCost;
+    }
+
+    @Override
+    public void getVisibleArea() {
+
     }
 
     public int getSize () {

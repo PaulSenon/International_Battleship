@@ -1,15 +1,37 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.Coord;
 
-@objid ("6b6d0859-e740-493d-98e4-4636c5ba6350")
 public class Sentinel extends AbstractBoat {
-    final int size = BoatName.Sentinel.getValue();
 
-	@objid ("62b7f0e5-4f57-4a8c-bc19-9993b91246d0")
-    public Sentinel(Coord coord, int id) {
+    final int size = BoatName.Sentinel.getValue();
+    final int moveCost = BoatName.Sentinel.getValue();
+    final int shootCost = BoatName.Sentinel.getValue()+1;
+    final int specialActionCost = BoatName.Sentinel.getValue()+2;
+
+	    public Sentinel(Coord coord, int id) {
 		super(BoatName.Sentinel, coord, id);
+    }
+
+    @Override
+    public int getMoveCost() {
+        return this.moveCost;
+    }
+
+    @Override
+    public int getShootCost() {
+        return this.shootCost;
+    }
+
+    @Override
+    public int getSpecialActionCost() {
+        return this.specialActionCost;
+    }
+
+    @Override
+    public void getVisibleArea() {
+
     }
 
     public int getSize () {

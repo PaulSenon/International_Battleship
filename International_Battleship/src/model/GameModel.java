@@ -1,31 +1,26 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@objid ("2d5b787d-2269-4d70-9e4e-dd727dfa9336")
 public class GameModel implements GameModelInterface {
 
     // The implementor use to manage boats
-    @objid ("873f53fc-6221-4e2d-bc75-1d8495bf8ce6")
     private BoatsImplementorInterface battleshipImplementor;
-
     // player list
     private List<PlayerInterface> players;
-
     // The selected boat (may be null)
     private BoatInterface selectedBoat;
-
+    private Player currentPlayer;
     AtomicInteger atomicInteger;
 
     /**
      * __CONSTRUCTOR__
      */
-    @objid ("245404cb-acb3-41d4-b19d-5717b51a8f66")
-    public GameModel() {
+        public GameModel() {
         //Set the ids for boats
         this.atomicInteger = new AtomicInteger();
         // set attributes
@@ -38,6 +33,7 @@ public class GameModel implements GameModelInterface {
         }
         this.selectedBoat = null;
     	//battleshipImplementor = new BoatsImplementor(this.players, this.DEBUG_get_test_fleet_from_enum());
+        //For the moment each player have the same fleet generate by BoatsImplementor
         battleshipImplementor = new BoatsImplementor(this.players);
     }
 
@@ -52,23 +48,22 @@ public class GameModel implements GameModelInterface {
      * @param yDest is the desired destination y coordinate on the game board
      * @return Coord is the pivot coordinate where the boat is after processing (may no change)
      */
-    @objid ("fa9a7c83-14a9-4a47-8786-28afdc857cac")
-    public ProcessedPosition moveBoat(int xDest, int yDest) {
+        public ProcessedPosition moveBoat(int xDest, int yDest) throws PersonnalException {
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
             return null;
         }
-
         // processing :
         Coord destCoord = new Coord(xDest, yDest);
         ProcessedPosition processedPosition = this.battleshipImplementor.moveBoat(this.selectedBoat, destCoord);
 
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
+            this.currentPlayer.debitActionPoint(this.selectedBoat.getMoveCost());
             return processedPosition;
-        }else{
+        }else {
             processedPosition = this.battleshipImplementor.undoLastBoatMove(this.selectedBoat);
             return processedPosition;
         }
@@ -83,7 +78,7 @@ public class GameModel implements GameModelInterface {
      *
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoatClockWise() {
+    public ProcessedPosition rotateBoatClockWise() throws PersonnalException {
         return this.rotateSelectedBoat(true);
     }
 
@@ -96,7 +91,7 @@ public class GameModel implements GameModelInterface {
      *
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoatCounterClockWise() {
+    public ProcessedPosition rotateBoatCounterClockWise() throws PersonnalException {
         return this.rotateSelectedBoat(false);
     }
 
@@ -107,7 +102,7 @@ public class GameModel implements GameModelInterface {
      *
      * @return ProcessedPositions (coords + direction)
      */
-    private ProcessedPosition rotateSelectedBoat(boolean clockWise){
+    private ProcessedPosition rotateSelectedBoat(boolean clockWise) throws PersonnalException {
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -120,6 +115,7 @@ public class GameModel implements GameModelInterface {
 
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
+            this.currentPlayer.debitActionPoint(this.selectedBoat.getMoveCost());
             return processedPosition;
         }else{
             processedPosition = this.battleshipImplementor.undoLastBoatMove(this.selectedBoat);
@@ -180,36 +176,61 @@ public class GameModel implements GameModelInterface {
         }
     }
 
-    @objid ("0afc1bfb-1667-4d42-92d9-745fb5663841")
-    public void isEnd(){
-
+    /**
+     *
+     */
+        public void isEnd(){
     }
 
+    /**
+     *
+     * @return
+     */
     private List<BoatName> DEBUG_get_test_fleet_from_enum(){
     	List<BoatName> fleetList = new LinkedList<>();
         Collections.addAll(fleetList, BoatName.values());
     	return fleetList;
     }
 
-    @objid ("2ae2da19-fa1b-4a19-bb09-b4aa95f3903c")
-    public void getColorCurrentPlayer() {
-        // TODO Auto-generated stub
+    /**
+     *
+     * @return
+     */
+    public Player getCurrentPlayer() {
+            return this.currentPlayer;
     }
 
-	@Override
-	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
+    /**
+     *
+     * @param currentPlayer
+     */
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+
+    /**
+     *
+     * @param target
+     * @return
+     * @throws PersonnalException
+     */
+    @Override
+	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws PersonnalException {
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
             return null;
         }
+        this.currentPlayer.debitActionPoint(this.selectedBoat.getShootCost());
 		return battleshipImplementor.shootBoat(target);
 	}
 
     public Map<BoatName, ProcessedPosition> getListOfBoat(){
         return this.battleshipImplementor.getBoats();
     }
+
 
     /**
      * Create a player and add it to the list of players
@@ -232,9 +253,16 @@ public class GameModel implements GameModelInterface {
             i++;
         }
         //END of lines for DEBUG
+        setCurrentPlayer(player);
         this.players.add(player);
     }
 
+    /**
+     *
+     * @param player
+     * @param boatName
+     * @param coord
+     */
     public void addBoat(Player player, BoatName boatName, Coord coord){
 	    int id = this.atomicInteger.getAndIncrement();
 	    player.addBoatInFleet(boatName, coord, id);
@@ -261,6 +289,10 @@ public class GameModel implements GameModelInterface {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<PlayerInterface> getPlayers() {
         return players;
     }
