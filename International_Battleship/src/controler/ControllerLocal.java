@@ -63,17 +63,17 @@ public class ControllerLocal implements ControllerModelViewInterface {
         ProcessedPosition processedPosition = null;
         try {
             processedPosition = this.gameModel.moveBoat(xDest, yDest);
+            if(processedPosition != null){
+                this.gameGUI.setCurrentAction(ActionType.SELECT);
+                this.gameGUI.setProcessedPotion(processedPosition);
+                this.gameGUI.setNbAP(this.gameModel.getCurrentPlayer().getActionPoint());
+            }else{
+                this.gameGUI.setCurrentAction(ActionType.SELECT);
+                JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (PersonnalException e) {
             e.getMessage();
             this.gameGUI.disableAction();
-        }
-        if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setNbAP(this.gameModel.getCurrentPlayer().getActionPoint());
-        }else{
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -84,17 +84,17 @@ public class ControllerLocal implements ControllerModelViewInterface {
         ProcessedPosition processedPosition = null;
         try {
             processedPosition = this.gameModel.rotateBoatClockWise();
+            if(processedPosition != null){
+                this.gameGUI.setCurrentAction(ActionType.SELECT);
+                this.gameGUI.setProcessedPotion(processedPosition);
+                this.gameGUI.setNbAP(this.gameModel.getCurrentPlayer().getActionPoint());
+            }else{
+                this.gameGUI.setCurrentAction(ActionType.SELECT);
+                JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (PersonnalException e) {
             e.getMessage();
             this.gameGUI.disableAction();
-        }
-        if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setNbAP(this.gameModel.getCurrentPlayer().getActionPoint());
-        }else{
-        this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
