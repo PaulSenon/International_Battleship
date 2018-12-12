@@ -24,7 +24,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     private ButtonGUI buttonGUITirer;
     private ButtonGUI buttonRotateCounterClockWise;
 	private ButtonGUI buttonRotateClockWise;
-    private ButtonGUI buttonGUIDéplacer;
+    private ButtonGUI buttonGUIEndTurn;
     private ButtonGUI buttonGUIActionSpéciale;
     private JPanel controlsPanel;
 
@@ -84,13 +84,16 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 			this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
 			this.controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
 
-
+			buttonsConstraints.gridy++;
+			this.buttonGUIEndTurn =  new ButtonGUI(ButtonType.ENDTURN, "Fin du tour", "");
+			this.controlsPanel.add(this.buttonGUIEndTurn, buttonsConstraints);
+			
             //Store buttons in a list // TODO is this useful ?
             this.listOfButtons = new ArrayList<>();
             listOfButtons.add(this.buttonGUITirer);
             listOfButtons.add(this.buttonRotateClockWise);
             listOfButtons.add(this.buttonRotateCounterClockWise);
-    		//listOfButtons.add(this.buttonGUIDéplacer);
+    		listOfButtons.add(this.buttonGUIEndTurn);
     		//listOfButtons.add(this.buttonGUIActionSpéciale);
 
         // tweak GridBagConstraints for "action" panel
@@ -116,6 +119,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.buttonGUITirer.addActionListener(buttonListener);
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
 		this.buttonRotateClockWise.addActionListener(buttonListener);
+		this.buttonGUIEndTurn.addActionListener(buttonListener);
 	}
 
 	@Override

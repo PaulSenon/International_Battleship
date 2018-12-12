@@ -41,6 +41,9 @@ public class ButtonGUIListener implements ActionListener {
 			case ROTATECCW:
 				this.gameController.rotateBoatCounterClockWise();
 				break;
+			case ENDTURN:
+				this.gameController.EndActionsPlayer();
+				break;
 			default:
 				System.out.println("Error ButtonGUIListener wrong button type");
 		}

@@ -38,6 +38,8 @@ public class GridGUIListener implements EventListener, MouseListener {
 			case SPECIAL:
 //				this.controller.specialAction(coordSquare);
 				break;
+			case ENDTURN:
+				this.controller.EndActionsPlayer();
 		}
 //		if(actionType.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {
 //			//Shoot on the target.

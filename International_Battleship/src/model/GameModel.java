@@ -40,9 +40,6 @@ public class GameModel implements GameModelInterface {
         //For testing the creation of player in model in the setting of the GameModel
         try {
             createPlayer("Player1", "Port1");
-            createPlayer("Player2", "Port2");	//to test
-            createPlayer("Player3", "Port3");	//to test
-            createPlayer("Player4", "Port4");	//to test
         } catch (Exception e) {
             e.printStackTrace();
         }

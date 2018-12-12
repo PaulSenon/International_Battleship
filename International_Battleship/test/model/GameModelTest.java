@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import testTools.BaseTests;
 import testTools.Reflection;
 import tools.*;
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class GameModelTest extends BaseTests {
-    private GameModelInterface gameModel;
+    private GameModel gameModel;
     private BoatsImplementor boatsImplementor;
 
     @Before
@@ -249,6 +250,52 @@ public class GameModelTest extends BaseTests {
     @Ignore
     public void testMoveBoatOnMine(){
         // TODO !!
+    }
+    
+    @Test
+    public void testEndActionsPlayer(){
+    	//changer déclaration gameModel
+    	
+    	int initTurn = this.gameModel.getTurn();
+    	this.gameModel.endTurn();
+    	assertEquals(initTurn, this.gameModel.getTurn());
+    	
+    	int initDay = this.gameModel.getDay();
+    	this.gameModel.endDay();
+    	assertEquals(initDay, this.gameModel.getDay());
+    	
+    	int nextDay = this.gameModel.getDay();
+    	this.gameModel.initDay();
+    	assertEquals(nextDay, this.gameModel.getDay()-1);
+    	
+    	int nextTurn = this.gameModel.getTurn();
+    	this.gameModel.initTurn();
+    	assertEquals(nextTurn, this.gameModel.getTurn()-1);
+    	
+    	PlayerInterface player2 = new Player("player2", "port2");
+    	PlayerInterface player3 = new Player("player3", "port3");
+    	PlayerInterface player4 = new Player("player4", "port4");
+    	this.gameModel.getPlayers().add(player2);
+    	this.gameModel.getPlayers().add(player3);
+    	this.gameModel.getPlayers().add(player4);
+    	initTurn = this.gameModel.getTurn();
+    	initDay = this.gameModel.getDay();
+    	for (int i = 0; i < 4; i++) {
+    		this.gameModel.EndActionsPlayer();
+		}
+    	assertArrayEquals(initDay, this.gameModel.getDay()-1);
+    }
+    
+    private void assertArrayEquals(int i, int day) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void testNextPlayer(){
+    	PlayerInterface nextPlayer = new Player("nextName", "nextPort");
+    	this.gameModel.getPlayers().add(nextPlayer);
+    	this.gameModel.nextPlayer();
+    	assertEquals(this.gameModel.getCurrentPlayer(), nextPlayer);
     }
 
 }
