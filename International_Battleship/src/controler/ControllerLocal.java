@@ -113,4 +113,9 @@ public class ControllerLocal implements ControllerModelViewInterface {
     public GameGUIInterface getGameGUI() {
         return gameGUI;
     }
+
+	@Override
+	public void EndActionsPlayer() {
+		this.gameModel.EndActionsPlayer();
+	}
 }

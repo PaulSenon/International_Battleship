@@ -29,5 +29,16 @@ public interface GameModelInterface {
     Pair<ResultShoot, ProcessedPosition> shoot(Coord target);
 
     Map<BoatName, ProcessedPosition> getListOfBoat();
-
+    
+    public void EndActionsPlayer();
+    
+    void initTurn();
+    
+    void endTurn();
+    
+    void initDay();
+    
+    void endDay();
+    
+    void nextPlayer();
 }

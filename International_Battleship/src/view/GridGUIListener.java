@@ -49,6 +49,7 @@ public class GridGUIListener implements EventListener, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		this.controller.EndActionsPlayer(); //to test
 		
 	}
 

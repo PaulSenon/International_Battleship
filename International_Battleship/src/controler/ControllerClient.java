@@ -51,4 +51,10 @@ public class ControllerClient implements ControllerModelViewInterface {
     public void requestActioType(ActionType actionType) {
 
     }
+
+	@Override
+	public void EndActionsPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -70,4 +70,40 @@ public class GameModelObs extends Observable implements GameModelInterface {
 		
 	}
 
+	@Override
+	public void EndActionsPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initTurn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endTurn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initDay() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endDay() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void nextPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

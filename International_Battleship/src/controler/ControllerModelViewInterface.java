@@ -11,4 +11,5 @@ public interface ControllerModelViewInterface extends ControllerModelInterface {
     void rotateBoatClockWise();
     void rotateBoatCounterClockWise();
     void requestActioType(ActionType actionType);
+    public void EndActionsPlayer();
 }

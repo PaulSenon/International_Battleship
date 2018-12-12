@@ -1,16 +1,18 @@
 package model;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.swing.JOptionPane;
+
 @objid ("2d5b787d-2269-4d70-9e4e-dd727dfa9336")
 public class GameModel implements GameModelInterface {
 
     // The implementor use to manage boats
-    @objid ("873f53fc-6221-4e2d-bc75-1d8495bf8ce6")
     private BoatsImplementorInterface battleshipImplementor;
 
     // player list
@@ -20,11 +22,16 @@ public class GameModel implements GameModelInterface {
     private BoatInterface selectedBoat;
 
     AtomicInteger atomicInteger;
+    
+    private int turn;
+    
+    private int day;
+    
+    private Player currentPlayer;
 
     /**
      * __CONSTRUCTOR__
      */
-    @objid ("245404cb-acb3-41d4-b19d-5717b51a8f66")
     public GameModel() {
         //Set the ids for boats
         this.atomicInteger = new AtomicInteger();
@@ -33,12 +40,18 @@ public class GameModel implements GameModelInterface {
         //For testing the creation of player in model in the setting of the GameModel
         try {
             createPlayer("Player1", "Port1");
+            createPlayer("Player2", "Port2");	//to test
+            createPlayer("Player3", "Port3");	//to test
+            createPlayer("Player4", "Port4");	//to test
         } catch (Exception e) {
             e.printStackTrace();
         }
         this.selectedBoat = null;
     	//battleshipImplementor = new BoatsImplementor(this.players, this.DEBUG_get_test_fleet_from_enum());
         battleshipImplementor = new BoatsImplementor(this.players);
+        this.setCurrentPlayer((Player) this.players.get(0));
+        this.turn = 1;
+        this.day = 1;
     }
 
     /**
@@ -264,4 +277,96 @@ public class GameModel implements GameModelInterface {
     public List<PlayerInterface> getPlayers() {
         return players;
     }
+
+	/**
+	 * @return the turn
+	 */
+	public int getTurn() {
+		return turn;
+	}
+
+	/**
+	 * @param turn the turn to set
+	 */
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
+
+	/**
+	 * @return the day
+	 */
+	public int getDay() {
+		return day;
+	}
+
+	/**
+	 * @param day the day to set
+	 */
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	@Override
+	public void EndActionsPlayer() {
+		endTurn();
+		if (this.turn%this.players.size() == 0) {
+			endDay();
+			if (this.players.size() == 1) {
+				JOptionPane.showMessageDialog(null, "C'est la fin du jeu ! Le gagnant est " + this.players.get(0).getName(), null , JOptionPane.INFORMATION_MESSAGE);	
+			}
+			initDay();
+		}
+		initTurn();
+	}
+
+	@Override
+	public void initTurn() {
+		this.turn++;
+		this.currentPlayer.calculationOfMaxActionPoint(); //pour initialiser les PA		
+	}
+
+	@Override
+	public void endTurn() {
+		this.nextPlayer();
+		System.out.println("fin du tour " + this.turn);	//to test
+	}
+
+	@Override
+	public void initDay() {
+		this.day++;
+		this.turn = 0;	
+	}
+
+	@Override
+	public void endDay() {
+		System.out.println("--fin du jour--" + this.day);	//to test		
+	}
+
+	/**
+	 * @return the currentPlayer
+	 */
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	/**
+	 * @param currentPlayer the currentPlayer to set
+	 */
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	@Override
+	public void nextPlayer() {
+		for (int i = 0; i < players.size(); i++) {
+			if (this.currentPlayer.equals(players.get(i))) {
+				if (players.size()-1 == i) {
+					this.setCurrentPlayer((Player) this.players.get(0));
+				}else{
+					this.setCurrentPlayer((Player) this.players.get(i+1));
+				}
+				break;
+			}
+		}
+	}
 }
