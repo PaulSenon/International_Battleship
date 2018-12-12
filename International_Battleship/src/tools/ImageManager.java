@@ -46,9 +46,9 @@ public class ImageManager {
                 "Cruiser/1.png",
                 "Cruiser/2.png",
                 "Cruiser/3.png",
-                "Submarin/0.png",
-                "Submarin/1.png",
-                "Submarin/2.png",
+                "Submarine/0.png",
+                "Submarine/1.png",
+                "Submarine/2.png",
                 "Torpedo/0.png",
                 "Torpedo/1.png",
                 "Sentinel/0.png",
@@ -85,7 +85,7 @@ public class ImageManager {
 
     /**
      * It get a copy of an image
-     * @param imageName is the name of the image
+     * @param imageName is the type of the image
      * @return a BufferedImage (copy from base image)
      * @throws IOException
      */
@@ -100,7 +100,7 @@ public class ImageManager {
 
     /**
      * It get an image and rotate it to a desired angle (in degree)
-     * @param imageName is the image name you want to get and rotate
+     * @param imageName is the image type you want to get and rotate
      * @param angleDegree is the rotation angle in degree
      * @return resultImage
      */

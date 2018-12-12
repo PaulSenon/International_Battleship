@@ -42,6 +42,19 @@ public class Coord implements Serializable {
 		}
 	}
 
+	public Coord sub(Coord coord){
+    	return new Coord(this.x - coord.getX(), this.y - coord.getY());
+	}
+
+	public Coord add(Coord coord){
+		return new Coord(this.x + coord.getX(), this.y + coord.getY());
+	}
+
+	public int getDistanceTo(Coord coord){
+		Coord tmp = coord.sub(this);
+		return tmp.getY() + tmp.getX();
+	}
+
 	@Override
 	public String toString() {
 		return "(" + x + ";" + y + ")";

@@ -40,7 +40,7 @@ public class ActionPointGUI extends JPanel{
      * @param nbActionPoint
      * @throws IOException
      */
-    protected void setNbAP(int nbActionPoint) throws IOException {
+    protected void setNbAP(int nbActionPoint) {
         System.out.println("Vous avez " + nbActionPoint + " point d'action disponible(s)\n");
         //Add Player Name
         for (int i = 0; i <= nbActionPoint; i++) {

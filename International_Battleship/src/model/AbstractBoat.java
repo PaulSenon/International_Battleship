@@ -15,33 +15,36 @@ public abstract class AbstractBoat implements BoatInterface {
 	private List<Coord> coords;
 	private List<Integer> touchedGragmentIds;
 	private boolean coordsNeedToBeProcessed;
-	protected BoatName name;
+	protected BoatType type;
 	protected int size;
 	protected int id;
 	protected Direction facingDirection;
 	private Direction lastDirection;
 	private Coord lastPosition;
     private String Color;
+    private int playerId;
     public SpecialActionInterface actionSpeciale;
 
-    public AbstractBoat(BoatName name, Coord pivot, int id) {
+    public AbstractBoat(BoatType type, int id, Coord pivot, int playerId) {
         this.pivot = pivot;
         this.facingDirection = DEFAULT();
-        this.name = name;
+        this.type = type;
         this.coords = new ArrayList<>();
         this.coordsNeedToBeProcessed = true;
         this.touchedGragmentIds = new ArrayList<>();
+        this.size = this.type.getSize();
         this.id = id;
         this.lastDirection = this.facingDirection;
         this.lastPosition = this.pivot;
+        this.playerId = playerId;
     }
 
 	public Coord getCoord() {
 		return this.pivot;
 	}
 
-	public BoatName getName() {
-		return this.name;
+	public BoatType getType() {
+		return this.type;
 	}
 
 
@@ -289,14 +292,32 @@ public abstract class AbstractBoat implements BoatInterface {
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
-        return new ProcessedPosition(this.id, this.name, this.facingDirection, this.getCoords(), this.touchedGragmentIds);
+        return new ProcessedPosition(this.id, this.type, this.facingDirection, this.getCoords(), this.touchedGragmentIds);
     }
 
-    public abstract int getMoveCost();
+    public int getMoveCost(int distance){
+        // Define algorithm to calculate move cost for a distance
+        int moveCost = Math.abs(this.getMoveCostByUnit() * distance);
+        System.out.println("Boat move cost is "+moveCost+" for a distance of "+distance+" units");
+        return moveCost;
+    }
 
-    public abstract int getShootCost();
+    protected int getMoveCostByUnit(){
+//        return this.size;
+        return 1;
+    }
 
-    public abstract int getSpecialActionCost();
+    public int getRotateCost(){
+        return 1;
+    }
+
+    public int getShootCost(){
+        return 1;
+    }
+
+    public int getSpecialActionCost(){
+        return 1;
+    }
 
     public boolean isShootOk(Coord target) {
 		//TODO:implements method
@@ -361,10 +382,14 @@ public abstract class AbstractBoat implements BoatInterface {
 
     @Override
 	public String toString() {
-		return "Object BoatInterface name=" + name + " " + this.pivot;
+		return "Object BoatInterface type=" + type + " " + this.pivot;
 	}
 
     public int getId() {
         return id;
+    }
+
+    public int getPlayerId() {
+        return playerId;
     }
 }

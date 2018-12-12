@@ -2,6 +2,7 @@ package launcher;
 
 import controler.ControllerLocal;
 import controler.ControllerModelViewInterface;
+import model.BoatType;
 import model.GameModel;
 import multiplayer.Client;
 import multiplayer.Server;
@@ -27,8 +28,23 @@ public class LauncherBattleShipGame {
 		GameConfig.newInstance(
 				25, // gameGridWidth
 				25, // gameGridHeight
-				20 //maxActionPoint
-			);
+				20, // maxActionPoint
+                7, // portSize
+                4, // nbMaxPlayer
+				new String[]{
+						"José",
+						"Théodule",
+						"Yvonne",
+						"Titouan"
+				},
+				new BoatType[]{
+						BoatType.Cruiser,
+						BoatType.Submarine,
+						BoatType.AircraftCarrier,
+						BoatType.Sentinel,
+						BoatType.TorpedoBoat
+				}
+		);
 
 		JFrame jframe = new JFrame("Menu");
 		jframe.setSize(300, 500);

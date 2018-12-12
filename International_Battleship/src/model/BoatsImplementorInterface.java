@@ -8,15 +8,18 @@ import tools.ResultShoot;
 import java.util.Map;
 
 public interface BoatsImplementorInterface {
-        Pair<ResultShoot, ProcessedPosition> shootBoat(Coord target);
 
-        BoatInterface findBoatByCoord(Coord coord);
+    BoatInterface findBoatByCoord(Coord coord);
 
-        ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination);
+    ProcessedPosition moveBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord destination);
 
-    ProcessedPosition rotateBoat(BoatInterface selectedBoat, boolean clockWise);
+    ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
+
+    Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
 
     ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat);
 
-    Map<BoatName, ProcessedPosition> getBoats();
+    Map<Integer, ProcessedPosition> getBoats();
+
+    int findPlayerIdFromBoat(BoatInterface boat);
 }

@@ -1,12 +1,9 @@
 package view;
 
 import model.BoatInterface;
-import model.BoatName;
 import tools.ActionType;
 import tools.ProcessedPosition;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +19,7 @@ public interface GameGUIInterface {
 
     void setListOfBoat(List<BoatInterface> listOfBoat);
 
-    void initGame(Map<BoatName,ProcessedPosition> initBoatPos);
+    void initGame(Map<Integer,ProcessedPosition> initBoatPos);
 
     void setSelectedBoat(ProcessedPosition processedPosition);
 

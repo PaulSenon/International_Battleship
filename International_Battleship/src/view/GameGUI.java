@@ -3,20 +3,13 @@ package view;
 
 import controler.ControllerModelViewInterface;
 import model.BoatInterface;
-import model.BoatName;
 import tools.ActionType;
-import tools.GameConfig;
-import tools.ImageManager;
 import tools.ProcessedPosition;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -173,7 +166,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.listOfBoat = listOfBoat;
 	}
 
-	public void initGame(Map<BoatName,ProcessedPosition> initBoatPos){
+	public void initGame(Map<Integer,ProcessedPosition> initBoatPos){
 		this.gridGUI.initGrid(initBoatPos);
 		this.revalidate();
 		this.repaint();
@@ -199,11 +192,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
      * @param nbActionPoint
      */
 	public void setNbAP(int nbActionPoint) {
-        try {
-            this.PAPanel.setNbAP(nbActionPoint);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		this.PAPanel.setNbAP(nbActionPoint);
     }
 
     /**

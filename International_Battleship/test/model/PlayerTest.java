@@ -7,42 +7,56 @@ import testTools.BaseTests;
 import tools.GameConfig;
 import tools.PersonnalException;
 
-import static tools.GameConfig.getMaxActionPoint;
-
 public class PlayerTest extends BaseTests {
 
 	@Before
 	public void setUp() {
+		// setup game config :
 		GameConfig.newInstance(
 				25, // gameGridWidth
 				25, // gameGridHeight
-				20 //maxActionPoint
+				20, // maxActionPoint
+				7, // portSize
+				4, // nbMaxPlayer
+				new String[]{
+						"José",
+						"Théodule",
+						"Yvonne",
+						"Titouan"
+				},
+				new BoatType[]{
+						BoatType.Cruiser,
+						BoatType.Submarine,
+						BoatType.AircraftCarrier,
+						BoatType.Sentinel,
+						BoatType.TorpedoBoat
+				}
 		);
 	}
 
 	@Test
 	public void ActionPoint() throws PersonnalException {
-		Player player = new Player("Player1", "Port1");
+		Player player = new Player(1,"Player1", "Port1");
 		int testActionPoint = 17;
-		player.setActionPoint(17);
-		//Test of setActionPoint method
-		if (testActionPoint != player.getActionPoint()) {
+		player.setNbActionPoint(17);
+		//Test of setNbActionPoint method
+		if (testActionPoint != player.getNbActionPoint()) {
 			throw new PersonnalException("Test failed !!");
 		}
 		//Test of creditActionPoint method
-		player.setActionPoint(player.getMaxActionPoint() - 2);
+		player.setNbActionPoint(player.getMaxActionPoint() - 2);
 		player.creditActionPoint(1);
-		if (player.getActionPoint() != player.getMaxActionPoint() - 1) {
+		if (player.getNbActionPoint() != player.getMaxActionPoint() - 1) {
 			throw new PersonnalException("Test failed !!");
 		}
 		player.creditActionPoint(3);
-		if (player.getActionPoint() != player.getMaxActionPoint()) {
+		if (player.getNbActionPoint() != player.getMaxActionPoint()) {
 			throw new PersonnalException("Test failed !!");
 		}
 		//Test of debitActionPoint method
-		player.setActionPoint(2);
+		player.setNbActionPoint(2);
 		player.debitActionPoint(1);
-		if (player.getActionPoint() != 1) {
+		if (player.getNbActionPoint() != 1) {
 			throw new PersonnalException("Test failed !!");
 		}
 	}

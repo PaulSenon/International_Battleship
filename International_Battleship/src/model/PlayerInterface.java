@@ -1,36 +1,34 @@
 package model;
 
 
-import java.util.List;
-
-
 import tools.Coord;
-import tools.PersonnalException;
+
+import java.util.Map;
 
 public interface PlayerInterface {
 	
-	List<BoatInterface> getFleet();
+	Map<Integer, BoatType> getFleet();
 	
-	    BoatInterface getBoat();
+    BoatInterface getBoat();
 
-        void setBoat(final BoatInterface value);
+    void setBoat(final BoatInterface value);
 
     String getName();
 
-    void addBoatInFleet(BoatName boatName, Coord coord, int id);
-
-    int getActionPoint();
-
-    String getPortName();
-
-    void setPortName(final String value);
-
-    void setActionPoint(final int value) throws PersonnalException;
+    int getNbActionPoint();
 
     void creditActionPoint (final int value);
 
-    void debitActionPoint (final int value) throws PersonnalException;
+    boolean debitActionPoint (final int value);
 
-    int getMaxActionPoint ();
+    int getMaxActionPoint();
+
+    void generateFleet(BoatType[] fleet);
+
+    boolean isInPort(Coord coord);
+
+    void undoLastAction();
+
+    int getId();
 
 }

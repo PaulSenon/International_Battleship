@@ -1,21 +1,26 @@
 package testTools;
 
 import model.AbstractBoat;
-import model.BoatName;
+import model.BoatType;
 import tools.Coord;
 import tools.Direction;
 
 public class TestObjectsGenerator {
 
     public AbstractBoat generateTestBoat(Coord pivot, int size, Direction direction){
-        AbstractBoat boat = new AbstractBoat(BoatName.Cruiser, pivot, 0) {
+        AbstractBoat boat = new AbstractBoat(BoatType.Cruiser, 0, pivot, 0) {
             @Override
-            public int getMoveCost() {
+            public int getMoveCostByUnit() {
                 return 0;
             }
 
             @Override
             public int getShootCost() {
+                return 0;
+            }
+
+            @Override
+            public int getRotateCost() {
                 return 0;
             }
 

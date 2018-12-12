@@ -34,11 +34,14 @@ public interface BoatInterface {
     int getNbFrontParts();
     int getNbBackParts();
 
-    BoatName getName();
+    BoatType getType();
 
     int getId();
 
-    int getMoveCost();
+    int getMoveCost(int distance);
+    int getRotateCost();
     int getShootCost();
     int getSpecialActionCost();
+
+    int getPlayerId();
 }

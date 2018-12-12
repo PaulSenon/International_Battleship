@@ -13,7 +13,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         private List<BoatInterface> boats;
 
 
-        public BoatsImplementor(List<PlayerInterface> players) {
+    public BoatsImplementor(List<PlayerInterface> players) {
         this.boats = new ArrayList<>();
         this.generateBoatsFromFactory(players);
     }
@@ -24,11 +24,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      */
     private void generateBoatsFromFactory(List<PlayerInterface> players){
         //For each players add its boat to a list with all boats
+        int i = 2;
         for (PlayerInterface p : players) {
-            List<BoatInterface> fleet = p.getFleet();
-            for (BoatInterface boat : fleet) {
+            for (Map.Entry<Integer, BoatType> boatEntry : p.getFleet().entrySet()) {
+                BoatInterface boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(5,i), p.getId());
                 this.boats.add(boat);
+                i++;
             }
+            i+=2;
         }
     }
 
@@ -39,7 +42,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param target to select the destination coordinates
      * @return result of shot
      */
-	    public Pair<ResultShoot, ProcessedPosition> shootBoat(Coord target) {
+    public Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
+        // check if enough
+        if (! currentPlayer.debitActionPoint(selectedBoat.getRotateCost())){
+            // if not we donnot shoot
+            currentPlayer.undoLastAction();
+            return new Pair<>(ResultShoot.FORBIDDEN, null);
+        }
+
         BoatInterface boat = findBoatByCoord(target);
         try {
             return(boat.shoot(target));
@@ -60,12 +70,18 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param destination is the desired destination for the boat
      * @return ProcessedPositions (coords + direction)
      */
-        public ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination) {
-        if(selectedBoat.isMoveOk(destination)){
-            return this.moveBoatStepByStep(selectedBoat, destination);
+    public ProcessedPosition moveBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord destination) {
+        int moveDistance = selectedBoat.getPivot().getDistanceTo(destination);
+        if(
+                ! currentPlayer.debitActionPoint(selectedBoat.getMoveCost(moveDistance))
+                || ! selectedBoat.isMoveOk(destination)
+        ){
+            // Return boat pos without moving
+            currentPlayer.undoLastAction();
+            return selectedBoat.getProcessedPosition();
         }
 
-        return selectedBoat.getProcessedPosition();
+        return this.moveBoatStepByStep(selectedBoat, destination);
     }
 
     /**
@@ -115,7 +131,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param clockWise direction of rotation
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoat(BoatInterface selectedBoat, boolean clockWise){
+    public ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise){
+        // check if enough
+        if (! currentPlayer.debitActionPoint(selectedBoat.getRotateCost())){
+            // if not we donnot rotate
+            currentPlayer.undoLastAction();
+            return selectedBoat.getProcessedPosition();
+        }
+
         // rotate the boat
         if(clockWise){
             selectedBoat.rotateClockWise();
@@ -146,6 +169,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      */
     public ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat){
         selectedBoat.undoLastMove();
+
         return selectedBoat.getProcessedPosition();
     }
 
@@ -235,12 +259,17 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boatFound;
     }
 
-    public Map<BoatName, ProcessedPosition> getBoats() {
-        Map<BoatName,ProcessedPosition> boatInitPos = new HashMap<>();
+    public Map<Integer, ProcessedPosition> getBoats() {
+        Map<Integer,ProcessedPosition> boatInitPos = new HashMap<>();
         for (BoatInterface boat: this.boats) {
-            boatInitPos.put(boat.getName(),boat.getProcessedPosition());
+            boatInitPos.put(boat.getId(),boat.getProcessedPosition());
         }
         return boatInitPos;
+    }
+
+    @Override
+    public int findPlayerIdFromBoat(BoatInterface boat) {
+        return boat.getPlayerId();
     }
 
 }
