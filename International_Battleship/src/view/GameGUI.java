@@ -104,9 +104,6 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 		    //Create PA Panel in the south of BorderLayout
                 this.PAPanel = new ActionPointGUI();
-                //GridBagConstraints PAConstraints = new GridBagConstraints();
-                //PAConstraints.gridx = 0;
-                //PAConstraints.gridy = 0;
                 PAPanel.setBackground(Color.GRAY);
             // Add ButtonPanel in center of the BorderLayout
                 layoutControlPanel.add(PAPanel, BorderLayout.SOUTH);
