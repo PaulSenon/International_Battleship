@@ -6,22 +6,13 @@ import tools.Coord;
 public class AircraftCarrier extends AbstractBoat {
 
     final int size = BoatName.AircraftCarrier.getValue();
-    final int moveCost = BoatName.AircraftCarrier.getValue();
-    final int shootCost = BoatName.AircraftCarrier.getValue()+1;
-    final int specialActionCost = BoatName.AircraftCarrier.getValue()+2;
+    int moveCost, shootCost, specialActionCost;
 
-        public AircraftCarrier(Coord coord, int id) {
-    	super(BoatName.AircraftCarrier, coord, id);
-
-    }
-
-        public void move() {
-    }
-
-        public void hourlyRotation() {
-    }
-
-        public void antiHourlyRotation() {
+    public AircraftCarrier(Coord coord, int id) {
+        super(BoatName.AircraftCarrier, coord, id);
+        this.moveCost = BoatName.AircraftCarrier.getValue();
+        this.shootCost = BoatName.AircraftCarrier.getValue()+1;
+        this.specialActionCost = BoatName.AircraftCarrier.getValue()+2;
     }
 
     @Override

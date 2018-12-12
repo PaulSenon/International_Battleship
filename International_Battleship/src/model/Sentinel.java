@@ -6,12 +6,13 @@ import tools.Coord;
 public class Sentinel extends AbstractBoat {
 
     final int size = BoatName.Sentinel.getValue();
-    final int moveCost = BoatName.Sentinel.getValue();
-    final int shootCost = BoatName.Sentinel.getValue()+1;
-    final int specialActionCost = BoatName.Sentinel.getValue()+2;
+    int moveCost, shootCost, specialActionCost;
 
-	    public Sentinel(Coord coord, int id) {
-		super(BoatName.Sentinel, coord, id);
+    public Sentinel(Coord coord, int id) {
+        super(BoatName.Sentinel, coord, id);
+        this.moveCost = BoatName.Sentinel.getValue();
+        this.shootCost = BoatName.Sentinel.getValue()+1;
+        this.specialActionCost = BoatName.Sentinel.getValue()+2;
     }
 
     @Override

@@ -5,13 +5,14 @@ import tools.Coord;
 
 public class TorpedoBoat extends AbstractBoat {
 
-	final int size = BoatName.TorpedoBoat.getValue();
-    final int moveCost = BoatName.TorpedoBoat.getValue();
-    final int shootCost = BoatName.TorpedoBoat.getValue()+1;
-    final int specialActionCost = BoatName.TorpedoBoat.getValue()+2;
+    final int size = BoatName.TorpedoBoat.getValue();
+    int moveCost, shootCost, specialActionCost;
 
-        public TorpedoBoat(Coord coord, int id) {
-    	super(BoatName.TorpedoBoat, coord, id);
+    public TorpedoBoat(Coord coord, int id) {
+        super(BoatName.TorpedoBoat, coord, id);
+        this.moveCost = BoatName.TorpedoBoat.getValue();
+        this.shootCost = BoatName.TorpedoBoat.getValue()+1;
+        this.specialActionCost = BoatName.TorpedoBoat.getValue()+2;
     }
 
     @Override

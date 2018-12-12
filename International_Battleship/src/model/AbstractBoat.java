@@ -32,7 +32,6 @@ public abstract class AbstractBoat implements BoatInterface {
         this.coordsNeedToBeProcessed = true;
         this.touchedGragmentIds = new ArrayList<>();
         this.id = id;
-
         this.lastDirection = this.facingDirection;
         this.lastPosition = this.pivot;
     }
@@ -92,7 +91,7 @@ public abstract class AbstractBoat implements BoatInterface {
         this.setPivot(destCoord); // It does the refreshCoord()
     }
 
-        public void rotateClockWise(){
+    public void rotateClockWise(){
         // save last direction
         this.lastDirection = this.facingDirection;
         // rotate
@@ -100,7 +99,7 @@ public abstract class AbstractBoat implements BoatInterface {
         this.refreshCoords();
     }
 
-        public void rotateCounterClockWise() {
+    public void rotateCounterClockWise() {
         // save last direction
         this.lastDirection = this.facingDirection;
         // rotate
@@ -263,15 +262,14 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
 
-		public void useSpecialAction() {
-	}
+	public void useSpecialAction() {}
 
-		public String getColor() {
+	public String getColor() {
 		// Automatically generated method. Please delete this comment before entering specific code.
 		return this.Color;
 	}
 
-		public void setColor(final String value) {
+	public void setColor(final String value) {
 		// Automatically generated method. Please delete this comment before entering specific code.
 		this.Color = value;
 	}
@@ -281,7 +279,7 @@ public abstract class AbstractBoat implements BoatInterface {
      *
      * undo the last move (rotation or move)
      */
-        public void undoLastMove() {
+    public void undoLastMove() {
         this.facingDirection = this.lastDirection;
         this.pivot = this.lastPosition;
         this.refreshCoords();
@@ -300,23 +298,23 @@ public abstract class AbstractBoat implements BoatInterface {
 
     public abstract int getSpecialActionCost();
 
-    	public boolean isShootOk(Coord target) {
+    public boolean isShootOk(Coord target) {
 		//TODO:implements method
 		return false;
 	}
 
-		public boolean isShootable(Coord target) {
+	public boolean isShootable(Coord target) {
 		//TODO:implements method
 		return false;
 	}
 
-		public abstract void getVisibleArea();
+	public abstract void getVisibleArea();
 
-        public Coord getPivot() {
+    public Coord getPivot() {
         return this.pivot;
     }
 
-        private void setPivot(final Coord value) {
+    private void setPivot(final Coord value) {
         this.lastPosition = this.pivot;
         this.pivot = value;
         this.refreshCoords();

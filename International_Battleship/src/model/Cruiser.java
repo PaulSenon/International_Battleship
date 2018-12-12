@@ -6,12 +6,13 @@ import tools.Coord;
 public class Cruiser extends AbstractBoat {
 
     final int size = BoatName.Cruiser.getValue();
-    final int moveCost = BoatName.Cruiser.getValue();
-    final int shootCost = BoatName.Cruiser.getValue()+1;
-    final int specialActionCost = BoatName.Cruiser.getValue()+2;
+    int moveCost, shootCost, specialActionCost;
 
-        public Cruiser(Coord coord, int id) {
-    	super(BoatName.Cruiser, coord, id);
+    public Cruiser(Coord coord, int id) {
+        super(BoatName.Cruiser, coord, id);
+        this.moveCost = BoatName.Cruiser.getValue();
+        this.shootCost = BoatName.Cruiser.getValue()+1;
+        this.specialActionCost = BoatName.Cruiser.getValue()+2;
     }
 
     @Override
@@ -20,9 +21,7 @@ public class Cruiser extends AbstractBoat {
     }
 
     @Override
-    public int getShootCost() {
-        return this.shootCost;
-    }
+    public int getShootCost() { return this.shootCost; }
 
     @Override
     public int getSpecialActionCost() {
