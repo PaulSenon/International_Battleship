@@ -1,15 +1,18 @@
 package model;
 
 
+import java.io.Serializable;
+import java.util.List;
+
 import tools.Coord;
 
 import java.util.List;
 import java.util.Map;
 
-public interface PlayerInterface {
+public interface PlayerInterface extends Serializable{
 	
 	Map<Integer, BoatType> getFleet();
-	
+
     BoatInterface getBoat();
 
     void setBoat(final BoatInterface value);
