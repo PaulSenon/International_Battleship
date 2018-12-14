@@ -3,15 +3,15 @@ package model;
 
 import tools.Coord;
 
-public class Sentinel extends AbstractBoat {
+public class Submarine extends AbstractBoat {
 
-    public Sentinel(int id, Coord pivot, int playerId) {
-        super(BoatType.Sentinel, id, pivot, playerId);
-        mySpecialAction = new TargetAction(){
+    public Submarine(int id, Coord pivot, int playerId) {
+        super(BoatType.Submarine, id, pivot, playerId);
+        this.mySpecialAction = new InstantAction(){
             @Override
             public void doAction(Coord target) {
                 // TODO Auto-generated method stub
-                System.out.println("Action spéciale sentinel");
+                System.out.println("Action spéciale sous marin");
             }
         };
     }

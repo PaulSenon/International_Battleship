@@ -10,7 +10,7 @@ public class Reflection {
      * Set value of a private attribute.
      * If any error on type, field, etc, it will crash tests
      * @param object the object you want to change a field value
-     * @param fieldName its field name you want to change
+     * @param fieldName its field type you want to change
      * @param fieldValue the desired value
      */
     public static void setFieldByReflection(Object object, String fieldName, Object fieldValue){
@@ -32,7 +32,7 @@ public class Reflection {
      *
      * @param _class the class of the object you want to change a field value
      * @param object the object you want to change a field value
-     * @param fieldName its field name you want to change
+     * @param fieldName its field type you want to change
      * @param fieldValue the desired value
      */
     public static void setFieldByReflection2(Class<?> _class, Object object, String fieldName, Object fieldValue){
@@ -48,7 +48,7 @@ public class Reflection {
     /**
      *
      * @param object object you want to get a field from
-     * @param fieldName the name of the field you want to get
+     * @param fieldName the type of the field you want to get
      * @return the field instance
      */
     public static Object getFieldByReflection(Object object, String fieldName){

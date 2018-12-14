@@ -1,11 +1,10 @@
 package view;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.ActionType;
 
 import javax.swing.*;
 
-@objid ("db9b5155-92c9-431f-aead-5e6646284610")
 public class ButtonGUI extends JButton{
 
 	private static final long serialVersionUID = -8274321262994721188L;
@@ -62,6 +61,13 @@ public class ButtonGUI extends JButton{
 				break;
 			case ROTATECCW:
 				break;
+			case SPECIALACTION:
+					if(actionType == ActionType.SPECIAL){
+						this.setActive();
+					}else{
+						this.resetDefault();
+					}
+					break;
 			default:
 				System.out.println("Error ButtonGUI wrong action type");
 		}

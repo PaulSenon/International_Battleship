@@ -1,15 +1,24 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.Coord;
 
-@objid ("8381580b-805e-4d6a-adea-46b5df3bdced")
 public class Cruiser extends AbstractBoat {
-    final int size = 4;
 
-    @objid ("6bb6d6ef-55bb-484d-bb77-2d5b9fed816d")
-    public Cruiser(Coord coord, int id) {
-    	super(BoatName.Cruiser, coord, id);
+    public Cruiser(int id, Coord pivot, int playerId) {
+        super(BoatType.Cruiser, id, pivot, playerId);
+        mySpecialAction = new TargetAction() {
+            @Override
+            public void doAction(Coord target) {
+                // TODO Auto-generated method stub
+                System.out.println("Action spéciale croiseur");
+            }
+        };
+    }
+
+    @Override
+    public void getVisibleArea() {
+
     }
 
     public int getSize( ) {

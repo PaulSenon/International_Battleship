@@ -1,8 +1,8 @@
 package view;
 
 import model.BoatInterface;
-import model.BoatName;
 import tools.ActionType;
+import tools.Coord;
 import tools.ProcessedPosition;
 
 import java.util.List;
@@ -20,9 +20,15 @@ public interface GameGUIInterface {
 
     void setListOfBoat(List<BoatInterface> listOfBoat);
 
-    void initGame(Map<BoatName,ProcessedPosition> initBoatPos);
+    void initGame(Map<Integer,ProcessedPosition> initBoatPos);
 
     void setSelectedBoat(ProcessedPosition processedPosition);
 
     void message(String message);
+
+    void setNbAP(int actionPoint);
+
+    void disableAction();
+
+    void setVisibleCoord(List<Coord> visibleCoords);
 }

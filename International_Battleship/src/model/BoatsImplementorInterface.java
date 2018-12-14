@@ -1,26 +1,30 @@
 package model;
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.Coord;
 import tools.Pair;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
+import java.util.List;
 import java.util.Map;
 
-@objid ("75a7604f-f615-4013-af67-b5d5bd901738")
 public interface BoatsImplementorInterface {
-    @objid ("292fef80-59e0-4f72-99c4-35036676c47b")
-    Pair<ResultShoot, ProcessedPosition> shootBoat(Coord target);
 
-    @objid ("4643b543-6571-4c67-bf46-c267384eea71")
     BoatInterface findBoatByCoord(Coord coord);
 
-    @objid ("37d29d69-fc60-40fa-81d7-2d4a1000d1e2")
-    ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination);
+    ProcessedPosition moveBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord destination);
 
-    ProcessedPosition rotateBoat(BoatInterface selectedBoat, boolean clockWise);
+    ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
+
+    Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
 
     ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat);
 
-    Map<BoatName, ProcessedPosition> getBoats();
+    Map<Integer, ProcessedPosition> getBoats();
+
+    int findPlayerIdFromBoat(BoatInterface boat);
+
+    List<Coord> getVisibleCoords(PlayerInterface player);
+
+	void specialAction(BoatInterface selectedBoat, Coord coordSquare);
 }

@@ -1,6 +1,6 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.*;
 
 import java.util.ArrayList;
@@ -8,14 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@objid ("dcf26cb5-3322-4d9d-98af-5b54a0f09632")
 public class BoatsImplementor implements BoatsImplementorInterface {
 
-    @objid ("6eaf860c-9a4a-4dab-888f-d3e4f31d9e77")
-    private List<BoatInterface> boats;
+        private List<BoatInterface> boats;
 
 
-    @objid ("5ec8880b-f75d-4bee-8ed0-ecea6a4d4930")
     public BoatsImplementor(List<PlayerInterface> players) {
         this.boats = new ArrayList<>();
         this.generateBoatsFromFactory(players);
@@ -27,11 +24,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      */
     private void generateBoatsFromFactory(List<PlayerInterface> players){
         //For each players add its boat to a list with all boats
+        int i = 2;
         for (PlayerInterface p : players) {
-            List<BoatInterface> fleet = p.getFleet();
-            for (BoatInterface boat : fleet) {
+            for (Map.Entry<Integer, BoatType> boatEntry : p.getFleet().entrySet()) {
+                BoatInterface boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(5,i), p.getId());
                 this.boats.add(boat);
+                i++;
             }
+            i+=2;
         }
     }
 
@@ -42,8 +42,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param target to select the destination coordinates
      * @return result of shot
      */
-	@objid ("f561c936-de20-43ae-a170-a9290c7f975c")
-    public Pair<ResultShoot, ProcessedPosition> shootBoat(Coord target) {
+    public Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
+        // check if enough
+        if (! currentPlayer.debitActionPoint(selectedBoat.getRotateCost())){
+            // if not we donnot shoot
+            currentPlayer.undoLastAction();
+            return new Pair<>(ResultShoot.FORBIDDEN, null);
+        }
+
         BoatInterface boat = findBoatByCoord(target);
         try {
             return(boat.shoot(target));
@@ -64,13 +70,18 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param destination is the desired destination for the boat
      * @return ProcessedPositions (coords + direction)
      */
-    @objid ("262ccb08-0aa5-49fd-9237-4805c3304fb9")
-    public ProcessedPosition moveBoat(BoatInterface selectedBoat, Coord destination) {
-        if(selectedBoat.isMoveOk(destination)){
-            return this.moveBoatStepByStep(selectedBoat, destination);
+    public ProcessedPosition moveBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord destination) {
+        int moveDistance = selectedBoat.getPivot().getDistanceTo(destination);
+        if(
+                ! currentPlayer.debitActionPoint(selectedBoat.getMoveCost(moveDistance))
+                || ! selectedBoat.isMoveOk(destination)
+        ){
+            // Return boat pos without moving
+            currentPlayer.undoLastAction();
+            return selectedBoat.getProcessedPosition();
         }
 
-        return selectedBoat.getProcessedPosition();
+        return this.moveBoatStepByStep(selectedBoat, destination);
     }
 
     /**
@@ -120,7 +131,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param clockWise direction of rotation
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoat(BoatInterface selectedBoat, boolean clockWise){
+    public ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise){
+        // check if enough
+        if (! currentPlayer.debitActionPoint(selectedBoat.getRotateCost())){
+            // if not we donnot rotate
+            currentPlayer.undoLastAction();
+            return selectedBoat.getProcessedPosition();
+        }
+
         // rotate the boat
         if(clockWise){
             selectedBoat.rotateClockWise();
@@ -151,6 +169,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      */
     public ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat){
         selectedBoat.undoLastMove();
+
         return selectedBoat.getProcessedPosition();
     }
 
@@ -219,8 +238,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param coord is where to search for a boat
      * @return BoatInterface | null
      */
-    @objid ("4643b543-6571-4c67-bf46-c267384eea71")
-    public BoatInterface findBoatByCoord(Coord coord) {
+        public BoatInterface findBoatByCoord(Coord coord) {
         // TODO gérer la notion de joueur
     	for (BoatInterface boat : this.boats) {
     		if(boat.hasCoord(coord)){
@@ -241,12 +259,54 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boatFound;
     }
 
-    public Map<BoatName, ProcessedPosition> getBoats() {
-        Map<BoatName,ProcessedPosition> boatInitPos = new HashMap<>();
+    public Map<Integer, ProcessedPosition> getBoats() {
+        Map<Integer,ProcessedPosition> boatInitPos = new HashMap<>();
         for (BoatInterface boat: this.boats) {
-            boatInitPos.put(boat.getName(),boat.getProcessedPosition());
+            boatInitPos.put(boat.getId(),boat.getProcessedPosition());
         }
         return boatInitPos;
     }
+
+    public List<Coord> getVisibleCoords(PlayerInterface player){
+        List<BoatInterface> fleet = this.getPlayerFleet(player);
+        List<Coord> visibleCoords = new ArrayList<>();
+        for (BoatInterface boat : fleet) {
+            List<Coord> coords = boat.getVisibleCoords();
+            for (Coord visibleCoord : coords){
+                if (!visibleCoords.contains(visibleCoord)){
+                    visibleCoords.add(visibleCoord);
+                }
+            }
+        }
+        player.setVisibleCoords(visibleCoords);
+        return visibleCoords;
+    }
+
+    @Override
+    public int findPlayerIdFromBoat(BoatInterface boat) {
+        return boat.getPlayerId();
+    }
+
+    private List<BoatInterface> getPlayerFleet(PlayerInterface player){
+        List<BoatInterface> fleet = new ArrayList<>();
+        for(int boatId : player.getFleet().keySet()){
+            fleet.add(this.findBoayById(boatId));
+        }
+        return fleet;
+    }
+
+    private BoatInterface findBoayById(int boatId){
+        for(BoatInterface boat : this.boats){
+            if(boat.getId() == boatId){
+                return boat;
+            }
+        }
+        return null;
+    }
+
+	@Override
+	public void specialAction(BoatInterface selectedBoat, Coord coordSquare) {
+		selectedBoat.actionSpecial(coordSquare);
+	}
 
 }

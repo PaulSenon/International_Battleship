@@ -1,44 +1,39 @@
 package model;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import tools.*;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
-@objid ("2d5b787d-2269-4d70-9e4e-dd727dfa9336")
 public class GameModel implements GameModelInterface {
 
     // The implementor use to manage boats
-    @objid ("873f53fc-6221-4e2d-bc75-1d8495bf8ce6")
     private BoatsImplementorInterface battleshipImplementor;
 
-    // player list
-    private List<PlayerInterface> players;
+    // The implementor use to manage players
+    private PlayersImplementorInterface playersImplementor;
 
     // The selected boat (may be null)
     private BoatInterface selectedBoat;
-
-    AtomicInteger atomicInteger;
+    private PlayerInterface currentPlayer;
 
     /**
      * __CONSTRUCTOR__
      */
-    @objid ("245404cb-acb3-41d4-b19d-5717b51a8f66")
     public GameModel() {
-        //Set the ids for boats
-        this.atomicInteger = new AtomicInteger();
-        // set attributes
-        this.players = new ArrayList<>();
-        //For testing the creation of player in model in the setting of the GameModel
+        // Create UID static instance
+        UniqueIdGenerator.newInstance();
+
+        this.selectedBoat = null;
+
         try {
-            createPlayer("Player1", "Port1");
+            playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
+            battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+            // TODO debug, to set the first player... May be not clean...
+            this.currentPlayer = playersImplementor.getPlayers().get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.selectedBoat = null;
-    	//battleshipImplementor = new BoatsImplementor(this.players, this.DEBUG_get_test_fleet_from_enum());
-        battleshipImplementor = new BoatsImplementor(this.players);
     }
 
     /**
@@ -52,23 +47,22 @@ public class GameModel implements GameModelInterface {
      * @param yDest is the desired destination y coordinate on the game board
      * @return Coord is the pivot coordinate where the boat is after processing (may no change)
      */
-    @objid ("fa9a7c83-14a9-4a47-8786-28afdc857cac")
-    public ProcessedPosition moveBoat(int xDest, int yDest) {
+        public ProcessedPosition moveBoat(int xDest, int yDest) {
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
             return null;
         }
-
         // processing :
         Coord destCoord = new Coord(xDest, yDest);
-        ProcessedPosition processedPosition = this.battleshipImplementor.moveBoat(this.selectedBoat, destCoord);
+        ProcessedPosition processedPosition = this.battleshipImplementor.moveBoat(this.currentPlayer, this.selectedBoat, destCoord);
 
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
             return processedPosition;
-        }else{
+        }else {
+            this.playersImplementor.undoLastMove(this.currentPlayer);
             processedPosition = this.battleshipImplementor.undoLastBoatMove(this.selectedBoat);
             return processedPosition;
         }
@@ -107,7 +101,7 @@ public class GameModel implements GameModelInterface {
      *
      * @return ProcessedPositions (coords + direction)
      */
-    private ProcessedPosition rotateSelectedBoat(boolean clockWise){
+    private ProcessedPosition rotateSelectedBoat(boolean clockWise) {
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -116,7 +110,7 @@ public class GameModel implements GameModelInterface {
         }
 
         // processing : boat rotation
-        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.selectedBoat, clockWise);
+        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise);
 
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
@@ -169,7 +163,17 @@ public class GameModel implements GameModelInterface {
         Coord coord = new Coord(x, y);
 
         // set the selected boat (may return null)
-        this.selectedBoat = this.battleshipImplementor.findBoatByCoord(coord);
+        BoatInterface boat = this.battleshipImplementor.findBoatByCoord(coord);
+        if(boat == null){
+            System.out.println("There is no boat here");
+            return null;
+        }
+        // Verify that the boat belongs to the current player
+        if(this.currentPlayer.getId() == this.battleshipImplementor.findPlayerIdFromBoat(boat)){
+            this.selectedBoat = boat;
+        }else{
+            System.out.println("The boat you selected doesn't belong to you !");
+        }
 
         // tell if it doing great or not
         // TODO it might by undefined, do tests
@@ -180,23 +184,45 @@ public class GameModel implements GameModelInterface {
         }
     }
 
-    @objid ("0afc1bfb-1667-4d42-92d9-745fb5663841")
-    public void isEnd(){
-
+    /**
+     *
+     */
+        public void isEnd(){
     }
 
-    private List<BoatName> DEBUG_get_test_fleet_from_enum(){
-    	List<BoatName> fleetList = new LinkedList<>();
-        Collections.addAll(fleetList, BoatName.values());
+    /**
+     *
+     * @return
+     */
+    private List<BoatType> DEBUG_get_test_fleet_from_enum(){
+    	List<BoatType> fleetList = new LinkedList<>();
+        Collections.addAll(fleetList, BoatType.values());
     	return fleetList;
     }
 
-    @objid ("2ae2da19-fa1b-4a19-bb09-b4aa95f3903c")
-    public void getColorCurrentPlayer() {
-        // TODO Auto-generated stub
+    /**
+     *
+     * @return
+     */
+    public PlayerInterface getCurrentPlayer() {
+            return this.currentPlayer;
     }
 
-	@Override
+    /**
+     *
+     * @param currentPlayer
+     */
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+
+    /**
+     *
+     * @param target
+     * @return
+     */
+    @Override
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
         // error case :
         if(this.selectedBoat == null){
@@ -204,64 +230,29 @@ public class GameModel implements GameModelInterface {
             System.out.println("No boat has been selected");
             return null;
         }
-		return battleshipImplementor.shootBoat(target);
+		return battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
 	}
 
-    public Map<BoatName, ProcessedPosition> getListOfBoat(){
+    public Map<Integer, ProcessedPosition> getListOfBoat(){
         return this.battleshipImplementor.getBoats();
     }
 
-    /**
-     * Create a player and add it to the list of players
-     * @param name
-     * @param port
-     */
-	public void createPlayer(String name, String port) throws Exception{
-        for (PlayerInterface player : players){
-            if (player.getName().equals(name) || player.getPortName().equals(port)){
-                throw new Exception("Player or Port already existing");
-            }
-        }
-	    Player player = new Player(name, port);
-        //TODO : Remove the following lines, it's just for DEBUG
-        List<BoatName> fleetList = new LinkedList<>();
-        Collections.addAll(fleetList, BoatName.values());
-        int i = 5;
-        for (BoatName boat : fleetList){
-            addBoat(player,boat,new Coord(5,i));
-            i++;
-        }
-        //END of lines for DEBUG
-        this.players.add(player);
+    @Override
+    public int getApCurrentPlayer() {
+        return this.currentPlayer.getNbActionPoint();
     }
 
-    public void addBoat(Player player, BoatName boatName, Coord coord){
-	    int id = this.atomicInteger.getAndIncrement();
-	    player.addBoatInFleet(boatName, coord, id);
+    public List<Coord> getVisibleCoords(PlayerInterface player) {
+        return this.battleshipImplementor.getVisibleCoords(player);
     }
 
-    /**
-     * Delete a player thanks to its name and delete it from the list of the players in the GameModel
-     * @param name
-     * @return result of the destruction of the player
-     */
-    public void deletePlayer(String name) throws Exception{
-        PlayerInterface toDestroy = null;
-        for (PlayerInterface player : this.players){
-            if (player.getName().equals(name)) {
-                toDestroy = player;
-                //TODO: delete object player
-            }
-        }
-        if (toDestroy != null) {
-            this.players.remove(toDestroy);
-        }
-        else {
-            throw new Exception("The player you want to delete isn't existing");
-        }
+    public List<Coord> getVisibleCoordsCurrentPlayer() {
+        return this.getVisibleCoords(this.currentPlayer);
     }
 
-    public List<PlayerInterface> getPlayers() {
-        return players;
-    }
+
+	@Override
+	public void specialAction(Coord coordSquare) {
+		this.battleshipImplementor.specialAction(this.selectedBoat,coordSquare);
+	}
 }

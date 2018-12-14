@@ -1,39 +1,42 @@
 package model;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import tools.Coord;
-import tools.PersonnalException;
 
-@objid ("e18fc35c-5b26-4137-a3ef-3863e6e3f46a")
-public interface PlayerInterface {
+import java.util.List;
+import java.util.Map;
+
+public interface PlayerInterface extends Serializable{
 	
-	List<BoatInterface> getFleet();
-	
-	@objid ("b31194db-0d16-49e3-836e-01c937a0eb0b")
+	Map<Integer, BoatType> getFleet();
+
     BoatInterface getBoat();
 
-    @objid ("6d661e57-8fae-4018-a1b5-70963b1dc0b3")
     void setBoat(final BoatInterface value);
 
     String getName();
 
-    void addBoatInFleet(BoatName boatName, Coord coord, int id);
-
-    int getActionPoint();
-
-    String getPortName();
-
-    void setPortName(final String value);
-
-    void setActionPoint(final int value) throws PersonnalException;
+    int getNbActionPoint();
 
     void creditActionPoint (final int value);
 
-    void debitActionPoint (final int value) throws PersonnalException;
+    boolean debitActionPoint (final int value);
 
-    int getMaxActionPoint ();
+    int getMaxActionPoint();
+
+    void generateFleet(BoatType[] fleet);
+
+    boolean isInPort(Coord coord);
+
+    void undoLastAction();
+
+    int getId();
+
+    List<Coord> getVisibleCoords();
+
+    void setVisibleCoords(List<Coord> visibleCoords);
 
 }
