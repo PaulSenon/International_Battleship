@@ -1,7 +1,7 @@
 package view;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import model.BoatName;
+
+import model.BoatType;
 import tools.*;
 
 import javax.swing.*;
@@ -9,7 +9,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-@objid ("59f3e563-cd95-4a58-982c-35a753e56132")
 
 public class GridGUI extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
@@ -31,8 +30,7 @@ public class GridGUI extends JLayeredPane {
     /**
      * __CONSTRUCTOR__
      */
-    @objid ("3cceb1f5-4f21-4971-a3ba-024ed2eabd4e")
-	public GridGUI() {
+    	public GridGUI() {
 		super();
 
 		// init class attributes
@@ -61,12 +59,12 @@ public class GridGUI extends JLayeredPane {
 
 //        // FOR TMP DEBUG PURPOSE : adding two boat fragments on the board
 //        	Coord coord = new Coord(2,1);
-//	        JLabel tmp = createBoatFragments(coord, BoatName.Cruiser, 1);
+//	        JLabel tmp = createBoatFragments(coord, BoatType.Cruiser, 1);
 //	        this.squares.get(coord).add(tmp);
 //	        // demo rotation :
 //
 //	        coord = new Coord(2,2);
-//	        tmp = createBoatFragments(coord, BoatName.Cruiser, 0);
+//	        tmp = createBoatFragments(coord, BoatType.Cruiser, 0);
 //	        this.squares.get(coord).add(tmp);
 //	        // demo rotation :
 //	        ((BoatFragmentGUI) tmp).rotate(Direction.WEST);
@@ -140,20 +138,24 @@ public class GridGUI extends JLayeredPane {
 	 * TODO write description
 	 * @param initBoatPos
 	 */
-	public void initGrid(Map<BoatName, ProcessedPosition> initBoatPos) {
+	public void initGrid(Map<Integer, ProcessedPosition> initBoatPos) {
 		int i;
 		// foreach boat to create
-		for (BoatName name: initBoatPos.keySet()) {
+		for (Map.Entry<Integer, ProcessedPosition> boatEntry : initBoatPos.entrySet()) {
 			i = 0;
 			// foreach boatFragment to create
-			for (Coord coord : initBoatPos.get(name).coords) {
-				System.out.println("Fragment de " + name + " généré au coord : " + coord);
-				BoatFragmentGUI boatFragment = (BoatFragmentGUI)createBoatFragments(initBoatPos.get(name).boatId, coord, name, i);
-				this.squares.get(coord).add(boatFragment);
+			for (Coord coord : boatEntry.getValue().coords) {
+				System.out.println("Fragment de " + boatEntry.getValue().name + " généré au coord : " + coord);
+				BoatFragmentGUI boatFragment = (BoatFragmentGUI) createBoatFragments(boatEntry.getKey(), coord, boatEntry.getValue().name, i);
+				try{
+					this.squares.get(coord).add(boatFragment);
+				}catch(Exception e){
+					System.out.println("GridGUI: coord:"+coord+" is out of grid");
+				}
 				i++;
 			}
-			// create boat with processedPotion and name, and add store it
-//			this.listOfBoat.add(new BoatGUI(name, initBoatPos.get(name).coords, initBoatPos.get(name).direction));
+			// create boat with processedPotion and type, and add store it
+//			this.listOfBoat.add(new BoatGUI(type, initBoatPos.get(type).coords, initBoatPos.get(type).direction));
 		}
 	}
 
@@ -189,7 +191,7 @@ public class GridGUI extends JLayeredPane {
      * @param coord is the coordinate of the SquareGUI where to create the boatFragmentGUI
      * @return JLabel is the created boatFragmentGUI
      */
-    private JLabel createBoatFragments(int boatId, Coord coord,BoatName name, int index){
+    private JLabel createBoatFragments(int boatId, Coord coord, BoatType name, int index){
         BoatFragmentGUI fragment = null;
 		fragment = new BoatFragmentGUI(boatId, coord, name, index);
         this.boatFragments.put(coord, fragment);
@@ -290,7 +292,7 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	public void setSelectedBoat(ProcessedPosition processedPosition) {
-//    	this.selectedBoat = new BoatGUI(processedPosition.boatId, processedPosition.name, processedPosition.coords, processedPosition.direction);
+//    	this.selectedBoat = new BoatGUI(processedPosition.boatId, processedPosition.type, processedPosition.coords, processedPosition.direction);
 		List<BoatFragmentGUI> selectedFragments = new ArrayList<>();
 		for(Coord coord : processedPosition.coords){
 			selectedFragments.add(this.boatFragments.get(coord));

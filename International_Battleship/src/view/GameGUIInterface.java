@@ -1,7 +1,6 @@
 package view;
 
 import model.BoatInterface;
-import model.BoatName;
 import tools.ActionType;
 import tools.ProcessedPosition;
 
@@ -20,9 +19,13 @@ public interface GameGUIInterface {
 
     void setListOfBoat(List<BoatInterface> listOfBoat);
 
-    void initGame(Map<BoatName,ProcessedPosition> initBoatPos);
+    void initGame(Map<Integer,ProcessedPosition> initBoatPos);
 
     void setSelectedBoat(ProcessedPosition processedPosition);
 
     void message(String message);
+
+    void setNbAP(int actionPoint);
+
+    void disableAction();
 }

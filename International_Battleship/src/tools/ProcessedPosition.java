@@ -1,6 +1,6 @@
 package tools;
 
-import model.BoatName;
+import model.BoatType;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ public class ProcessedPosition {
     // TODO we do not transfer Coord from model to view. So do we need to change this here ?
     public List<Coord> coords;
     public int boatId;
-    public BoatName name;
+    public BoatType name;
     public List<Integer> brokenPartIds;
 
-    public ProcessedPosition(int boatId, BoatName name, Direction direction, List<Coord> coord, List<Integer> brokenPartIds){
+    public ProcessedPosition(int boatId, BoatType name, Direction direction, List<Coord> coord, List<Integer> brokenPartIds){
         this.boatId = boatId;
         this.direction = direction;
         this.coords = coord;

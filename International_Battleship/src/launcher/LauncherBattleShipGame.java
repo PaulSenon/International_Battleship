@@ -2,6 +2,7 @@ package launcher;
 
 import controler.ControllerLocal;
 import controler.ControllerModelViewInterface;
+import model.BoatType;
 import model.GameModel;
 import multiplayer.Client;
 import multiplayer.Server;
@@ -27,8 +28,23 @@ public class LauncherBattleShipGame {
 		GameConfig.newInstance(
 				25, // gameGridWidth
 				25, // gameGridHeight
-				20 //maxActionPoint
-			);
+				20, // maxActionPoint
+                7, // portSize
+                4, // nbMaxPlayer
+				new String[]{
+						"José",
+						"Théodule",
+						"Yvonne",
+						"Titouan"
+				},
+				new BoatType[]{
+						BoatType.Cruiser,
+						BoatType.Submarine,
+						BoatType.AircraftCarrier,
+						BoatType.Sentinel,
+						BoatType.TorpedoBoat
+				}
+		);
 
 		JFrame jframe = new JFrame("Menu");
 		jframe.setSize(300, 500);
@@ -43,7 +59,11 @@ public class LauncherBattleShipGame {
 		solo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				launchSolo();
+				try {
+					launchSolo();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -87,7 +107,7 @@ public class LauncherBattleShipGame {
 	 * Cette fonction permet de lancer le mode solo
 	 * Elle configure la fenêtre, les joueurs et lance la partie
 	 */
-	public static void launchSolo() {
+	public static void launchSolo() throws IOException {
 		GameGUI gameGUI = setupFrame();
 		GameModel gameModel = setupGameModel();
 		setupGame(gameModel,gameGUI);
@@ -97,7 +117,7 @@ public class LauncherBattleShipGame {
 	/**
 	 * Permet de générer le plateau de jeu
 	 */
-	public static GameGUI setupFrame(){
+	public static GameGUI setupFrame() throws IOException {
 		Dimension dim = new Dimension(850,570);
 		GameGUI gameGUI = new GameGUI();
 		gameGUI.setTitle("International Battleship");

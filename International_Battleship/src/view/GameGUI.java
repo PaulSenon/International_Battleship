@@ -1,9 +1,8 @@
 package view;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import controler.ControllerModelViewInterface;
 import model.BoatInterface;
-import model.BoatName;
 import tools.ActionType;
 import tools.ProcessedPosition;
 
@@ -16,22 +15,18 @@ import java.util.EventListener;
 import java.util.List;
 import java.util.Map;
 
-@objid ("7f86e906-82ca-4124-8c92-c6f6305ed941")
 public class GameGUI extends JFrame implements GameGUIInterface{
+
     private static final long serialVersionUID = 7636412061294453620L;
-	private List<BoatInterface> listOfBoat;
+    private ActionPointGUI PAPanel;
+    private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
     private ButtonGUI buttonGUITirer;
     private ButtonGUI buttonRotateCounterClockWise;
 	private ButtonGUI buttonRotateClockWise;
     private ButtonGUI buttonGUIDéplacer;
     private ButtonGUI buttonGUIActionSpéciale;
-    private JPanel controlsPanel;
-
-    @objid ("dc33ec30-907d-43b8-8b28-bbc7f57950c3")
     public GridGUI battleShipGridGUI;
-
-    @objid ("a6ff4313-0cc1-4317-8f8f-cad40722f639")
     public ButtonGUI battleShipButtonGUI;
 
     public List<ButtonGUI> listOfButtons;
@@ -40,7 +35,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 
     // Constructor
-    public GameGUI() {
+    public GameGUI(){
     	super();
 
     	Container contentPane = this.getContentPane();
@@ -64,43 +59,56 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 
 		// TODO currently, just a placeholder
-		// Create "actions" panel and add it to the right
-			this.controlsPanel = new JPanel();
-			controlsPanel.setLayout(new GridBagLayout());
-				GridBagConstraints buttonsConstraints = new GridBagConstraints();
-				buttonsConstraints.gridx = 0;
-				buttonsConstraints.gridy = 0;
-			controlsPanel.setBackground(Color.GRAY);
+		// Create "actions" panel and add it to the right withe a borderlayout
+            JPanel layoutControlPanel = new JPanel();
+            layoutControlPanel.setLayout(new BorderLayout());
 
-            // Create of Button in the "actions" panel
-			this.buttonGUITirer = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
-			this.controlsPanel.add(this.buttonGUITirer, buttonsConstraints);
+            //Add Button on Center of BorderLayout
+                JPanel controlsPanel = new JPanel();
+                controlsPanel.setLayout(new GridBagLayout());
+                    GridBagConstraints buttonsConstraints = new GridBagConstraints();
+                    buttonsConstraints.gridx = 0;
+                    buttonsConstraints.gridy = 0;
+                controlsPanel.setBackground(Color.GRAY);
 
-            buttonsConstraints.gridy++;
-            this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
-            this.controlsPanel.add(this.buttonRotateClockWise, buttonsConstraints);
+                // Create of Button in the "actions" panel
+                    this.buttonGUITirer = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
+                    controlsPanel.add(this.buttonGUITirer, buttonsConstraints);
 
-			buttonsConstraints.gridy++;
-			this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
-			this.controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
+                    buttonsConstraints.gridy++;
+                    this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
+                    controlsPanel.add(this.buttonRotateClockWise, buttonsConstraints);
+
+                    buttonsConstraints.gridy++;
+                    this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
+                    controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
 
 
-            //Store buttons in a list // TODO is this useful ?
-            this.listOfButtons = new ArrayList<>();
-            listOfButtons.add(this.buttonGUITirer);
-            listOfButtons.add(this.buttonRotateClockWise);
-            listOfButtons.add(this.buttonRotateCounterClockWise);
-    		//listOfButtons.add(this.buttonGUIDéplacer);
-    		//listOfButtons.add(this.buttonGUIActionSpéciale);
+                //Store buttons in a list // TODO is this useful ?
+                    this.listOfButtons = new ArrayList<>();
+                    listOfButtons.add(this.buttonGUITirer);
+                    listOfButtons.add(this.buttonRotateClockWise);
+                    listOfButtons.add(this.buttonRotateCounterClockWise);
+                    //listOfButtons.add(this.buttonGUIDéplacer);
+                    //listOfButtons.add(this.buttonGUIActionSpéciale);
+
+            // Add ButtonPanel in center of the BorderLayout
+			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
+
+		    //Create PA Panel in the south of BorderLayout
+                this.PAPanel = new ActionPointGUI();
+                PAPanel.setBackground(Color.GRAY);
+            // Add ButtonPanel in center of the BorderLayout
+                layoutControlPanel.add(PAPanel, BorderLayout.SOUTH);
 
         // tweak GridBagConstraints for "action" panel
-				c.fill = GridBagConstraints.BOTH;
-		        c.gridx = 1;
-		        c.gridy = 0;
-		        c.weightx = 1.0;
-		        c.weighty = 1.0;
-			contentPane.add(controlsPanel, c);
-
+            c.fill = GridBagConstraints.BOTH;
+            c.gridx = 1;
+            c.gridy = 0;
+            c.weightx = 1.0;
+            c.weighty = 1.0;
+        // Add LayoutControlPanel to the GeneralPanel
+        contentPane.add(layoutControlPanel, c);
     }
 
     /**
@@ -158,7 +166,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.listOfBoat = listOfBoat;
 	}
 
-	public void initGame(Map<BoatName,ProcessedPosition> initBoatPos){
+	public void initGame(Map<Integer,ProcessedPosition> initBoatPos){
 		this.gridGUI.initGrid(initBoatPos);
 		this.revalidate();
 		this.repaint();
@@ -170,12 +178,28 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		System.out.println("MESSAGE TO USER : "+message);
 	}
 
-	/**
+    /**
      * This method propagate the info to the Grid that a boat is selected
      * @param processedPosition the processed pos containing all infos about the boat
      */
 	@Override
 	public void setSelectedBoat(ProcessedPosition processedPosition) {
-		this.gridGUI.setSelectedBoat(processedPosition);
+	    this.gridGUI.setSelectedBoat(processedPosition);
 	}
+
+    /**
+     * Distribute the controller request when the nb of ActionPoint is changed to the ActionPoint class
+     * @param nbActionPoint
+     */
+	public void setNbAP(int nbActionPoint) {
+		this.PAPanel.setNbAP(nbActionPoint);
+    }
+
+    /**
+     * Distribute the controller request when the nb of ActionPoint is equal zero to the ActionPoint Class
+     */
+    @Override
+    public void disableAction() {
+        this.PAPanel.disableAction();
+    }
 }
