@@ -5,5 +5,6 @@ public enum ButtonType {
     DEFAULT_STATE,
     SHOOT,
     ROTATECW,
-    ROTATECCW;
+    ROTATECCW, 
+    SPECIALACTION;
 }

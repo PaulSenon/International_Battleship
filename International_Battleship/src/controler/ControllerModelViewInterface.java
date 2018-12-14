@@ -2,6 +2,7 @@ package controler;
 
 
 import tools.ActionType;
+import tools.Coord;
 
 public interface ControllerModelViewInterface extends ControllerModelInterface {
     void selectBoat(int x, int y);
@@ -9,5 +10,6 @@ public interface ControllerModelViewInterface extends ControllerModelInterface {
 	void shoot(int x, int y);
     void rotateBoatClockWise();
     void rotateBoatCounterClockWise();
-    void requestActioType(ActionType actionType);
+    void requestActionType(ActionType actionType);
+	void specialAction(Coord coordSquare);
 }

@@ -25,4 +25,6 @@ public interface BoatsImplementorInterface {
     int findPlayerIdFromBoat(BoatInterface boat);
 
     List<Coord> getVisibleCoords(PlayerInterface player);
+
+	void specialAction(BoatInterface selectedBoat, Coord coordSquare);
 }

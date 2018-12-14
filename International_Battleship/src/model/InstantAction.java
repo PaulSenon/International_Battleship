@@ -1,11 +1,11 @@
 package model;
 
+import tools.Coord;
 
 
-public class InstantAction extends SpecialAction {
-        @Override
-    public void doAction() {
-        // TODO Auto-generated method stub
-    }
+public abstract class InstantAction extends SpecialAction {
+
+    @Override
+    public abstract void doAction(Coord target);
 
 }

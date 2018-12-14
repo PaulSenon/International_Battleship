@@ -250,4 +250,9 @@ public class GameModel implements GameModelInterface {
         return this.getVisibleCoords(this.currentPlayer);
     }
 
+
+	@Override
+	public void specialAction(Coord coordSquare) {
+		this.battleshipImplementor.specialAction(this.selectedBoat,coordSquare);
+	}
 }

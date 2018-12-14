@@ -83,4 +83,10 @@ public class GameModelObs extends Observable implements GameModelInterface {
 		
 	}
 
+	@Override
+	public void specialAction(Coord coordSquare) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

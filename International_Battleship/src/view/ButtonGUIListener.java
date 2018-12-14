@@ -28,9 +28,9 @@ public class ButtonGUIListener implements ActionListener {
 		switch (button.getType()){
 			case SHOOT:
 				if(button.getState() == ButtonType.DEFAULT_STATE){
-					gameController.requestActioType(ActionType.SHOOT);
+					gameController.requestActionType(ActionType.SHOOT);
 				}else if(button.getState() == ButtonType.CANCEL_STATE){
-					gameController.requestActioType(ActionType.MOVE);
+					gameController.requestActionType(ActionType.MOVE);
 				}
 				break;
 			case ROTATECW:
@@ -38,6 +38,13 @@ public class ButtonGUIListener implements ActionListener {
 				break;
 			case ROTATECCW:
 				this.gameController.rotateBoatCounterClockWise();
+				break;
+			case SPECIALACTION:
+				if(button.getState() == ButtonType.DEFAULT_STATE){
+					gameController.requestActionType(ActionType.SPECIAL);
+				}else if(button.getState() == ButtonType.CANCEL_STATE){
+					gameController.requestActionType(ActionType.MOVE);
+				}
 				break;
 			default:
 				System.out.println("Error ButtonGUIListener wrong button type");
