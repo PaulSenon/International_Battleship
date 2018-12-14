@@ -267,9 +267,41 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boatInitPos;
     }
 
+    public List<Coord> getVisibleCoords(PlayerInterface player){
+        List<BoatInterface> fleet = this.getPlayerFleet(player);
+        List<Coord> visibleCoords = new ArrayList<>();
+        for (BoatInterface boat : fleet) {
+            List<Coord> coords = boat.getVisibleCoords();
+            for (Coord visibleCoord : coords){
+                if (!visibleCoords.contains(visibleCoord)){
+                    visibleCoords.add(visibleCoord);
+                }
+            }
+        }
+        player.setVisibleCoords(visibleCoords);
+        return visibleCoords;
+    }
+
     @Override
     public int findPlayerIdFromBoat(BoatInterface boat) {
         return boat.getPlayerId();
+    }
+
+    private List<BoatInterface> getPlayerFleet(PlayerInterface player){
+        List<BoatInterface> fleet = new ArrayList<>();
+        for(int boatId : player.getFleet().keySet()){
+            fleet.add(this.findBoayById(boatId));
+        }
+        return fleet;
+    }
+
+    private BoatInterface findBoayById(int boatId){
+        for(BoatInterface boat : this.boats){
+            if(boat.getId() == boatId){
+                return boat;
+            }
+        }
+        return null;
     }
 
 }

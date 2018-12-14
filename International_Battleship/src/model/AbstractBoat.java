@@ -4,6 +4,7 @@ package model;
 import tools.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static tools.Direction.DEFAULT;
@@ -14,6 +15,7 @@ public abstract class AbstractBoat implements BoatInterface {
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
 	private List<Coord> coords;
 	private List<Integer> touchedGragmentIds;
+	private List<Coord> visibleCoords;
 	private boolean coordsNeedToBeProcessed;
 	protected BoatType type;
 	protected int size;
@@ -24,6 +26,7 @@ public abstract class AbstractBoat implements BoatInterface {
     private String Color;
     private int playerId;
     public SpecialActionInterface actionSpeciale;
+    private boolean coordsVisibleToBeProcessed;
 
     public AbstractBoat(BoatType type, int id, Coord pivot, int playerId) {
         this.pivot = pivot;
@@ -31,6 +34,7 @@ public abstract class AbstractBoat implements BoatInterface {
         this.type = type;
         this.coords = new ArrayList<>();
         this.coordsNeedToBeProcessed = true;
+        this.coordsVisibleToBeProcessed = true;
         this.touchedGragmentIds = new ArrayList<>();
         this.size = this.type.getSize();
         this.id = id;
@@ -131,6 +135,7 @@ public abstract class AbstractBoat implements BoatInterface {
      */
     public void refreshCoords(){
         this.coordsNeedToBeProcessed = true;
+        this.coordsVisibleToBeProcessed = true;
     }
 
     // TODO : may needs some refactoring to remove crappy switch case and copy/pasts
@@ -293,6 +298,31 @@ public abstract class AbstractBoat implements BoatInterface {
      */
     public ProcessedPosition getProcessedPosition(){
         return new ProcessedPosition(this.id, this.type, this.facingDirection, this.getCoords(), this.touchedGragmentIds);
+    }
+
+    public List<Coord> getVisibleCoords(){
+        List<Coord> visibleCoords = new ArrayList<Coord>();
+        if(this.coordsVisibleToBeProcessed){
+            int radius = this.getSize() /2 ;
+            if(radius == 0){radius = 1;}
+            for (Coord coord : this.getCoords()){
+                int lineBeginning = coord.getY() - radius;
+                int lineEnd = coord.getY() + radius + 1;
+                int columnBeginning = coord.getX() - radius;
+                int columnEnd = coord.getX() + radius + 1;
+                for (int line = lineBeginning; line<lineEnd; line ++){
+                    for(int column = columnBeginning; column<columnEnd; column ++) {
+                        if (!((line==lineBeginning && column==columnBeginning) || (line==lineBeginning && column==columnEnd - 1) || (line==lineEnd - 1 && column==columnBeginning) || (line==lineEnd - 1 && column==columnEnd - 1))){
+                            Coord visibleCoord = new Coord(column, line);
+                            visibleCoords.add(visibleCoord);
+                        }
+                    }
+                }
+            }
+            this.coordsVisibleToBeProcessed = false;
+            this.visibleCoords = new ArrayList<Coord>(new HashSet<>(visibleCoords));
+        }
+        return this.visibleCoords;
     }
 
     public int getMoveCost(int distance){

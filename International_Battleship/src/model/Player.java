@@ -15,6 +15,7 @@ public class Player implements PlayerInterface {
 
     private final String name;
 	private String PortName;
+	private List<Coord> visibleCoords;
 
 	//TODO : modifier cet attribut pour le faire varier en fonction du nombre de bateau.
 	private int maxActionPoint;
@@ -34,6 +35,7 @@ public class Player implements PlayerInterface {
         this.maxActionPoint = GameConfig.getMaxActionPoint();
 		this.nbActionPoint = GameConfig.getMaxActionPoint();
 		this.lastNbActionPoints = this.nbActionPoint;
+		this.visibleCoords = null;
     }
 
 		private void isPlay() {
@@ -158,5 +160,12 @@ public class Player implements PlayerInterface {
     public String getName() {
         return this.name;
     }
+
+    public List<Coord> getVisibleCoords (){ return this.visibleCoords; }
+
+	public void setVisibleCoords(List<Coord> visibleCoords) {
+		this.visibleCoords = visibleCoords;
+	}
+
 
 }

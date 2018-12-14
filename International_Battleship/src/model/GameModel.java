@@ -164,6 +164,10 @@ public class GameModel implements GameModelInterface {
 
         // set the selected boat (may return null)
         BoatInterface boat = this.battleshipImplementor.findBoatByCoord(coord);
+        if(boat == null){
+            System.out.println("There is no boat here");
+            return null;
+        }
         // Verify that the boat belongs to the current player
         if(this.currentPlayer.getId() == this.battleshipImplementor.findPlayerIdFromBoat(boat)){
             this.selectedBoat = boat;
@@ -237,4 +241,13 @@ public class GameModel implements GameModelInterface {
     public int getApCurrentPlayer() {
         return this.currentPlayer.getNbActionPoint();
     }
+
+    public List<Coord> getVisibleCoords(PlayerInterface player) {
+        return this.battleshipImplementor.getVisibleCoords(player);
+    }
+
+    public List<Coord> getVisibleCoordsCurrentPlayer() {
+        return this.getVisibleCoords(this.currentPlayer);
+    }
+
 }

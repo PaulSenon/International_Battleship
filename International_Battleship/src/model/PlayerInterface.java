@@ -3,6 +3,7 @@ package model;
 
 import tools.Coord;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PlayerInterface {
@@ -30,5 +31,9 @@ public interface PlayerInterface {
     void undoLastAction();
 
     int getId();
+
+    List<Coord> getVisibleCoords();
+
+    void setVisibleCoords(List<Coord> visibleCoords);
 
 }

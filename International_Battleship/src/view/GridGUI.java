@@ -6,6 +6,8 @@ import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -76,6 +78,7 @@ public class GridGUI extends JLayeredPane {
 	 * @param processedPosition
 	 */
 	public void setProcessedPosition(ProcessedPosition processedPosition) {
+		if(processedPosition == null) return;
 		List<BoatFragmentGUI> boat = this.getBoatFragmentsById(processedPosition.boatId);
 		this.setProcessedPosForBoat(boat, processedPosition);
 	}
@@ -308,4 +311,29 @@ public class GridGUI extends JLayeredPane {
 		return currentAction;
 	}
 
+	public void setVisibleCoords(List<Coord> visibleCoords){
+		List<BufferedImage> directions = new ArrayList<>();
+		try {
+			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
+			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
+			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
+			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
+			Coord coord = entry.getKey();
+			SquareGUI square = entry.getValue();
+			if (visibleCoords.contains(coord)) {
+				square.changeBackground(Color.BLUE);
+				square.image = null;
+			} else {
+				square.changeBackground(Color.BLUE);
+				Random random = new Random();
+				int randomDirection = random.nextInt(directions.size());
+				square.image = directions.get(randomDirection);
+				square.repaint();
+			}
+		}
+	}
 }
