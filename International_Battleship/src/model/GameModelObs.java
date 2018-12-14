@@ -56,8 +56,13 @@ public class GameModelObs extends Observable implements GameModelInterface {
     }
 
     @Override
-    public Map<BoatName, ProcessedPosition> getListOfBoat() {
+    public Map<Integer, ProcessedPosition> getListOfBoat() {
         return null;
+    }
+
+    @Override
+    public int getApCurrentPlayer() {
+        return 0;
     }
 
     @Override

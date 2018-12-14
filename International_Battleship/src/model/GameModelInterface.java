@@ -8,18 +8,19 @@ import java.util.Map;
 public interface GameModelInterface {
     PlayerInterface getCurrentPlayer();
 
-    ProcessedPosition moveBoat(int xDest, int yDest) throws PersonnalException;
+    ProcessedPosition moveBoat(int xDest, int yDest);
 
-    ProcessedPosition rotateBoatClockWise() throws PersonnalException;
+    ProcessedPosition rotateBoatClockWise();
 
-    ProcessedPosition rotateBoatCounterClockWise() throws PersonnalException;
+    ProcessedPosition rotateBoatCounterClockWise();
 
     ProcessedPosition selectBoat(int x, int y);
 
     void isEnd();
 
-    Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws PersonnalException;
+    Pair<ResultShoot, ProcessedPosition> shoot(Coord target);
 
-    Map<BoatName, ProcessedPosition> getListOfBoat();
+    Map<Integer, ProcessedPosition> getListOfBoat();
 
+    int getApCurrentPlayer();
 }

@@ -2,11 +2,13 @@
  * author: MadProgrammer
  * from stack overflow post : https://stackoverflow.com/questions/14635952/java-layout-proportions-creating-a-scalable-square-panel
  * license : Creative Commons Attribution-Share Alike
+ * more info here : https://creativecommons.org/licenses/by-sa/3.0/us/
  * 
  * description : It a Layout manager that display a grid 
  * that can be resized keeping the 1:1 ration of each cell
  * 
  * => we made few minor changes
+ * => we have to distribute our game on the same license !
  */
 
 package view;

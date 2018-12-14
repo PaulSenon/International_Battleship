@@ -3,10 +3,10 @@ package model;
 
 import tools.Coord;
 
-public class Sentinel extends AbstractBoat {
+public class Submarine extends AbstractBoat {
 
-    public Sentinel(int id, Coord pivot, int playerId) {
-        super(BoatType.Sentinel, id, pivot, playerId);
+    public Submarine(int id, Coord pivot, int playerId) {
+        super(BoatType.Submarine, id, pivot, playerId);
     }
 
     @Override

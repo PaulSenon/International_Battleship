@@ -1,6 +1,6 @@
 package view;
 
-import model.BoatName;
+import model.BoatType;
 import tools.Coord;
 import tools.Direction;
 import tools.ImageManager;
@@ -38,7 +38,7 @@ public class BoatFragmentGUI extends JLabel{
 	 * __CONSTRUCTOR__
 	 * @param coord is the coord associated to this boatFragment
 	 */
-	public BoatFragmentGUI(int boatId, Coord coord, BoatName name, int imageIndex) {
+	public BoatFragmentGUI(int boatId, Coord coord, BoatType name, int imageIndex) {
 			super();
 
 			// set attributes
@@ -104,16 +104,16 @@ public class BoatFragmentGUI extends JLabel{
 							break;
 					}
 					break;
-				case Submarin:
+				case Submarine:
 					switch (imageIndex) {
 						case 0:
-							this.imageName = "Submarin/0.png";
+							this.imageName = "Submarine/0.png";
 							break;
 						case 1:
-							this.imageName = "Submarin/1.png";
+							this.imageName = "Submarine/1.png";
 							break;
 						case 2:
-							this.imageName = "Submarin/2.png";
+							this.imageName = "Submarine/2.png";
 							break;
 					}
 					break;
@@ -135,7 +135,7 @@ public class BoatFragmentGUI extends JLabel{
 					}
 					break;
 				default:
-					System.out.println("Wrong boat name");
+					System.out.println("Wrong boat type");
 					break;
 			}
 			this.image = ImageManager.getImageCopy(this.imageName);
