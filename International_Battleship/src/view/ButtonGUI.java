@@ -68,6 +68,8 @@ public class ButtonGUI extends JButton{
 						this.resetDefault();
 					}
 					break;
+			case ENDTURN:
+				break;
 			default:
 				System.out.println("Error ButtonGUI wrong action type");
 		}

@@ -28,7 +28,23 @@ public interface GameModelInterface {
     List<Coord> getVisibleCoords(PlayerInterface player);
 
     List<Coord> getVisibleCoordsCurrentPlayer();
+    
+    List<BoatInterface> getVisibleBoats(PlayerInterface player);
+
+    List<BoatInterface> getVisibleBoatsCurrentPlayer();
 
 	void specialAction(Coord coordSquare);
+
+	void EndActionsOfPlayer();
+	
+	void initTurn();
+    
+    void endTurn();
+    
+    void initDay();
+    
+    void endDay();
+    
+    void nextPlayer();
 
 }

@@ -56,6 +56,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{
@@ -72,6 +73,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{
@@ -88,6 +90,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
+            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{
@@ -128,6 +131,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         this.gameGUI.initGame(initBoatPos);
         this.gameGUI.setCurrentAction(ActionType.SELECT);
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
     }
 
@@ -152,5 +156,13 @@ public class ControllerLocal implements ControllerModelViewInterface {
 		this.gameModel.specialAction(coordSquare);
 		this.gameGUI.setCurrentAction(ActionType.MOVE);
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+	}
+
+	@Override
+	public void EndActionsOfPlayer() {
+		this.gameModel.EndActionsOfPlayer();
+		this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+		this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+		this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
 	}
 }

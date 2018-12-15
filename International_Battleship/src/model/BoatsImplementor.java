@@ -295,7 +295,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return fleet;
     }
 
-    private BoatInterface findBoayById(int boatId){
+    public BoatInterface findBoayById(int boatId){
         for(BoatInterface boat : this.boats){
             if(boat.getId() == boatId){
                 return boat;
@@ -307,6 +307,13 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 	@Override
 	public void specialAction(BoatInterface selectedBoat, Coord coordSquare) {
 		selectedBoat.actionSpecial(coordSquare);
+	}
+
+	@Override
+	public List<BoatInterface> getVisibleBoats(PlayerInterface player) {
+        List<BoatInterface> fleet = this.getPlayerFleet(player);
+        System.out.println(fleet);
+		return fleet;
 	}
 
 }

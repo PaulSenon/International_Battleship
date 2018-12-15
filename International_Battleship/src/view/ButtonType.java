@@ -6,5 +6,6 @@ public enum ButtonType {
     SHOOT,
     ROTATECW,
     ROTATECCW, 
-    SPECIALACTION;
+    SPECIALACTION,
+    ENDTURN;
 }

@@ -46,6 +46,9 @@ public class ButtonGUIListener implements ActionListener {
 					gameController.requestActionType(ActionType.MOVE);
 				}
 				break;
+			case ENDTURN:
+				this.gameController.EndActionsOfPlayer();
+				break;
 			default:
 				System.out.println("Error ButtonGUIListener wrong button type");
 		}

@@ -89,4 +89,52 @@ public class GameModelObs extends Observable implements GameModelInterface {
 		
 	}
 
+	@Override
+	public void EndActionsOfPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<BoatInterface> getVisibleBoats(PlayerInterface player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BoatInterface> getVisibleBoatsCurrentPlayer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void initTurn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endTurn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initDay() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endDay() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void nextPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

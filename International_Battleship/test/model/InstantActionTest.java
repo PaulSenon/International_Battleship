@@ -21,24 +21,23 @@ public class InstantActionTest {
     
     @Test
     public void doActionTest(){
-        //TODO
     	/*final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         
         //Submarin
     	try {
-            BoatInterface submarin = new Submarin(new Coord(10,10), 10);
+            BoatInterface submarin = new Submarine(4, new Coord(10,10), 10);
             submarin.actionSpecial(new Coord(5, 5));
-            assertEquals("Je suis instant action" + System.getProperty("line.separator"), outContent.toString());       
+            assertEquals("Action spéciale sous marin" + System.getProperty("line.separator"), outContent.toString());       
         } catch (Exception e) {
         	fail();
         }
     	
     	//TorpedoBoat
     	try {
-            BoatInterface torpedoboat = new TorpedoBoat(new Coord(11,11), 11);
+            BoatInterface torpedoboat = new TorpedoBoat(5, new Coord(11,11), 11);
             torpedoboat.actionSpecial(new Coord(6, 6));
-            assertEquals("Je suis instant action" + System.getProperty("line.separator"), outContent.toString());       
+            assertEquals("Action spécial torpilleur" + System.getProperty("line.separator"), outContent.toString());       
         } catch (Exception e) {
         	fail();
         }*/

@@ -31,4 +31,6 @@ public interface GameGUIInterface {
     void disableAction();
 
     void setVisibleCoord(List<Coord> visibleCoords);
+
+	void setVisibleBoats(List<Coord> list);
 }
