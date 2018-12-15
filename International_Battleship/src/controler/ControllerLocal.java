@@ -84,10 +84,13 @@ public class ControllerLocal implements ControllerModelViewInterface {
 
 	@Override
 	public void shoot(int x, int y) {
-        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(new Coord(x, y));
+        Coord target = new Coord(x, y);
+        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(target);
         if(result != null){
             if(result.getFirst() != null){
-                this.gameGUI.setProcessedPotion(result.getSecond());
+                if (result.getSecond() != null){this.gameGUI.setProcessedPotion(result.getSecond());}
+                this.gameGUI.displayResult(result.getFirst(), target);
+                this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords((Player) this.gameModel.getPlayers().get(0)));
             }
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.message("shoot result : "+result.getFirst());

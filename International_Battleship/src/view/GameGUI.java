@@ -7,12 +7,12 @@ import model.BoatName;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -185,4 +185,6 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	public void setSelectedBoat(ProcessedPosition processedPosition) {
 		this.gridGUI.setSelectedBoat(processedPosition);
 	}
+
+	public void displayResult(ResultShoot result, Coord target){this.gridGUI.displayResult(result, target);	}
 }

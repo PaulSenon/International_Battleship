@@ -6,8 +6,13 @@ import model.Square;
 import tools.*;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.List;
 
@@ -15,6 +20,8 @@ import java.util.List;
 
 public class GridGUI extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
+	private final int delay = 10;
+	private Timer animator;
 
 	// Map of Coord <=> Square
 	private HashMap<Coord, SquareGUI> squares;
@@ -309,25 +316,37 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	public void setVisibleCoords(List<Coord> visibleCoords){
-		Direction randDirection = Direction.DEFAULT();
 		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
 			Coord coord = entry.getKey();
 			SquareGUI square = entry.getValue();
+			Random random = new Random();
+			Direction randDirection = Direction.values()[random.nextInt(Direction.values().length)];
 			if (visibleCoords.contains(coord)) {
-				square.changeBackground(Color.BLUE);
-				square.image = null;
-			} else {
-				square.changeBackground(Color.BLUE);
 				try {
-					Random random = new Random();
-					randDirection = Direction.values()[random.nextInt(Direction.values().length)];
+					square.image = ImageManager.getImageCopyRotated("sea.jpg",randDirection.rotation);
+					square.repaint();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
 					square.image = ImageManager.getImageCopyRotated("fog.png",randDirection.rotation);
 					square.repaint();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			//square.changeBackground(Color.GRAY);
+		}
+	}
+
+	public void displayResult(ResultShoot result, Coord target) {
+		if(!result.equals(ResultShoot.DESTROYED)) {
+			JLabel explosion = new Explosion(result);
+			this.squares.get(target).add(explosion, 0);
+			this.squares.remove(explosion);
+		} else {
+
+			System.out.println("Le bateau ciblé a été détruit.");
 		}
 	}
 }

@@ -28,6 +28,7 @@ public abstract class AbstractBoat implements BoatInterface {
 
 	private Direction lastDirection;
 	private Coord lastPosition;
+	public boolean move;
 
 	// TODO will probably be a Color enum
 	@objid ("809e8204-31c8-42eb-bb6a-467d73259045")
@@ -39,6 +40,7 @@ public abstract class AbstractBoat implements BoatInterface {
     @objid ("7792e884-e1c1-4f24-a745-3a285a50c7d3")
     public SpecialActionInterface actionSpeciale;
     private boolean coordsVisibleToBeProcessed;
+    private boolean destroyed;
 
     @objid ("2da5b5ca-2907-436a-a330-f175ddec396f")
     public AbstractBoat(BoatName name, Coord pivot, int id) {
@@ -53,6 +55,8 @@ public abstract class AbstractBoat implements BoatInterface {
 
         this.lastDirection = this.facingDirection;
         this.lastPosition = this.pivot;
+        this.move = true;
+        this.destroyed = false;
     }
 
 	public Coord getCoord() {
@@ -78,6 +82,7 @@ public abstract class AbstractBoat implements BoatInterface {
                 return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
             }else{
                 this.touchedGragmentIds.add(id);
+                if(this.touchedGragmentIds.size() >= getNbFrontParts()) {this.move = false;}
                 if(this.getCoords().size() == this.touchedGragmentIds.size()){
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
@@ -85,7 +90,7 @@ public abstract class AbstractBoat implements BoatInterface {
             }
 	}
 
-	private int getIdOfFragment(Coord coord) throws Exception {
+    private int getIdOfFragment(Coord coord) throws Exception {
         int i=0;
         for(Coord fragment : this.getCoords()){
             if(coord.equals(fragment)){
@@ -99,7 +104,7 @@ public abstract class AbstractBoat implements BoatInterface {
 	// TODO mind to refreshCoords
     @objid ("472b38fc-f87c-44e6-9e76-b96a4c5d3f7b")
     public void move(Coord destCoord){
-        if(this.isMoveOk(destCoord)){
+        if(this.isMoveOk(destCoord) && move){
             this.setPivot(destCoord); // It does the refreshCoord()
         }
     }
@@ -117,8 +122,10 @@ public abstract class AbstractBoat implements BoatInterface {
         // save last direction
         this.lastDirection = this.facingDirection;
         // rotate
-        this.facingDirection = this.facingDirection.next(true);
-        this.refreshCoords();
+        if (move) {
+            this.facingDirection = this.facingDirection.next(true);
+            this.refreshCoords();
+        }
     }
 
     @objid ("c01df1a1-a009-44f4-a9a5-5e7c9d11b6ef")
@@ -126,8 +133,10 @@ public abstract class AbstractBoat implements BoatInterface {
         // save last direction
         this.lastDirection = this.facingDirection;
         // rotate
-        this.facingDirection = this.facingDirection.next(false);
-        this.refreshCoords();
+        if(move) {
+            this.facingDirection = this.facingDirection.next(false);
+            this.refreshCoords();
+        }
     }
 
     /**
@@ -440,5 +449,14 @@ public abstract class AbstractBoat implements BoatInterface {
 
     public int getId() {
         return id;
+    }
+
+    public void destroy(){
+        this.coordsVisibleToBeProcessed = true;
+        this.destroyed = true;
+    }
+
+    public boolean getDestroy(){
+        return this.destroyed;
     }
 }

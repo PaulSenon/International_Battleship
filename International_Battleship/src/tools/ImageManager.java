@@ -17,6 +17,8 @@ public class ImageManager {
     private static ImageManager instance = null;
     private static Map<String, BufferedImage> images;
     private static String basePath;
+    public static BufferedImage[] ExplosionArray;
+    public static BufferedImage[] ExplomissArray;
 
     public static ImageManager newInstance() throws IOException {
         if (instance == null)
@@ -28,6 +30,40 @@ public class ImageManager {
         ImageManager.images = new HashMap<>();
         ImageManager.basePath = defineResourcesBasePath();
         ImageManager.preLoadImages();
+        this.setExplosionArray(17);
+        this.setExplomissArray(27);
+    }
+
+    private void setExplosionArray(int totalFrames) {
+        this.ExplosionArray = new BufferedImage[totalFrames];
+        for (int i=1; i<this.ExplosionArray.length; i++){
+            try {
+                BufferedImage gifImage = ImageManager.getImageCopy("explosion/explosion" + i + ".png");
+                this.ExplosionArray[i] = gifImage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setExplomissArray(int totalFrames) {
+        this.ExplomissArray = new BufferedImage[totalFrames];
+        for (int i=1; i<this.ExplomissArray.length; i++){
+            try {
+                BufferedImage gifImage = ImageManager.getImageCopy("explomiss/explomiss" + i + ".png");
+                this.ExplomissArray[i] = gifImage;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static BufferedImage[] getExplosionArray() {
+        return ExplosionArray;
+    }
+
+    public static BufferedImage[] getExplomissArray() {
+        return ExplomissArray;
     }
 
     /**

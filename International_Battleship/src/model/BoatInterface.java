@@ -42,4 +42,8 @@ public interface BoatInterface {
     int getId();
 
     List<Coord> getVisibleCoords();
+
+    void destroy();
+
+    boolean getDestroy();
 }

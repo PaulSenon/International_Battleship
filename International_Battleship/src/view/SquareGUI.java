@@ -1,18 +1,16 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import tools.Coord;
 
 @objid ("fbbe929d-a036-4054-8d2d-de1a1b3bc7c1")
-public class SquareGUI extends JPanel {
+public class SquareGUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 
     private Coord coord;
@@ -43,7 +41,6 @@ public class SquareGUI extends JPanel {
         g.drawRect(0, 0,
                 this.getParent().getSize().width,
                 this.getParent().getSize().height);
-
     }
 
     public void changeBackground(Color color){
@@ -59,5 +56,4 @@ public class SquareGUI extends JPanel {
     public Coord getCoord() {
     	return this.coord;
     }
-
 }
