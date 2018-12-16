@@ -1,6 +1,5 @@
 package view;
 
-import javafx.scene.media.AudioClip;
 import model.BoatName;
 import tools.Coord;
 import tools.Direction;
@@ -9,7 +8,6 @@ import tools.ImageManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
 import java.io.IOException;
 
 public class BoatFragmentGUI extends JLabel{
