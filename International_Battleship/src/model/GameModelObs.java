@@ -77,6 +77,16 @@ public class GameModelObs extends Observable implements GameModelInterface {
     }
 
     @Override
+    public List<Coord> getVisibleCoords(Player player) {
+        return null;
+    }
+
+    @Override
+    public List<PlayerInterface> getPlayers() {
+        return null;
+    }
+
+    @Override
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
 		return null;
 		// TODO Auto-generated method stub

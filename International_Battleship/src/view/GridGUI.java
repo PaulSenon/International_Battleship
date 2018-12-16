@@ -3,6 +3,7 @@ package view;
 
 import model.BoatType;
 import model.Square;
+import model.Square;
 import tools.*;
 
 import javax.swing.*;
@@ -10,6 +11,11 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;

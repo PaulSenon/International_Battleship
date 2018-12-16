@@ -31,4 +31,8 @@ public interface GameModelInterface {
 
 	void specialAction(Coord coordSquare);
 
+    List<Coord> getVisibleCoords(Player player);
+
+    List<PlayerInterface> getPlayers();
+
 }
