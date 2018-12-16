@@ -3,13 +3,17 @@
  */
 package multiplayer;
 
+import model.GameModel;
 import model.Player;
+import model.PlayerInterface;
+import tools.ProcessedPosition;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.List;
 
 public class ClientProcessor implements Runnable{
 
@@ -17,14 +21,22 @@ public class ClientProcessor implements Runnable{
 	private ObjectOutputStream writer = null;
 	private ObjectInputStream reader = null;
 	private int idPlayer = 1;
+	private GameModel gameModel;
+	private Server server;
 
-	public ClientProcessor(Socket pSock){
+	public ClientProcessor(Socket pSock, int nbConnect, GameModel gameModel, Runnable runnable){
 		this.sock = pSock;
 	}
 
 	public ClientProcessor(Socket pSock,int idPlayer){
 		this.sock = pSock;
 		this.idPlayer = idPlayer;
+	}
+	public ClientProcessor(Socket pSock, int idPlayer, GameModel gameModel, Server server){
+		this.sock = pSock;
+		this.idPlayer = idPlayer;
+		this.gameModel = gameModel;
+		this.server = server;
 	}
 
 	//Le traitement lancé dans un thread séparé
@@ -34,6 +46,11 @@ public class ClientProcessor implements Runnable{
 			writer = new ObjectOutputStream(sock.getOutputStream());
 			reader = new ObjectInputStream(sock.getInputStream());
 			boolean closeConnexion = false;
+
+
+			//Create the player
+			gameModel.createPlayer(idPlayer);
+
 			//Tant que la connexion est active, on traite les demandes
 			while(!sock.isClosed()){
 
@@ -43,7 +60,7 @@ public class ClientProcessor implements Runnable{
 				//On attend la demande du client
 				System.out.println("J'attends une commande client");
 				Object response = read();
-		
+
 				//On traite la demande du client
 				String className = response.getClass().getName();
 				if(response instanceof Player){
@@ -51,15 +68,12 @@ public class ClientProcessor implements Runnable{
 				}
 				if(response instanceof String){
 					switch((String)response){
-					case "getPlayer":
-						System.out.println("Je suis dans la fonction getPlayer");
-						writer.writeObject(new Player(1, "Player"+idPlayer,"Port"+idPlayer));
-						writer.flush();
-						break;
-					case "close":
-						closeConnexion = true;
+						case "close":
+							closeConnexion = true;
 					}
 
+				}else if(response instanceof ProcessedPosition){
+					diffuse((ProcessedPosition)response);
 				}
 
 
@@ -79,7 +93,7 @@ public class ClientProcessor implements Runnable{
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	} 
+	}
 
 	//La méthode que nous utilisons pour lire les réponses
 	private Object read() throws IOException, ClassNotFoundException {
@@ -88,4 +102,41 @@ public class ClientProcessor implements Runnable{
 		return response;
 	}
 
+	/**
+	 * Diffuse the processedPosition to the server which should update all the
+	 * client expect the one attache to this clientProcessor
+	 * @param processedPosition
+	 */
+	public void diffuse(ProcessedPosition processedPosition){
+		server.update(processedPosition,idPlayer);
+	}
+
+
+	public int getID(){
+		return this.idPlayer;
+	}
+
+	/**
+	 * This method update the model and the client view after receive the order from the server
+	 * @param processedPosition
+	 */
+	public void update(ProcessedPosition processedPosition){
+		try {
+			writer.writeObject(processedPosition);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void startGame(List<PlayerInterface> players) {
+		try {
+			writer.writeObject("start");
+			writer.flush();
+			writer.writeObject(players);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

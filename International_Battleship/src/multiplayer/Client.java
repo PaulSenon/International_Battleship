@@ -1,10 +1,18 @@
 package multiplayer;
 
-import model.Player;
+import controler.ControllerClient;
+import controler.ControllerLocal;
+import model.*;
+import tools.ProcessedPosition;
+import view.GameGUI;
+import view.GameGUIInterface;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 
 public class Client implements Runnable{
 
@@ -15,6 +23,7 @@ public class Client implements Runnable{
 
     private String name = "Client";
     private Player player;
+    private ControllerClient controller;
     
     
     public Client(String host, int port){
@@ -48,11 +57,31 @@ public class Client implements Runnable{
             	this.player = (Player)answer;
             	System.out.println(this.player.toString());
             }else if(answer instanceof String){
-            	System.out.println("Client recois : "+(String)answer);
+                if(((String)answer).equals("start")){
+                    Object player = read();
+                    if(player instanceof List) {
+                        List<PlayerInterface> players = (List<PlayerInterface>) player;
+                        Dimension dim = new Dimension(850,570);
+                        GameGUI gameGUI = new GameGUI();
+                        gameGUI.setTitle("International Battleship");
+                        gameGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        gameGUI.setLocation(400, 10);
+                        gameGUI.setPreferredSize(dim);
+                        gameGUI.pack();
+                        gameGUI.setResizable(true);
+                        controller = new ControllerClient(new GameModel(players), gameGUI, this);
+                        gameGUI.setVisible(true);
+                    }
+                }
+            }else if(answer instanceof ProcessedPosition){
+                controller.update((ProcessedPosition)answer);
             }
-            //System.out.println("\t * " + name + " : Réponse reçue " + response);
-            //writer.writeObject("close");
-            //writer.flush();
+
+
+
+
+
+
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -85,4 +114,12 @@ public class Client implements Runnable{
     }
 
 
+    public void sendProcessedPosition(ProcessedPosition processedPosition) {
+        try {
+            writer.writeObject(processedPosition);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

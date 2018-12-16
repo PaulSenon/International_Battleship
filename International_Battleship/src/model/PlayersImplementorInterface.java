@@ -9,9 +9,10 @@ public interface PlayersImplementorInterface {
     void undoLastMove(PlayerInterface currentPlayer);
 
     PlayerInterface findById(int idPlayer);
-    
+
     int remainsPlayers();
-    
+
     int idWinner();
-    
+
+    PlayerInterface createPlayer(int idPlayer);
 }
