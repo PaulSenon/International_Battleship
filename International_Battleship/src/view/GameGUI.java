@@ -57,8 +57,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		        c.fill = GridBagConstraints.BOTH;
 		        c.gridx = 0;
 		        c.gridy = 0;
-		        c.weightx = 2.0;
-		        c.weighty = 2.0;
+		        c.weightx = 100.0;
+		        c.weighty = 100.0;
 			contentPane.add(gridContainer, c);
 
 
