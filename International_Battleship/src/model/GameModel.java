@@ -379,4 +379,8 @@ public class GameModel implements GameModelInterface {
     public boolean hasSelectedBoat(){
         return this.selectedBoat != null;
     }
+
+	public void setProcessedPosition(ProcessedPosition processedPosition){
+        this.battleshipImplementor.setProcessedPosition(processedPosition);
+    }
 }

@@ -33,4 +33,6 @@ public interface BoatsImplementorInterface {
 	BoatInterface findBoayById(int boatId);
 
 	int getRemainsBoatsByPlayer(int playerId);
+
+    void setProcessedPosition(ProcessedPosition processedPosition);
 }

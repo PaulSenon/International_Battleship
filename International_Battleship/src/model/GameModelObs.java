@@ -50,7 +50,7 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
 	@Override
 	public void endDay() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -68,6 +68,11 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
     @Override
     public boolean hasSelectedBoat() {
         return false;
+    }
+
+    @Override
+    public void setProcessedPosition(ProcessedPosition processedPosition) {
+
     }
 
 }

@@ -18,12 +18,21 @@ public class ProcessedPosition {
     public int boatId;
     public BoatType name;
     public List<Integer> brokenPartIds;
+    public Coord pivot;
 
-    public ProcessedPosition(int boatId, BoatType name, Direction direction, List<Coord> coord, List<Integer> brokenPartIds){
+    public ProcessedPosition(
+            int boatId,
+            BoatType name,
+            Coord pivot,
+            Direction direction,
+            List<Coord> coord,
+            List<Integer> brokenPartIds
+    ){
         this.boatId = boatId;
+        this.name = name;
+        this.pivot = pivot;
         this.direction = direction;
         this.coords = coord;
-        this.name = name;
         this.brokenPartIds = brokenPartIds;
     }
 }

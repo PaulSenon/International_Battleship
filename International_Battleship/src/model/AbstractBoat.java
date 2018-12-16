@@ -19,7 +19,7 @@ public abstract class AbstractBoat implements BoatInterface {
 
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
 	private List<Coord> coords;
-	private List<Integer> touchedFragmentIds;
+	private List<Integer> destroyedFragments;
 	private List<Coord> visibleCoords;
 	private boolean coordsNeedToBeProcessed;
 	protected BoatType type;
@@ -40,7 +40,7 @@ public abstract class AbstractBoat implements BoatInterface {
         this.coords = new ArrayList<>();
         this.coordsNeedToBeProcessed = true;
         this.coordsVisibleToBeProcessed = true;
-        this.touchedFragmentIds = new ArrayList<>();
+        this.destroyedFragments = new ArrayList<>();
         this.size = this.type.getSize();
         this.id = id;
         this.lastDirection = this.facingDirection;
@@ -68,12 +68,12 @@ public abstract class AbstractBoat implements BoatInterface {
     // TODO throw a custom exception like a "ShootException" instead of an "Exception"
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws Exception {
             int id = this.getIdOfFragment(target);
-            if(this.touchedFragmentIds.contains(id)){
+            if(this.destroyedFragments.contains(id)){
                 return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
             }else{
-                this.touchedFragmentIds.add(id);
-                if(this.touchedFragmentIds.size() >= getNbFrontParts()) {this.move = false;}
-                if(this.getCoords().size() == this.touchedFragmentIds.size()){
+                this.destroyedFragments.add(id);
+                if(this.destroyedFragments.size() >= getNbFrontParts()) {this.move = false;}
+                if(this.getCoords().size() == this.destroyedFragments.size()){
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
                 return new Pair<>(ResultShoot.TOUCHED, this.getProcessedPosition());
@@ -309,7 +309,7 @@ public abstract class AbstractBoat implements BoatInterface {
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
-        return new ProcessedPosition(this.id, this.type, this.facingDirection, this.getCoords(), this.touchedFragmentIds);
+        return new ProcessedPosition(this.id, this.type, this.pivot, this.facingDirection, this.getCoords(), this.destroyedFragments);
     }
 
     public List<Coord> getVisibleCoords(){
@@ -449,5 +449,13 @@ public abstract class AbstractBoat implements BoatInterface {
 
     public SpecialActionInterface getSpecialAction() {
         return mySpecialAction;
+    }
+
+    public void setProcessedPosition(ProcessedPosition processedPosition){
+        this.facingDirection = processedPosition.direction;
+        this.destroyedFragments = processedPosition.brokenPartIds;
+        this.pivot = processedPosition.pivot;
+
+        this.refreshCoords();
     }
 }
