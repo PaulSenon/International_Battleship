@@ -1,6 +1,11 @@
 package multiplayer;
 
+import controler.ControllerClient;
+import controler.ControllerLocal;
+import model.GameModel;
 import model.Player;
+import tools.ProcessedPosition;
+import view.GameGUI;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,6 +20,7 @@ public class Client implements Runnable{
 
     private String name = "Client";
     private Player player;
+    private ControllerClient controller;
     
     
     public Client(String host, int port){
@@ -48,11 +54,19 @@ public class Client implements Runnable{
             	this.player = (Player)answer;
             	System.out.println(this.player.toString());
             }else if(answer instanceof String){
+                if(((String)answer).equals("start")){
+                    controller = new ControllerClient(new GameModel(),new GameGUI(),this);
+                }
             	System.out.println("Client recois : "+(String)answer);
+            }else if(answer instanceof ProcessedPosition){
+                controller.update((ProcessedPosition)answer);
             }
-            //System.out.println("\t * " + name + " : Réponse reçue " + response);
-            //writer.writeObject("close");
-            //writer.flush();
+
+
+
+
+
+
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -85,4 +99,12 @@ public class Client implements Runnable{
     }
 
 
+    public void sendProcessedPosition(ProcessedPosition processedPosition) {
+        try {
+            writer.writeObject(processedPosition);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

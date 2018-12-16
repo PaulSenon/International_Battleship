@@ -31,4 +31,7 @@ public interface GameModelInterface {
 
 	void specialAction(Coord coordSquare);
 
+    void createPlayer(int idPlayer);
+
+    void setProcessedPotion(ProcessedPosition processedPosition);
 }

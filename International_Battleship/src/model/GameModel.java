@@ -36,6 +36,12 @@ public class GameModel implements GameModelInterface {
         }
     }
 
+
+    @Override
+    public void createPlayer(int idPlayer) {
+        //TODO
+    }
+
     /**
      * // TODO Tests
      * TO BE CALLED FROM CONTROLLER
