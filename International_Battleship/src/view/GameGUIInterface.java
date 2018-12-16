@@ -31,6 +31,8 @@ public interface GameGUIInterface {
 
     void disableAction();
 
+    void messagePopUp(String message);
+
     void setVisibleCoord(List<Coord> visibleCoords);
 
     void displayResult(ResultShoot first, Coord target);

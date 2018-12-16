@@ -1,10 +1,9 @@
 package controler;
 
 import model.GameModelInterface;
+import tools.*;
 import view.GameGUIInterface;
 
-import tools.*;
-import javax.swing.*;
 import java.util.Map;
 
 public class ControllerLocal implements ControllerModelViewInterface {
@@ -63,7 +62,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             this.gameGUI.setSelectedBoat(null);
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
         }
     }
 
@@ -82,7 +81,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             this.gameGUI.setSelectedBoat(null);
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
         }
     }
 
@@ -101,7 +100,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             this.gameGUI.setSelectedBoat(null);
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
         }
     }
 
@@ -127,7 +126,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             this.gameGUI.setSelectedBoat(null);
         } else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
         }
 	}
 
@@ -151,7 +150,11 @@ public class ControllerLocal implements ControllerModelViewInterface {
      * @param actionType
      */
     public void requestActionType(ActionType actionType){
-        this.gameGUI.setCurrentAction(actionType);
+        if(this.gameModel.hasSelectedBoat()){
+            this.gameGUI.setCurrentAction(actionType);
+        }else{
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
+        }
     }
 
     /**
