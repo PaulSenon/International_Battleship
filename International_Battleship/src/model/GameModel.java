@@ -264,8 +264,13 @@ public class GameModel implements GameModelInterface {
     }
 
 	@Override
-	public void specialAction(Coord coordSquare) {
-		this.battleshipImplementor.specialAction(this.selectedBoat,coordSquare);
+	public List<Pair<ResultShoot, ProcessedPosition>> specialAction(Coord coordSquare) {
+        if(this.selectedBoat == null){
+            // TODO just placeholder yet.
+            System.out.println("No boat has been selected");
+            return null;
+        }
+		return this.battleshipImplementor.specialAction(this.currentPlayer, this.selectedBoat,coordSquare);
 	}
 
 	@Override

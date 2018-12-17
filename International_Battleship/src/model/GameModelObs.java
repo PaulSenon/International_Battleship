@@ -1,6 +1,11 @@
 package model;
 
 
+import tools.Coord;
+import tools.Pair;
+import tools.ProcessedPosition;
+import tools.ResultShoot;
+
 import java.util.List;
 import java.util.Observable;
 
@@ -9,7 +14,7 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
 	@Override
 	public void EndActionsOfPlayer() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -27,19 +32,19 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
 	@Override
 	public void initTurn() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void endTurn() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void initDay() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -49,9 +54,15 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
 	}
 
 	@Override
+	public List<Pair<ResultShoot, ProcessedPosition>> specialAction(Coord coordSquare) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void nextPlayer() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
     @Override

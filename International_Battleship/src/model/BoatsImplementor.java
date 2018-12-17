@@ -63,6 +63,35 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
     }
 
+	@Override
+	public List<Pair<ResultShoot, ProcessedPosition>> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
+        // check if enough
+        if (! currentPlayer.debitActionPoint(selectedBoat.getSpecialActionCost())){
+            // if not we donnot shoot
+            currentPlayer.undoLastAction();
+            return null;
+//            return new Pair<>(ResultShoot.FORBIDDEN, null);
+        }
+
+        if(selectedBoat.getSpecialAction().getClass().equals(SpecialZoneAOE.class)){
+            List<Pair<ResultShoot, ProcessedPosition>> result = new ArrayList<>();
+            List<Coord> coords = ((SpecialZoneAOE)selectedBoat.getSpecialAction()).getEffectZone(target);
+            for (Coord coord : coords) {
+//                result.add(this.shootBoat(currentPlayer, selectedBoat, coord));
+                BoatInterface boat = findBoatByCoord(coord);
+                try {
+                    result.add(boat.shoot(coord));
+                } catch (Exception e) { // TODO catch a custom exception like a "ShootException"
+                    result.add(new Pair<ResultShoot, ProcessedPosition>(ResultShoot.MISSED, null));
+                }
+            }
+            return result;
+        }else{
+            selectedBoat.actionSpecial(target);
+        }
+        return null;
+    }
+
     /**
      * __TESTED__
      * TO BE CALLED FROM MODEL
@@ -309,10 +338,6 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return null;
     }
 
-	@Override
-	public void specialAction(BoatInterface selectedBoat, Coord coordSquare) {
-		selectedBoat.actionSpecial(coordSquare);
-	}
 
 	@Override
 	public List<BoatInterface> getVisibleBoats(PlayerInterface player) {

@@ -25,10 +25,10 @@ public interface BoatsImplementorInterface {
     int findPlayerIdFromBoat(BoatInterface boat);
 
     List<Coord> getVisibleCoords(PlayerInterface player);
-    
+
     List<BoatInterface> getVisibleBoats(PlayerInterface player);
 
-	void specialAction(BoatInterface selectedBoat, Coord coordSquare);
-	
+	List<Pair<ResultShoot, ProcessedPosition>> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
+
 	BoatInterface findBoayById(int boatId);
 }

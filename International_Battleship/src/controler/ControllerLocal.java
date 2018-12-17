@@ -4,6 +4,8 @@ import model.GameModelInterface;
 import tools.*;
 import view.GameGUIInterface;
 
+import javax.swing.*;
+import java.util.List;
 import java.util.Map;
 
 public class ControllerLocal implements ControllerModelViewInterface {
@@ -167,9 +169,17 @@ public class ControllerLocal implements ControllerModelViewInterface {
 
 	@Override
 	public void specialAction(Coord coordSquare) {
-		this.gameModel.specialAction(coordSquare);
-		this.gameGUI.setCurrentAction(ActionType.MOVE);
-        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        List<Pair<ResultShoot, ProcessedPosition>> result = this.gameModel.specialAction(coordSquare);
+        if(result != null){
+            for(Pair<ResultShoot, ProcessedPosition> res : result){
+                this.gameGUI.setProcessedPotion(res.getSecond());
+            }
+            this.gameGUI.setCurrentAction(ActionType.MOVE);
+            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        }else{
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
+            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+        }
 	}
 
 	@Override
