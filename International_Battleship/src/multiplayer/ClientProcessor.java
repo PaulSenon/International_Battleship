@@ -64,11 +64,6 @@ public class ClientProcessor implements Runnable{
 				}
 				if(response instanceof String){
 					switch((String)response){
-						case "getPlayer":
-							System.out.println("Je suis dans la fonction getPlayer");
-							writer.writeObject(new Player(1, "Player"+idPlayer,"Port"+idPlayer));
-							writer.flush();
-							break;
 						case "close":
 							closeConnexion = true;
 					}
@@ -117,6 +112,22 @@ public class ClientProcessor implements Runnable{
 		return this.idPlayer;
 	}
 
+	/**
+	 * This launch the game when the host decide to play
+	 */
+	public void startGame() {
+		try {
+			writer.writeObject("start");
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method update the model and the client view after receive the order from the server
+	 * @param processedPosition
+	 */
 	public void update(ProcessedPosition processedPosition){
 		try {
 			writer.writeObject(processedPosition);

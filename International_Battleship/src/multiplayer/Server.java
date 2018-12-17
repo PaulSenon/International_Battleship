@@ -25,6 +25,7 @@ public class Server {
     private GameGUI gameGUI;
     private ControllerLocal controller;
     private List<ClientProcessor> clientList;
+    private boolean gameStarted = false;
 
     public Server(){
         try {
@@ -65,7 +66,7 @@ public class Server {
                 while(isRunning == true ){
                     try {
                         //On attend une connexion d'un client
-                        if(nbConnect < 4) {
+                        if(nbConnect < 4 && !gameStarted) {
                             Socket client = server.accept();
                             //Une fois reçue, on la traite dans un thread séparé et on compte le nombre de connexion
                             nbConnect++;
@@ -88,6 +89,22 @@ public class Server {
         });
         t.start();
     }
+
+    /**
+     * Notify each client that the game should begin
+     */
+    public void startGame(){
+        for (ClientProcessor c :clientList) {
+            c.startGame();
+        }
+    }
+
+    /**
+     * Notify each client that the client "form" has done something
+     * Then they will update both their model and their GUI
+     * @param processedPosition
+     * @param from
+     */
     public void update(ProcessedPosition processedPosition,int from){
         for (ClientProcessor c :clientList) {
             if(c.getID() != from){
