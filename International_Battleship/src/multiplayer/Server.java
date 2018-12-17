@@ -51,6 +51,7 @@ public class Server {
     }
 
     public void open(){
+        Server serv = this;
         //Toujours dans un thread à part vu qu'il est dans une boucle infinie
         Thread t = new Thread(new Runnable(){
 
@@ -71,7 +72,9 @@ public class Server {
                             //Une fois reçue, on la traite dans un thread séparé et on compte le nombre de connexion
                             nbConnect++;
                             System.out.println("Connexion cliente reçue.");
-                            Thread t = new Thread(new ClientProcessor(client, nbConnect, gameModel));
+                            ClientProcessor cp = new ClientProcessor(client, nbConnect, gameModel,serv);
+                            clientList.add(cp);
+                            Thread t = new Thread(cp);
                             t.start();
                         }
                     } catch (IOException e) {
@@ -110,6 +113,13 @@ public class Server {
             if(c.getID() != from){
                 c.update(processedPosition);
             }
+        }
+    }
+
+    public void start(){
+        for (ClientProcessor c :clientList) {
+            c.startGame();
+
         }
     }
 

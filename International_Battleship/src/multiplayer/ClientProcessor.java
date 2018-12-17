@@ -20,8 +20,9 @@ public class ClientProcessor implements Runnable{
 	private ObjectInputStream reader = null;
 	private int idPlayer = 1;
 	private GameModel gameModel;
+	private Server server;
 
-	public ClientProcessor(Socket pSock){
+	public ClientProcessor(Socket pSock, int nbConnect, GameModel gameModel, Runnable runnable){
 		this.sock = pSock;
 	}
 
@@ -29,10 +30,11 @@ public class ClientProcessor implements Runnable{
 		this.sock = pSock;
 		this.idPlayer = idPlayer;
 	}
-	public ClientProcessor(Socket pSock, int idPlayer, GameModel gameModel){
+	public ClientProcessor(Socket pSock, int idPlayer, GameModel gameModel, Server server){
 		this.sock = pSock;
 		this.idPlayer = idPlayer;
 		this.gameModel = gameModel;
+		this.server = server;
 	}
 
 	//Le traitement lancé dans un thread séparé
@@ -68,6 +70,8 @@ public class ClientProcessor implements Runnable{
 							closeConnexion = true;
 					}
 
+				}else if(response instanceof ProcessedPosition){
+					diffuse((ProcessedPosition)response);
 				}
 
 
@@ -96,15 +100,13 @@ public class ClientProcessor implements Runnable{
 		return response;
 	}
 
-	//TODO
-
 	/**
 	 * Diffuse the processedPosition to the server which should update all the
 	 * client expect the one attache to this clientProcessor
 	 * @param processedPosition
 	 */
 	public void diffuse(ProcessedPosition processedPosition){
-
+		server.update(processedPosition,idPlayer);
 	}
 
 
@@ -137,4 +139,12 @@ public class ClientProcessor implements Runnable{
 		}
 	}
 
+	public void startGame() {
+		try {
+			writer.writeObject("start");
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
