@@ -2,6 +2,7 @@ package multiplayer;
 
 import controler.ControllerLocal;
 import model.GameModel;
+import model.PlayerInterface;
 import tools.ProcessedPosition;
 import view.GameGUI;
 
@@ -22,16 +23,16 @@ public class Server {
     private boolean isRunning = true;
     private int nbConnect = 0;
     private GameModel gameModel;
-    private GameGUI gameGUI;
-    private ControllerLocal controller;
     private List<ClientProcessor> clientList;
     private boolean gameStarted = false;
+    private List<PlayerInterface> players;
 
     public Server(){
         try {
             server = new ServerSocket(port,100, InetAddress.getByName(this.host));
             clientList = new ArrayList<>();
-            this.gameModel = new GameModel();
+            players = new ArrayList<>();
+            this.gameModel = new GameModel(true);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -42,7 +43,9 @@ public class Server {
     	this.host = host;
         try {
             server = new ServerSocket(port,100, InetAddress.getByName(this.host));
-
+            clientList = new ArrayList<>();
+            players = new ArrayList<>();
+            this.gameModel = new GameModel(true);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -71,8 +74,9 @@ public class Server {
                             Socket client = server.accept();
                             //Une fois reçue, on la traite dans un thread séparé et on compte le nombre de connexion
                             nbConnect++;
-                            System.out.println("Connexion cliente reçue.");
+                            System.out.println("Connexion du joueur : "+nbConnect);
                             ClientProcessor cp = new ClientProcessor(client, nbConnect, gameModel,serv);
+                            players.add(gameModel.createPlayer(nbConnect));
                             clientList.add(cp);
                             Thread t = new Thread(cp);
                             t.start();
@@ -97,8 +101,10 @@ public class Server {
      * Notify each client that the game should begin
      */
     public void startGame(){
+        gameStarted = true;
+        gameModel.setupGame();
         for (ClientProcessor c :clientList) {
-            c.startGame();
+            c.startGame(players);
         }
     }
 
@@ -113,13 +119,6 @@ public class Server {
             if(c.getID() != from){
                 c.update(processedPosition);
             }
-        }
-    }
-
-    public void start(){
-        for (ClientProcessor c :clientList) {
-            c.startGame();
-
         }
     }
 

@@ -5,6 +5,7 @@ package multiplayer;
 
 import model.GameModel;
 import model.Player;
+import model.PlayerInterface;
 import tools.ProcessedPosition;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.List;
 
 public class ClientProcessor implements Runnable{
 
@@ -115,18 +117,6 @@ public class ClientProcessor implements Runnable{
 	}
 
 	/**
-	 * This launch the game when the host decide to play
-	 */
-	public void startGame() {
-		try {
-			writer.writeObject("start");
-			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * This method update the model and the client view after receive the order from the server
 	 * @param processedPosition
 	 */
@@ -139,9 +129,11 @@ public class ClientProcessor implements Runnable{
 		}
 	}
 
-	public void startGame() {
+	public void startGame(List<PlayerInterface> players) {
 		try {
 			writer.writeObject("start");
+			writer.flush();
+			writer.writeObject(players);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

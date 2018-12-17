@@ -2,6 +2,7 @@ package tools;
 
 import model.BoatType;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -11,7 +12,10 @@ import java.util.List;
  *
  * TODO this class may change, feel free to add some other properties if necessary
  */
-public class ProcessedPosition {
+public class ProcessedPosition implements Serializable{
+
+
+    static final long serialVersionUID = 6734671468768713L;
     public Direction direction;
     // TODO we do not transfer Coord from model to view. So do we need to change this here ?
     public List<Coord> coords;

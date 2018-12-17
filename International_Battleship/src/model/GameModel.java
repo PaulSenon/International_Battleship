@@ -5,7 +5,7 @@ import tools.*;
 
 import java.util.*;
 
-public class GameModel implements GameModelInterface {
+public class GameModel implements GameModelInterface{
 
     // The implementor use to manage boats
     private BoatsImplementorInterface battleshipImplementor;
@@ -16,6 +16,7 @@ public class GameModel implements GameModelInterface {
     // The selected boat (may be null)
     private BoatInterface selectedBoat;
     private PlayerInterface currentPlayer;
+    private PlayerInterface clientPlayer;
 
     /**
      * __CONSTRUCTOR__
@@ -36,10 +37,53 @@ public class GameModel implements GameModelInterface {
         }
     }
 
+    public GameModel(boolean isServer) {
+        // Create UID static instance
+        UniqueIdGenerator.newInstance();
+
+        this.selectedBoat = null;
+
+        try {
+            if(isServer){
+                playersImplementor = new PlayersImplementor();
+            }else {
+                playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public GameModel(List<PlayerInterface> players) {
+        // Create UID static instance
+        UniqueIdGenerator.newInstance();
+
+        this.selectedBoat = null;
+
+        try {
+            playersImplementor = new PlayersImplementor(players);
+            setupGame();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
-    public void createPlayer(int idPlayer) {
-        //TODO
+    public PlayerInterface createPlayer(int idPlayer) {
+        return playersImplementor.createPlayer(idPlayer);
+    }
+
+    @Override
+    public void setProcessedPotion(ProcessedPosition processedPosition) {
+
+    }
+
+    @Override
+    public void setupGame() {
+        battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+        this.currentPlayer = playersImplementor.getPlayers().get(0);
     }
 
     /**

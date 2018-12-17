@@ -2,14 +2,17 @@ package multiplayer;
 
 import controler.ControllerClient;
 import controler.ControllerLocal;
-import model.GameModel;
-import model.Player;
+import model.*;
 import tools.ProcessedPosition;
 import view.GameGUI;
+import view.GameGUIInterface;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 
 public class Client implements Runnable{
 
@@ -55,9 +58,21 @@ public class Client implements Runnable{
             	System.out.println(this.player.toString());
             }else if(answer instanceof String){
                 if(((String)answer).equals("start")){
-                    controller = new ControllerClient(new GameModel(),new GameGUI(),this);
+                    Object player = read();
+                    if(player instanceof List) {
+                        List<PlayerInterface> players = (List<PlayerInterface>) player;
+                        Dimension dim = new Dimension(850,570);
+                        GameGUI gameGUI = new GameGUI();
+                        gameGUI.setTitle("International Battleship");
+                        gameGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        gameGUI.setLocation(400, 10);
+                        gameGUI.setPreferredSize(dim);
+                        gameGUI.pack();
+                        gameGUI.setResizable(true);
+                        controller = new ControllerClient(new GameModel(players), gameGUI, this);
+                        gameGUI.setVisible(true);
+                    }
                 }
-            	System.out.println("Client recois : "+(String)answer);
             }else if(answer instanceof ProcessedPosition){
                 controller.update((ProcessedPosition)answer);
             }

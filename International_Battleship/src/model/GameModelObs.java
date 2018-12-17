@@ -89,4 +89,19 @@ public class GameModelObs extends Observable implements GameModelInterface {
 		
 	}
 
+    @Override
+    public PlayerInterface createPlayer(int idPlayer) {
+        return null;
+    }
+
+    @Override
+    public void setProcessedPotion(ProcessedPosition processedPosition) {
+
+    }
+
+    @Override
+    public void setupGame() {
+
+    }
+
 }

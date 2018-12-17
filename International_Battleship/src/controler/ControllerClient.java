@@ -17,6 +17,7 @@ public class ControllerClient implements ControllerModelViewInterface {
     private Client client;
 
 
+
     /**
      * __CONSTRUCTOR__
      * @param gameModel
