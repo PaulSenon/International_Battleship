@@ -381,6 +381,12 @@ public class GridGUI extends JLayeredPane {
 			this.squares.remove(explosion);
 	}
 
+	public void displayResultSpecial(ResultShoot result, Coord target) {
+		JLabel explosion = new Explosion(result);
+		this.squares.get(target).add(explosion, 0);
+		this.squares.remove(explosion);
+	}
+
 
 	public boolean boatIsSelected() {
 		if(this.selectedBoat!=null){

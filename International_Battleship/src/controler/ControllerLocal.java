@@ -73,7 +73,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
      */
     public void rotateBoatClockWise(){
         ProcessedPosition processedPosition = this.gameModel.rotateBoatClockWise();
-        if(processedPosition != null && this.gameGUI.boatIsSelected()){
+        if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
             this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
@@ -92,7 +92,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
      */
     public void rotateBoatCounterClockWise(){
         ProcessedPosition processedPosition = this.gameModel.rotateBoatCounterClockWise();
-        if(processedPosition != null && this.gameGUI.boatIsSelected()){
+        if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
             this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
@@ -115,7 +115,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
 	public void shoot(int x, int y) {
         Coord target = new Coord(x, y);
         Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(target);
-        if(result != null && this.gameGUI.boatIsSelected()) {
+        if(result != null) {
             if (result.getFirst() != null) {
                 if (result.getSecond() != null) {this.gameGUI.setProcessedPotion(result.getSecond());                }
                 this.gameGUI.displayResult(result.getFirst(), target);
@@ -171,9 +171,12 @@ public class ControllerLocal implements ControllerModelViewInterface {
 	public void specialAction(Coord coordSquare) {
         List<Pair<ResultShoot, ProcessedPosition>> result = this.gameModel.specialAction(coordSquare);
         if(result != null){
+            boolean touched = false;
             for(Pair<ResultShoot, ProcessedPosition> res : result){
                 this.gameGUI.setProcessedPotion(res.getSecond());
+                if(res.getFirst().equals(ResultShoot.TOUCHED)) touched = true;
             }
+            if(touched) this.gameGUI.displayResult(ResultShoot.TOUCHED, coordSquare);
             this.gameGUI.setCurrentAction(ActionType.MOVE);
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{

@@ -74,8 +74,6 @@ public abstract class AbstractBoat implements BoatInterface {
                 this.touchedFragmentIds.add(id);
                 if(this.touchedFragmentIds.size() >= getNbFrontParts()) {this.move = false;}
                 if(this.getCoords().size() == this.touchedFragmentIds.size()){
-                    // TODO it's horrible but we need to add this quickly for release...
-                    JOptionPane.showMessageDialog(null, this.type.toString()+" coulé !", null , JOptionPane.INFORMATION_MESSAGE);
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
                 return new Pair<>(ResultShoot.TOUCHED, this.getProcessedPosition());
