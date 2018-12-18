@@ -40,7 +40,7 @@ public class Player implements PlayerInterface {
 		this.visibleCoords = null;
     }
 
-		private void isPlay() {
+	private void isPlay() {
 	}
 
 	public Map<Integer, BoatType> getFleet() {

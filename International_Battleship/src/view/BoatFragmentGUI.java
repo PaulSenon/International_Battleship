@@ -20,9 +20,19 @@ public class BoatFragmentGUI extends JLabel{
 	private Color color;
 
 	private String imageName;
+	private String imageSelectedName;
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
 
 	// the base image copy to play with
 	private BufferedImage image;
+	private BufferedImage imageSelected;
 
 	// TODO not used yet.
 	// the facing direction of the sprite image
@@ -33,6 +43,10 @@ public class BoatFragmentGUI extends JLabel{
 	private boolean broken;
 
 	private int index;
+
+	private boolean fragmentVisible;
+
+	private boolean isSelected;
 
 	/**
 	 * __CONSTRUCTOR__
@@ -49,6 +63,7 @@ public class BoatFragmentGUI extends JLabel{
 			this.broken = false;
 			this.index = imageIndex;
 			this.imageName = "";
+			this.fragmentVisible = false;
 
 			/*
 			try {
@@ -73,18 +88,23 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Aircraft/0.png";
+							this.imageSelectedName = "Aircraft/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Aircraft/1.png";
+							this.imageSelectedName = "Aircraft/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Aircraft/2.png";
+							this.imageSelectedName = "Aircraft/2Selected.png";
 							break;
 						case 3:
 							this.imageName = "Aircraft/3.png";
+							this.imageSelectedName = "Aircraft/3Selected.png";
 							break;
 						case 4:
 							this.imageName = "Aircraft/4.png";
+							this.imageSelectedName = "Aircraft/4Selected.png";
 							break;
 					}
 					break;
@@ -92,15 +112,19 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Cruiser/0.png";
+							this.imageSelectedName = "Cruiser/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Cruiser/1.png";
+							this.imageSelectedName = "Cruiser/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Cruiser/2.png";
+							this.imageSelectedName = "Cruiser/2Selected.png";
 							break;
 						case 3:
 							this.imageName = "Cruiser/3.png";
+							this.imageSelectedName = "Cruiser/3Selected.png";
 							break;
 					}
 					break;
@@ -108,12 +132,15 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Submarine/0.png";
+							this.imageSelectedName = "Submarine/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Submarine/1.png";
+							this.imageSelectedName = "Submarine/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Submarine/2.png";
+							this.imageSelectedName = "Submarine/2Selected.png";
 							break;
 					}
 					break;
@@ -121,9 +148,11 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Torpedo/0.png";
+							this.imageSelectedName = "Torpedo/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Torpedo/1.png";
+							this.imageSelectedName = "Torpedo/1Selected.png";
 							break;
 					}
 					break;
@@ -131,6 +160,7 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Sentinel/0.png";
+							this.imageSelectedName = "Sentinel/0Selected.png";
 							break;
 					}
 					break;
@@ -139,8 +169,28 @@ public class BoatFragmentGUI extends JLabel{
 					break;
 			}
 			this.image = ImageManager.getImageCopy(this.imageName);
+			this.imageSelected = ImageManager.getImageCopy(this.imageSelectedName);
 			this.repaint();
-		}
+	}
+
+	public void setSelected(){
+		this.isSelected=true;
+		this.repaint();
+	}
+
+    public BufferedImage getImage() {
+		return image;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+
+
+	public void setNotSelected(){
+		this.isSelected=false;
+		this.repaint();
+	}
 
     /**
      * PUBLIC : It rotate its displayed image in the wanted direction
@@ -154,36 +204,41 @@ public class BoatFragmentGUI extends JLabel{
     	this.direction = direction;
 		try {
 			this.image = ImageManager.getImageCopyRotated(this.imageName, direction.rotation);
+			this.imageSelected = ImageManager.getImageCopyRotated(this.imageSelectedName, direction.rotation);
 		} catch (IOException e) {
 			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
 		}
 	}
+
+
 
 	/**
 	 * Method called AUTOMATICALLY on repaint() on this or parent UI components
 	 * @param g is the graphic component used to custom draw
 	 */
 	protected void paintComponent(Graphics g){
-        super.paintComponent(g);
+		super.paintComponent(g);
+		if (!this.isFragmentVisible()) return;
 
         // draw its sprite image on the whole plane
-        g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+		if(isSelected)
+			g.drawImage(this.imageSelected, 0, 0, getWidth(), getHeight(), this);
+		else
+			g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
 
         // display something to show that the fragment is broken
 		if(this.broken){
 			g.setColor(this.color);
-
-			// draw cross
-			g.drawLine(0, 0,
-					this.getSize().width,
-					this.getSize().height);
-			g.drawLine(
-					this.getSize().width, 0,
-					0, this.getSize().height);
+			BufferedImage explosion = ImageManager.getImageCopy("explosion.png");
+			g.drawImage(explosion, 0, 0, getWidth(), getHeight(), this);
 		}
     }
 
-    public Coord getCoord() {
+    private boolean isFragmentVisible() {
+		return this.fragmentVisible;
+	}
+
+	public Coord getCoord() {
     	return this.coord;
     }
 
@@ -193,7 +248,7 @@ public class BoatFragmentGUI extends JLabel{
 
     @Override
     public String toString(){
-        String s = "X : " + this.getCoord().getX() + " Y : "+ this.getCoord().getY();
+        String s = "X : " + this.getCoord().getX() + " Y : "+ this.getCoord().getY() + " boatId : " + this.getBoatId();
         return s;
     }
 
@@ -207,5 +262,9 @@ public class BoatFragmentGUI extends JLabel{
 
 	public int getIndex() {
 		return index;
+	}
+
+	public void setFragmentVisible(boolean fragmentVisible) {
+		this.fragmentVisible = fragmentVisible;
 	}
 }

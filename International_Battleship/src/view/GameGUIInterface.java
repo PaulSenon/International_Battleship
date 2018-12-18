@@ -4,6 +4,7 @@ import model.BoatInterface;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import java.util.List;
 import java.util.Map;
@@ -31,4 +32,10 @@ public interface GameGUIInterface {
     void disableAction();
 
     void setVisibleCoord(List<Coord> visibleCoords);
+
+    void displayResult(ResultShoot first, Coord target);
+
+	void setVisibleBoats(List<Coord> list);
+
+    boolean boatIsSelected();
 }

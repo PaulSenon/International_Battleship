@@ -11,12 +11,14 @@ import static tools.Direction.DEFAULT;
 
 public abstract class AbstractBoat implements BoatInterface {
 
-	protected Coord pivot;
+    public boolean move;
+    private boolean destroyed;
+    protected Coord pivot;
 	protected SpecialActionInterface mySpecialAction;
 
 	// TODO not used yet, but it may be used to avoid processing every time we needs them
 	private List<Coord> coords;
-	private List<Integer> touchedGragmentIds;
+	private List<Integer> touchedFragmentIds;
 	private List<Coord> visibleCoords;
 	private boolean coordsNeedToBeProcessed;
 	protected BoatType type;
@@ -37,12 +39,14 @@ public abstract class AbstractBoat implements BoatInterface {
         this.coords = new ArrayList<>();
         this.coordsNeedToBeProcessed = true;
         this.coordsVisibleToBeProcessed = true;
-        this.touchedGragmentIds = new ArrayList<>();
+        this.touchedFragmentIds = new ArrayList<>();
         this.size = this.type.getSize();
         this.id = id;
         this.lastDirection = this.facingDirection;
         this.lastPosition = this.pivot;
         this.playerId = playerId;
+        this.move = true;
+        this.destroyed = false;
     }
 
 	public Coord getCoord() {
@@ -63,11 +67,12 @@ public abstract class AbstractBoat implements BoatInterface {
     // TODO throw a custom exception like a "ShootException" instead of an "Exception"
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws Exception {
             int id = this.getIdOfFragment(target);
-            if(this.touchedGragmentIds.contains(id)){
+            if(this.touchedFragmentIds.contains(id)){
                 return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
             }else{
-                this.touchedGragmentIds.add(id);
-                if(this.getCoords().size() == this.touchedGragmentIds.size()){
+                this.touchedFragmentIds.add(id);
+                if(this.touchedFragmentIds.size() >= getNbFrontParts()) {this.move = false;}
+                if(this.getCoords().size() == this.touchedFragmentIds.size()){
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
                 return new Pair<>(ResultShoot.TOUCHED, this.getProcessedPosition());
@@ -87,7 +92,7 @@ public abstract class AbstractBoat implements BoatInterface {
 
 	// TODO mind to refreshCoords
     public void move(Coord destCoord){
-        if(this.isMoveOk(destCoord)){
+        if(this.isMoveOk(destCoord) && move){
             this.setPivot(destCoord); // It does the refreshCoord()
         }
     }
@@ -104,16 +109,20 @@ public abstract class AbstractBoat implements BoatInterface {
         // save last direction
         this.lastDirection = this.facingDirection;
         // rotate
-        this.facingDirection = this.facingDirection.next(true);
-        this.refreshCoords();
+        if (move) {
+            this.facingDirection = this.facingDirection.next(true);
+            this.refreshCoords();
+        }
     }
 
     public void rotateCounterClockWise() {
         // save last direction
         this.lastDirection = this.facingDirection;
         // rotate
-        this.facingDirection = this.facingDirection.next(false);
-        this.refreshCoords();
+        if (move) {
+            this.facingDirection = this.facingDirection.next(false);
+            this.refreshCoords();
+        }
     }
 
     /**
@@ -299,11 +308,14 @@ public abstract class AbstractBoat implements BoatInterface {
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
-        return new ProcessedPosition(this.id, this.type, this.facingDirection, this.getCoords(), this.touchedGragmentIds);
+        return new ProcessedPosition(this.id, this.type, this.facingDirection, this.getCoords(), this.touchedFragmentIds);
     }
 
     public List<Coord> getVisibleCoords(){
         List<Coord> visibleCoords = new ArrayList<Coord>();
+        if(this.destroyed){
+            return this.getCoords();
+        }
         if(this.coordsVisibleToBeProcessed){
             int radius = this.getSize() /2 ;
             if(radius == 0){radius = 1;}
@@ -423,5 +435,14 @@ public abstract class AbstractBoat implements BoatInterface {
 
     public int getPlayerId() {
         return playerId;
+    }
+
+    public void destroy(){
+        this.coordsVisibleToBeProcessed = true;
+        this.destroyed = true;
+    }
+
+    public boolean getDestroy(){
+        return this.destroyed;
     }
 }

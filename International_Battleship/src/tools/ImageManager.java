@@ -17,6 +17,8 @@ public class ImageManager {
     private static ImageManager instance = null;
     private static Map<String, BufferedImage> images;
     private static String basePath;
+    public static BufferedImage[] ExplosionArray;
+    public static BufferedImage[] ExplomissArray;
 
     public static ImageManager newInstance() throws IOException {
         if (instance == null)
@@ -28,6 +30,32 @@ public class ImageManager {
         ImageManager.images = new HashMap<>();
         ImageManager.basePath = defineResourcesBasePath();
         ImageManager.preLoadImages();
+        this.setExplosionArray(17);
+        this.setExplomissArray(27);
+    }
+
+    private void setExplosionArray(int totalFrames) {
+        this.ExplosionArray = new BufferedImage[totalFrames];
+        for (int i=1; i<this.ExplosionArray.length; i++){
+            BufferedImage gifImage = ImageManager.getImageCopy("explosion/explosion" + i + ".png");
+            this.ExplosionArray[i] = gifImage;
+        }
+    }
+
+    private void setExplomissArray(int totalFrames) {
+        this.ExplomissArray = new BufferedImage[totalFrames];
+        for (int i=1; i<this.ExplomissArray.length; i++){
+            BufferedImage gifImage = ImageManager.getImageCopy("explomiss/explomiss" + i + ".png");
+            this.ExplomissArray[i] = gifImage;
+        }
+    }
+
+    public static BufferedImage[] getExplosionArray() {
+        return ExplosionArray;
+    }
+
+    public static BufferedImage[] getExplomissArray() {
+        return ExplomissArray;
     }
 
     /**
@@ -38,20 +66,35 @@ public class ImageManager {
     private static void preLoadImages() {
         String[] imageNames = {
                 "Aircraft/0.png",
+                "Aircraft/0Selected.png",
                 "Aircraft/1.png",
+                "Aircraft/1Selected.png",
                 "Aircraft/2.png",
+                "Aircraft/2Selected.png",
                 "Aircraft/3.png",
+                "Aircraft/3Selected.png",
                 "Aircraft/4.png",
+                "Aircraft/4Selected.png",
                 "Cruiser/0.png",
+                "Cruiser/0Selected.png",
                 "Cruiser/1.png",
+                "Cruiser/1Selected.png",
                 "Cruiser/2.png",
+                "Cruiser/2Selected.png",
                 "Cruiser/3.png",
+                "Cruiser/3Selected.png",
                 "Submarine/0.png",
+                "Submarine/0Selected.png",
                 "Submarine/1.png",
+                "Submarine/1Selected.png",
                 "Submarine/2.png",
+                "Submarine/2Selected.png",
                 "Torpedo/0.png",
+                "Torpedo/0Selected.png",
                 "Torpedo/1.png",
+                "Torpedo/1Selected.png",
                 "Sentinel/0.png",
+                "Sentinel/0Selected.png",
                 "PA/torpedoUsed.png",
                 "PA/torpedoLoad.png",
                 "fog.png"

@@ -3,7 +3,11 @@ package model;
 
 import tools.*;
 
-import java.util.*;
+import javax.swing.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class GameModel implements GameModelInterface {
 
@@ -13,9 +17,11 @@ public class GameModel implements GameModelInterface {
     // The implementor use to manage players
     private PlayersImplementorInterface playersImplementor;
 
-    // The selected boat (may be null)
+	// The selected boat (may be null)
     private BoatInterface selectedBoat;
     private PlayerInterface currentPlayer;
+    private int turn;
+	private int day;
 
     /**
      * __CONSTRUCTOR__
@@ -25,6 +31,8 @@ public class GameModel implements GameModelInterface {
         UniqueIdGenerator.newInstance();
 
         this.selectedBoat = null;
+        this.day = 1;
+        this.turn = 1;
 
         try {
             playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
@@ -250,9 +258,98 @@ public class GameModel implements GameModelInterface {
         return this.getVisibleCoords(this.currentPlayer);
     }
 
+    @Override
+    public void unselectBoat(){
+        this.selectedBoat = null;
+    }
 
 	@Override
 	public void specialAction(Coord coordSquare) {
 		this.battleshipImplementor.specialAction(this.selectedBoat,coordSquare);
+	}
+
+	@Override
+	public void EndActionsOfPlayer() {
+		endTurn();
+		if (this.turn%this.playersImplementor.getPlayers().size() == 0) {
+			endDay();
+			if (this.playersImplementor.getPlayers().size() == 1) {
+				JOptionPane.showMessageDialog(null, "C'est la fin du jeu ! Le gagnant est " + this.playersImplementor.getPlayers().get(0).getName(), null , JOptionPane.INFORMATION_MESSAGE);	
+			}
+			initDay();
+		}
+		initTurn();
+	}
+
+	@Override
+	public List<BoatInterface> getVisibleBoats(PlayerInterface player) {
+		return this.battleshipImplementor.getVisibleBoats(player);
+	}
+
+	@Override
+	public List<BoatInterface> getVisibleBoatsCurrentPlayer() {
+		return this.getVisibleBoats(this.currentPlayer);
+	}
+
+	@Override
+	public void initTurn() {
+		this.turn++;
+		this.currentPlayer.creditActionPoint(this.currentPlayer .getMaxActionPoint()); //pour initialiser les PA
+	}
+
+	@Override
+	public void endTurn() {
+		this.nextPlayer();
+		System.out.println("fin du tour " + this.turn);	//to test
+	}
+
+	@Override
+	public void initDay() {
+		this.day++;
+		this.turn = 0;	
+	}
+
+	@Override
+	public void endDay() {
+		System.out.println("--fin du jour--" + this.day);	//to test
+	}
+
+	@Override
+	public void nextPlayer() {
+		System.out.println(this.getCurrentPlayer());
+		for (int i = 0; i < this.playersImplementor.getPlayers().size(); i++) {
+			if (this.currentPlayer.equals(this.playersImplementor.getPlayers().get(i))) {
+				if (this.playersImplementor.getPlayers().size()-1 == i) {
+					this.setCurrentPlayer((Player) this.playersImplementor.getPlayers().get(0));
+				}else{
+					this.setCurrentPlayer((Player) this.playersImplementor.getPlayers().get(i+1));
+				}
+				break;
+			}
+		}
+	}
+	
+    public int getTurn() {
+		return turn;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+	
+    public PlayersImplementorInterface getPlayersImplementor() {
+		return playersImplementor;
+	}
+
+	public void setPlayersImplementor(PlayersImplementorInterface playersImplementor) {
+		this.playersImplementor = playersImplementor;
 	}
 }

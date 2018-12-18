@@ -6,6 +6,7 @@ import model.BoatInterface;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 public class GameGUI extends JFrame implements GameGUIInterface{
 
+	private final JTextArea textArea;
     private static final long serialVersionUID = 7636412061294453620L;
     private ActionPointGUI PAPanel;
     private List<BoatInterface> listOfBoat;
@@ -29,6 +31,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     private ButtonGUI buttonGUIActionSpéciale;
     public GridGUI battleShipGridGUI;
     public ButtonGUI battleShipButtonGUI;
+    public ButtonGUI buttonGUIFinTour;
 
     public List<ButtonGUI> listOfButtons;
 
@@ -54,8 +57,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		        c.fill = GridBagConstraints.BOTH;
 		        c.gridx = 0;
 		        c.gridy = 0;
-		        c.weightx = 2.0;
-		        c.weighty = 2.0;
+		        c.weightx = 100.0;
+		        c.weighty = 100.0;
 			contentPane.add(gridContainer, c);
 
 
@@ -84,9 +87,13 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                     this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
                     controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
 
-			buttonsConstraints.gridy++;
-			this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
-			controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
+					buttonsConstraints.gridy++;
+					this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
+					controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
+
+					buttonsConstraints.gridy++;
+					this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
+					controlsPanel.add(this.buttonGUIFinTour, buttonsConstraints);
 
 
 
@@ -96,6 +103,12 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                     listOfButtons.add(this.buttonRotateClockWise);
                     listOfButtons.add(this.buttonRotateCounterClockWise);
                     listOfButtons.add(this.buttonGUIActionSpéciale);
+                    listOfButtons.add(this.buttonGUIFinTour);
+
+				//Create text area
+					this.textArea = new JTextArea();
+					this.textArea.setEditable(false);
+					layoutControlPanel.add(this.textArea, BorderLayout.NORTH);
 
             // Add ButtonPanel in center of the BorderLayout
 			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
@@ -130,6 +143,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
 		this.buttonRotateClockWise.addActionListener(buttonListener);
 		this.buttonGUIActionSpéciale.addActionListener(buttonListener);
+		this.buttonGUIFinTour.addActionListener(buttonListener);
 	}
 
 	@Override
@@ -213,4 +227,25 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     public void disableAction() {
         this.PAPanel.disableAction();
     }
+
+	public void displayResult(ResultShoot result, Coord target){
+		this.gridGUI.displayResult(result, target);
+		if(!result.equals(ResultShoot.DESTROYED)) {
+			this.textArea.setText("");
+		}
+		else {
+			this.textArea.setText("Le bateau ciblé a été détruit.");
+		}
+    }
+
+	@Override
+	public void setVisibleBoats(List<Coord> visibleCoordCurrentPlayer) {
+		this.gridGUI.setVisibleBoats(visibleCoordCurrentPlayer);
+		this.revalidate();
+		this.repaint();
+	}
+
+    public boolean boatIsSelected(){
+    	return this.gridGUI.boatIsSelected();
+	}
 }
