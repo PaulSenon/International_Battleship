@@ -25,10 +25,10 @@ public class ActionPointGUI extends JPanel{
         this.torpedoLoad= new ImageIcon(ImageManager.getImageCopy("PA/torpedoLoad.png"));
         this.APJpan = new JPanel(new GridLayout(2,10));
         this.setLayout(new BorderLayout(5,5));
-        this.add(new JLabel(""),BorderLayout.EAST);
+        //this.add(new JLabel(""),BorderLayout.EAST);
         this.add(this.APJpan,BorderLayout.CENTER);
         this.listOfAP = new ArrayList<>();
-        for(int i = 0; i <= GameConfig.getMaxActionPoint(); i++) {
+        for(int i = 0; i < GameConfig.getMaxActionPoint(); i++) {
             BufferedImage torpedoImageForPA = ImageManager.getImageCopy("PA/torpedoUsed.png");
             listOfAP.add(new JLabel(new ImageIcon(torpedoImageForPA)));
             this.APJpan.add(listOfAP.get(i));
@@ -43,10 +43,10 @@ public class ActionPointGUI extends JPanel{
     protected void setNbAP(int nbActionPoint) {
         System.out.println("Vous avez " + nbActionPoint + " point d'action disponible(s)\n");
         //Add Player Name
-        for (int i = 0; i <= nbActionPoint; i++) {
+        for (int i = 0; i < nbActionPoint; i++) {
             this.listOfAP.get(i).setIcon(this.torpedoLoad);
         }
-        for (int y = nbActionPoint; y <= GameConfig.getMaxActionPoint(); y++){
+        for (int y = nbActionPoint; y < GameConfig.getMaxActionPoint(); y++){
             this.listOfAP.get(y).setIcon(this.torpedoUsed);
         }
     }

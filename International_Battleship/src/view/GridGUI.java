@@ -34,7 +34,7 @@ public class GridGUI extends JLayeredPane {
 
 	private ActionType currentAction;
 
-    /**
+	/**
      * __CONSTRUCTOR__
      */
     	public GridGUI() {
@@ -300,12 +300,25 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	public void setSelectedBoat(ProcessedPosition processedPosition) {
-//    	this.selectedBoat = new BoatGUI(processedPosition.boatId, processedPosition.type, processedPosition.coords, processedPosition.direction);
-		List<BoatFragmentGUI> selectedFragments = new ArrayList<>();
-		for(Coord coord : processedPosition.coords){
-			selectedFragments.add(this.boatFragments.get(coord));
+		if (processedPosition==null){
+			this.selectedBoat=null;
+			for (BoatFragmentGUI frag: this.boatFragments.values())
+					frag.setNotSelected();
+		}else{
+			//this.selectedBoat = new BoatGUI(processedPosition.boatId, processedPosition.type, processedPosition.coords, processedPosition.direction);
+			List<BoatFragmentGUI> selectedFragments = new ArrayList<>();
+			for(Coord coord : processedPosition.coords){
+				selectedFragments.add(this.boatFragments.get(coord));
+			}
+			this.selectedBoat = selectedFragments;
+			for (BoatFragmentGUI frag: this.boatFragments.values()){
+				if (this.selectedBoat.contains(frag)){
+					frag.setSelected();
+				}else{
+					frag.setNotSelected();
+				}
+			}
 		}
-		this.selectedBoat = selectedFragments;
 	}
 
 	public void setCurrentAction(ActionType actionType) {
@@ -373,4 +386,11 @@ public class GridGUI extends JLayeredPane {
 		}
 	}
 
+
+	public boolean boatIsSelected() {
+		if(this.selectedBoat!=null){
+			return true;
+		}
+		return false;
+	}
 }

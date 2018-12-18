@@ -59,6 +59,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
             this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+            this.gameModel.unselectBoat();
+            this.gameGUI.setSelectedBoat(null);
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
@@ -70,14 +72,16 @@ public class ControllerLocal implements ControllerModelViewInterface {
      */
     public void rotateBoatClockWise(){
         ProcessedPosition processedPosition = this.gameModel.rotateBoatClockWise();
-        if(processedPosition != null){
+        if(processedPosition != null && this.gameGUI.boatIsSelected()){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
             this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+            this.gameModel.unselectBoat();
+            this.gameGUI.setSelectedBoat(null);
         }else{
-        this.gameGUI.setCurrentAction(ActionType.SELECT);
+            this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -87,12 +91,14 @@ public class ControllerLocal implements ControllerModelViewInterface {
      */
     public void rotateBoatCounterClockWise(){
         ProcessedPosition processedPosition = this.gameModel.rotateBoatCounterClockWise();
-        if(processedPosition != null){
+        if(processedPosition != null && this.gameGUI.boatIsSelected()){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
             this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+            this.gameModel.unselectBoat();
+            this.gameGUI.setSelectedBoat(null);
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
@@ -108,7 +114,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
 	public void shoot(int x, int y) {
         Coord target = new Coord(x, y);
         Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(target);
-        if(result != null) {
+        if(result != null && this.gameGUI.boatIsSelected()) {
             if (result.getFirst() != null) {
                 if (result.getSecond() != null) {this.gameGUI.setProcessedPotion(result.getSecond());                }
                 this.gameGUI.displayResult(result.getFirst(), target);
@@ -117,6 +123,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.message("shoot result : "+result.getFirst());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+            this.gameModel.unselectBoat();
+            this.gameGUI.setSelectedBoat(null);
         } else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);

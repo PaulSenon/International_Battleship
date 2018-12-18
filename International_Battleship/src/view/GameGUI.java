@@ -244,4 +244,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.revalidate();
 		this.repaint();
 	}
+
+    public boolean boatIsSelected(){
+    	return this.gridGUI.boatIsSelected();
+	}
 }
