@@ -377,13 +377,9 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	public void displayResult(ResultShoot result, Coord target) {
-		if(!result.equals(ResultShoot.DESTROYED)) {
 			JLabel explosion = new Explosion(result);
 			this.squares.get(target).add(explosion, 0);
 			this.squares.remove(explosion);
-		} else {
-			System.out.println("Le bateau ciblé a été détruit.");
-		}
 	}
 
 
