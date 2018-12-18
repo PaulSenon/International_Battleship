@@ -448,4 +448,8 @@ public abstract class AbstractBoat implements BoatInterface {
     public boolean getDestroy(){
         return this.destroyed;
     }
+
+    public SpecialActionInterface getSpecialAction() {
+        return mySpecialAction;
+    }
 }

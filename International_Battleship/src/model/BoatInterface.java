@@ -53,4 +53,6 @@ public interface BoatInterface {
 	void destroy();
 
 	boolean getDestroy();
+
+	SpecialActionInterface getSpecialAction();
 }

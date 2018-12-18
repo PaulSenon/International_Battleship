@@ -33,7 +33,7 @@ public interface GameModelInterface {
 
     List<BoatInterface> getVisibleBoatsCurrentPlayer();
 
-	void specialAction(Coord coordSquare);
+	List<Pair<ResultShoot, ProcessedPosition>> specialAction(Coord coordSquare);
 
 	void EndActionsOfPlayer();
 
