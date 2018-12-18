@@ -84,13 +84,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             List<Pair<ResultShoot, ProcessedPosition>> result = new ArrayList<>();
             List<Coord> coords = ((SpecialZoneAOE)selectedBoat.getSpecialAction()).getEffectZone(target);
             for (Coord coord : coords) {
-//                result.add(this.shootBoat(currentPlayer, selectedBoat, coord));
-                BoatInterface boat = findBoatByCoord(coord);
-                try {
-                    result.add(boat.shoot(coord));
-                } catch (Exception e) { // TODO catch a custom exception like a "ShootException"
-                    result.add(new Pair<ResultShoot, ProcessedPosition>(ResultShoot.MISSED, null));
-                }
+                result.add(this.shootBoat(currentPlayer, selectedBoat, coord));
+                currentPlayer.creditActionPoint(1);
+//                BoatInterface boat = findBoatByCoord(coord);
+//                try {
+//                    result.add(boat.shoot(coord));
+//                } catch (Exception e) { // TODO catch a custom exception like a "ShootException"
+//                    result.add(new Pair<ResultShoot, ProcessedPosition>(ResultShoot.MISSED, null));
+//                }
             }
             return result;
         }else{

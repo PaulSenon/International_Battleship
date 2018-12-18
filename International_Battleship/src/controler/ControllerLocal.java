@@ -177,6 +177,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
                 if(res.getFirst().equals(ResultShoot.TOUCHED)) touched = true;
             }
             if(touched) this.gameGUI.displayResult(ResultShoot.TOUCHED, coordSquare);
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             this.gameGUI.setCurrentAction(ActionType.MOVE);
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         }else{
@@ -191,6 +192,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
 		this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
 		this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
 		this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
+		this.gameModel.unselectBoat();
         this.gameGUI.setSelectedBoat(null);
 	}
 }
