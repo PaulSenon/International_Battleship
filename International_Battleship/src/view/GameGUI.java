@@ -6,6 +6,7 @@ import model.BoatInterface;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ResultShoot;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 public class GameGUI extends JFrame implements GameGUIInterface{
 
+	private final JTextArea textArea;
     private static final long serialVersionUID = 7636412061294453620L;
     private ActionPointGUI PAPanel;
     private List<BoatInterface> listOfBoat;
@@ -92,7 +94,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 					buttonsConstraints.gridy++;
 					this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
 					controlsPanel.add(this.buttonGUIFinTour, buttonsConstraints);
-					
+
 
 
                 //Store buttons in a list // TODO is this useful ?
@@ -102,6 +104,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                     listOfButtons.add(this.buttonRotateCounterClockWise);
                     listOfButtons.add(this.buttonGUIActionSpéciale);
                     listOfButtons.add(this.buttonGUIFinTour);
+
+				//Create text area
+					this.textArea = new JTextArea();
+					this.textArea.setEditable(false);
+					layoutControlPanel.add(this.textArea, BorderLayout.NORTH);
 
             // Add ButtonPanel in center of the BorderLayout
 			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
@@ -221,10 +228,20 @@ public class GameGUI extends JFrame implements GameGUIInterface{
         this.PAPanel.disableAction();
     }
 
+	public void displayResult(ResultShoot result, Coord target){
+		if(!result.equals(ResultShoot.DESTROYED)) {
+			this.textArea.setText("");
+			this.gridGUI.displayResult(result, target);
+		}
+		else {
+			this.textArea.setText("Le bateau ciblé a été détruit.");
+		}
+    }
+
 	@Override
 	public void setVisibleBoats(List<Coord> visibleCoordCurrentPlayer) {
 		this.gridGUI.setVisibleBoats(visibleCoordCurrentPlayer);
 		this.revalidate();
-		this.repaint();		
+		this.repaint();
 	}
 }

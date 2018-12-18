@@ -52,7 +52,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
         BoatInterface boat = findBoatByCoord(target);
         try {
-            return(boat.shoot(target));
+            Pair<ResultShoot, ProcessedPosition> resultShoot = boat.shoot(target);
+            if (resultShoot.getFirst().equals(ResultShoot.DESTROYED)) {
+                boat.destroy();
+            }
+            return(resultShoot);
         } catch (Exception e) { // TODO catch a custom exception like a "ShootException"
             return new Pair<>(ResultShoot.MISSED, null);
         }
@@ -241,7 +245,8 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         public BoatInterface findBoatByCoord(Coord coord) {
         // TODO gérer la notion de joueur
     	for (BoatInterface boat : this.boats) {
-    		if(boat.hasCoord(coord)){
+            //Si on fait comme ça si on tire sur une épave c'est MISS
+            if(boat.hasCoord(coord) && boat.getDestroy() == false){
                 return boat;
             }
         }

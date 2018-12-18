@@ -192,14 +192,8 @@ public class BoatFragmentGUI extends JLabel{
         // display something to show that the fragment is broken
 		if(this.broken){
 			g.setColor(this.color);
-
-			// draw cross
-			g.drawLine(0, 0,
-					this.getSize().width,
-					this.getSize().height);
-			g.drawLine(
-					this.getSize().width, 0,
-					0, this.getSize().height);
+			BufferedImage explosion = ImageManager.getImageCopy("explosion.png");
+			g.drawImage(explosion, 0, 0, getWidth(), getHeight(), this);
 		}
     }
 
