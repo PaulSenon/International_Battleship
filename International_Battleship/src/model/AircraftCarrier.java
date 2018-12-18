@@ -7,7 +7,7 @@ public class AircraftCarrier extends AbstractBoat {
 
     public AircraftCarrier(int id, Coord pivot, int playerId) {
         super(BoatType.AircraftCarrier, id, pivot, playerId);
-    	this.mySpecialAction = new SpecialZoneAOE(1);
+    	this.mySpecialAction = new SpecialZoneAOE(2);
 
 //                new TargetAction(){
 //			@Override
