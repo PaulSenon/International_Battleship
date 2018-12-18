@@ -313,6 +313,9 @@ public abstract class AbstractBoat implements BoatInterface {
 
     public List<Coord> getVisibleCoords(){
         List<Coord> visibleCoords = new ArrayList<Coord>();
+        if(this.destroyed){
+            return this.getCoords();
+        }
         if(this.coordsVisibleToBeProcessed){
             int radius = this.getSize() /2 ;
             if(radius == 0){radius = 1;}
