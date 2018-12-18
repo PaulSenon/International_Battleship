@@ -354,4 +354,15 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 		return fleet;
 	}
 
+	@Override
+	public int getRemainsBoatsByPlayer(int playerId) {
+		int nbBoat = 0;
+		for (BoatInterface boatInterface : boats) {
+			if (boatInterface.getPlayerId() == playerId && boatInterface.getDestroy() == false) {
+				nbBoat++;
+			}
+		}
+		return nbBoat;
+	}
+
 }

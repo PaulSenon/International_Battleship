@@ -232,13 +232,21 @@ public class GameModel implements GameModelInterface {
      */
     @Override
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
-        // error case :
+    	Pair<ResultShoot, ProcessedPosition> ret =null;
+    	// error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
-            return null;
         }
-		return battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
+		ret = battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
+		if(ret.getFirst().equals(ResultShoot.DESTROYED)){
+			int idPlayer = this.battleshipImplementor.findBoayById(ret.getSecond().boatId).getPlayerId();
+			int nbBoatPlayer = this.battleshipImplementor.getRemainsBoatsByPlayer(idPlayer);
+			if (nbBoatPlayer == 0) {
+				this.playersImplementor.findById(idPlayer).setEliminate(true);
+			}
+		}
+		return ret;
 	}
 
     public Map<Integer, ProcessedPosition> getListOfBoat(){
@@ -276,10 +284,10 @@ public class GameModel implements GameModelInterface {
 	@Override
 	public void EndActionsOfPlayer() {
 		endTurn();
-		if (this.turn%this.playersImplementor.getPlayers().size() == 0) {
+		if (this.turn%this.playersImplementor.remainsPlayers() == 0) {
 			endDay();
-			if (this.playersImplementor.getPlayers().size() == 1) {
-				JOptionPane.showMessageDialog(null, "C'est la fin du jeu ! Le gagnant est " + this.playersImplementor.getPlayers().get(0).getName(), null , JOptionPane.INFORMATION_MESSAGE);
+			if (this.playersImplementor.idWinner() != -1) {
+				JOptionPane.showMessageDialog(null, "C'est la fin du jeu ! Le gagnant est " + this.playersImplementor.findById(this.playersImplementor.idWinner()).getName(), null , JOptionPane.INFORMATION_MESSAGE);
 			}
 			initDay();
 		}
@@ -322,16 +330,25 @@ public class GameModel implements GameModelInterface {
 	@Override
 	public void nextPlayer() {
 		System.out.println(this.getCurrentPlayer());
+		int idPlayer = 0;
 		for (int i = 0; i < this.playersImplementor.getPlayers().size(); i++) {
 			if (this.currentPlayer.equals(this.playersImplementor.getPlayers().get(i))) {
-				if (this.playersImplementor.getPlayers().size()-1 == i) {
-					this.setCurrentPlayer((Player) this.playersImplementor.getPlayers().get(0));
-				}else{
-					this.setCurrentPlayer((Player) this.playersImplementor.getPlayers().get(i+1));
-				}
+				idPlayer = i;
 				break;
 			}
 		}
+		do{
+			if(idPlayer ==  this.playersImplementor.getPlayers().size()-1){
+				idPlayer = 0;
+			}
+			else{
+				idPlayer++;
+			}
+			if (!this.playersImplementor.getPlayers().get(idPlayer).isEliminate()) {
+				this.setCurrentPlayer((Player)this.playersImplementor.getPlayers().get(idPlayer));
+			}
+
+		}while(!this.currentPlayer.equals(this.playersImplementor.getPlayers().get(idPlayer)));
 	}
 
     public int getTurn() {
