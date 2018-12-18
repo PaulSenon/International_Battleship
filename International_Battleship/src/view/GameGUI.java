@@ -229,9 +229,9 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     }
 
 	public void displayResult(ResultShoot result, Coord target){
+		this.gridGUI.displayResult(result, target);
 		if(!result.equals(ResultShoot.DESTROYED)) {
 			this.textArea.setText("");
-			this.gridGUI.displayResult(result, target);
 		}
 		else {
 			this.textArea.setText("Le bateau ciblé a été détruit.");
