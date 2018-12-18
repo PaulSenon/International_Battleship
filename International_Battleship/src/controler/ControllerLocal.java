@@ -106,15 +106,18 @@ public class ControllerLocal implements ControllerModelViewInterface {
      */
 	@Override
 	public void shoot(int x, int y) {
-        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(new Coord(x, y));
-        if(result != null){
-            if(result.getFirst() != null){
-                this.gameGUI.setProcessedPotion(result.getSecond());
+        Coord target = new Coord(x, y);
+        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(target);
+        if(result != null) {
+            if (result.getFirst() != null) {
+                if (result.getSecond() != null) {this.gameGUI.setProcessedPotion(result.getSecond());                }
+                this.gameGUI.displayResult(result.getFirst(), target);
+                this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
             }
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.message("shoot result : "+result.getFirst());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-        }else{
+        } else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
         }

@@ -12,9 +12,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.Timer;
 
 
 public class GridGUI extends JLayeredPane {
+	private final int delay = 10;
+	private Timer animator;
 	private static final long serialVersionUID = 1L;
 
 	// Map of Coord <=> Square
@@ -314,33 +317,41 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	public void setVisibleCoords(List<Coord> visibleCoords){
-		List<BufferedImage> directions = new ArrayList<>();
+		List<BufferedImage> fogs = new ArrayList<>();
 		try {
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
-			directions.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
+			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		List<BufferedImage> seas = new ArrayList<>();
+		try {
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.EAST.rotation));
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.WEST.rotation));
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.NORTH.rotation));
+			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.SOUTH.rotation));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
 			Coord coord = entry.getKey();
 			SquareGUI square = entry.getValue();
+			Random random = new Random();
+			int randomDirection = random.nextInt(fogs.size());
 			if (visibleCoords.contains(coord)) {
-				square.changeBackground(Color.BLUE);
-				square.image = null;
+				square.image = seas.get(randomDirection);
+				square.repaint();
 			} else {
-				square.changeBackground(Color.BLUE);
-				Random random = new Random();
-				int randomDirection = random.nextInt(directions.size());
-				square.image = directions.get(randomDirection);
+				square.image = fogs.get(randomDirection);
 				square.repaint();
 			}
 		}
 	}
 
 	public void setVisibleBoats(List<Coord> visibleCoordCurrentPlayer) {
-		for (Map.Entry<Coord, BoatFragmentGUI> entry : this.boatFragments.entrySet()) {	
+		for (Map.Entry<Coord, BoatFragmentGUI> entry : this.boatFragments.entrySet()) {
 			Coord coord = entry.getKey();
 			BoatFragmentGUI boatFragment = entry.getValue();
 			if(visibleCoordCurrentPlayer.contains(coord)){
@@ -351,4 +362,15 @@ public class GridGUI extends JLayeredPane {
 			}
 		}
 	}
+
+	public void displayResult(ResultShoot result, Coord target) {
+		if(!result.equals(ResultShoot.DESTROYED)) {
+			JLabel explosion = new Explosion(result);
+			this.squares.get(target).add(explosion, 0);
+			this.squares.remove(explosion);
+		} else {
+			System.out.println("Le bateau ciblé a été détruit.");
+		}
+	}
+
 }
