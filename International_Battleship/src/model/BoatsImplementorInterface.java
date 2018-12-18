@@ -31,4 +31,6 @@ public interface BoatsImplementorInterface {
 	List<Pair<ResultShoot, ProcessedPosition>> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
 
 	BoatInterface findBoayById(int boatId);
+
+	int getRemainsBoatsByPlayer(int playerId);
 }
