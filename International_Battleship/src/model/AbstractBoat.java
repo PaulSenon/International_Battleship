@@ -417,7 +417,7 @@ public abstract class AbstractBoat implements BoatInterface {
         return this.facingDirection;
     }
 
-    protected void setFacingDirection(Direction direction){
+    public void setFacingDirection(Direction direction){
         this.lastDirection = this.facingDirection;
         this.facingDirection = direction;
         this.refreshCoords();

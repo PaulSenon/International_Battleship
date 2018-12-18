@@ -188,5 +188,6 @@ public class ControllerLocal implements ControllerModelViewInterface {
 		this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
 		this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
 		this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
+        this.gameGUI.setSelectedBoat(null);
 	}
 }

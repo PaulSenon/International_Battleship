@@ -25,13 +25,20 @@ public class BoatsImplementor implements BoatsImplementorInterface {
     private void generateBoatsFromFactory(List<PlayerInterface> players){
         //For each players add its boat to a list with all boats
         int i = 2;
+        int j = 2;
         for (PlayerInterface p : players) {
             for (Map.Entry<Integer, BoatType> boatEntry : p.getFleet().entrySet()) {
-                BoatInterface boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(5,i), p.getId());
+                BoatInterface boat;
+                if(i == 2){
+                    boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(5,j), p.getId());
+                }else{
+                    boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(20,j+10), p.getId());
+                    boat.setFacingDirection(Direction.WEST);
+                }
                 this.boats.add(boat);
-                i++;
+                j++;
             }
-            i+=2;
+            i++;
         }
     }
 

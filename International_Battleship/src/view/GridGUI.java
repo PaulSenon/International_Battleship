@@ -1,12 +1,10 @@
 package view;
 
 
-import model.BoatInterface;
 import model.BoatType;
 import tools.*;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -154,7 +152,7 @@ public class GridGUI extends JLayeredPane {
 			// foreach boatFragment to create
 			for (Coord coord : boatEntry.getValue().coords) {
 				System.out.println("Fragment de " + boatEntry.getValue().name + " généré au coord : " + coord);
-				BoatFragmentGUI boatFragment = (BoatFragmentGUI) createBoatFragments(boatEntry.getKey(), coord, boatEntry.getValue().name, i);
+				BoatFragmentGUI boatFragment = (BoatFragmentGUI) createBoatFragments(boatEntry.getKey(), coord, boatEntry.getValue().name, i, boatEntry.getValue().direction);
 				try{
 					this.squares.get(coord).add(boatFragment);
 				}catch(Exception e){
@@ -199,9 +197,10 @@ public class GridGUI extends JLayeredPane {
      * @param coord is the coordinate of the SquareGUI where to create the boatFragmentGUI
      * @return JLabel is the created boatFragmentGUI
      */
-    private JLabel createBoatFragments(int boatId, Coord coord, BoatType name, int index){
+    private JLabel createBoatFragments(int boatId, Coord coord, BoatType name, int index, Direction direction){
         BoatFragmentGUI fragment = null;
 		fragment = new BoatFragmentGUI(boatId, coord, name, index);
+		fragment.rotate(direction);
         this.boatFragments.put(coord, fragment);
         return fragment;
     }
