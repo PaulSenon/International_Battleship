@@ -48,4 +48,5 @@ public interface GameModelInterface {
     void nextPlayer();
 
     void unselectBoat();
+    boolean hasSelectedBoat();
 }

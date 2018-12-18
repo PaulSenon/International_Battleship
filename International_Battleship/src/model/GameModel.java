@@ -274,7 +274,7 @@ public class GameModel implements GameModelInterface {
 		if (this.turn%this.playersImplementor.getPlayers().size() == 0) {
 			endDay();
 			if (this.playersImplementor.getPlayers().size() == 1) {
-				JOptionPane.showMessageDialog(null, "C'est la fin du jeu ! Le gagnant est " + this.playersImplementor.getPlayers().get(0).getName(), null , JOptionPane.INFORMATION_MESSAGE);	
+				JOptionPane.showMessageDialog(null, "C'est la fin du jeu ! Le gagnant est " + this.playersImplementor.getPlayers().get(0).getName(), null , JOptionPane.INFORMATION_MESSAGE);
 			}
 			initDay();
 		}
@@ -306,7 +306,7 @@ public class GameModel implements GameModelInterface {
 	@Override
 	public void initDay() {
 		this.day++;
-		this.turn = 0;	
+		this.turn = 0;
 	}
 
 	@Override
@@ -328,7 +328,7 @@ public class GameModel implements GameModelInterface {
 			}
 		}
 	}
-	
+
     public int getTurn() {
 		return turn;
 	}
@@ -344,7 +344,7 @@ public class GameModel implements GameModelInterface {
 	public void setDay(int day) {
 		this.day = day;
 	}
-	
+
     public PlayersImplementorInterface getPlayersImplementor() {
 		return playersImplementor;
 	}
@@ -352,4 +352,8 @@ public class GameModel implements GameModelInterface {
 	public void setPlayersImplementor(PlayersImplementorInterface playersImplementor) {
 		this.playersImplementor = playersImplementor;
 	}
+
+    public boolean hasSelectedBoat(){
+        return this.selectedBoat != null;
+    }
 }

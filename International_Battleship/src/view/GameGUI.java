@@ -198,6 +198,10 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		System.out.println("MESSAGE TO USER : "+message);
 	}
 
+	public void messagePopUp(String message){
+		JOptionPane.showMessageDialog(null, message, null , JOptionPane.INFORMATION_MESSAGE);
+	}
+
     @Override
 	public void setVisibleCoord(List<Coord> visibleCoords){
 		this.gridGUI.setVisibleCoords(visibleCoords);

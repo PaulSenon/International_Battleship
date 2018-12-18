@@ -54,4 +54,9 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
 		
 	}
 
+    @Override
+    public boolean hasSelectedBoat() {
+        return false;
+    }
+
 }
