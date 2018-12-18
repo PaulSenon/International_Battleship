@@ -3,6 +3,7 @@ package model;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import testTools.BaseTests;
 import testTools.Reflection;
 import tools.Coord;
@@ -12,10 +13,10 @@ import tools.GameConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class GameModelTest extends BaseTests {
-    private GameModelInterface gameModel;
+    private GameModel gameModel;
     private BoatsImplementor boatsImplementor;
 
     @Before
@@ -273,6 +274,34 @@ public class GameModelTest extends BaseTests {
     @Ignore
     public void testMoveBoatOnMine(){
         // TODO !!
+    }
+    
+    @Test
+    public void testEndActionsPlayer(){
+    	//changer déclaration gameModel
+    	int initTurn = this.gameModel.getTurn();
+    	this.gameModel.endTurn();
+    	assertEquals(initTurn, this.gameModel.getTurn());
+    	
+    	int initDay = this.gameModel.getDay();
+    	this.gameModel.endDay();
+    	assertEquals(initDay, this.gameModel.getDay());
+     	
+    	int nextDay = this.gameModel.getDay();
+    	this.gameModel.initDay();
+    	assertEquals(nextDay, this.gameModel.getDay()-1);
+        	
+    	int nextTurn = this.gameModel.getTurn();
+    	this.gameModel.initTurn();
+    	assertEquals(nextTurn, this.gameModel.getTurn()-1);
+    }
+     
+    
+    public void testNextPlayer(){
+    	PlayerInterface nextPlayer = new Player(1,"nextName", "nextPort");
+    	this.gameModel.getPlayersImplementor().getPlayers().add(nextPlayer);
+    	this.gameModel.nextPlayer();
+    	assertEquals(this.gameModel.getCurrentPlayer(), nextPlayer);
     }
 
 }

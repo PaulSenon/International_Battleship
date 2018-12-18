@@ -54,4 +54,10 @@ public class ControllerClient implements ControllerModelViewInterface {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void EndActionsOfPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
 }

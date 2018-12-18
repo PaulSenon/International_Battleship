@@ -1,10 +1,12 @@
 package view;
 
 
+import model.BoatInterface;
 import model.BoatType;
 import tools.*;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -333,6 +335,19 @@ public class GridGUI extends JLayeredPane {
 				int randomDirection = random.nextInt(directions.size());
 				square.image = directions.get(randomDirection);
 				square.repaint();
+			}
+		}
+	}
+
+	public void setVisibleBoats(List<Coord> visibleCoordCurrentPlayer) {
+		for (Map.Entry<Coord, BoatFragmentGUI> entry : this.boatFragments.entrySet()) {	
+			Coord coord = entry.getKey();
+			BoatFragmentGUI boatFragment = entry.getValue();
+			if(visibleCoordCurrentPlayer.contains(coord)){
+				boatFragment.setFragmentVisible(true);
+			}
+			else{
+				boatFragment.setFragmentVisible(false);
 			}
 		}
 	}

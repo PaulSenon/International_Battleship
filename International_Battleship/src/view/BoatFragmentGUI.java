@@ -21,6 +21,14 @@ public class BoatFragmentGUI extends JLabel{
 
 	private String imageName;
 
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
 	// the base image copy to play with
 	private BufferedImage image;
 
@@ -33,6 +41,8 @@ public class BoatFragmentGUI extends JLabel{
 	private boolean broken;
 
 	private int index;
+
+	private boolean fragmentVisible;
 
 	/**
 	 * __CONSTRUCTOR__
@@ -49,6 +59,7 @@ public class BoatFragmentGUI extends JLabel{
 			this.broken = false;
 			this.index = imageIndex;
 			this.imageName = "";
+			this.fragmentVisible = false;
 
 			/*
 			try {
@@ -142,7 +153,15 @@ public class BoatFragmentGUI extends JLabel{
 			this.repaint();
 		}
 
-    /**
+    public BufferedImage getImage() {
+		return image;
+	}
+
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+
+	/**
      * PUBLIC : It rotate its displayed image in the wanted direction
      * @param direction is the direction where you want the ship to look toward
      */
@@ -164,7 +183,8 @@ public class BoatFragmentGUI extends JLabel{
 	 * @param g is the graphic component used to custom draw
 	 */
 	protected void paintComponent(Graphics g){
-        super.paintComponent(g);
+		super.paintComponent(g);
+		if (!this.isFragmentVisible()) return;
 
         // draw its sprite image on the whole plane
         g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
@@ -183,7 +203,11 @@ public class BoatFragmentGUI extends JLabel{
 		}
     }
 
-    public Coord getCoord() {
+    private boolean isFragmentVisible() {
+		return this.fragmentVisible;
+	}
+
+	public Coord getCoord() {
     	return this.coord;
     }
 
@@ -193,7 +217,7 @@ public class BoatFragmentGUI extends JLabel{
 
     @Override
     public String toString(){
-        String s = "X : " + this.getCoord().getX() + " Y : "+ this.getCoord().getY();
+        String s = "X : " + this.getCoord().getX() + " Y : "+ this.getCoord().getY() + " boatId : " + this.getBoatId();
         return s;
     }
 
@@ -207,5 +231,9 @@ public class BoatFragmentGUI extends JLabel{
 
 	public int getIndex() {
 		return index;
+	}
+	
+	public void setFragmentVisible(boolean fragmentVisible) {
+		this.fragmentVisible = fragmentVisible;
 	}
 }

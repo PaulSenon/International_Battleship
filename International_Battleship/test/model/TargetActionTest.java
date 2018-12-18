@@ -29,27 +29,27 @@ public class TargetActionTest {
         
         //Aircraft
     	try {
-            BoatInterface aircraft = new AircraftCarrier(new Coord(10,10), 10);
+            BoatInterface aircraft = new AircraftCarrier(1, new Coord(10,10), 10);
             aircraft.actionSpecial(new Coord(5, 5));
-            assertEquals("Target action dans le porte avion" + System.getProperty("line.separator"), outContent.toString());       
+            assertEquals("Action spécial porte avion" + System.getProperty("line.separator"), outContent.toString());       
         } catch (Exception e) {
         	fail();
         }
     	
     	//Cruiser
     	try {
-            BoatInterface cruiser = new Cruiser(new Coord(11,11), 11);
+            BoatInterface cruiser = new Cruiser(2, new Coord(11,11), 11);
             cruiser.actionSpecial(new Coord(6, 6));
-            assertEquals("Target action dans le croiseur" + System.getProperty("line.separator"), outContent.toString());       
+            assertEquals("Action spéciale croiseur" + System.getProperty("line.separator"), outContent.toString());       
         } catch (Exception e) {
         	fail();
         } 	
     	
     	//Sentinel
     	try {
-            BoatInterface sentinel = new Sentinel(new Coord(12,12), 12);
+            BoatInterface sentinel = new Sentinel(3, new Coord(12,12), 12);
             sentinel.actionSpecial(new Coord(7, 7));
-            assertEquals("Target action dans le sentinel" + System.getProperty("line.separator"), outContent.toString());       
+            assertEquals("Action spéciale sentinel" + System.getProperty("line.separator"), outContent.toString());       
         } catch (Exception e) {
         	fail();
         }*/

@@ -29,6 +29,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     private ButtonGUI buttonGUIActionSpéciale;
     public GridGUI battleShipGridGUI;
     public ButtonGUI battleShipButtonGUI;
+    public ButtonGUI buttonGUIFinTour;
 
     public List<ButtonGUI> listOfButtons;
 
@@ -84,10 +85,14 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                     this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
                     controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
 
-			buttonsConstraints.gridy++;
-			this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
-			controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
+					buttonsConstraints.gridy++;
+					this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
+					controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
 
+					buttonsConstraints.gridy++;
+					this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
+					controlsPanel.add(this.buttonGUIFinTour, buttonsConstraints);
+					
 
 
                 //Store buttons in a list // TODO is this useful ?
@@ -96,6 +101,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                     listOfButtons.add(this.buttonRotateClockWise);
                     listOfButtons.add(this.buttonRotateCounterClockWise);
                     listOfButtons.add(this.buttonGUIActionSpéciale);
+                    listOfButtons.add(this.buttonGUIFinTour);
 
             // Add ButtonPanel in center of the BorderLayout
 			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
@@ -130,6 +136,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
 		this.buttonRotateClockWise.addActionListener(buttonListener);
 		this.buttonGUIActionSpéciale.addActionListener(buttonListener);
+		this.buttonGUIFinTour.addActionListener(buttonListener);
 	}
 
 	@Override
@@ -213,4 +220,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     public void disableAction() {
         this.PAPanel.disableAction();
     }
+
+	@Override
+	public void setVisibleBoats(List<Coord> visibleCoordCurrentPlayer) {
+		this.gridGUI.setVisibleBoats(visibleCoordCurrentPlayer);
+		this.revalidate();
+		this.repaint();		
+	}
 }

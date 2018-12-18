@@ -47,4 +47,6 @@ public interface BoatInterface {
     List<Coord> getVisibleCoords();
 
 	void actionSpecial(Coord coordSquare);
+	
+	Coord getCoord();
 }
