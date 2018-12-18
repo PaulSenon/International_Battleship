@@ -20,6 +20,8 @@ public interface BoatInterface {
 
     Direction getDirection();
 
+    void setFacingDirection(Direction direction);
+
     void setLastPosition(Coord pivot);
 
 	int getSize();
