@@ -3,9 +3,11 @@ package model;
 
 import tools.*;
 
-import java.util.*;
-
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class GameModel implements GameModelInterface {
 
@@ -256,6 +258,10 @@ public class GameModel implements GameModelInterface {
         return this.getVisibleCoords(this.currentPlayer);
     }
 
+    @Override
+    public void unselectBoat(){
+        this.selectedBoat = null;
+    }
 
 	@Override
 	public void specialAction(Coord coordSquare) {

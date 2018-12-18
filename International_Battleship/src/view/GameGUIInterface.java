@@ -36,4 +36,6 @@ public interface GameGUIInterface {
     void displayResult(ResultShoot first, Coord target);
 
 	void setVisibleBoats(List<Coord> list);
+
+    boolean boatIsSelected();
 }

@@ -20,6 +20,7 @@ public class BoatFragmentGUI extends JLabel{
 	private Color color;
 
 	private String imageName;
+	private String imageSelectedName;
 
 	public String getImageName() {
 		return imageName;
@@ -31,6 +32,7 @@ public class BoatFragmentGUI extends JLabel{
 
 	// the base image copy to play with
 	private BufferedImage image;
+	private BufferedImage imageSelected;
 
 	// TODO not used yet.
 	// the facing direction of the sprite image
@@ -43,6 +45,8 @@ public class BoatFragmentGUI extends JLabel{
 	private int index;
 
 	private boolean fragmentVisible;
+
+	private boolean isSelected;
 
 	/**
 	 * __CONSTRUCTOR__
@@ -84,18 +88,23 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Aircraft/0.png";
+							this.imageSelectedName = "Aircraft/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Aircraft/1.png";
+							this.imageSelectedName = "Aircraft/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Aircraft/2.png";
+							this.imageSelectedName = "Aircraft/2Selected.png";
 							break;
 						case 3:
 							this.imageName = "Aircraft/3.png";
+							this.imageSelectedName = "Aircraft/3Selected.png";
 							break;
 						case 4:
 							this.imageName = "Aircraft/4.png";
+							this.imageSelectedName = "Aircraft/4Selected.png";
 							break;
 					}
 					break;
@@ -103,15 +112,19 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Cruiser/0.png";
+							this.imageSelectedName = "Cruiser/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Cruiser/1.png";
+							this.imageSelectedName = "Cruiser/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Cruiser/2.png";
+							this.imageSelectedName = "Cruiser/2Selected.png";
 							break;
 						case 3:
 							this.imageName = "Cruiser/3.png";
+							this.imageSelectedName = "Cruiser/3Selected.png";
 							break;
 					}
 					break;
@@ -119,12 +132,15 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Submarine/0.png";
+							this.imageSelectedName = "Submarine/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Submarine/1.png";
+							this.imageSelectedName = "Submarine/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Submarine/2.png";
+							this.imageSelectedName = "Submarine/2Selected.png";
 							break;
 					}
 					break;
@@ -132,9 +148,11 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Torpedo/0.png";
+							this.imageSelectedName = "Torpedo/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Torpedo/1.png";
+							this.imageSelectedName = "Torpedo/1Selected.png";
 							break;
 					}
 					break;
@@ -142,6 +160,7 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Sentinel/0.png";
+							this.imageSelectedName = "Sentinel/0Selected.png";
 							break;
 					}
 					break;
@@ -150,8 +169,14 @@ public class BoatFragmentGUI extends JLabel{
 					break;
 			}
 			this.image = ImageManager.getImageCopy(this.imageName);
+			this.imageSelected = ImageManager.getImageCopy(this.imageSelectedName);
 			this.repaint();
-		}
+	}
+
+	public void setSelected(){
+		this.isSelected=true;
+		this.repaint();
+	}
 
     public BufferedImage getImage() {
 		return image;
@@ -161,7 +186,13 @@ public class BoatFragmentGUI extends JLabel{
 		this.image = image;
 	}
 
-	/**
+
+	public void setNotSelected(){
+		this.isSelected=false;
+		this.repaint();
+	}
+
+    /**
      * PUBLIC : It rotate its displayed image in the wanted direction
      * @param direction is the direction where you want the ship to look toward
      */
@@ -173,10 +204,13 @@ public class BoatFragmentGUI extends JLabel{
     	this.direction = direction;
 		try {
 			this.image = ImageManager.getImageCopyRotated(this.imageName, direction.rotation);
+			this.imageSelected = ImageManager.getImageCopyRotated(this.imageSelectedName, direction.rotation);
 		} catch (IOException e) {
 			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
 		}
 	}
+
+
 
 	/**
 	 * Method called AUTOMATICALLY on repaint() on this or parent UI components
@@ -187,7 +221,10 @@ public class BoatFragmentGUI extends JLabel{
 		if (!this.isFragmentVisible()) return;
 
         // draw its sprite image on the whole plane
-        g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+		if(isSelected)
+			g.drawImage(this.imageSelected, 0, 0, getWidth(), getHeight(), this);
+		else
+			g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
 
         // display something to show that the fragment is broken
 		if(this.broken){
@@ -226,7 +263,7 @@ public class BoatFragmentGUI extends JLabel{
 	public int getIndex() {
 		return index;
 	}
-	
+
 	public void setFragmentVisible(boolean fragmentVisible) {
 		this.fragmentVisible = fragmentVisible;
 	}
