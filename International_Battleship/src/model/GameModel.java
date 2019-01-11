@@ -364,9 +364,17 @@ public class GameModel implements GameModelInterface{
 	public void initTurn() {
 		this.turn++;
 		this.currentPlayer.creditActionPoint(this.currentPlayer .getMaxActionPoint()); //pour initialiser les PA
+        allowAllBoatToMove();
 	}
 
-	@Override
+    private void allowAllBoatToMove() {
+        List<BoatInterface> fleet = battleshipImplementor.getPlayerFleet(this.currentPlayer);
+        for(BoatInterface boat: fleet){
+            boat.moveAutorization();
+        }
+    }
+
+    @Override
 	public void endTurn() {
 		this.nextPlayer();
 		System.out.println("fin du tour " + this.turn);	//to test

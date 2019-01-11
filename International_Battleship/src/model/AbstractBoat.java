@@ -31,6 +31,7 @@ public abstract class AbstractBoat implements BoatInterface {
     private int playerId;
     public SpecialActionInterface actionSpeciale;
     private boolean coordsVisibleToBeProcessed;
+    private boolean canMoveForThisTurn;
 
     public AbstractBoat(BoatType type, int id, Coord pivot, int playerId) {
         this.pivot = pivot;
@@ -47,7 +48,14 @@ public abstract class AbstractBoat implements BoatInterface {
         this.playerId = playerId;
         this.move = true;
         this.destroyed = false;
+        this.canMoveForThisTurn = true;
     }
+
+    public boolean canMove() {return this.canMoveForThisTurn;}
+
+    public void hasMoved() {this.canMoveForThisTurn = false;}
+
+    public void moveAutorization() {this.canMoveForThisTurn = true;}
 
 	public Coord getCoord() {
 		return this.pivot;
