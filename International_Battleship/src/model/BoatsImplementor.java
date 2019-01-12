@@ -25,13 +25,20 @@ public class BoatsImplementor implements BoatsImplementorInterface {
     private void generateBoatsFromFactory(List<PlayerInterface> players){
         //For each players add its boat to a list with all boats
         int i = 2;
+        int j = 2;
         for (PlayerInterface p : players) {
             for (Map.Entry<Integer, BoatType> boatEntry : p.getFleet().entrySet()) {
-                BoatInterface boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(5,i), p.getId());
+                BoatInterface boat;
+                if(i == 2){
+                    boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(5,j), p.getId());
+                }else{
+                    boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(20,j+10), p.getId());
+                    boat.setFacingDirection(Direction.WEST);
+                }
                 this.boats.add(boat);
-                i++;
+                j++;
             }
-            i+=2;
+            i++;
         }
     }
 
@@ -61,6 +68,34 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             return new Pair<>(ResultShoot.MISSED, null);
         }
 
+    }
+
+	@Override
+	public List<Pair<ResultShoot, ProcessedPosition>> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
+        // check if enough AP
+        if (! currentPlayer.debitActionPoint(selectedBoat.getSpecialActionCost())){
+            // if not we donnot shoot
+            currentPlayer.undoLastAction();
+            return null;
+        }
+
+        /**
+         *  TODO area shoot for special action is hard codded here.
+         *  It's ok in a first time we we should find a way to move this behavior in a proper class.
+         *  But problem is how to access boats other things...
+         */
+        if(selectedBoat.getSpecialAction().getClass().equals(SpecialZoneAOE.class)){
+            List<Pair<ResultShoot, ProcessedPosition>> result = new ArrayList<>();
+            List<Coord> coords = ((SpecialZoneAOE)selectedBoat.getSpecialAction()).getEffectZone(target);
+            for (Coord coord : coords) {
+                result.add(this.shootBoat(currentPlayer, selectedBoat, coord));
+                currentPlayer.creditActionPoint(1);
+            }
+            return result;
+        }else{
+            selectedBoat.actionSpecial(target);
+        }
+        return null;
     }
 
     /**
@@ -309,16 +344,23 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return null;
     }
 
-	@Override
-	public void specialAction(BoatInterface selectedBoat, Coord coordSquare) {
-		selectedBoat.actionSpecial(coordSquare);
-	}
 
 	@Override
 	public List<BoatInterface> getVisibleBoats(PlayerInterface player) {
         List<BoatInterface> fleet = this.getPlayerFleet(player);
         System.out.println(fleet);
 		return fleet;
+	}
+
+	@Override
+	public int getRemainsBoatsByPlayer(int playerId) {
+		int nbBoat = 0;
+		for (BoatInterface boatInterface : boats) {
+			if (boatInterface.getPlayerId() == playerId && boatInterface.getDestroy() == false) {
+				nbBoat++;
+			}
+		}
+		return nbBoat;
 	}
 
 }

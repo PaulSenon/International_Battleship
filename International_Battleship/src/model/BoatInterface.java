@@ -20,6 +20,8 @@ public interface BoatInterface {
 
     Direction getDirection();
 
+    void setFacingDirection(Direction direction);
+
     void setLastPosition(Coord pivot);
 
 	int getSize();
@@ -53,4 +55,6 @@ public interface BoatInterface {
 	void destroy();
 
 	boolean getDestroy();
+
+	SpecialActionInterface getSpecialAction();
 }

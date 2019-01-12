@@ -38,5 +38,9 @@ public interface PlayerInterface extends Serializable{
     List<Coord> getVisibleCoords();
 
     void setVisibleCoords(List<Coord> visibleCoords);
+    
+    boolean isEliminate();
+    
+    void setEliminate(boolean eliminate);
 
 }

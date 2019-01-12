@@ -1,11 +1,13 @@
 package model;
 
+import tools.BoatFactory;
 import tools.Coord;
 import tools.GameConfig;
 import tools.UniqueIdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PlayersImplementor implements PlayersImplementorInterface {
 
@@ -17,7 +19,6 @@ public class PlayersImplementor implements PlayersImplementorInterface {
         }
 
         this.players = new ArrayList<>();
-
         this.generatePlayers(playerNames);
     }
 
@@ -82,4 +83,41 @@ public class PlayersImplementor implements PlayersImplementorInterface {
     public void undoLastMove(PlayerInterface currentPlayer) {
         currentPlayer.undoLastAction();
     }
+
+	@Override
+	public PlayerInterface findById(int idPlayer) {
+		for (PlayerInterface playerInterface : players) {
+			if(playerInterface.getId() == idPlayer){
+				return playerInterface;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public int remainsPlayers() {
+		int nbPlayers = 0;
+		for (PlayerInterface playerInterface : players) {
+			if (!playerInterface.isEliminate()) {
+				nbPlayers++;
+			}
+		}
+		return nbPlayers;
+	}
+
+	@Override
+	public int idWinner() {
+		int nbPlayers = 0;
+		int idPlayer = -1;
+		for (PlayerInterface playerInterface : players) {
+			if (!playerInterface.isEliminate()) {
+				nbPlayers++;
+				idPlayer = playerInterface.getId();
+			}
+		}
+		if (nbPlayers != 1) {
+			idPlayer = -1;
+		}
+		return idPlayer;
+	}
 }

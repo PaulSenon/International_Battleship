@@ -3,6 +3,7 @@ package model;
 
 import tools.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -414,7 +415,7 @@ public abstract class AbstractBoat implements BoatInterface {
         return this.facingDirection;
     }
 
-    protected void setFacingDirection(Direction direction){
+    public void setFacingDirection(Direction direction){
         this.lastDirection = this.facingDirection;
         this.facingDirection = direction;
         this.refreshCoords();
@@ -444,5 +445,9 @@ public abstract class AbstractBoat implements BoatInterface {
 
     public boolean getDestroy(){
         return this.destroyed;
+    }
+
+    public SpecialActionInterface getSpecialAction() {
+        return mySpecialAction;
     }
 }

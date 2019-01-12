@@ -35,9 +35,9 @@ public class LauncherBattleShipGame {
                 4, // nbMaxPlayer
 				new String[]{
 						"José",
-						"Théodule",
+//						"Théodule",
 						"Yvonne",
-						"Titouan"
+//						"Titouan"
 				},
 				new BoatType[]{
 						BoatType.Cruiser,

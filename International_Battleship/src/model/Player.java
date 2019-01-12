@@ -5,6 +5,7 @@ import tools.GameConfig;
 import tools.PersonnalException;
 import tools.UniqueIdGenerator;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Player implements PlayerInterface {
 
 	private int nbActionPoint;
 	private int lastNbActionPoints;
+	private boolean eliminate;
 
     public Player(int id, String name, String portName) {
     	this.id = id;
@@ -38,7 +40,16 @@ public class Player implements PlayerInterface {
 		this.nbActionPoint = GameConfig.getMaxActionPoint();
 		this.lastNbActionPoints = this.nbActionPoint;
 		this.visibleCoords = null;
+		this.eliminate = false;
     }
+
+	public boolean isEliminate() {
+		return eliminate;
+	}
+
+	public void setEliminate(boolean eliminate) {
+		this.eliminate = eliminate;
+	}
 
 	private void isPlay() {
 	}
@@ -124,6 +135,8 @@ public class Player implements PlayerInterface {
 
 		int verifDebitPossible = this.nbActionPoint - value;
 		if (verifDebitPossible < 0) {
+			// TODO remove this, not the responsibility of the game model
+			JOptionPane.showMessageDialog(null, "Pas assez de PA", null , JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
 		else {
