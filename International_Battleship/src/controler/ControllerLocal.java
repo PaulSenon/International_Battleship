@@ -170,6 +170,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
 	@Override
 	public void specialAction(Coord coordSquare) {
         List<Pair<ResultShoot, ProcessedPosition>> result = this.gameModel.specialAction(coordSquare);
+
+        // TODO will needs rework if not all special targeted actions are some shoot variants :
         if(result != null){
             boolean touched = false;
             for(Pair<ResultShoot, ProcessedPosition> res : result){

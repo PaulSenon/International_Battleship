@@ -135,7 +135,7 @@ public class Player implements PlayerInterface {
 
 		int verifDebitPossible = this.nbActionPoint - value;
 		if (verifDebitPossible < 0) {
-			// TODO it's horrible but we need to add this quickly for release...
+			// TODO remove this, not the responsibility of the game model
 			JOptionPane.showMessageDialog(null, "Pas assez de PA", null , JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
