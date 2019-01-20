@@ -22,8 +22,8 @@ public class GameConfig {
 			String[] players,
 			BoatType[] fleet
 	) {
-		if (instance == null)
-			instance = new GameConfig(
+		if (instance == null){
+			return forceNewInstance(
 					gameGridWidth,
 					gameGridHeight,
 					maxActionPoint,
@@ -32,6 +32,28 @@ public class GameConfig {
 					players,
 					fleet
 			);
+		}
+		return instance;
+	}
+
+	public static GameConfig forceNewInstance(
+			int gameGridWidth,
+			int gameGridHeight,
+			int maxActionPoint,
+			int portSize,
+			int nbMaxPlayer,
+			String[] players,
+			BoatType[] fleet
+	){
+		instance = new GameConfig(
+				gameGridWidth,
+				gameGridHeight,
+				maxActionPoint,
+				portSize,
+				nbMaxPlayer,
+				players,
+				fleet
+		);
 		return instance;
 	}
 	

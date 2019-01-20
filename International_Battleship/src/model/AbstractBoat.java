@@ -3,7 +3,6 @@ package model;
 
 import tools.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -107,8 +106,7 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     public void rotateClockWise(){
-        // save last direction
-        this.lastDirection = this.facingDirection;
+        this.saveState(); // save for undo
         // rotate
         if (move) {
             this.facingDirection = this.facingDirection.next(true);
@@ -117,8 +115,7 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     public void rotateCounterClockWise() {
-        // save last direction
-        this.lastDirection = this.facingDirection;
+        this.saveState(); // save for undo
         // rotate
         if (move) {
             this.facingDirection = this.facingDirection.next(false);
@@ -177,11 +174,24 @@ public abstract class AbstractBoat implements BoatInterface {
      *
      * This method return how many front part of a boat has (with pivot)
      * for example :
-     *   - boat size of 5 will return 3
+     *   - boat size of 5 will return 2
      *   - boat size of 4 will return 2
      * @return nb front parts of the boat
      */
     public int getNbFrontParts(){
+        return this.getSize()/2;
+    }
+
+    /**
+     * __TESTED__
+     *
+     * This method return how many back part of a boat has (without pivot)
+     * for example :
+     *   - boat size of 5 will return 3
+     *   - boat size of 4 will return 2
+     * @return nb back parts of the boat
+     */
+    public int getNbBackParts(){
         if(this.getSize()%2 ==0){
             return this.getSize()/2;
         }else{
@@ -192,27 +202,13 @@ public abstract class AbstractBoat implements BoatInterface {
     /**
      * __TESTED__
      *
-     * This method return how many back part of a boat has (without pivot)
-     * for example :
-     *   - boat size of 5 will return 2
-     *   - boat size of 4 will return 2
-     * @return nb back parts of the boat
-     */
-    public int getNbBackParts(){
-        return this.getSize()/2;
-    }
-
-    /**
-     * __TESTED__
-     *
      * @param direction the direction to process coords for
      * @return a list of coords
      */
     public List<Coord> getCoordsForDirection(Direction direction){
         List<Coord> coords = new ArrayList<>();
-        // TODO @Paul use getNbParts
-        int frontParts = this.getSize()/2 - (this.getSize()%2==0 ? 1 : 0);
-        int backParts = this.getSize()/2;
+        int frontParts = this.getNbFrontParts();
+        int backParts = this.getNbBackParts()-1; // remove pivot
         int start, stop;
         switch (direction){
             case EAST:
@@ -306,6 +302,16 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     /**
+     *  call this before changing pivot or facing direction
+     *  save properties for the undoLastMove() method.
+     */
+    private void saveState(){
+        // save all states for undo
+        this.lastDirection = this.facingDirection;
+        this.lastPosition = this.pivot;
+    }
+
+    /**
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
@@ -381,7 +387,8 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     private void setPivot(final Coord value) {
-        this.lastPosition = this.pivot;
+        this.saveState();
+
         this.pivot = value;
         this.refreshCoords();
     }

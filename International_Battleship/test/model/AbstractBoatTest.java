@@ -40,12 +40,12 @@ public class AbstractBoatTest extends BaseTests {
         coords = this.boat.getCoords();
 
         assertEquals(6, coords.size());
-        assertEquals(new Coord(7,10), coords.get(0));
-        assertEquals(new Coord(8,10), coords.get(1));
-        assertEquals(new Coord(9,10), coords.get(2));
-        assertEquals(new Coord(10,10), coords.get(3)); // pivot
-        assertEquals(new Coord(11,10), coords.get(4));
-        assertEquals(new Coord(12,10), coords.get(5)); // head
+        assertEquals(new Coord(8,10), coords.get(0));
+        assertEquals(new Coord(9,10), coords.get(1));
+        assertEquals(new Coord(10,10), coords.get(2));  // pivot
+        assertEquals(new Coord(11,10), coords.get(3));
+        assertEquals(new Coord(12,10), coords.get(4));
+        assertEquals(new Coord(13,10), coords.get(5)); // head
 
         // WEST -> odd
         // <oOoo
@@ -67,12 +67,12 @@ public class AbstractBoatTest extends BaseTests {
         coords = this.boat.getCoords();
 
         assertEquals(6, coords.size());
-        assertEquals(new Coord(13,10), coords.get(0));
-        assertEquals(new Coord(12,10), coords.get(1));
-        assertEquals(new Coord(11,10), coords.get(2));
-        assertEquals(new Coord(10,10), coords.get(3)); // pivot
-        assertEquals(new Coord(9,10), coords.get(4));
-        assertEquals(new Coord(8,10), coords.get(5)); // head
+        assertEquals(new Coord(12,10), coords.get(0));
+        assertEquals(new Coord(11,10), coords.get(1));
+        assertEquals(new Coord(10,10), coords.get(2)); // pivot
+        assertEquals(new Coord(9,10), coords.get(3));
+        assertEquals(new Coord(8,10), coords.get(4));
+        assertEquals(new Coord(7,10), coords.get(5)); // head
 
         // NORTH -> odd
         // ^
@@ -97,10 +97,10 @@ public class AbstractBoatTest extends BaseTests {
         coords = this.boat.getCoords();
 
         assertEquals(4, coords.size());
-        assertEquals(new Coord(10,12), coords.get(0));
-        assertEquals(new Coord(10,11), coords.get(1));
-        assertEquals(new Coord(10,10), coords.get(2)); // pivot
-        assertEquals(new Coord(10,9), coords.get(3)); // head
+        assertEquals(new Coord(10,11), coords.get(0));
+        assertEquals(new Coord(10,10), coords.get(1)); // pivot
+        assertEquals(new Coord(10,9), coords.get(2));
+        assertEquals(new Coord(10,8), coords.get(3)); // head
 
         // SOUTH -> odd
         // o
@@ -125,10 +125,10 @@ public class AbstractBoatTest extends BaseTests {
         coords = this.boat.getCoords();
 
         assertEquals(4, coords.size());
-        assertEquals(new Coord(10,8), coords.get(0));
-        assertEquals(new Coord(10,9), coords.get(1));
-        assertEquals(new Coord(10,10), coords.get(2)); // pivot
-        assertEquals(new Coord(10,11), coords.get(3)); // head
+        assertEquals(new Coord(10,9), coords.get(0));
+        assertEquals(new Coord(10,10), coords.get(1)); // pivot
+        assertEquals(new Coord(10,11), coords.get(2));
+        assertEquals(new Coord(10,12), coords.get(3)); // head
     }
 
     @Test
@@ -236,16 +236,16 @@ public class AbstractBoatTest extends BaseTests {
         assertEquals(3, boat.getNbBackParts());
 
         boat = this.objGenerator.generateTestBoat(new Coord(10,10), 5, Direction.EAST);
-        assertEquals(3, boat.getNbFrontParts());
-        assertEquals(2, boat.getNbBackParts());
+        assertEquals(2, boat.getNbFrontParts());
+        assertEquals(3, boat.getNbBackParts());
 
         boat = this.objGenerator.generateTestBoat(new Coord(10,10), 4, Direction.EAST);
         assertEquals(2, boat.getNbFrontParts());
         assertEquals(2, boat.getNbBackParts());
 
         boat = this.objGenerator.generateTestBoat(new Coord(10,10), 3, Direction.EAST);
-        assertEquals(2, boat.getNbFrontParts());
-        assertEquals(1, boat.getNbBackParts());
+        assertEquals(1, boat.getNbFrontParts());
+        assertEquals(2, boat.getNbBackParts());
     }
 
     @Test
