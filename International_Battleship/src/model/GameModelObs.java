@@ -76,7 +76,7 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
     }
 
     @Override
-    public void setProcessedPotion(ProcessedPosition processedPosition) {
+    public void setProcessedPosition(ProcessedPosition processedPosition) {
 
     }
 

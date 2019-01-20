@@ -63,9 +63,9 @@ public class ControllerClient implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.client.sendProcessedPosition(processedPosition);
+            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
@@ -75,7 +75,7 @@ public class ControllerClient implements ControllerModelViewInterface {
 
     public void update(ProcessedPosition processedPosition){
         this.gameGUI.setProcessedPotion(processedPosition);
-        this.gameModel.setProcessedPotion(processedPosition);
+        this.gameModel.setProcessedPosition(processedPosition);
     }
 
     /**
@@ -86,11 +86,15 @@ public class ControllerClient implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+            this.gameModel.unselectBoat();
+            this.gameGUI.setSelectedBoat(null);
+            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
         }
     }
 
@@ -102,11 +106,15 @@ public class ControllerClient implements ControllerModelViewInterface {
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+            this.gameModel.unselectBoat();
+            this.gameGUI.setSelectedBoat(null);
+            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
         }
     }
 
@@ -125,6 +133,7 @@ public class ControllerClient implements ControllerModelViewInterface {
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.message("shoot result : "+result.getFirst());
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+            this.client.sendProcessedPosition(result.getSecond());//Send proc pos to network
         }else{
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
@@ -141,7 +150,8 @@ public class ControllerClient implements ControllerModelViewInterface {
         Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
         this.gameGUI.initGame(initBoatPos);
         this.gameGUI.setCurrentAction(ActionType.SELECT);
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
     }
 
@@ -170,7 +180,17 @@ public class ControllerClient implements ControllerModelViewInterface {
 
 	@Override
 	public void EndActionsOfPlayer() {
-		// TODO Auto-generated method stub
+        this.setupEndTurn();
+        this.client.endOfTurn();
 
 	}
+
+    public void setupEndTurn() {
+        this.gameModel.EndActionsOfPlayer();
+        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameModel.unselectBoat();
+        this.gameGUI.setSelectedBoat(null);
+    }
 }

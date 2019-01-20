@@ -69,7 +69,11 @@ public class GameModel implements GameModelInterface{
         this.selectedBoat = null;
 
         try {
+
             playersImplementor = new PlayersImplementor(players);
+
+            battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+
             setupGame();
 
         } catch (Exception e) {
@@ -84,12 +88,13 @@ public class GameModel implements GameModelInterface{
     }
 
     @Override
-    public void setProcessedPotion(ProcessedPosition processedPosition) {
+    public void setProcessedPosition(ProcessedPosition processedPosition) {
+        this.battleshipImplementor.setProcessedPosition(processedPosition);
 
     }
 
     @Override
-    public void setupGame() {
+    public void     setupGame() {
         battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
         this.currentPlayer = playersImplementor.getPlayers().get(0);
     }
@@ -428,5 +433,13 @@ public class GameModel implements GameModelInterface{
 
     public boolean hasSelectedBoat(){
         return this.selectedBoat != null;
+    }
+
+    public void setClientPlayer(PlayerInterface clientPlayer) {
+        this.clientPlayer = clientPlayer;
+    }
+
+    public PlayerInterface getClientPlayer() {
+        return clientPlayer;
     }
 }

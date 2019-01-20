@@ -132,6 +132,7 @@ public class PlayersImplementor implements PlayersImplementorInterface {
     @Override
     public PlayerInterface createPlayer(int idPlayer) {
         Player p = new Player(idPlayer,"Player"+idPlayer,"Port"+idPlayer);
+        p.generateFleet(GameConfig.getFleet());
         players.add(p);
         return p;
     }

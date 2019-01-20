@@ -37,7 +37,7 @@ public class Client implements Runnable{
     }
 
     public void run(){
-
+        boolean isStarted = false;
         try {
             writer = new ObjectOutputStream(connexion.getOutputStream());
             reader = new ObjectInputStream(connexion.getInputStream());
@@ -52,29 +52,46 @@ public class Client implements Runnable{
             System.out.println("Commande getPlayer envoyée au serveur");
 
             //On attend la réponse
-            Object answer = read();
-            if(answer instanceof Player){
-            	this.player = (Player)answer;
-            	System.out.println(this.player.toString());
-            }else if(answer instanceof String){
-                if(((String)answer).equals("start")){
-                    Object player = read();
-                    if(player instanceof List) {
-                        List<PlayerInterface> players = (List<PlayerInterface>) player;
-                        Dimension dim = new Dimension(850,570);
-                        GameGUI gameGUI = new GameGUI();
-                        gameGUI.setTitle("International Battleship");
-                        gameGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        gameGUI.setLocation(400, 10);
-                        gameGUI.setPreferredSize(dim);
-                        gameGUI.pack();
-                        gameGUI.setResizable(true);
-                        controller = new ControllerClient(new GameModel(players), gameGUI, this);
-                        gameGUI.setVisible(true);
+
+            while(!isStarted) {
+                Object answer = read();
+                if (answer instanceof Player) {
+                    this.player = (Player) answer;
+                } else if (answer instanceof String) {
+                    if (((String) answer).equals("start")) {
+                        isStarted = true;
+                        Object player = read();
+                        if (player instanceof List) {
+                            List<PlayerInterface> players = (List<PlayerInterface>) player;
+                            Dimension dim = new Dimension(850, 570);
+                            GameGUI gameGUI = new GameGUI();
+                            gameGUI.setTitle("International Battleship");
+                            gameGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            gameGUI.setLocation(400, 10);
+                            gameGUI.setPreferredSize(dim);
+                            gameGUI.pack();
+                            gameGUI.setResizable(true);
+                            GameModel gm = new GameModel(players);
+                            gm.setClientPlayer(this.player);
+                            controller = new ControllerClient(gm, gameGUI, this);
+                            gameGUI.initListeners(controller);
+                            gameGUI.setVisible(true);
+                        }
                     }
                 }
-            }else if(answer instanceof ProcessedPosition){
-                controller.update((ProcessedPosition)answer);
+            }
+
+            while(true){
+                Object answer = read();
+                if (answer instanceof ProcessedPosition) {
+                    controller.update((ProcessedPosition) answer);
+                }else if(answer instanceof String){
+                    switch ((String)answer){
+                        case "endOfTurn":
+                            controller.setupEndTurn();
+                            break;
+                    }
+                }
             }
 
 
@@ -84,9 +101,11 @@ public class Client implements Runnable{
 
         } catch (IOException e1) {
             e1.printStackTrace();
+            isStarted = true;
         } catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			isStarted = true;
 		}
 
         try {
@@ -117,6 +136,15 @@ public class Client implements Runnable{
     public void sendProcessedPosition(ProcessedPosition processedPosition) {
         try {
             writer.writeObject(processedPosition);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void endOfTurn(){
+        try {
+            writer.writeObject("endOfTurn");
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();

@@ -62,7 +62,6 @@ public class ClientProcessor implements Runnable{
 				Object response = read();
 
 				//On traite la demande du client
-				String className = response.getClass().getName();
 				if(response instanceof Player){
 					System.out.println(((Player)response).toString());
 				}
@@ -70,6 +69,10 @@ public class ClientProcessor implements Runnable{
 					switch((String)response){
 						case "close":
 							closeConnexion = true;
+							break;
+						case "endOfTurn":
+							diffuseMessage((String)response);
+							break;
 					}
 
 				}else if(response instanceof ProcessedPosition){
@@ -93,6 +96,10 @@ public class ClientProcessor implements Runnable{
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void diffuseMessage(String msg) {
+		server.updateMessage(msg,idPlayer);
 	}
 
 	//La méthode que nous utilisons pour lire les réponses
@@ -129,8 +136,24 @@ public class ClientProcessor implements Runnable{
 		}
 	}
 
+	/**
+	 * This method update the model and the client view after receive the order from the server
+	 * @param msg
+	 */
+	public void sendMessage(String msg){
+		try {
+			writer.writeObject(msg);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void startGame(List<PlayerInterface> players) {
 		try {
+		    //Send the player of the client
+            writer.writeObject(players.get(idPlayer-1));
+            writer.flush();
 			writer.writeObject("start");
 			writer.flush();
 			writer.writeObject(players);

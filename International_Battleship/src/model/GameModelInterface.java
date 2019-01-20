@@ -53,7 +53,9 @@ public interface GameModelInterface {
 
     PlayerInterface createPlayer(int idPlayer);
 
-    void setProcessedPotion(ProcessedPosition processedPosition);
+    void setProcessedPosition(ProcessedPosition processedPosition);
 
     void setupGame();
+
+    PlayerInterface getClientPlayer();
 }

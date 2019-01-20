@@ -74,7 +74,7 @@ public class Server {
                             nbConnect++;
                             System.out.println("Connexion du joueur : "+nbConnect);
                             ClientProcessor cp = new ClientProcessor(client, nbConnect, gameModel,serv);
-                            players.add(gameModel.createPlayer(nbConnect));
+                            players.add( gameModel.createPlayer(nbConnect));
                             clientList.add(cp);
                             Thread t = new Thread(cp);
                             t.start();
@@ -116,6 +116,20 @@ public class Server {
         for (ClientProcessor c :clientList) {
             if(c.getID() != from){
                 c.update(processedPosition);
+            }
+        }
+    }
+
+    /**
+     * Notify each client that the client "form" has done something
+     * Then they will update both their model and their GUI
+     * @param msg
+     * @param from
+     */
+    public void updateMessage(String msg,int from){
+        for (ClientProcessor c :clientList) {
+            if(c.getID() != from){
+                c.sendMessage(msg);
             }
         }
     }
