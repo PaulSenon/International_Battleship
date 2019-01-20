@@ -254,7 +254,6 @@ public class GameModelTest extends BaseTests {
     }
 
     @Test
-    @Ignore
     public void testMoveBoatOutOfGameBoard() {
         // setup
         // create the boat
@@ -267,7 +266,7 @@ public class GameModelTest extends BaseTests {
         this.gameModel.moveBoat(15, 10);
         assertEquals(new Coord(15, 10),boat.getPivot());
         this.gameModel.moveBoat(25, 10);
-        assertEquals(new Coord(15, 10),boat.getPivot());
+        assertEquals(new Coord(22, 10),boat.getPivot());
     }
 
     @Test
