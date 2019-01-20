@@ -23,8 +23,8 @@ public class GameModelTest extends BaseTests {
     public void setUp() throws Exception {
         // setup game config :
         GameConfig.newInstance(
-                25, // gameGridWidth
-                25, // gameGridHeight
+                100, // gameGridWidth
+                100, // gameGridHeight
                 20, // maxActionPoint
                 7, // portSize
                 4, // nbMaxPlayer
@@ -265,8 +265,8 @@ public class GameModelTest extends BaseTests {
 
         this.gameModel.moveBoat(15, 10);
         assertEquals(new Coord(15, 10),boat.getPivot());
-        this.gameModel.moveBoat(25, 10);
-        assertEquals(new Coord(22, 10),boat.getPivot());
+        this.gameModel.moveBoat(500, 10);
+        assertEquals(new Coord(97, 10),boat.getPivot());
     }
 
     @Test
