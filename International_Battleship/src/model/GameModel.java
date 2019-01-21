@@ -520,4 +520,9 @@ public class GameModel implements GameModelInterface{
 
         return this.selectedBoat.getSpecialActionCost() <= this.currentPlayer.getNbActionPoint();
     }
+
+    public ProcessedProps createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat){
+    	//TODO
+    	return this.battleshipImplementor.createMine(currentPlayer, selectedBoat);
+    }
 }

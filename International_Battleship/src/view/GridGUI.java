@@ -2,6 +2,7 @@ package view;
 
 
 import model.BoatType;
+import model.Mine;
 import tools.*;
 
 import javax.swing.*;
@@ -32,6 +33,8 @@ public class GridGUI extends JLayeredPane {
 	private List<BoatFragmentGUI> selectedBoat;
 
 	private ActionType currentAction;
+	
+	private HashMap<Coord, MineGUI> mines;
 
 	private List<BufferedImage> fogs;
 	private List<BufferedImage> seas;
@@ -46,6 +49,7 @@ public class GridGUI extends JLayeredPane {
 		// init class attributes
 		this.squares = new HashMap<Coord, SquareGUI>();
 		this.boatFragments = new HashMap<Coord, BoatFragmentGUI>();
+		this.mines = new HashMap<Coord, MineGUI>();
 		this.selectedSquare = null;
 		this.selectedBoat = new ArrayList<>();
 
@@ -201,6 +205,9 @@ public class GridGUI extends JLayeredPane {
 			// create boat with processedPotion and type, and add store it
 //			this.listOfBoat.add(new BoatGUI(type, initBoatPos.get(type).coords, initBoatPos.get(type).direction));
 		}
+		
+		//Test to create mine
+		MineGUI mine = new MineGUI(1, new Coord(2, 2));
 	}
 
     /**
@@ -241,6 +248,18 @@ public class GridGUI extends JLayeredPane {
 		fragment.rotate(direction);
         this.boatFragments.put(coord, fragment);
         return fragment;
+    }
+    
+    /**
+     * It create a mine at coord and add it to mines Map
+     * @param coord is the coordinate of the MineGUI where to create the MineGUI
+     * @return JLabel is the created MineGUI
+     */
+    private JLabel createMines(int mineId, Coord coord){
+        MineGUI mine = null;
+		mine = new MineGUI(mineId, coord);
+        this.mines.put(coord, mine);
+        return mine;
     }
 
 	/**
@@ -396,6 +415,19 @@ public class GridGUI extends JLayeredPane {
 			}
 			else{
 				boatFragment.setFragmentVisible(false);
+			}
+		}
+	}
+	
+	public void setVisibleMines(List<Coord> visibleCoordCurrentPlayer) {
+		for (Map.Entry<Coord, MineGUI> entry : this.mines.entrySet()) {
+			Coord coord = entry.getKey();
+			MineGUI mine = entry.getValue();
+			if(visibleCoordCurrentPlayer.contains(coord)){
+				mine.setMineVisible(true);
+			}
+			else{
+				mine.setMineVisible(false);
 			}
 		}
 	}
