@@ -2,8 +2,6 @@ package tools;
 
 import model.BoatType;
 
-import java.awt.*;
-
 public class GameConfig {
 	private static int gameGridWidth;
 	private static int gameGridHeight;
@@ -28,14 +26,14 @@ public class GameConfig {
 	) {
 		if (instance == null){
 			return forceNewInstance(
-					gameGridWidth,
-					gameGridHeight,
-					maxActionPoint,
-					portSize,
-					nbMaxPlayer,
-					players,
-					fleet,
-					edgingColor
+				gameGridWidth,
+				gameGridHeight,
+				maxActionPoint,
+				portSize,
+				nbMaxPlayer,
+				players,
+				fleet,
+				edgingColor
 			);
 		}
 		return instance;
@@ -48,7 +46,8 @@ public class GameConfig {
 			int portSize,
 			int nbMaxPlayer,
 			String[] players,
-			BoatType[] fleet
+			BoatType[] fleet,
+			int edgingColor
 	){
 		instance = new GameConfig(
 				gameGridWidth,
@@ -57,7 +56,8 @@ public class GameConfig {
 				portSize,
 				nbMaxPlayer,
 				players,
-				fleet
+				fleet,
+				edgingColor
 		);
 		return instance;
 	}
