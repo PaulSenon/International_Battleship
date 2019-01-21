@@ -257,6 +257,7 @@ public class GameModelTest extends BaseTests {
 
         this.gameModel.moveBoat(17, 11);
         assertEquals(new Coord(17, 11),boat.getPivot());
+        boat.moveAutorization();
         this.gameModel.moveBoat(5, 11);
         assertEquals(new Coord(15, 11),boat.getPivot());
     }
@@ -273,6 +274,7 @@ public class GameModelTest extends BaseTests {
 
         this.gameModel.moveBoat(15, 10);
         assertEquals(new Coord(15, 10),boat.getPivot());
+        boat.moveAutorization();
         this.gameModel.moveBoat(500, 10);
         assertEquals(new Coord(22, 10),boat.getPivot());
     }
