@@ -119,7 +119,7 @@ public class GameModel implements GameModelInterface{
      * @param yDest is the desired destination y coordinate on the game board
      * @return Coord is the pivot coordinate where the boat is after processing (may no change)
      */
-        public ProcessedPosition moveBoat(int xDest, int yDest) {
+    public ProcessedPosition moveBoat(int xDest, int yDest){
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -149,7 +149,7 @@ public class GameModel implements GameModelInterface{
      *
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoatClockWise() {
+    public ProcessedPosition rotateBoatClockWise(){
         return this.rotateSelectedBoat(true);
     }
 
@@ -162,7 +162,7 @@ public class GameModel implements GameModelInterface{
      *
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoatCounterClockWise() {
+    public ProcessedPosition rotateBoatCounterClockWise(){
         return this.rotateSelectedBoat(false);
     }
 
@@ -173,7 +173,7 @@ public class GameModel implements GameModelInterface{
      *
      * @return ProcessedPositions (coords + direction)
      */
-    private ProcessedPosition rotateSelectedBoat(boolean clockWise) {
+    private ProcessedPosition rotateSelectedBoat(boolean clockWise){
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -182,7 +182,7 @@ public class GameModel implements GameModelInterface{
         }
 
         // processing : boat rotation
-        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise);
+        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise).getFirst();
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
             return processedPosition;
@@ -257,7 +257,7 @@ public class GameModel implements GameModelInterface{
     /**
      *
      */
-        public void isEnd(){
+    public void isEnd(){
     }
 
     /**

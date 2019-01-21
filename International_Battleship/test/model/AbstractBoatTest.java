@@ -2,6 +2,7 @@ package model;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import testTools.BaseTests;
 import tools.*;
 
@@ -273,5 +274,46 @@ public class AbstractBoatTest extends BaseTests {
             assertTrue(e.getClass().getName().equals(Exception.class.getName()) );
         }
 
+    }
+    
+    @Test
+    public void testSetDammage(){
+    	//Check boat is not destroy
+    	assertEquals(false,boat.getDestroy());
+    	
+    	//Check for 1 dammage
+    	assertEquals(0,boat.getTouchedFragmentIds().size());
+    	try {
+			boat.setDammage(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	assertEquals(1,boat.getTouchedFragmentIds().size());
+    	
+    	//Check for much dammage and destrucion boat
+    	assertEquals(1,boat.getTouchedFragmentIds().size());
+    	try {
+			boat.setDammage(4);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	assertEquals(5,boat.getTouchedFragmentIds().size());
+    	
+    	//Check boat is destroy
+    	assertEquals(true,boat.getDestroy());
+    	
+    	//Check boat can't touched by mine because destroy
+    	assertEquals(5,boat.getTouchedFragmentIds().size());
+    	assertEquals(true,boat.getDestroy());
+    	try {
+			boat.setDammage(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	assertEquals(5,boat.getTouchedFragmentIds().size());
+    	assertEquals(true,boat.getDestroy());
     }
 }

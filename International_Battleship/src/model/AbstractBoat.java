@@ -87,6 +87,7 @@ public abstract class AbstractBoat implements BoatInterface {
                     this.move = false;
                 }
                 if(this.getCoords().size() == this.touchedFragmentIds.size()){
+                	this.destroy();
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
                 return new Pair<>(ResultShoot.TOUCHED, this.getProcessedPosition());
@@ -486,4 +487,46 @@ public abstract class AbstractBoat implements BoatInterface {
 
         this.refreshCoords();
     }
+
+    public void setDammage(int nbDammage) throws Exception{
+    	for (int i = 0; i < nbDammage; i++) {
+			for (Coord coord : this.getCoords()) {
+				int idCurrentFragment = this.getIdOfFragment(coord);
+				if(!this.touchedFragmentIds.contains(idCurrentFragment)){
+					this.shoot(coord);
+					//If we have do all dammage you stop the method
+					if(i+1 == nbDammage){
+						return;
+					}
+				}
+			}
+		}
+    }
+
+	public List<Integer> getTouchedFragmentIds() {
+		return touchedFragmentIds;
+	}
+	
+	public Coord getCoordBehind(){
+		Coord pivot = new Coord(this.pivot.getX(), this.pivot.getY());
+		int shift = this.getNbBackParts();
+		
+		switch (this.getDirection()) {
+		case EAST:
+			pivot.addStepDirection(Direction.WEST, shift);
+			break;
+		case WEST:
+			pivot.addStepDirection(Direction.EAST, shift);
+			break;
+		case SOUTH:
+			pivot.addStepDirection(Direction.NORTH, shift);
+			break;
+		case NORTH:
+			pivot.addStepDirection(Direction.SOUTH, shift);
+			break;
+		default:
+			break;
+		}
+		return pivot;
+	}
 }
