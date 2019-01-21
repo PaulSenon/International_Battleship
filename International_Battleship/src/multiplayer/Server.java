@@ -58,7 +58,7 @@ public class Server {
 
             public void run(){
             	try {
-					System.out.println("Serveur ouvert à l'addresse : "+ InetAddress.getLocalHost().getHostAddress());
+					System.out.println("Serveur ouvert à l'addresse : "+ InetAddress.getLocalHost().getHostAddress() +"Avec le port : "+server.getLocalPort() );
 				} catch (UnknownHostException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
