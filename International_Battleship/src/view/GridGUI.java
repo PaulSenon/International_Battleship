@@ -144,7 +144,7 @@ public class GridGUI extends JLayeredPane {
 			this.boatFragments.remove(fragment.getCoord());
 			// update fragment prop
 			fragment.setCoord(dest);
-			fragment.setBroken(processedPosition.brokenPartIds.contains(i));
+			fragment.setBroken(processedPosition.getBrokenPartIds().contains(i));
 			// remove from UI
 			this.squares.get(dest).remove(fragment);
 

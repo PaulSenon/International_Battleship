@@ -1,12 +1,14 @@
 package tools;
 
 
+import java.io.Serializable;
+
 /**
  * __TESTED__
  * An enum for the sprite (this image fragment) direction.
  * !!!! IT ASSUME THAT YOUR SPRITE IS FACING EAST BY DEFAULT !!!!
  */
-public enum Direction{
+public enum Direction implements Serializable{
     NORTH(-90),
     EAST(0),
     SOUTH(90),

@@ -61,6 +61,8 @@ public class ClientProcessor implements Runnable{
 				System.out.println("J'attends une commande client");
 				Object response = read();
 
+				System.out.println("Raw response : " + response);
+
 				//On traite la demande du client
 				if(response instanceof Player){
 					System.out.println(((Player)response).toString());
@@ -76,7 +78,8 @@ public class ClientProcessor implements Runnable{
 					}
 
 				}else if(response instanceof ProcessedPosition){
-					diffuse((ProcessedPosition)response);
+					ProcessedPosition pp = (ProcessedPosition)response;
+					diffuse(pp);
 				}
 
 

@@ -84,7 +84,8 @@ public class Client implements Runnable{
             while(true){
                 Object answer = read();
                 if (answer instanceof ProcessedPosition) {
-                    controller.update((ProcessedPosition) answer);
+                    ProcessedPosition pp = (ProcessedPosition) answer;
+                    controller.update(pp);
                 }else if(answer instanceof String){
                     switch ((String)answer){
                         case "endOfTurn":
@@ -135,6 +136,7 @@ public class Client implements Runnable{
 
     public void sendProcessedPosition(ProcessedPosition processedPosition) {
         try {
+
             writer.writeObject(processedPosition);
             writer.flush();
         } catch (IOException e) {
