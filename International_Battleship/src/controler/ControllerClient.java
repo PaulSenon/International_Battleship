@@ -5,7 +5,6 @@ import model.GameModelInterface;
 import multiplayer.Client;
 import tools.*;
 import view.GameGUIInterface;
-import view.GridGUI;
 
 import javax.swing.*;
 import java.util.Map;
@@ -158,6 +157,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        this.gameGUI.setControlsEnable(this.gameModel.itsTurn());
     }
 
     /**
@@ -197,5 +197,6 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         this.gameModel.unselectBoat();
         this.gameGUI.setSelectedBoat(null);
+        this.gameGUI.setControlsEnable(this.gameModel.itsTurn());
     }
 }
