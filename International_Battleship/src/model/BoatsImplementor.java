@@ -136,6 +136,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         if(
                 ! currentPlayer.debitActionPoint(selectedBoat.getMoveCost(moveDistance))
                 || ! selectedBoat.isMoveOk(destination)
+                        //Check if the boat is allowed to move
                 || !selectedBoat.canMove()
         ){
             // Return boat pos without moving
@@ -143,6 +144,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             return selectedBoat.getProcessedPosition();
         }
 
+        //Prohibit the boat to move
         selectedBoat.hasMoved();
         return this.moveBoatStepByStep(selectedBoat, destination);
     }

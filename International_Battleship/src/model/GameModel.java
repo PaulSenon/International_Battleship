@@ -367,6 +367,9 @@ public class GameModel implements GameModelInterface{
         allowAllBoatToMove();
 	}
 
+    /**
+     * Allow all the boats of the players to move at the beginning of the turn
+     */
     private void allowAllBoatToMove() {
         List<BoatInterface> fleet = battleshipImplementor.getPlayerFleet(this.currentPlayer);
         for(BoatInterface boat: fleet){
