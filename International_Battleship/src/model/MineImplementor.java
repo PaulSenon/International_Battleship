@@ -40,4 +40,18 @@ public class MineImplementor {
 		}
 		return visibleCoords;
 	}
+	
+	public void destroyMine(Coord coord){
+		if(isMined(coord)){
+			for (int i = 0; i < mines.size(); i++) {
+				if (mines.get(i).getCoord().equals(coord)) {
+					mines.remove(i);
+					break;
+				}
+			}
+		}
+		else{
+			System.out.println("Suppression impossible car il n'y a pas de mine aux coordonnées indiquées");
+		}
+	}
 }
