@@ -182,8 +182,7 @@ public class Player implements PlayerInterface {
 		this.visibleCoords = visibleCoords;
 	}
 
-
-    @Override
+	@Override
 	public String toString(){
     	return "Player : " + getName() + " | Port : " + getPortName();
 	}

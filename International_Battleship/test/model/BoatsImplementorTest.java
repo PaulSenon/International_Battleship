@@ -172,16 +172,19 @@ public class BoatsImplementorTest extends BaseTests {
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(50,25); // move EAST (while facing EAST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(100,25); // move EAST but boat(5) on (55,25)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should stop before
         assertEquals(new Coord(50, 25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(10,25); // move WEST (while facing EAST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
@@ -189,26 +192,31 @@ public class BoatsImplementorTest extends BaseTests {
         boat.setFacingDirection(Direction.WEST);
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,25); // move same place
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,26); // move SOUTH (facing WEST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(10,25);  // move WEST (facing WEST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(0,25); // move WEST but boat(5) on (5,25)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should block boat
         assertEquals(new Coord(10, 25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(50,25); // move EAST (facing WEST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
@@ -216,26 +224,31 @@ public class BoatsImplementorTest extends BaseTests {
         boat.setFacingDirection(Direction.SOUTH);
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,25); // move same place
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(26,25); // move WEST (facing SOUTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,50); // move SOUTH (facing SOUTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,100); // move SOUTH but boat(5) on (25,55)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should block boat
         assertEquals(new Coord(25, 50), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,10); // move NORTH (facing SOUTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
@@ -243,26 +256,31 @@ public class BoatsImplementorTest extends BaseTests {
         boat.setFacingDirection(Direction.NORTH);
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,25); // move same place
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(26,25); // move EST (facing NORTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,10); // move NORTH (facing NORTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,0); // move NORTH but boat(5) on (25,5)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should stop boat
         assertEquals(new Coord(25, 10), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,50); // move SOUTH (facing NORTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
     }
@@ -299,11 +317,13 @@ public class BoatsImplementorTest extends BaseTests {
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(50,25); // move EAST (while facing EAST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(100,25); // move EAST but boat(5) on (55,25)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should stop before
         assertEquals(new Coord(50, 25), boat.getCoord());
 
@@ -326,16 +346,19 @@ public class BoatsImplementorTest extends BaseTests {
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(10,25);  // move WEST (facing WEST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(0,25); // move WEST but boat(5) on (5,25)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should block boat
         assertEquals(new Coord(10, 25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(50,25); // move EAST (facing WEST)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
@@ -343,26 +366,31 @@ public class BoatsImplementorTest extends BaseTests {
         boat.setFacingDirection(Direction.SOUTH);
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,25); // move same place
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(26,25); // move WEST (facing SOUTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,50); // move SOUTH (facing SOUTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,100); // move SOUTH but boat(5) on (25,55)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should block boat
         assertEquals(new Coord(25, 50), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,10); // move NORTH (facing SOUTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
@@ -370,26 +398,31 @@ public class BoatsImplementorTest extends BaseTests {
         boat.setFacingDirection(Direction.NORTH);
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,25); // move same place
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(26,25); // move EST (facing NORTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,10); // move NORTH (facing NORTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should be OK
         assertEquals(coord, boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,0); // move NORTH but boat(5) on (25,5)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should stop boat
         assertEquals(new Coord(25, 10), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,50); // move SOUTH (facing NORTH)
+        boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
     }

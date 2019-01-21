@@ -136,12 +136,16 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         if(
                 ! currentPlayer.debitActionPoint(selectedBoat.getMoveCost(moveDistance))
                 || ! selectedBoat.isMoveOk(destination)
+                        //Check if the boat is allowed to move
+                || !selectedBoat.canMove()
         ){
             // Return boat pos without moving
             currentPlayer.undoLastAction();
             return selectedBoat.getProcessedPosition();
         }
 
+        //Prohibit the boat to move
+        selectedBoat.hasMoved();
         return this.moveBoatStepByStep(selectedBoat, destination);
     }
 
@@ -359,7 +363,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boat.getPlayerId();
     }
 
-    private List<BoatInterface> getPlayerFleet(PlayerInterface player){
+    public List<BoatInterface> getPlayerFleet(PlayerInterface player){
         List<BoatInterface> fleet = new ArrayList<>();
         for(int boatId : player.getFleet().keySet()){
             fleet.add(this.findBoayById(boatId));

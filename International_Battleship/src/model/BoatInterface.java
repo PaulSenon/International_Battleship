@@ -56,6 +56,12 @@ public interface BoatInterface {
 
 	boolean getDestroy();
 
+    boolean canMove();
+
+    void hasMoved();
+
+    void moveAutorization();
+
 	SpecialActionInterface getSpecialAction();
 
     void setProcessedPosition(ProcessedPosition processedPosition);
