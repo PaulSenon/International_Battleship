@@ -22,6 +22,14 @@ public class PlayersImplementor implements PlayersImplementorInterface {
         this.generatePlayers(playerNames);
     }
 
+    public PlayersImplementor(){
+        this.players = new ArrayList<>();
+    }
+
+    public PlayersImplementor(List<PlayerInterface> players){
+        this.players = players;
+    }
+
     private void generatePlayers(String[] playerNames){
         PlayerInterface player;
         for(String name : playerNames){
@@ -120,4 +128,12 @@ public class PlayersImplementor implements PlayersImplementorInterface {
 		}
 		return idPlayer;
 	}
+
+    @Override
+    public PlayerInterface createPlayer(int idPlayer) {
+        Player p = new Player(idPlayer,"Player"+idPlayer,"Port"+idPlayer);
+        p.generateFleet(GameConfig.getFleet());
+        players.add(p);
+        return p;
+    }
 }

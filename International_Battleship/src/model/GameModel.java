@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class GameModel implements GameModelInterface {
+public class GameModel implements GameModelInterface{
 
     // The implementor use to manage boats
     private BoatsImplementorInterface battleshipImplementor;
@@ -20,6 +20,7 @@ public class GameModel implements GameModelInterface {
 	// The selected boat (may be null)
     private BoatInterface selectedBoat;
     private PlayerInterface currentPlayer;
+    private PlayerInterface clientPlayer;
     private int turn;
 	private int day;
 
@@ -42,6 +43,60 @@ public class GameModel implements GameModelInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public GameModel(boolean isServer) {
+        // Create UID static instance
+        UniqueIdGenerator.newInstance();
+
+        this.selectedBoat = null;
+
+        try {
+            if(isServer){
+                playersImplementor = new PlayersImplementor();
+            }else {
+                playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public GameModel(List<PlayerInterface> players) {
+        // Create UID static instance
+        UniqueIdGenerator.newInstance();
+
+        this.selectedBoat = null;
+
+        try {
+
+            playersImplementor = new PlayersImplementor(players);
+
+            battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+
+            setupGame();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public PlayerInterface createPlayer(int idPlayer) {
+        return playersImplementor.createPlayer(idPlayer);
+    }
+
+    @Override
+    public void setProcessedPosition(ProcessedPosition processedPosition) {
+        this.battleshipImplementor.setProcessedPosition(processedPosition);
+
+    }
+
+    @Override
+    public void     setupGame() {
+        battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+        this.currentPlayer = playersImplementor.getPlayers().get(0);
     }
 
     /**
@@ -378,5 +433,22 @@ public class GameModel implements GameModelInterface {
 
     public boolean hasSelectedBoat(){
         return this.selectedBoat != null;
+    }
+
+    public void setClientPlayer(PlayerInterface clientPlayer) {
+        this.clientPlayer = clientPlayer;
+    }
+
+    public PlayerInterface getClientPlayer() {
+        return clientPlayer;
+    }
+
+    @Override
+    public boolean itsTurn() {
+        if (currentPlayer.equals(clientPlayer)) {
+            return true;
+        } else{
+            return false;
+        }
     }
 }

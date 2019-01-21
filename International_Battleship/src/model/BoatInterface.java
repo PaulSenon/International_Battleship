@@ -57,4 +57,6 @@ public interface BoatInterface {
 	boolean getDestroy();
 
 	SpecialActionInterface getSpecialAction();
+
+    void setProcessedPosition(ProcessedPosition processedPosition);
 }

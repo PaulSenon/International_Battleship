@@ -363,4 +363,10 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 		return nbBoat;
 	}
 
+    @Override
+    public void setProcessedPosition(ProcessedPosition processedPosition) {
+        BoatInterface boat = this.findBoayById(processedPosition.boatId);
+        boat.setProcessedPosition(processedPosition);
+    }
+
 }

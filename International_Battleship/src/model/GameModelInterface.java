@@ -48,5 +48,16 @@ public interface GameModelInterface {
     void nextPlayer();
 
     void unselectBoat();
+
     boolean hasSelectedBoat();
+
+    PlayerInterface createPlayer(int idPlayer);
+
+    void setProcessedPosition(ProcessedPosition processedPosition);
+
+    void setupGame();
+
+    PlayerInterface getClientPlayer();
+
+    boolean itsTurn();
 }

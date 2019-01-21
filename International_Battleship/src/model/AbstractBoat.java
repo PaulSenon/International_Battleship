@@ -309,7 +309,7 @@ public abstract class AbstractBoat implements BoatInterface {
      * @return ProcessedPosition (coords + direction)
      */
     public ProcessedPosition getProcessedPosition(){
-        return new ProcessedPosition(this.id, this.type, this.facingDirection, this.getCoords(), this.touchedFragmentIds);
+        return new ProcessedPosition(this.id, this.type, this.pivot, this.facingDirection, this.getCoords(), this.touchedFragmentIds);
     }
 
     public List<Coord> getVisibleCoords(){
@@ -449,5 +449,13 @@ public abstract class AbstractBoat implements BoatInterface {
 
     public SpecialActionInterface getSpecialAction() {
         return mySpecialAction;
+    }
+
+    public void setProcessedPosition(ProcessedPosition processedPosition){
+        this.facingDirection = processedPosition.direction;
+        this.touchedFragmentIds = processedPosition.brokenPartIds;
+        this.pivot = processedPosition.pivot;
+
+        this.refreshCoords();
     }
 }
