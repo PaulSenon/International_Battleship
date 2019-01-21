@@ -39,5 +39,7 @@ public interface GameGUIInterface {
 
 	void setVisibleBoats(List<Coord> list);
 
+    public void setControlsEnable(Boolean enable);
+
     boolean boatIsSelected();
 }

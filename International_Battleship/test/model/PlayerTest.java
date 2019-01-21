@@ -7,12 +7,14 @@ import testTools.BaseTests;
 import tools.GameConfig;
 import tools.PersonnalException;
 
+import java.awt.*;
+
 public class PlayerTest extends BaseTests {
 
 	@Before
 	public void setUp() {
 		// setup game config :
-		GameConfig.newInstance(
+		GameConfig.forceNewInstance(
 				25, // gameGridWidth
 				25, // gameGridHeight
 				20, // maxActionPoint
@@ -30,7 +32,8 @@ public class PlayerTest extends BaseTests {
 						BoatType.AircraftCarrier,
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
-				}
+				},
+				new Color(255, 247, 0, 255).getRGB()
 		);
 	}
 

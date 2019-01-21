@@ -24,20 +24,42 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      */
     private void generateBoatsFromFactory(List<PlayerInterface> players){
         //For each players add its boat to a list with all boats
-        int i = 2;
-        int j = 2;
+        int i = 0;
+        int j = 0;
         for (PlayerInterface p : players) {
             for (Map.Entry<Integer, BoatType> boatEntry : p.getFleet().entrySet()) {
                 BoatInterface boat;
-                if(i == 2){
-                    boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(5,j), p.getId());
-                }else{
-                    boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), new Coord(20,j+10), p.getId());
-                    boat.setFacingDirection(Direction.WEST);
+
+                Coord spawnPosition;
+                Direction spawnDirection;
+                switch (i){
+                    case 0:
+                        spawnPosition = new Coord(4, 2+j);
+                        spawnDirection = Direction.EAST;
+                        break;
+                    case 1:
+                        spawnPosition = new Coord(GameConfig.getGameGridWidth()-5-2+j, 4);
+                        spawnDirection = Direction.SOUTH;
+                        break;
+                    case 2:
+                        spawnPosition = new Coord(GameConfig.getGameGridWidth()-5, GameConfig.getGameGridHeight()-5-2+j);
+                        spawnDirection = Direction.WEST;
+                        break;
+                    case 3:
+                        spawnPosition = new Coord(2+j, GameConfig.getGameGridHeight()-5);
+                        spawnDirection = Direction.NORTH;
+                        break;
+                    default:
+                        System.out.println("BoatsImplementor ERROR: Generate fleet, there is too much fleets, please check your game configuration");
+                        spawnPosition = new Coord(-1,-1);
+                        spawnDirection = Direction.DEFAULT();
                 }
+                boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), spawnPosition, p.getId());
+                boat.setFacingDirection(spawnDirection);
                 this.boats.add(boat);
                 j++;
             }
+            j = 0;
             i++;
         }
     }
@@ -114,12 +136,16 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         if(
                 ! currentPlayer.debitActionPoint(selectedBoat.getMoveCost(moveDistance))
                 || ! selectedBoat.isMoveOk(destination)
+                        //Check if the boat is allowed to move
+                || !selectedBoat.canMove()
         ){
             // Return boat pos without moving
             currentPlayer.undoLastAction();
             return selectedBoat.getProcessedPosition();
         }
 
+        //Prohibit the boat to move
+        selectedBoat.hasMoved();
         return this.moveBoatStepByStep(selectedBoat, destination);
     }
 
@@ -219,8 +245,18 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @return if this position is allowed (else, undo it)
      */
     private boolean areCoordsAccessible(BoatInterface selectedBoat) {
+
         List<BoatInterface> boatsFound;
         for(Coord coord : selectedBoat.getCoords()){
+            // check: out of bounds
+            if(coord.getX() >= GameConfig.getGameGridWidth()
+                || coord.getX() < 0
+                || coord.getY() >= GameConfig.getGameGridHeight()
+                || coord.getY() < 0)
+            {
+                return false;
+            }
+            // check: boat collision
             boatsFound = this.findBoatsByCoord(coord);
             for(BoatInterface boatFound : boatsFound){
                 if(
@@ -327,7 +363,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boat.getPlayerId();
     }
 
-    private List<BoatInterface> getPlayerFleet(PlayerInterface player){
+    public List<BoatInterface> getPlayerFleet(PlayerInterface player){
         List<BoatInterface> fleet = new ArrayList<>();
         for(int boatId : player.getFleet().keySet()){
             fleet.add(this.findBoayById(boatId));
@@ -362,5 +398,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 		}
 		return nbBoat;
 	}
+
+    @Override
+    public void setProcessedPosition(ProcessedPosition processedPosition) {
+        BoatInterface boat = this.findBoayById(processedPosition.boatId);
+        boat.setProcessedPosition(processedPosition);
+    }
 
 }

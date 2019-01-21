@@ -10,6 +10,7 @@ public class GameConfig {
 	private static int nbMaxPlayer;
 	private static String[] players;
 	private static BoatType[] fleet;
+	private static int edgingColor;
 	
 	private static GameConfig instance = null;
 	
@@ -20,18 +21,44 @@ public class GameConfig {
 			int portSize,
 			int nbMaxPlayer,
 			String[] players,
-			BoatType[] fleet
+			BoatType[] fleet,
+			int edgingColor
 	) {
-		if (instance == null)
-			instance = new GameConfig(
-					gameGridWidth,
-					gameGridHeight,
-					maxActionPoint,
-					portSize,
-					nbMaxPlayer,
-					players,
-					fleet
+		if (instance == null){
+			return forceNewInstance(
+				gameGridWidth,
+				gameGridHeight,
+				maxActionPoint,
+				portSize,
+				nbMaxPlayer,
+				players,
+				fleet,
+				edgingColor
 			);
+		}
+		return instance;
+	}
+
+	public static GameConfig forceNewInstance(
+			int gameGridWidth,
+			int gameGridHeight,
+			int maxActionPoint,
+			int portSize,
+			int nbMaxPlayer,
+			String[] players,
+			BoatType[] fleet,
+			int edgingColor
+	){
+		instance = new GameConfig(
+				gameGridWidth,
+				gameGridHeight,
+				maxActionPoint,
+				portSize,
+				nbMaxPlayer,
+				players,
+				fleet,
+				edgingColor
+		);
 		return instance;
 	}
 	
@@ -42,7 +69,8 @@ public class GameConfig {
 			int portSize,
 			int nbMaxPlayer,
 			String[] players,
-			BoatType[] fleet
+			BoatType[] fleet,
+			int edgingColor
 	) {
 		GameConfig.gameGridWidth = gameGridWidth;
 		GameConfig.gameGridHeight = gameGridHeight;
@@ -51,6 +79,7 @@ public class GameConfig {
 		GameConfig.nbMaxPlayer = nbMaxPlayer;
 		GameConfig.players = players;
 		GameConfig.fleet = fleet;
+		GameConfig.edgingColor = edgingColor;
 	}
 	
 	public static int getGameGridWidth() {
@@ -74,4 +103,5 @@ public class GameConfig {
 	public static BoatType[] getFleet() {
 		return fleet;
 	}
+	public static int getEdgingColor() { return edgingColor;}
 }

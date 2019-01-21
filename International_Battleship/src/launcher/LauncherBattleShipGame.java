@@ -35,9 +35,9 @@ public class LauncherBattleShipGame {
                 4, // nbMaxPlayer
 				new String[]{
 						"José",
-//						"Théodule",
+						"Théodule",
 						"Yvonne",
-//						"Titouan"
+						"Titouan"
 				},
 				new BoatType[]{
 						BoatType.Cruiser,
@@ -45,14 +45,15 @@ public class LauncherBattleShipGame {
 						BoatType.AircraftCarrier,
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
-				}
+				},
+				new Color(255, 247, 0, 255).getRGB()
 		);
 
 		final JFrame jframe = new JFrame("Menu");
 		jframe.setSize(300, 500);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = jframe.getContentPane();
-		JPanel jp = new JPanel();
+		final JPanel jp = new JPanel();
 		c.add(jp);
 
 
@@ -88,7 +89,7 @@ public class LauncherBattleShipGame {
 		multi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				launchMultiplayer(editText);
+				launchMultiplayer(editText,jp);
 			}
 		});
 
@@ -119,7 +120,7 @@ public class LauncherBattleShipGame {
 		jp.add(join);
 		jp.add(editText);
 		jp.add(close);
-		jp.add(textArea);
+		//jp.add(textArea);
 
 		jframe.setVisible(true);
 	}
@@ -128,16 +129,28 @@ public class LauncherBattleShipGame {
 	 * Cette fonction permet de lancer la mode multijoueur
 	 * Elle instancie le serveur, connecte le premier joueur dessus
 	 */
-	public static void launchMultiplayer(JEditorPane editText){
-		Server server = new Server(editText.getText());
+	public static void launchMultiplayer(JEditorPane editText,JPanel jp){
+		final Server server = new Server(editText.getText());
 		server.open();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Thread t = new Thread(new Client(editText.getText(),8080));
-		t.start();
+		//Thread t = new Thread(new Client(editText.getText(),8080));
+		//t.start();
+
+		JButton start = new JButton("Start");
+		start.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				server.startGame();
+			}
+		});
+
+		jp.add(start);
+		jp.repaint();
+
 	}
 
 	/**
