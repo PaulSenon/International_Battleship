@@ -22,7 +22,7 @@ public class GameModelTest extends BaseTests {
     @Before
     public void setUp() throws Exception {
         // setup game config :
-        GameConfig.newInstance(
+        GameConfig.forceNewInstance(
                 25, // gameGridWidth
                 25, // gameGridHeight
                 20, // maxActionPoint
@@ -130,7 +130,7 @@ public class GameModelTest extends BaseTests {
     public void testRotateBoatOutOfGameBoard() {
         // setup
             // create the boat
-            AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 1), 4, Direction.EAST);
+            AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 23), 4, Direction.EAST);
             // add it to implementor
             List<BoatInterface> boats = (List<BoatInterface>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
             boats.add(boat);
@@ -139,23 +139,29 @@ public class GameModelTest extends BaseTests {
         // try one way
         assertEquals(Direction.EAST, boat.getDirection());
         assertEquals(0, boat.getDirection().rotation);
+
         this.gameModel.rotateBoatCounterClockWise();
         assertEquals(Direction.NORTH, boat.getDirection());
         assertEquals(-90, boat.getDirection().rotation);
+
         this.gameModel.rotateBoatCounterClockWise();
         assertEquals(Direction.WEST, boat.getDirection());
         assertEquals(180, boat.getDirection().rotation);
+
         // go out of bounds (should block)
         this.gameModel.rotateBoatCounterClockWise();
         assertEquals(Direction.WEST, boat.getDirection());
         assertEquals(180, boat.getDirection().rotation);
+
         // try the other way
         this.gameModel.rotateBoatClockWise();
         assertEquals(Direction.NORTH, boat.getDirection());
         assertEquals(-90, boat.getDirection().rotation);
+
         this.gameModel.rotateBoatClockWise();
         assertEquals(Direction.EAST, boat.getDirection());
         assertEquals(0, boat.getDirection().rotation);
+
         // go out of bounds (should block)
         this.gameModel.rotateBoatClockWise();
         assertEquals(Direction.EAST, boat.getDirection());
@@ -241,20 +247,19 @@ public class GameModelTest extends BaseTests {
     public void testMoveBoatBlockedByAnotherShip() {
         // setup
             // create the boat
-            AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(25, 11), 5, Direction.WEST);
+            AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(20, 11), 5, Direction.WEST);
             // add it to implementor
             List<BoatInterface> boats = (List<BoatInterface>) Reflection.getFieldByReflection(this.boatsImplementor, "boats");
             boats.add(boat);
             Reflection.setFieldByReflection(this.gameModel, "selectedBoat", boat);
 
-        this.gameModel.moveBoat(20, 11);
-        assertEquals(new Coord(20, 11),boat.getPivot());
+        this.gameModel.moveBoat(17, 11);
+        assertEquals(new Coord(17, 11),boat.getPivot());
         this.gameModel.moveBoat(5, 11);
         assertEquals(new Coord(15, 11),boat.getPivot());
     }
 
     @Test
-    @Ignore
     public void testMoveBoatOutOfGameBoard() {
         // setup
         // create the boat
@@ -266,8 +271,8 @@ public class GameModelTest extends BaseTests {
 
         this.gameModel.moveBoat(15, 10);
         assertEquals(new Coord(15, 10),boat.getPivot());
-        this.gameModel.moveBoat(25, 10);
-        assertEquals(new Coord(15, 10),boat.getPivot());
+        this.gameModel.moveBoat(500, 10);
+        assertEquals(new Coord(22, 10),boat.getPivot());
     }
 
     @Test

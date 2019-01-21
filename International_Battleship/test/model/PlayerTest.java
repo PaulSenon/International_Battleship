@@ -12,7 +12,7 @@ public class PlayerTest extends BaseTests {
 	@Before
 	public void setUp() {
 		// setup game config :
-		GameConfig.newInstance(
+		GameConfig.forceNewInstance(
 				25, // gameGridWidth
 				25, // gameGridHeight
 				20, // maxActionPoint

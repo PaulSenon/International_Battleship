@@ -219,8 +219,18 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @return if this position is allowed (else, undo it)
      */
     private boolean areCoordsAccessible(BoatInterface selectedBoat) {
+
         List<BoatInterface> boatsFound;
         for(Coord coord : selectedBoat.getCoords()){
+            // check: out of bounds
+            if(coord.getX() >= GameConfig.getGameGridWidth()
+                || coord.getX() < 0
+                || coord.getY() >= GameConfig.getGameGridHeight()
+                || coord.getY() < 0)
+            {
+                return false;
+            }
+            // check: boat collision
             boatsFound = this.findBoatsByCoord(coord);
             for(BoatInterface boatFound : boatsFound){
                 if(
