@@ -24,14 +24,15 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     private ActionPointGUI PAPanel;
     private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
+    private List<ButtonGUI> buttons;
     private ButtonGUI buttonGUITirer;
     private ButtonGUI buttonRotateCounterClockWise;
 	private ButtonGUI buttonRotateClockWise;
     private ButtonGUI buttonGUIDéplacer;
     private ButtonGUI buttonGUIActionSpéciale;
-    public GridGUI battleShipGridGUI;
     public ButtonGUI battleShipButtonGUI;
     public ButtonGUI buttonGUIFinTour;
+    public GridGUI battleShipGridGUI;
 
     public List<ButtonGUI> listOfButtons;
 
@@ -41,7 +42,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     // Constructor
     public GameGUI(){
     	super();
-
+    	this.buttons = new ArrayList<>();
     	Container contentPane = this.getContentPane();
         contentPane.setLayout(new GridBagLayout());
 
@@ -78,23 +79,27 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                 // Create of Button in the "actions" panel
                     this.buttonGUITirer = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
                     controlsPanel.add(this.buttonGUITirer, buttonsConstraints);
+                    this.buttons.add(this.buttonGUITirer);
 
                     buttonsConstraints.gridy++;
                     this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
                     controlsPanel.add(this.buttonRotateClockWise, buttonsConstraints);
+					this.buttons.add(this.buttonRotateClockWise);
 
                     buttonsConstraints.gridy++;
                     this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
                     controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
+					this.buttons.add(this.buttonRotateCounterClockWise);
 
 					buttonsConstraints.gridy++;
 					this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
 					controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
+					this.buttons.add(this.buttonGUIActionSpéciale);
 
 					buttonsConstraints.gridy++;
 					this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
 					controlsPanel.add(this.buttonGUIFinTour, buttonsConstraints);
-
+					this.buttons.add(this.buttonGUIFinTour);
 
 
                 //Store buttons in a list // TODO is this useful ?
@@ -247,6 +252,12 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.gridGUI.setVisibleBoats(visibleCoordCurrentPlayer);
 		this.revalidate();
 		this.repaint();
+	}
+
+	public void setControlsEnable(Boolean enable){
+		for (ButtonGUI button: this.buttons) {
+			button.setEnabled(enable);
+		}
 	}
 
     public boolean boatIsSelected(){
