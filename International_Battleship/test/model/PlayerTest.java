@@ -7,6 +7,8 @@ import testTools.BaseTests;
 import tools.GameConfig;
 import tools.PersonnalException;
 
+import java.awt.*;
+
 public class PlayerTest extends BaseTests {
 
 	@Before
@@ -30,7 +32,8 @@ public class PlayerTest extends BaseTests {
 						BoatType.AircraftCarrier,
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
-				}
+				},
+				new Color(255, 247, 0, 255).getRGB()
 		);
 	}
 

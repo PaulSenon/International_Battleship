@@ -65,6 +65,7 @@ public class BoatFragmentGUI extends JLabel{
 			this.index = imageIndex;
 			this.imageName = "";
 			this.fragmentVisible = false;
+			this.isSelected = false;
 
 			/*
 			try {
@@ -154,7 +155,8 @@ public class BoatFragmentGUI extends JLabel{
 					System.out.println("Wrong boat type");
 					break;
 			}
-			this.image = ImageManager.getImageCopy(this.imageName);
+		this.imageSelected = ImageFilter.edgingColoration(ImageManager.getImageCopy(this.imageName));
+		this.image = ImageManager.getImageCopy(this.imageName);
 			this.repaint();
 	}
 
@@ -189,7 +191,7 @@ public class BoatFragmentGUI extends JLabel{
     	this.direction = direction;
 		try {
 			this.image = ImageManager.getImageCopyRotated(this.imageName, direction.rotation);
-			this.imageSelected = ImageManager.getImageCopyRotated(this.imageSelectedName, direction.rotation);
+			this.imageSelected = ImageFilter.edgingColoration(ImageManager.getImageCopyRotated(this.imageName, direction.rotation));
 		} catch (IOException e) {
 			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
 		}
@@ -207,12 +209,9 @@ public class BoatFragmentGUI extends JLabel{
 
         // draw its sprite image on the whole plane
 		if(isSelected) {
-			//Appel de la méthode edgingColoration et draw l'image colorée
-			this.image = ImageFilter.edgingColoration(this.image);
-			g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+			g.drawImage(this.imageSelected, 0, 0, getWidth(), getHeight(), this);
 		}
 		else {
-			this.image = ImageManager.getImageCopy(this.imageName);
 			g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
 		}
 
