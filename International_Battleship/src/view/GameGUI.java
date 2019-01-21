@@ -159,6 +159,15 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.gridGUI.setProcessedPosition(processedPosition);
 	}
 
+    @Override
+	public void setProcessedProps(List<ProcessedProps> processedProps) {
+		this.gridGUI.setProcessedProps(processedProps);
+	}
+
+	public void setProcessedProps(ProcessedProps processedProps) {
+		this.gridGUI.setProcessedProps(processedProps);
+	}
+
 	public List<BoatInterface> getListOfBoat() {
 		return this.listOfBoat;
 	}
@@ -168,8 +177,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.listOfBoat = listOfBoat;
 	}
 
-	public void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer){
-		this.gridGUI.initGrid(initBoatPos, boatRelatedToPlayer);
+	public void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer, List<ProcessedProps> processedProps){
+		this.gridGUI.initGrid(initBoatPos, boatRelatedToPlayer, processedProps);
 		this.revalidate();
 		this.repaint();
 	}
@@ -215,27 +224,19 @@ public class GameGUI extends JFrame implements GameGUIInterface{
         this.PAPanel.disableAction();
     }
 
-	public void displayResult(ResultShoot result, Coord target){
-		if(result != ResultShoot.FORBIDDEN){
-			this.gridGUI.displayResult(result, target);
-		}
-		if(!result.equals(ResultShoot.DESTROYED)) {
-			this.textArea.setText("");
-		}
-		else {
-			this.textArea.setText("Le bateau ciblé a été détruit.");
-		}
-
-		// TODO c'est pas beau mais sinon
-		this.revalidate();
-		this.repaint();
-    }
-
 	@Override
 	public void setVisibleBoats(List<Coord> visibleCoordCurrentPlayer) {
 		this.gridGUI.setVisibleBoats(visibleCoordCurrentPlayer);
 		this.revalidate();
 		this.repaint();
+	}
+
+	@Override
+	public void setVisibleMines(List<Coord> visibleCoordCurrentPlayer) {
+		this.gridGUI.setVisibleMines(visibleCoordCurrentPlayer);
+		this.revalidate();
+		this.repaint();
+
 	}
 
 	public void setControlsEnabled(Boolean enable){

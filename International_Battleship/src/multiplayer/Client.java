@@ -1,15 +1,18 @@
 package multiplayer;
 
 import controler.ControllerClient;
-import controler.ControllerLocal;
-import model.*;
+import model.GameModel;
+import model.Player;
+import model.PlayerInterface;
 import tools.ProcessedPosition;
+import tools.ProcessedProps;
 import view.GameGUI;
-import view.GameGUIInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -86,6 +89,10 @@ public class Client implements Runnable{
                 if (answer instanceof ProcessedPosition) {
                     ProcessedPosition pp = (ProcessedPosition) answer;
                     controller.update(pp);
+                }else if (answer instanceof ProcessedProps) {
+                    ProcessedProps pp = (ProcessedProps) answer;
+                    controller.update(pp);
+
                 }else if(answer instanceof String){
                     switch ((String)answer){
                         case "endOfTurn":
@@ -150,6 +157,17 @@ public class Client implements Runnable{
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void sendProcessedProps(List<ProcessedProps> processedProps) {
+        for (ProcessedProps pp : processedProps) {
+            try {
+                writer.writeObject(pp);
+                writer.flush();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import controler.ControllerLocal;
 import controler.ControllerModelViewInterface;
 import model.BoatType;
 import model.GameModel;
+import model.ProcessedPropsManager;
 import multiplayer.Client;
 import multiplayer.Server;
 import tools.ConsoleOutputStream;
@@ -50,6 +51,8 @@ public class LauncherBattleShipGame {
 
 		// setup image manager :
 				ImageManager.newInstance();
+// setup processedPropsManager :
+			ProcessedPropsManager.newInstance();
 
 		final JFrame jframe = new JFrame("Menu");
 		jframe.setSize(1130, 800);

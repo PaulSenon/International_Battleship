@@ -5,16 +5,10 @@ import model.exceptions.SelectBoatException;
 import tools.*;
 
 import javax.swing.*;
-
-import java.awt.Color;
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.LinkedList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class GameModel implements GameModelInterface{
 
@@ -23,6 +17,9 @@ public class GameModel implements GameModelInterface{
 
     // The implementor use to manage players
     private PlayersImplementorInterface playersImplementor;
+    
+    // The implementor use to manage mines
+    private MineImplementorInterface minesImplementor;
 
 	// The selected boat (may be null)
     private BoatInterface selectedBoat;
@@ -44,11 +41,14 @@ public class GameModel implements GameModelInterface{
         this.turn = 1;
 
         try {
-            playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
-            battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+        	this.minesImplementor = new MineImplementor();
+            this.playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
+            this.battleshipImplementor = new BoatsImplementor(this.playersImplementor.getPlayers(), this.minesImplementor);
+            this.battleshipImplementor.generateRandomMines(20);
+
             // TODO debug, to set the first player... May be not clean...
-            this.currentPlayer = playersImplementor.getPlayers().get(0);
-            portImplementor = new PortImplementor(playersImplementor.getPlayers());
+            this.currentPlayer = this.playersImplementor.getPlayers().get(0);
+            this.portImplementor = new PortImplementor(this.playersImplementor.getPlayers());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,9 +62,9 @@ public class GameModel implements GameModelInterface{
 
         try {
             if(isServer){
-                playersImplementor = new PlayersImplementor();
+                this.playersImplementor = new PlayersImplementor();
             }else {
-                playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
+                this.playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,11 +78,9 @@ public class GameModel implements GameModelInterface{
         this.selectedBoat = null;
 
         try {
-
-            playersImplementor = new PlayersImplementor(players);
-
-            battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
-            portImplementor = new PortImplementor(playersImplementor.getPlayers());
+            this.minesImplementor = new MineImplementor();
+            this.playersImplementor = new PlayersImplementor(players);
+            this.portImplementor = new PortImplementor(this.playersImplementor.getPlayers());
             setupGame();
 
         } catch (Exception e) {
@@ -103,9 +101,10 @@ public class GameModel implements GameModelInterface{
     }
 
     @Override
-    public void     setupGame() {
-        battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+    public void setupGame() {
+        this.battleshipImplementor = new BoatsImplementor(this.playersImplementor.getPlayers(), this.minesImplementor);
         this.currentPlayer = playersImplementor.getPlayers().get(0);
+        this.battleshipImplementor.generateRandomMines(20);
     }
 
     /**
@@ -182,7 +181,7 @@ public class GameModel implements GameModelInterface{
         }
 
         // processing : boat rotation
-        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise).getFirst();
+        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise);
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
             return processedPosition;
@@ -230,6 +229,12 @@ public class GameModel implements GameModelInterface{
      * @return boolean (to tell if it's doing well or not)
      */
     public ProcessedPosition selectBoat(int x, int y) throws SelectBoatException {
+        // Test for multiplayer
+        if(clientPlayer!= null && clientPlayer.getId() != currentPlayer.getId()){
+            throw new SelectBoatException("Not your turn");
+        }
+
+
         // transform into coord to use through model
         Coord coord = new Coord(x, y);
 
@@ -293,27 +298,32 @@ public class GameModel implements GameModelInterface{
      * @return
      */
     @Override
-	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
-    	Pair<ResultShoot, ProcessedPosition> ret;
+	public ProcessedPosition shoot(Coord target) {
     	// error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
         }
-		ret = battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
-		if(ret.getFirst().equals(ResultShoot.DESTROYED)){
-			int idPlayer = this.battleshipImplementor.findBoayById(ret.getSecond().boatId).getPlayerId();
-			int nbBoatPlayer = this.battleshipImplementor.getRemainsBoatsByPlayer(idPlayer);
-			if (nbBoatPlayer == 0) {
-				this.playersImplementor.findById(idPlayer).setEliminate(true);
-			}
-		}
+		ProcessedPosition ret = battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
+        endActionRoutine();
 		return ret;
 	}
+
+	private void endActionRoutine(){
+        // TODO test endgame and other things
+        if(this.battleshipImplementor.getRemainsBoatsByPlayer(this.currentPlayer.getId()) == 0){
+            this.playersImplementor.findById(this.currentPlayer.getId()).setEliminate(true);
+        }
+    }
 
     public Map<Integer, ProcessedPosition> getListOfBoat(){
         return this.battleshipImplementor.getBoats();
     }
+    
+	@Override
+	public Map<Integer, ProcessedProps> getListOfMine() {
+		return this.minesImplementor.getListOfMines();
+	}
 
     public Map<Integer, Integer> getBoatsAndPlayersId(){
         return this.battleshipImplementor.getBoatsAndPlayersId();
@@ -325,13 +335,14 @@ public class GameModel implements GameModelInterface{
     }
 
     public List<Coord> getVisibleCoords(PlayerInterface player) {
-    	List<Coord> visibleCoordsPort = new ArrayList<Coord>(this.portImplementor.getVisibleCoords(player).keySet());
-    	List<Coord> visibleCoordsBoat = this.battleshipImplementor.getVisibleCoords(player);
-    	for (Coord coord: visibleCoordsBoat){
-    		if (!visibleCoordsPort.contains(coord))
-    			visibleCoordsPort.add(coord);
-    	}
-        return visibleCoordsPort;
+    	List<Coord> visibleCoords = new ArrayList<>();
+    	visibleCoords.addAll(new ArrayList<>(this.portImplementor.getVisibleCoords(player).keySet())); // add ports visible coords
+    	visibleCoords.addAll(this.battleshipImplementor.getVisibleCoords(player)); // add boats visible coords
+    	visibleCoords.addAll(this.minesImplementor.getVisibleCoords(player.getId())); // add boats visible coords
+
+        // remove duplicates
+        visibleCoords = new ArrayList<>(new HashSet<>(visibleCoords));
+        return visibleCoords;
     }
 
     public List<Coord> getVisibleCoordsCurrentPlayer() {
@@ -359,7 +370,7 @@ public class GameModel implements GameModelInterface{
     }
 
 	@Override
-	public List<Pair<ResultShoot, ProcessedPosition>> specialAction(Coord coordSquare) {
+	public List<ProcessedPosition> specialAction(Coord coordSquare) {
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
@@ -471,10 +482,6 @@ public class GameModel implements GameModelInterface{
 		return playersImplementor;
 	}
 
-	public void setPlayersImplementor(PlayersImplementorInterface playersImplementor) {
-		this.playersImplementor = playersImplementor;
-	}
-
     /**
      * To check if the current player has a selected boat
      * @return
@@ -520,4 +527,21 @@ public class GameModel implements GameModelInterface{
 
         return this.selectedBoat.getSpecialActionCost() <= this.currentPlayer.getNbActionPoint();
     }
+
+    @Override
+    public boolean isInstantActionForCurrentBoat() {
+        return this.selectedBoat.getSpecialAction() instanceof InstantAction;
+    }
+
+    @Override
+    public void setProcessedPosition(ProcessedProps processedProps) {
+        if(processedProps.type == PropsType.FX) return;
+
+        this.minesImplementor.processMineProcessedProps(processedProps);
+    }
+
+    @Override
+	public List<ProcessedProps> getProcessedPropsToUpdate() {
+        return ProcessedPropsManager.flushQueue();
+	}
 }

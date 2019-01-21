@@ -48,7 +48,7 @@ public class GameModelTest extends BaseTests {
         // create boats implementor
         List<PlayerInterface> players = new ArrayList<>();
         List<BoatType> boatTypes = new ArrayList<>();
-        this.boatsImplementor = new BoatsImplementor(players);
+        this.boatsImplementor = new BoatsImplementor(players, new MineImplementor());
 
         // add some test boats on the game board
         // TODO change values

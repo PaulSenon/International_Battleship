@@ -2,9 +2,7 @@ package model;
 
 
 import tools.Coord;
-import tools.Pair;
 import tools.ProcessedPosition;
-import tools.ResultShoot;
 
 import java.util.List;
 import java.util.Observable;
@@ -54,7 +52,7 @@ public abstract class GameModelObs extends Observable implements GameModelInterf
 	}
 
 	@Override
-	public List<Pair<ResultShoot, ProcessedPosition>> specialAction(Coord coordSquare) {
+	public List<ProcessedPosition> specialAction(Coord coordSquare) {
 		// TODO Auto-generated method stub
 		return null;
 	}

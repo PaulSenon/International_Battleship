@@ -1,16 +1,15 @@
 package model;
 
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import testTools.Reflection;
+import tools.Coord;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import testTools.Reflection;
-import tools.Coord;
+import static org.junit.Assert.assertEquals;
 
 public class MineImplementorTest {
 	

@@ -1,13 +1,13 @@
 package model;
 
-import java.awt.Color;
+import tools.Coord;
+import tools.GameConfig;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import tools.Coord;
-import tools.GameConfig;
 
 public class PortImplementor implements PortImplementorInterface {
 
