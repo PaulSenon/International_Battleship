@@ -58,4 +58,6 @@ public interface GameModelInterface {
     void setupGame();
 
     PlayerInterface getClientPlayer();
+
+    boolean itsTurn();
 }

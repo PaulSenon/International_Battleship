@@ -42,6 +42,8 @@ public class ControllerClient implements ControllerModelViewInterface {
 //		    this.gameGUI.setCurrentAction(ActionType.MOVE);//on change la valeur du ActionType pour la return après
 //            this.gameGUI.setSelectedBoatByCoord(x,y);
 //        }
+
+        if(!this.gameModel.itsTurn())return;
         ProcessedPosition processedPosition = this.gameModel.selectBoat(x, y);
         if(processedPosition != null){
             this.gameGUI.setCurrentAction(ActionType.MOVE);
@@ -64,6 +66,7 @@ public class ControllerClient implements ControllerModelViewInterface {
             this.gameGUI.setCurrentAction(ActionType.SELECT);
             this.gameGUI.setProcessedPotion(processedPosition);
             this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
             this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
             this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
         }else{
@@ -75,6 +78,8 @@ public class ControllerClient implements ControllerModelViewInterface {
 
     public void update(ProcessedPosition processedPosition){
         this.gameGUI.setProcessedPotion(processedPosition);
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         this.gameModel.setProcessedPosition(processedPosition);
     }
 

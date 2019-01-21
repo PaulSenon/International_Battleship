@@ -442,4 +442,13 @@ public class GameModel implements GameModelInterface{
     public PlayerInterface getClientPlayer() {
         return clientPlayer;
     }
+
+    @Override
+    public boolean itsTurn() {
+        if (currentPlayer.equals(clientPlayer)) {
+            return true;
+        } else{
+            return false;
+        }
+    }
 }
