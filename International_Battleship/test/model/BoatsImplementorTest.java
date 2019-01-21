@@ -20,7 +20,7 @@ public class BoatsImplementorTest extends BaseTests {
 
     @Before
     public void setUp() throws Exception {
-        GameConfig.newInstance(
+        GameConfig.forceNewInstance(
                 100, // gameGridWidth
                 100, // gameGridHeight
                 20, // maxActionPoint
@@ -304,7 +304,7 @@ public class BoatsImplementorTest extends BaseTests {
         boat.moveHard(new Coord(25,25));
         coord = new Coord(100,25); // move EAST but boat(5) on (55,25)
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should stop before
-        assertEquals(new Coord(51, 25), boat.getCoord());
+        assertEquals(new Coord(50, 25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(10,25); // move WEST (while facing EAST)
@@ -331,7 +331,7 @@ public class BoatsImplementorTest extends BaseTests {
         boat.moveHard(new Coord(25,25));
         coord = new Coord(0,25); // move WEST but boat(5) on (5,25)
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should block boat
-        assertEquals(new Coord(9, 25), boat.getCoord());
+        assertEquals(new Coord(10, 25), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(50,25); // move EAST (facing WEST)
@@ -358,7 +358,7 @@ public class BoatsImplementorTest extends BaseTests {
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,100); // move SOUTH but boat(5) on (25,55)
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should block boat
-        assertEquals(new Coord(25, 51), boat.getCoord());
+        assertEquals(new Coord(25, 50), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,10); // move NORTH (facing SOUTH)
@@ -385,7 +385,7 @@ public class BoatsImplementorTest extends BaseTests {
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,0); // move NORTH but boat(5) on (25,5)
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should stop boat
-        assertEquals(new Coord(25, 9), boat.getCoord());
+        assertEquals(new Coord(25, 10), boat.getCoord());
 
         boat.moveHard(new Coord(25,25));
         coord = new Coord(25,50); // move SOUTH (facing NORTH)
