@@ -3,6 +3,7 @@ package view;
 import model.BoatType;
 import tools.Coord;
 import tools.Direction;
+import tools.ImageFilter;
 import tools.ImageManager;
 
 import javax.swing.*;
@@ -64,6 +65,7 @@ public class BoatFragmentGUI extends JLabel{
 			this.index = imageIndex;
 			this.imageName = "";
 			this.fragmentVisible = false;
+			this.isSelected = false;
 
 			/*
 			try {
@@ -88,23 +90,18 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Aircraft/0.png";
-							this.imageSelectedName = "Aircraft/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Aircraft/1.png";
-							this.imageSelectedName = "Aircraft/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Aircraft/2.png";
-							this.imageSelectedName = "Aircraft/2Selected.png";
 							break;
 						case 3:
 							this.imageName = "Aircraft/3.png";
-							this.imageSelectedName = "Aircraft/3Selected.png";
 							break;
 						case 4:
 							this.imageName = "Aircraft/4.png";
-							this.imageSelectedName = "Aircraft/4Selected.png";
 							break;
 					}
 					break;
@@ -112,19 +109,15 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Cruiser/0.png";
-							this.imageSelectedName = "Cruiser/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Cruiser/1.png";
-							this.imageSelectedName = "Cruiser/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Cruiser/2.png";
-							this.imageSelectedName = "Cruiser/2Selected.png";
 							break;
 						case 3:
 							this.imageName = "Cruiser/3.png";
-							this.imageSelectedName = "Cruiser/3Selected.png";
 							break;
 					}
 					break;
@@ -132,15 +125,12 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Submarine/0.png";
-							this.imageSelectedName = "Submarine/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Submarine/1.png";
-							this.imageSelectedName = "Submarine/1Selected.png";
 							break;
 						case 2:
 							this.imageName = "Submarine/2.png";
-							this.imageSelectedName = "Submarine/2Selected.png";
 							break;
 					}
 					break;
@@ -148,11 +138,9 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Torpedo/0.png";
-							this.imageSelectedName = "Torpedo/0Selected.png";
 							break;
 						case 1:
 							this.imageName = "Torpedo/1.png";
-							this.imageSelectedName = "Torpedo/1Selected.png";
 							break;
 					}
 					break;
@@ -160,7 +148,6 @@ public class BoatFragmentGUI extends JLabel{
 					switch (imageIndex) {
 						case 0:
 							this.imageName = "Sentinel/0.png";
-							this.imageSelectedName = "Sentinel/0Selected.png";
 							break;
 					}
 					break;
@@ -168,8 +155,8 @@ public class BoatFragmentGUI extends JLabel{
 					System.out.println("Wrong boat type");
 					break;
 			}
-			this.image = ImageManager.getImageCopy(this.imageName);
-			this.imageSelected = ImageManager.getImageCopy(this.imageSelectedName);
+		this.imageSelected = ImageFilter.edgingColoration(ImageManager.getImageCopy(this.imageName));
+		this.image = ImageManager.getImageCopy(this.imageName);
 			this.repaint();
 	}
 
@@ -204,7 +191,7 @@ public class BoatFragmentGUI extends JLabel{
     	this.direction = direction;
 		try {
 			this.image = ImageManager.getImageCopyRotated(this.imageName, direction.rotation);
-			this.imageSelected = ImageManager.getImageCopyRotated(this.imageSelectedName, direction.rotation);
+			this.imageSelected = ImageFilter.edgingColoration(ImageManager.getImageCopyRotated(this.imageName, direction.rotation));
 		} catch (IOException e) {
 			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
 		}
@@ -221,10 +208,12 @@ public class BoatFragmentGUI extends JLabel{
 		if (!this.isFragmentVisible()) return;
 
         // draw its sprite image on the whole plane
-		if(isSelected)
+		if(isSelected) {
 			g.drawImage(this.imageSelected, 0, 0, getWidth(), getHeight(), this);
-		else
+		}
+		else {
 			g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+		}
 
         // display something to show that the fragment is broken
 		if(this.broken){

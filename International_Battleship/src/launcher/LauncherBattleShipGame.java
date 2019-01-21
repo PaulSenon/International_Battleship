@@ -45,7 +45,8 @@ public class LauncherBattleShipGame {
 						BoatType.AircraftCarrier,
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
-				}
+				},
+				new Color(255, 247, 0, 255).getRGB()
 		);
 
 		final JFrame jframe = new JFrame("Menu");

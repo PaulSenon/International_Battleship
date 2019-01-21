@@ -10,6 +10,7 @@ import tools.Coord;
 import tools.Direction;
 import tools.GameConfig;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,8 @@ public class GameModelTest extends BaseTests {
                         BoatType.AircraftCarrier,
                         BoatType.Sentinel,
                         BoatType.TorpedoBoat
-                }
+                },
+                new Color(255, 247, 0, 255).getRGB()
         );
 
         // create boats implementor
