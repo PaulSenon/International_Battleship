@@ -244,7 +244,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
 
         // Init boats on board
         Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
-        this.gameGUI.initGame(initBoatPos);
+        Map<Integer, Integer> boatsRelatedToPlayers = this.gameModel.getBoatsAndPlayersId();
+        this.gameGUI.initGame(initBoatPos, boatsRelatedToPlayers);
         // Init currentAction
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // Init visible area
@@ -280,4 +281,5 @@ public class ControllerLocal implements ControllerModelViewInterface {
         // update controls
         this.routineUpdates();
 	}
+
 }

@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -314,6 +315,10 @@ public class GameModel implements GameModelInterface{
         return this.battleshipImplementor.getBoats();
     }
 
+    public Map<Integer, Integer> getBoatsAndPlayersId(){
+        return this.battleshipImplementor.getBoatsAndPlayersId();
+    }
+
     @Override
     public int getApCurrentPlayer() {
         return this.currentPlayer.getNbActionPoint();
@@ -332,7 +337,7 @@ public class GameModel implements GameModelInterface{
     public List<Coord> getVisibleCoordsCurrentPlayer() {
         return this.getVisibleCoords(this.currentPlayer);
     }
-    
+
     public Map <Coord, Color> getPortsCoords(PlayerInterface clientPlayer){
     	Map<Coord, Color> visibleCoordsBoat = this.portImplementor.getColorOfCoord(this.battleshipImplementor.getVisibleCoords(clientPlayer));
     	Map<Coord, Color> visibleCoordsPort = this.portImplementor.getVisibleCoords(clientPlayer);
@@ -343,7 +348,7 @@ public class GameModel implements GameModelInterface{
     	}
     	return visibleCoordsPort;
     }
-    
+
     public Map <Coord, Color> getPortsCoordsCurrentPlayer() {
     	return getPortsCoords(this.currentPlayer);
     }

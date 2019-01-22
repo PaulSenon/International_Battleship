@@ -1,12 +1,10 @@
 package model;
 
-
 import java.io.Serializable;
 import java.util.List;
 
 import tools.Coord;
 
-import java.util.List;
 import java.util.Map;
 
 public interface PlayerInterface extends Serializable{
@@ -38,9 +36,9 @@ public interface PlayerInterface extends Serializable{
     List<Coord> getVisibleCoords();
 
     void setVisibleCoords(List<Coord> visibleCoords);
-
+    
     boolean isEliminate();
-
+    
     void setEliminate(boolean eliminate);
 
 }

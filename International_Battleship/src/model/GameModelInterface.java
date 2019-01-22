@@ -67,9 +67,12 @@ public interface GameModelInterface {
 
     Map <Coord, Color>  getPortsCoords(PlayerInterface clientPlayer);
 
+	Map<Integer, Integer> getBoatsAndPlayersId();
+
     boolean canCurrentBoatShoot();
 
     boolean canCurrentBoatRotate();
 
     boolean canCurrentBoatDoSpecialAction();
+
 }

@@ -345,6 +345,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         return boatInitPos;
     }
 
+    public Map<Integer, Integer> getBoatsAndPlayersId() {
+        Map<Integer,Integer> boatsAndPlayersId = new HashMap<>();
+        for (BoatInterface boat: this.boats) {
+        	boatsAndPlayersId.put(boat.getId(),boat.getPlayerId());
+        }
+        return boatsAndPlayersId;
+    }
+    
     public List<Coord> getVisibleCoords(PlayerInterface player){
         List<BoatInterface> fleet = this.getPlayerFleet(player);
         List<Coord> visibleCoords = new ArrayList<>();
