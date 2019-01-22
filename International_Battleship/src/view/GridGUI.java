@@ -116,6 +116,7 @@ public class GridGUI extends JLayeredPane {
 	 * @param processedPosition
 	 */
 	public void setProcessedPosition(int boatId, ProcessedPosition processedPosition){
+		//TODO problem with boat id network sync
 		List<BoatFragmentGUI> boat = this.getBoatFragmentsById(boatId);
 		this.setProcessedPosForBoat(boat, processedPosition);
 	}

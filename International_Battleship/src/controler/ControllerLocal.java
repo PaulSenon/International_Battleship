@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class ControllerLocal implements ControllerModelViewInterface {
 
-    private GameModelInterface gameModel;
-    private GameGUIInterface gameGUI;
+    protected GameModelInterface gameModel;
+    protected GameGUIInterface gameGUI;
 
     /**
      * __CONSTRUCTOR__
@@ -192,11 +192,11 @@ public class ControllerLocal implements ControllerModelViewInterface {
      * @param processedPosition
      */
     // TODO move this in an abstract parent and implement it differently for Local and Client controller
-	private void sendProcessedPosition(ProcessedPosition processedPosition) {
+	protected void sendProcessedPosition(ProcessedPosition processedPosition) {
         this.gameGUI.setProcessedPosition(processedPosition);
     }
 
-    private void routineUpdates(){
+    protected void routineUpdates(){
         // update visible area
         // on affiche les zones visibles
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
@@ -209,7 +209,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
     }
 
     // TODO
-    private void updateControls(){
+    protected void updateControls(){
 	    // get if there is a selected boat => else disable all buttons but end of turn
         if(gameModel.hasSelectedBoat()){
             boolean canShoot = gameModel.canCurrentBoatShoot();
@@ -234,6 +234,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             gameGUI.setButtonEnabled(ButtonType.SPECIALACTION, false);
             gameGUI.setButtonHighLight(ButtonType.ENDTURN, false);
         }
+        gameGUI.setButtonEnabled(ButtonType.ENDTURN, true);
     }
 
     // TODO DELETE

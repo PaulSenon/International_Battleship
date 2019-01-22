@@ -3,19 +3,15 @@ package controler;
 
 import model.GameModelInterface;
 import multiplayer.Client;
-import tools.*;
+import tools.ActionType;
+import tools.ProcessedPosition;
 import view.GameGUIInterface;
 
-import javax.swing.*;
 import java.util.Map;
 
-public class ControllerClient implements ControllerModelViewInterface {
+public class ControllerClient extends ControllerLocal{
 
-    private GameModelInterface gameModel;
-    private GameGUIInterface gameGUI;
     private Client client;
-
-
 
     /**
      * __CONSTRUCTOR__
@@ -23,60 +19,11 @@ public class ControllerClient implements ControllerModelViewInterface {
      * @param gameGUI
      */
     public ControllerClient(GameModelInterface gameModel, GameGUIInterface gameGUI,Client client) {
+        super(gameModel, gameGUI);
         System.out.println("Controller\n");
-        this.gameModel = gameModel;
-        this.gameGUI = gameGUI;// set latter
         this.client = client;
         initGame();
     }
-
-    /**
-     *
-     * @param x
-     * @param y
-     */
-    public void selectBoat(int x, int y) {
-//		if(this.gameModel.selectBoat(x, y)){
-//			System.out.println("YES boat has been selected");//pour debug mais je laisse tant que la vue n'est géré
-//		    this.gameGUI.setCurrentAction(ActionType.MOVE);//on change la valeur du ActionType pour la return après
-//            this.gameGUI.setSelectedBoatByCoord(x,y);
-//        }
-
-        if(!this.gameModel.itsTurn())return;
-        try{
-            ProcessedPosition processedPosition = this.gameModel.selectBoat(x, y);
-
-            if(processedPosition != null){
-                this.gameGUI.setCurrentAction(ActionType.MOVE);
-                this.gameGUI.setSelectedBoat(processedPosition);
-            }else{
-                // TODO just a placeholder yet
-                this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-                System.out.println("SelectBoatFailed");
-            }
-        }catch(Exception e){}
-    }
-
-    /**
-     *
-     * @param xDest
-     * @param yDest
-     */
-    public void moveBoat(int xDest, int yDest){
-        ProcessedPosition processedPosition = this.gameModel.moveBoat(xDest, yDest);
-        if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.setProcessedPosition(processedPosition);
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
-        }else{
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
 
     public void update(ProcessedPosition processedPosition){
         this.gameGUI.setProcessedPosition(processedPosition);
@@ -85,121 +32,65 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameModel.setProcessedPosition(processedPosition);
     }
 
-    /**
-     *
-     */
-    public void rotateBoatClockWise(){
-        ProcessedPosition processedPosition = this.gameModel.rotateBoatClockWise();
-        if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.setProcessedPosition(processedPosition);
-            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.gameModel.unselectBoat();
-            this.gameGUI.setSelectedBoat(null);
-            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
-        }else{
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
-        }
-    }
-
-    /**
-     *
-     */
-    public void rotateBoatCounterClockWise(){
-        ProcessedPosition processedPosition = this.gameModel.rotateBoatCounterClockWise();
-        if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.setProcessedPosition(processedPosition);
-            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.gameModel.unselectBoat();
-            this.gameGUI.setSelectedBoat(null);
-            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
-        }else{
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
-        }
-    }
-
-    /**
-     *
-     * @param x
-     * @param y
-     */
-    @Override
-    public void shoot(int x, int y) {
-        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(new Coord(x, y));
-        if(result != null){
-            if(result.getFirst() != null){
-                this.gameGUI.setProcessedPosition(result.getSecond());
-            }
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.message("shoot result : "+result.getFirst());
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.client.sendProcessedPosition(result.getSecond());//Send proc pos to network
-        }else{
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    /**
-     *
-     */
-    public void initGame() {
-        // TODO Auto-generated method stub
-        System.out.println("test print list of boat");
-        System.out.println(this.gameModel.getListOfBoat());
-        Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
-        this.gameGUI.initGame(initBoatPos);
-        this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-        this.gameGUI.setControlsEnabled(this.gameModel.itsTurn());
-    }
-
-    /**
-     *
-     * @param actionType
-     */
-    public void requestActionType(ActionType actionType){
-        this.gameGUI.setCurrentAction(actionType);
-    }
-
-    /**
-     * FOR DEBUG
-     * @return GameGUIInterface
-     */
-    public GameGUIInterface getGameGUI() {
-        return gameGUI;
-    }
-
     @Override
     public void specialAction(int x, int y) {
-        this.gameModel.specialAction(new Coord(x, y));
-        this.gameGUI.setCurrentAction(ActionType.MOVE);
-        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        super.specialAction(x, y);
+        // todo sync client
     }
 
 	@Override
 	public void EndActionsOfPlayer() {
-        this.setupEndTurn();
+        super.EndActionsOfPlayer();
         this.client.endOfTurn();
-
+        this.gameGUI.setControlsEnabled(this.gameModel.itsTurn());
 	}
 
-    public void setupEndTurn() {
-        this.gameModel.EndActionsOfPlayer();
-        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+	public void setupEndTurn(){
+        super.EndActionsOfPlayer();
+        this.updateControls();
+    }
+
+    @Override
+    protected void sendProcessedPosition(ProcessedPosition processedPosition) {
+        super.sendProcessedPosition(processedPosition);
+        this.client.sendProcessedPosition(processedPosition);
+    }
+
+    @Override
+    protected void routineUpdates(){
+        // update visible area
+        // on affiche les zones visibles
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        // on affiche les bateau dans les zones visibles
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-        this.gameModel.unselectBoat();
-        this.gameGUI.setSelectedBoat(null);
-        this.gameGUI.setControlsEnabled(this.gameModel.itsTurn());
+        // update action points
+        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        // update controls
+        this.updateControls();
+    }
+
+    public void initGame() {
+        // DEBUG
+        System.out.println("test print list of boat");
+        System.out.println(this.gameModel.getListOfBoat());
+
+        // Init boats on board
+        Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
+        this.gameGUI.initGame(initBoatPos);
+        // Init currentAction
+        this.gameGUI.setCurrentAction(ActionType.INIT());
+        // Init visible area
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        // on affiche les bateau dans les zones visibles
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        // Init action points
+        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+
+        if(this.gameModel.itsTurn()){
+            this.updateControls();
+        }else {
+            this.gameGUI.setControlsEnabled(false);
+        }
+
     }
 }
