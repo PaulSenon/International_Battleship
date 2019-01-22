@@ -23,9 +23,6 @@ public class LauncherBattleShipGame {
 	public static void main(String[] args) throws IOException {
 		// TODO nothing definitive, just some debug config
 
-		// setup image manager :
-		ImageManager.newInstance();
-
 		// setup game config :
 		GameConfig.newInstance(
 				25, // gameGridWidth
@@ -46,9 +43,14 @@ public class LauncherBattleShipGame {
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
 				},
-				new Color(255, 247, 0, 255).getRGB()
+				new Color(255, 247, 0, 255).getRGB(),
+				16, //Number of explosion images
+				8 //Number of explomiss images
 		);
 
+		// setup image manager :
+				ImageManager.newInstance();
+		
 		final JFrame jframe = new JFrame("Menu");
 		jframe.setSize(300, 500);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

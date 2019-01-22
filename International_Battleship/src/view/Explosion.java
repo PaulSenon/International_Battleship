@@ -16,7 +16,7 @@ public class Explosion extends JLabel implements ActionListener {
     private final Timer animator;
     private boolean missed;
     private boolean touched;
-    private int delay = 10;
+    private int delay = 50;
     private int currentFrame = 0;
 
     /**

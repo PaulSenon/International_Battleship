@@ -11,6 +11,8 @@ public class GameConfig {
 	private static String[] players;
 	private static BoatType[] fleet;
 	private static int edgingColor;
+	private static int numberOfExplosionImages;
+	private static int numberOfExplomissImages;
 	
 	private static GameConfig instance = null;
 	
@@ -22,7 +24,9 @@ public class GameConfig {
 			int nbMaxPlayer,
 			String[] players,
 			BoatType[] fleet,
-			int edgingColor
+			int edgingColor,
+			int numberOfExplosionImages,
+			int numberOfExplomissImages
 	) {
 		if (instance == null){
 			return forceNewInstance(
@@ -33,7 +37,9 @@ public class GameConfig {
 				nbMaxPlayer,
 				players,
 				fleet,
-				edgingColor
+				edgingColor,
+				numberOfExplosionImages,
+				numberOfExplomissImages
 			);
 		}
 		return instance;
@@ -47,7 +53,9 @@ public class GameConfig {
 			int nbMaxPlayer,
 			String[] players,
 			BoatType[] fleet,
-			int edgingColor
+			int edgingColor,
+			int numberOfExplosionImages,
+			int numberOfExplomissImages
 	){
 		instance = new GameConfig(
 				gameGridWidth,
@@ -57,7 +65,9 @@ public class GameConfig {
 				nbMaxPlayer,
 				players,
 				fleet,
-				edgingColor
+				edgingColor,
+				numberOfExplosionImages,
+				numberOfExplomissImages
 		);
 		return instance;
 	}
@@ -70,7 +80,9 @@ public class GameConfig {
 			int nbMaxPlayer,
 			String[] players,
 			BoatType[] fleet,
-			int edgingColor
+			int edgingColor,
+			int numberOfExplosionImages,
+			int numberOfExplomissImages
 	) {
 		GameConfig.gameGridWidth = gameGridWidth;
 		GameConfig.gameGridHeight = gameGridHeight;
@@ -80,6 +92,8 @@ public class GameConfig {
 		GameConfig.players = players;
 		GameConfig.fleet = fleet;
 		GameConfig.edgingColor = edgingColor;
+		GameConfig.numberOfExplosionImages = numberOfExplosionImages;
+		GameConfig.numberOfExplomissImages = numberOfExplomissImages;
 	}
 	
 	public static int getGameGridWidth() {
@@ -104,4 +118,6 @@ public class GameConfig {
 		return fleet;
 	}
 	public static int getEdgingColor() { return edgingColor;}
+	public static int getNumberOfExplosionImages() {return numberOfExplosionImages;}
+	public static int getNumberOfExplomissImages() {return numberOfExplomissImages;}
 }
