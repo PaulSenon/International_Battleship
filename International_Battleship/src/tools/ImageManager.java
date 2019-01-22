@@ -80,9 +80,14 @@ public class ImageManager {
                 "Torpedo/0.png",
                 "Torpedo/1.png",
                 "Sentinel/0.png",
-                "PA/torpedoUsed.png",
-                "PA/torpedoLoad.png",
-                "fog.png"
+                "PA/PAUsed.png",
+                "PA/PALoad.png",
+                "fog.png",
+                "fire.png",
+                "rotateclockcounterwise.png",
+                "rotateclockwise.png",
+                "specialAction.png",
+                "background.png"
         };
 
         for(String name : imageNames){
