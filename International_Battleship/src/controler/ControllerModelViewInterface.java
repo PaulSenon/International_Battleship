@@ -12,5 +12,4 @@ public interface ControllerModelViewInterface extends ControllerModelInterface {
     void requestActionType(ActionType actionType);
 	void specialAction(int x, int y);
 	void EndActionsOfPlayer();
-//    void handleClick(int x, int y);
 }

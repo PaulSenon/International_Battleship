@@ -466,4 +466,25 @@ public class GameModel implements GameModelInterface{
             return false;
         }
     }
+
+    @Override
+    public boolean canCurrentBoatShoot() {
+        if(this.selectedBoat == null || this.currentPlayer == null) return false;
+
+        return this.selectedBoat.getShootCost() <= this.currentPlayer.getNbActionPoint();
+    }
+
+    @Override
+    public boolean canCurrentBoatRotate() {
+        if(this.selectedBoat == null || this.currentPlayer == null) return false;
+
+        return this.selectedBoat.getRotateCost() <= this.currentPlayer.getNbActionPoint();
+    }
+
+    @Override
+    public boolean canCurrentBoatDoSpecialAction() {
+        if(this.selectedBoat == null || this.currentPlayer == null) return false;
+
+        return this.selectedBoat.getSpecialActionCost() <= this.currentPlayer.getNbActionPoint();
+    }
 }

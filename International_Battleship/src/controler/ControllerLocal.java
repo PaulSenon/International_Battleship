@@ -211,11 +211,29 @@ public class ControllerLocal implements ControllerModelViewInterface {
     // TODO
     private void updateControls(){
 	    // get if there is a selected boat => else disable all buttons but end of turn
-            // get if current boat can move => update move button
-            // get if enough AP to move => update move button
-            // get if enough AP to rotate => update rotate buttons
-            // get if enough AP to special action => update special action button
-            // get if not enough AP for one action => update end of turn action (highlight)
+        if(gameModel.hasSelectedBoat()){
+            boolean canShoot = gameModel.canCurrentBoatShoot();
+            gameGUI.setButtonEnabled(ButtonType.SHOOT, canShoot);
+
+            boolean canRotate = gameModel.canCurrentBoatRotate();
+            gameGUI.setButtonEnabled(ButtonType.ROTATECW, canRotate);
+            gameGUI.setButtonEnabled(ButtonType.ROTATECCW, canRotate);
+
+            boolean canSpecialAction = gameModel.canCurrentBoatDoSpecialAction();
+            gameGUI.setButtonEnabled(ButtonType.SPECIALACTION, canSpecialAction);
+
+            if(!canShoot && !canRotate && !canSpecialAction){
+                gameGUI.setButtonHighLight(ButtonType.ENDTURN, true);
+            }else{
+                gameGUI.setButtonHighLight(ButtonType.ENDTURN, false);
+            }
+        }else{
+            gameGUI.setButtonEnabled(ButtonType.SHOOT, false);
+            gameGUI.setButtonEnabled(ButtonType.ROTATECCW, false);
+            gameGUI.setButtonEnabled(ButtonType.ROTATECW, false);
+            gameGUI.setButtonEnabled(ButtonType.SPECIALACTION, false);
+            gameGUI.setButtonHighLight(ButtonType.ENDTURN, false);
+        }
     }
 
     // TODO DELETE

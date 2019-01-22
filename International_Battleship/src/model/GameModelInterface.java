@@ -61,4 +61,10 @@ public interface GameModelInterface {
     PlayerInterface getClientPlayer();
 
     boolean itsTurn();
+
+    boolean canCurrentBoatShoot();
+
+    boolean canCurrentBoatRotate();
+
+    boolean canCurrentBoatDoSpecialAction();
 }

@@ -46,4 +46,6 @@ public interface GameGUIInterface {
     void resetButtonDefaultState(ButtonType type);
 
     boolean boatIsSelected();
+
+    void setButtonHighLight(ButtonType type, boolean highlighted);
 }

@@ -279,9 +279,17 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		}
 	}
 
+	public void setButtonHighLight(ButtonType type, boolean highlighted) {
+		for(ButtonGUI button: this.buttons){
+			if(button.getType() == type){
+				button.setHighlighted(highlighted);
+			}
+		}
+	}
 
 
     public boolean boatIsSelected(){
     	return this.gridGUI.boatIsSelected();
 	}
+
 }
