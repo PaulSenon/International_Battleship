@@ -4,6 +4,7 @@ package model;
 import model.exceptions.SelectBoatException;
 import tools.*;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,10 @@ public interface GameModelInterface {
     PlayerInterface getClientPlayer();
 
     boolean itsTurn();
+
+    Map <Coord, Color>  getPortsCoordsCurrentPlayer();
+
+    Map <Coord, Color>  getPortsCoords(PlayerInterface clientPlayer);
 
     boolean canCurrentBoatShoot();
 

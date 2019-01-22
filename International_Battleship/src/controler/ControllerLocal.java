@@ -196,7 +196,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
     protected void routineUpdates(){
         // update visible area
         // on affiche les zones visibles
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer(), this.gameModel.getPortsCoordsCurrentPlayer());
         // on affiche les bateau dans les zones visibles
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
         // update action points
@@ -248,7 +248,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         // Init currentAction
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // Init visible area
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer(), this.gameModel.getPortsCoordsCurrentPlayer());
         // Init visible boats (fragment of enemy boats inside the visible area)
         //      => note: it's useless here but keep it for consistency.
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());

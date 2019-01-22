@@ -6,6 +6,7 @@ import tools.Coord;
 import tools.ProcessedPosition;
 import tools.ResultShoot;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public interface GameGUIInterface {
 
     void messagePopUp(String message);
 
-    void setVisibleCoord(List<Coord> visibleCoords);
+    void setVisibleCoord(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort);
 
     void displayResult(ResultShoot first, Coord target);
 

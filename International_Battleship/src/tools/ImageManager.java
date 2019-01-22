@@ -122,7 +122,7 @@ public class ImageManager {
         try {
             return ImageManager.deepCopy(ImageManager.getImageRef(imageName));
         } catch (IOException e) {
-            System.out.printf("ImageManager: Fail to load copy");
+            System.out.printf("ImageManager: Fail to load copy\n");
             return null;
         }
     }

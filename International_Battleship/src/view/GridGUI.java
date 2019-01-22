@@ -5,6 +5,7 @@ import model.BoatType;
 import tools.*;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -353,7 +354,7 @@ public class GridGUI extends JLayeredPane {
 		return currentAction;
 	}
 
-	public void setVisibleCoords(List<Coord> visibleCoords){
+	public void setVisibleCoords(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort){
 		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
 			Coord coord = entry.getKey();
 			SquareGUI square = entry.getValue();
@@ -361,6 +362,11 @@ public class GridGUI extends JLayeredPane {
 			int randomDirection = random.nextInt(this.fogs.size());
 			if (visibleCoords.contains(coord)) {
 				square.image = this.seas.get(randomDirection);
+				if (visibleCoordsPort.containsKey(coord)){
+					Color color = visibleCoordsPort.get(coord);
+					if (color != null)
+						square.image = ImageFilter.tintImage(square.image, color);
+				}
 				square.repaint();
 			} else {
 				square.image = this.fogs.get(randomDirection);
