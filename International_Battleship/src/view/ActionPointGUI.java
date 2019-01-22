@@ -15,23 +15,21 @@ public class ActionPointGUI extends JPanel{
     private ImageIcon torpedoUsed;
     private ImageIcon torpedoLoad;
     List<JLabel> listOfAP;
-    JPanel APJpan;
+    String counterPA;
 
     /**
      * __CONSTRUCTOR__
      */
     public ActionPointGUI(){
-        this.torpedoUsed= new ImageIcon(ImageManager.getImageCopy("PA/torpedoUsed.png"));
-        this.torpedoLoad= new ImageIcon(ImageManager.getImageCopy("PA/torpedoLoad.png"));
-        this.APJpan = new JPanel(new GridLayout(2,10));
-        this.setLayout(new BorderLayout(5,5));
-        //this.add(new JLabel(""),BorderLayout.EAST);
-        this.add(this.APJpan,BorderLayout.CENTER);
+        this.torpedoUsed= new ImageIcon(ImageManager.getImageCopy("PA/PAUsed.png"));
+        this.torpedoLoad= new ImageIcon(ImageManager.getImageCopy("PA/PALoad.png"));
+        this.setLayout(new GridLayout(20,1));
+        this.setBackground(new Color(-16777216));
         this.listOfAP = new ArrayList<>();
         for(int i = 0; i < GameConfig.getMaxActionPoint(); i++) {
-            BufferedImage torpedoImageForPA = ImageManager.getImageCopy("PA/torpedoUsed.png");
+            BufferedImage torpedoImageForPA = ImageManager.getImageCopy("PA/PAUsed.png");
             listOfAP.add(new JLabel(new ImageIcon(torpedoImageForPA)));
-            this.APJpan.add(listOfAP.get(i));
+            this.add(listOfAP.get(i));
         }
     }
 
@@ -49,6 +47,7 @@ public class ActionPointGUI extends JPanel{
         for (int y = nbActionPoint; y < GameConfig.getMaxActionPoint(); y++){
             this.listOfAP.get(y).setIcon(this.torpedoUsed);
         }
+        this.counterPA = nbActionPoint+"/"+GameConfig.getMaxActionPoint();
     }
 
     /**
@@ -57,4 +56,9 @@ public class ActionPointGUI extends JPanel{
     public void disableAction() {
         this.add(new JLabel("Point d'action insuffisant pour effectuer cette action"),BorderLayout.NORTH);
     }
+
+    public String getCounterPA() {
+        return counterPA;
+    }
+
 }

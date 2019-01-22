@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.ControlPanel">
+  <grid id="27dc6" binding="ControlPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="550" height="500"/>
+    </constraints>
+    <properties>
+      <background color="-16777216"/>
+      <foreground color="-1"/>
+      <minimumSize width="550" height="500"/>
+      <preferredSize width="550" height="500"/>
+    </properties>
+    <border type="line">
+      <title-color color="-1"/>
+      <color color="-15964156"/>
+    </border>
+    <children>
+      <grid id="c0b6c" binding="Console" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-16777216"/>
+          <font name="Consolas" size="12" style="3"/>
+          <foreground color="-15964156"/>
+          <minimumSize width="20" height="20"/>
+          <preferredSize width="20" height="20"/>
+        </properties>
+        <border type="line">
+          <color color="-15964156"/>
+        </border>
+        <children>
+          <component id="5f1ab" class="javax.swing.JTextArea" binding="consoleTextArea" default-binding="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+              <gridbag top="10" left="10" bottom="10" right="10" weightx="10.0" weighty="10.0"/>
+            </constraints>
+            <properties>
+              <background color="-16777216"/>
+              <caretColor color="-4514522"/>
+              <disabledTextColor color="-15964156"/>
+              <font name="Consolas" size="11" style="3"/>
+              <foreground color="-15964156"/>
+              <margin top="0" left="0" bottom="0" right="0"/>
+              <minimumSize width="58" height="25"/>
+              <selectedTextColor color="-1"/>
+              <selectionColor color="-15964156"/>
+              <text value="Console &gt;"/>
+              <visible value="true"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="9e7c6" binding="ButtonGUI" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-16777216"/>
+          <foreground color="-1"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="9654f" binding="ActionSpecialButtonPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <background color="-16777216"/>
+              <foreground color="-1"/>
+            </properties>
+            <border type="line">
+              <font/>
+              <title-color color="-4473925"/>
+              <color color="-15964156"/>
+            </border>
+            <children>
+              <component id="3a191" class="javax.swing.JLabel" binding="SpecialActionLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="20" style="1"/>
+                  <foreground color="-1"/>
+                  <text value="Special Action"/>
+                </properties>
+              </component>
+              <component id="de7cd" class="view.ButtonGUI" binding="buttonGUISpecialAction" custom-create="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <background color="-16777216"/>
+                  <enabled value="true"/>
+                  <font name="Consolas" size="14" style="1"/>
+                  <foreground color="-1"/>
+                  <label value=""/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="d7b3a" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <doubleBuffered value="false"/>
+                  <font name="Consolas" size="14" style="2"/>
+                  <foreground color="-1"/>
+                  <text value="This action is enable when you have enought action point"/>
+                </properties>
+              </component>
+              <component id="c7145" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="269" height="15"/>
+                  </grid>
+                  <gridbag top="0" left="0" bottom="0" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="11" style="2"/>
+                  <foreground color="-1"/>
+                  <text value="AirCraft Carrier : Fire on round zone of 5 cases (15 AP)"/>
+                </properties>
+              </component>
+              <component id="265b1" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="0" bottom="0" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="11" style="2"/>
+                  <foreground color="-1"/>
+                  <text value="Cruiser : Fire on round zone of 3 cases (13 AP)"/>
+                </properties>
+              </component>
+              <component id="48777" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="0" bottom="0" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="11" style="2"/>
+                  <foreground color="-1"/>
+                  <text value="Submarine : Dive under water, not visible during 3 day (10 AP)"/>
+                </properties>
+              </component>
+              <component id="fe337" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="0" bottom="0" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="11" style="2"/>
+                  <foreground color="-1"/>
+                  <text value="Torpedo boat : Fire torpedo on all of one line or column (8 AP)"/>
+                </properties>
+              </component>
+              <component id="2596" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="0" bottom="0" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="11" style="2"/>
+                  <foreground color="-1"/>
+                  <text value="Sentinel : Put a mine behind him (5 AP)"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="2267b" binding="ShootButtonPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <background color="-16777216"/>
+              <foreground color="-1"/>
+            </properties>
+            <border type="line">
+              <color color="-15964156"/>
+            </border>
+            <children>
+              <component id="e6811" class="view.ButtonGUI" binding="buttonGUIShoot" custom-create="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <background color="-16777216"/>
+                  <enabled value="true"/>
+                  <font name="Consolas" size="14" style="1"/>
+                  <foreground color="-1"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="a07ce" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="20" style="1"/>
+                  <foreground color="-1"/>
+                  <text value="Fire "/>
+                </properties>
+              </component>
+              <component id="c20e3" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="0" left="10" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <font name="Consolas" size="14" style="2"/>
+                  <foreground color="-1"/>
+                  <text value="Action Fire, Select a case where you would shoot"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="ce47d" binding="RotateButtonPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <background color="-16777216"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="e5565" class="view.ButtonGUI" binding="buttonRotateClockWise" custom-create="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <background color="-16777216"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="16baa" class="view.ButtonGUI" binding="buttonRotateCounterClockWise" custom-create="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <background color="-16777216"/>
+                  <text value=""/>
+                  <visible value="true"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="fc1e0" binding="PAPanel" custom-create="true" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-16777216"/>
+          <maximumSize width="10" height="999999999"/>
+          <minimumSize width="10" height="500"/>
+          <preferredSize width="10" height="50"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <component id="826b6" class="view.ButtonGUI" binding="buttonGUIFinTour" custom-create="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag top="10" left="10" bottom="10" right="10" weightx="1.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-16777216"/>
+          <enabled value="true"/>
+          <font name="Consolas" size="14" style="1"/>
+          <foreground color="-1"/>
+          <text value="Fin de tour "/>
+        </properties>
+      </component>
+      <grid id="2f438" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="2" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-16777216"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="50db2" class="javax.swing.JLabel" binding="CounterPA">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="1" left="1" bottom="1" right="1" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <alignmentX value="0.5"/>
+              <autoscrolls value="false"/>
+              <background color="-16777216"/>
+              <enabled value="true"/>
+              <focusTraversalPolicyProvider value="true"/>
+              <font name="Consolas" size="14" style="1"/>
+              <foreground color="-1"/>
+              <minimumSize width="10" height="10"/>
+              <opaque value="false"/>
+              <text value="20/20"/>
+              <verifyInputWhenFocusTarget value="false"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

@@ -3,10 +3,7 @@ package view;
 
 import controler.ControllerModelViewInterface;
 import model.BoatInterface;
-import tools.ActionType;
-import tools.Coord;
-import tools.ProcessedPosition;
-import tools.ResultShoot;
+import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,17 +18,18 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 	private final JTextArea textArea;
     private static final long serialVersionUID = 7636412061294453620L;
-    private ActionPointGUI PAPanel;
+	private final JLabel counterPA;
+	private ActionPointGUI PAPanel;
     private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
     private List<ButtonGUI> buttons;
-    private ButtonGUI buttonGUITirer;
+    private ButtonGUI buttonGUIShoot;
     private ButtonGUI buttonRotateCounterClockWise;
 	private ButtonGUI buttonRotateClockWise;
     private ButtonGUI buttonGUIDéplacer;
-    private ButtonGUI buttonGUIActionSpéciale;
+    private ButtonGUI buttonGUISpecialAction;
     public ButtonGUI battleShipButtonGUI;
-    public ButtonGUI buttonGUIFinTour;
+    public ButtonGUI buttonGUIEndOfTurn;
     public GridGUI battleShipGridGUI;
 
     public List<ButtonGUI> listOfButtons;
@@ -65,64 +63,82 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 		// TODO currently, just a placeholder
 		// Create "actions" panel and add it to the right withe a borderlayout
-            JPanel layoutControlPanel = new JPanel();
-            layoutControlPanel.setLayout(new BorderLayout());
+            //JPanel layoutControlPanel = new JPanel();
+            //layoutControlPanel.setLayout(new BorderLayout());
 
             //Add Button on Center of BorderLayout
-                JPanel controlsPanel = new JPanel();
-                controlsPanel.setLayout(new GridBagLayout());
+                //JPanel controlsPanel = new JPanel();
+                ControlPanel controlsPanel = new ControlPanel();
+                /*controlsPanel.setLayout(new GridBagLayout());
                     GridBagConstraints buttonsConstraints = new GridBagConstraints();
                     buttonsConstraints.gridx = 0;
                     buttonsConstraints.gridy = 0;
-                controlsPanel.setBackground(Color.GRAY);
+                controlsPanel.setBackground(Color.GRAY);*/
 
                 // Create of Button in the "actions" panel
-                    this.buttonGUITirer = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
-                    controlsPanel.add(this.buttonGUITirer, buttonsConstraints);
-                    this.buttons.add(this.buttonGUITirer);
+                    //this.buttonGUIShoot = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
+                    this.buttonGUIShoot = (ButtonGUI) controlsPanel.getButtonGUIShoot();
+                    this.buttonGUIShoot.setIcon(new ImageIcon(ImageManager.getImageCopy("fire.png")));
+                    this.buttonGUIShoot.setBorder(null);
+                    //controlsPanel.add(this.buttonGUIShoot, buttonsConstraints);
+                    this.buttons.add(this.buttonGUIShoot);
 
-                    buttonsConstraints.gridy++;
-                    this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
-                    controlsPanel.add(this.buttonRotateClockWise, buttonsConstraints);
+                    //buttonsConstraints.gridy++;
+                    //this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
+                    this.buttonRotateClockWise = (ButtonGUI) controlsPanel.getButtonRotateClockWise();
+                    this.buttonRotateClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockwise.png")));
+                    this.buttonRotateClockWise.setBorder(null);
+                    //controlsPanel.add(this.buttonRotateClockWise, buttonsConstraints);
 					this.buttons.add(this.buttonRotateClockWise);
 
-                    buttonsConstraints.gridy++;
-                    this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
-                    controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
+                    //buttonsConstraints.gridy++;
+                    //this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
+                    this.buttonRotateCounterClockWise =  (ButtonGUI) controlsPanel.getButtonRotateCounterClockWise();
+                    this.buttonRotateCounterClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockcounterwise.png")));
+                    this.buttonRotateCounterClockWise.setBorder(null);
+                    //controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
 					this.buttons.add(this.buttonRotateCounterClockWise);
 
-					buttonsConstraints.gridy++;
-					this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
-					controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
-					this.buttons.add(this.buttonGUIActionSpéciale);
+					//buttonsConstraints.gridy++;
+					//this.buttonGUISpecialAction = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
+					this.buttonGUISpecialAction = (ButtonGUI) controlsPanel.getButtonGUISpecialAction();
+					this.buttonGUISpecialAction.setIcon(new ImageIcon(ImageManager.getImageCopy("specialAction.png")));
+					this.buttonGUISpecialAction.setBorder(null);
+					//controlsPanel.add(this.buttonGUISpecialAction, buttonsConstraints);
+					this.buttons.add(this.buttonGUISpecialAction);
 
-					buttonsConstraints.gridy++;
-					this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
-					controlsPanel.add(this.buttonGUIFinTour, buttonsConstraints);
-					this.buttons.add(this.buttonGUIFinTour);
+					//buttonsConstraints.gridy++;
+					//this.buttonGUIEndOfTurn = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
+					this.buttonGUIEndOfTurn =(ButtonGUI) controlsPanel.getButtonGUIEndOfTurn();
+					//controlsPanel.add(this.buttonGUIEndOfTurn, buttonsConstraints);
+					this.buttons.add(this.buttonGUIEndOfTurn);
 
 
                 //Store buttons in a list // TODO is this useful ?
                     this.listOfButtons = new ArrayList<>();
-                    listOfButtons.add(this.buttonGUITirer);
+                    listOfButtons.add(this.buttonGUIShoot);
                     listOfButtons.add(this.buttonRotateClockWise);
                     listOfButtons.add(this.buttonRotateCounterClockWise);
-                    listOfButtons.add(this.buttonGUIActionSpéciale);
-                    listOfButtons.add(this.buttonGUIFinTour);
+                    listOfButtons.add(this.buttonGUISpecialAction);
+                    listOfButtons.add(this.buttonGUIEndOfTurn);
 
 				//Create text area
-					this.textArea = new JTextArea();
+					//this.textArea = new JTextArea();
+					this.textArea = controlsPanel.getConsoleTextArea();
 					this.textArea.setEditable(false);
-					layoutControlPanel.add(this.textArea, BorderLayout.NORTH);
+					//layoutControlPanel.add(this.textArea, BorderLayout.NORTH);
 
             // Add ButtonPanel in center of the BorderLayout
-			    layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
+			    //layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
 
 		    //Create PA Panel in the south of BorderLayout
-                this.PAPanel = new ActionPointGUI();
-                PAPanel.setBackground(Color.GRAY);
+                //this.PAPanel = new ActionPointGUI();
+                this.PAPanel = (ActionPointGUI) controlsPanel.getPAPanel();
+                this.counterPA = controlsPanel.getCounterPA();
+                this.counterPA.setText(this.PAPanel.getCounterPA());
+                //PAPanel.setBackground(Color.GRAY);
             // Add ButtonPanel in center of the BorderLayout
-                layoutControlPanel.add(PAPanel, BorderLayout.SOUTH);
+                //layoutControlPanel.add(PAPanel, BorderLayout.SOUTH);
 
         // tweak GridBagConstraints for "action" panel
             c.fill = GridBagConstraints.BOTH;
@@ -131,7 +147,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
             c.weightx = 1.0;
             c.weighty = 1.0;
         // Add LayoutControlPanel to the GeneralPanel
-        contentPane.add(layoutControlPanel, c);
+        contentPane.add(controlsPanel.$$$getRootComponent$$$(), c);
     }
 
     /**
@@ -144,11 +160,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
 
 		ActionListener buttonListener = new ButtonGUIListener(gameController);
-		this.buttonGUITirer.addActionListener(buttonListener);
+		this.buttonGUIShoot.addActionListener(buttonListener);
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
 		this.buttonRotateClockWise.addActionListener(buttonListener);
-		this.buttonGUIActionSpéciale.addActionListener(buttonListener);
-		this.buttonGUIFinTour.addActionListener(buttonListener);
+		this.buttonGUISpecialAction.addActionListener(buttonListener);
+		this.buttonGUIEndOfTurn.addActionListener(buttonListener);
 	}
 
 	@Override
@@ -227,6 +243,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
      */
 	public void setNbAP(int nbActionPoint) {
 		this.PAPanel.setNbAP(nbActionPoint);
+		this.counterPA.setText(this.PAPanel.getCounterPA());
     }
 
     /**
