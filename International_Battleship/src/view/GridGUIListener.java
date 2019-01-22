@@ -22,6 +22,10 @@ public class GridGUIListener implements EventListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 	    // TODO URGENT
 		Coord coordSquare = gridGUI.selectSquare(e.getX(), e.getY());
+//		this.controller.handleClick(coordSquare.getX(), coordSquare.getY());
+
+
+
 		ActionType actionType = this.gridGUI.getCurrentAction();
 		System.out.println("GRID LISTENER ACTION TYPE " + actionType);
 
@@ -36,12 +40,12 @@ public class GridGUIListener implements EventListener, MouseListener {
 				this.controller.shoot(coordSquare.getX(), coordSquare.getY());
 				break;
 			case SPECIAL:
-				this.controller.specialAction(coordSquare);
+				this.controller.specialAction(coordSquare.getX(), coordSquare.getY());
 				break;
 		}
-//		if(actionType.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {
+//		if(currentAction.equals(ActionType.SHOOT) /* && check enough ActiontPoint*/) {
 //			//Shoot on the target.
-//		}else if(actionType.equals(ActionType.MOVE)){
+//		}else if(currentAction.equals(ActionType.MOVE)){
 //			controller.moveBoat(squareSelected.getX()+2, squareSelected.getY()+2); //les coords de destination sont en durs pour le moment
 //		}
 	}

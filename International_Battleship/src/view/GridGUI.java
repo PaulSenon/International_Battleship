@@ -32,7 +32,11 @@ public class GridGUI extends JLayeredPane {
 
 	private ActionType currentAction;
 
-	/**
+	private List<BufferedImage> fogs;
+	private List<BufferedImage> seas;
+
+
+    /**
      * __CONSTRUCTOR__
      */
     	public GridGUI() {
@@ -43,6 +47,26 @@ public class GridGUI extends JLayeredPane {
 		this.boatFragments = new HashMap<Coord, BoatFragmentGUI>();
 		this.selectedSquare = null;
 		this.selectedBoat = new ArrayList<>();
+
+		// load images
+        this.fogs = new ArrayList<>();
+        try {
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.seas = new ArrayList<>();
+        try {
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.EAST.rotation));
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.WEST.rotation));
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.NORTH.rotation));
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.SOUTH.rotation));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 		// init display
 		this.setLayout(new CustomGridLayoutManager());
@@ -329,34 +353,16 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	public void setVisibleCoords(List<Coord> visibleCoords){
-		List<BufferedImage> fogs = new ArrayList<>();
-		try {
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		List<BufferedImage> seas = new ArrayList<>();
-		try {
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.EAST.rotation));
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.WEST.rotation));
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.NORTH.rotation));
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.SOUTH.rotation));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
 			Coord coord = entry.getKey();
 			SquareGUI square = entry.getValue();
 			Random random = new Random();
-			int randomDirection = random.nextInt(fogs.size());
+			int randomDirection = random.nextInt(this.fogs.size());
 			if (visibleCoords.contains(coord)) {
-				square.image = seas.get(randomDirection);
+				square.image = this.seas.get(randomDirection);
 				square.repaint();
 			} else {
-				square.image = fogs.get(randomDirection);
+				square.image = this.fogs.get(randomDirection);
 				square.repaint();
 			}
 		}
@@ -379,12 +385,8 @@ public class GridGUI extends JLayeredPane {
 			JLabel explosion = new Explosion(result);
 			this.squares.get(target).add(explosion, 0);
 			this.squares.remove(explosion);
-	}
-
-	public void displayResultSpecial(ResultShoot result, Coord target) {
-		JLabel explosion = new Explosion(result);
-		this.squares.get(target).add(explosion, 0);
-		this.squares.remove(explosion);
+            this.squares.get(target).revalidate();
+            this.squares.get(target).repaint();
 	}
 
 

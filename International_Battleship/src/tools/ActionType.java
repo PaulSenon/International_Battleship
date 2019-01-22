@@ -4,5 +4,12 @@ public enum ActionType {
     MOVE,
     SELECT,
     SPECIAL,
-    SHOOT
+    SHOOT;
+
+    public static ActionType DEFAULT() {
+        return ActionType.MOVE;
+    }
+    public static ActionType INIT() {
+        return ActionType.SELECT;
+    }
 }

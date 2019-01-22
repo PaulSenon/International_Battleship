@@ -1,6 +1,7 @@
 package model;
 
 
+import model.exceptions.SelectBoatException;
 import tools.*;
 
 import javax.swing.*;
@@ -174,7 +175,6 @@ public class GameModel implements GameModelInterface{
 
         // processing : boat rotation
         ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise);
-
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
             return processedPosition;
@@ -221,21 +221,20 @@ public class GameModel implements GameModelInterface{
      * @param y is the y coordinate on the game board
      * @return boolean (to tell if it's doing well or not)
      */
-    public ProcessedPosition selectBoat(int x, int y){
+    public ProcessedPosition selectBoat(int x, int y) throws SelectBoatException {
         // transform into coord to use through model
         Coord coord = new Coord(x, y);
 
         // set the selected boat (may return null)
         BoatInterface boat = this.battleshipImplementor.findBoatByCoord(coord);
         if(boat == null){
-            System.out.println("There is no boat here");
-            return null;
+            throw new SelectBoatException("There is no boat here");
         }
         // Verify that the boat belongs to the current player
         if(this.currentPlayer.getId() == this.battleshipImplementor.findPlayerIdFromBoat(boat)){
             this.selectedBoat = boat;
         }else{
-            System.out.println("The boat you selected doesn't belong to you !");
+            throw new SelectBoatException("The boat you selected doesn't belong to you !");
         }
 
         // tell if it doing great or not
@@ -243,7 +242,7 @@ public class GameModel implements GameModelInterface{
         try {
             return this.selectedBoat.getProcessedPosition();
         }catch (Exception e){
-            return null;
+            throw new SelectBoatException("Something went wrong...");
         }
     }
 
@@ -287,7 +286,7 @@ public class GameModel implements GameModelInterface{
      */
     @Override
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
-    	Pair<ResultShoot, ProcessedPosition> ret =null;
+    	Pair<ResultShoot, ProcessedPosition> ret;
     	// error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -443,8 +442,12 @@ public class GameModel implements GameModelInterface{
 		this.playersImplementor = playersImplementor;
 	}
 
+    /**
+     * To check if the current player has a selected boat
+     * @return
+     */
     public boolean hasSelectedBoat(){
-        return this.selectedBoat != null;
+        return this.selectedBoat != null && this.currentPlayer.getId() == this.selectedBoat.getPlayerId();
     }
 
     public void setClientPlayer(PlayerInterface clientPlayer) {

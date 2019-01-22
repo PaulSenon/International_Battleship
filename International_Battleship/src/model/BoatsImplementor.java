@@ -218,6 +218,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         if(!this.areCoordsAccessible(selectedBoat)){
             // if boat collision, undo the move
             selectedBoat.undoLastMove();
+            currentPlayer.undoLastAction();
             return selectedBoat.getProcessedPosition();
         }
 

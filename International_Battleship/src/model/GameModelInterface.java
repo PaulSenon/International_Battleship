@@ -1,6 +1,7 @@
 package model;
 
 
+import model.exceptions.SelectBoatException;
 import tools.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface GameModelInterface {
 
     ProcessedPosition rotateBoatCounterClockWise();
 
-    ProcessedPosition selectBoat(int x, int y);
+    ProcessedPosition selectBoat(int x, int y) throws SelectBoatException;
 
     void isEnd();
 
