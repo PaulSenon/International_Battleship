@@ -17,7 +17,7 @@ public class GameModel implements GameModelInterface{
 
     // The implementor use to manage players
     private PlayersImplementorInterface playersImplementor;
-    
+
     // The implementor use to manage mines
     private MineImplementorInterface minesImplementor;
 
@@ -304,6 +304,10 @@ public class GameModel implements GameModelInterface{
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
         }
+        if (this.portImplementor.isInPort(target)){
+            // TODO message manager "You cannot shoot in an enemy port"
+            return null;
+        }
 		ProcessedPosition ret = battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
         endActionRoutine();
 		return ret;
@@ -319,7 +323,7 @@ public class GameModel implements GameModelInterface{
     public Map<Integer, ProcessedPosition> getListOfBoat(){
         return this.battleshipImplementor.getBoats();
     }
-    
+
 	@Override
 	public Map<Integer, ProcessedProps> getListOfMine() {
 		return this.minesImplementor.getListOfMines();
@@ -516,8 +520,9 @@ public class GameModel implements GameModelInterface{
 
     @Override
     public boolean canCurrentBoatShoot() {
-        if(this.selectedBoat == null || this.currentPlayer == null) return false;
-
+        if(this.selectedBoat == null || this.currentPlayer == null || this.portImplementor.isInPort(this.selectedBoat.getPivot())){
+            return false;
+        }
         return this.selectedBoat.getShootCost() <= this.currentPlayer.getNbActionPoint();
     }
 
