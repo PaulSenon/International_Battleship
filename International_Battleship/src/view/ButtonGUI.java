@@ -83,6 +83,5 @@ public class ButtonGUI extends JButton{
 		}else{
 			this.setForeground(this.defaultColor);
 		}
-//		this.repaint();
 	}
 }
