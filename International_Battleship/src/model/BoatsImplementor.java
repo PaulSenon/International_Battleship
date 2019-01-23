@@ -106,7 +106,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
         /**
          *  TODO area shoot for special action is hard codded here.
-         *  It's ok in a first time we we should find a way to move this behavior in a proper class.
+         *  It's ok in a first time we should find a way to move this behavior in a proper class.
          *  But problem is how to access boats other things...
          */
         if(selectedBoat.getSpecialAction().getClass().equals(SpecialZoneAOE.class)){

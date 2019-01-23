@@ -370,7 +370,14 @@ public class GameModel implements GameModelInterface{
 
 	@Override
 	public void EndActionsOfPlayer() {
-		endTurn();
+        for (PlayerInterface player : playersImplementor.getPlayers()){
+            if (!player.isEliminate()) {
+                if(this.battleshipImplementor.getRemainsBoatsByPlayer(player.getId())<= 0){
+                    player.setEliminate(true);
+                }
+            }
+        }
+        endTurn();
 		if (this.turn%this.playersImplementor.remainsPlayers() == 0) {
 			endDay();
 			if (this.playersImplementor.idWinner() != -1) {
