@@ -19,6 +19,7 @@ public class BoatsImplementorTest extends BaseTests {
 
     private BoatsImplementor boatsImplementor;
     private PlayerInterface player;
+    private PortImplementor portImplementor;
 
     @Before
     public void setUp() throws Exception {
@@ -49,6 +50,7 @@ public class BoatsImplementorTest extends BaseTests {
         List<BoatType> boatTypes = new ArrayList<>();
         this.player = new Player(1, "", "");
         this.boatsImplementor = new BoatsImplementor(players);
+        this.boatsImplementor.setPortImplementor(new PortImplementor(players));
     }
 
     @Test

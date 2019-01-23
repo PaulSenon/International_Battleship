@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class GameModelTest extends BaseTests {
     private GameModel gameModel;
     private BoatsImplementor boatsImplementor;
+	private PortImplementor portImplementor;
 
     @Before
     public void setUp() throws Exception {
@@ -49,6 +50,8 @@ public class GameModelTest extends BaseTests {
         List<PlayerInterface> players = new ArrayList<>();
         List<BoatType> boatTypes = new ArrayList<>();
         this.boatsImplementor = new BoatsImplementor(players);
+        this.portImplementor = new PortImplementor(players);
+        this.boatsImplementor.setPortImplementor(this.portImplementor);
 
         // add some test boats on the game board
         // TODO change values
@@ -245,8 +248,9 @@ public class GameModelTest extends BaseTests {
 //        BoatInterface boat = fleet.get(0);
 //        //assertEquals(new Coord(0,0),boat.getPivot());
     }
+    
     @Test
-    public void testMoveBoatBlockedByAnotherShip() {
+public void testMoveBoatBlockedByAnotherShip() {
         // setup
             // create the boat
             AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(20, 11), 5, Direction.WEST);
