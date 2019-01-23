@@ -26,15 +26,10 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     private ButtonGUI buttonGUIShoot;
     private ButtonGUI buttonRotateCounterClockWise;
 	private ButtonGUI buttonRotateClockWise;
-    private ButtonGUI buttonGUIDéplacer;
     private ButtonGUI buttonGUISpecialAction;
-    public ButtonGUI battleShipButtonGUI;
-    public ButtonGUI buttonGUIEndOfTurn;
-    public GridGUI battleShipGridGUI;
-
-    public List<ButtonGUI> listOfButtons;
-
-    public ActionType actionType;
+    private ButtonGUI buttonGUIEndOfTurn;
+    private List<ButtonGUI> listOfButtons;
+    private ActionType actionType;
 
 
     // Constructor
@@ -58,96 +53,60 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		        c.gridy = 0;
 		        c.weightx = 100.0;
 		        c.weighty = 100.0;
-			contentPane.add(gridContainer, c);
+		    contentPane.add(gridContainer, c);
 
+		// Create controlPanel and add it to the left
+			ControlPanel controlsPanel = new ControlPanel();
 
-		// TODO currently, just a placeholder
-		// Create "actions" panel and add it to the right withe a borderlayout
-            //JPanel layoutControlPanel = new JPanel();
-            //layoutControlPanel.setLayout(new BorderLayout());
+			// Create of Button in the "actions" panel
+				this.buttonGUIShoot = (ButtonGUI) controlsPanel.getButtonGUIShoot();
+				this.buttonGUIShoot.setIcon(new ImageIcon(ImageManager.getImageCopy("fire.png")));
+				this.buttonGUIShoot.setBorder(null);
+				this.buttons.add(this.buttonGUIShoot);
 
-            //Add Button on Center of BorderLayout
-                //JPanel controlsPanel = new JPanel();
-                ControlPanel controlsPanel = new ControlPanel();
-                /*controlsPanel.setLayout(new GridBagLayout());
-                    GridBagConstraints buttonsConstraints = new GridBagConstraints();
-                    buttonsConstraints.gridx = 0;
-                    buttonsConstraints.gridy = 0;
-                controlsPanel.setBackground(Color.GRAY);*/
+				this.buttonRotateClockWise = (ButtonGUI) controlsPanel.getButtonRotateClockWise();
+				this.buttonRotateClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockwise.png")));
+				this.buttonRotateClockWise.setBorder(null);
+				this.buttons.add(this.buttonRotateClockWise);
 
-                // Create of Button in the "actions" panel
-                    //this.buttonGUIShoot = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
-                    this.buttonGUIShoot = (ButtonGUI) controlsPanel.getButtonGUIShoot();
-                    this.buttonGUIShoot.setIcon(new ImageIcon(ImageManager.getImageCopy("fire.png")));
-                    this.buttonGUIShoot.setBorder(null);
-                    //controlsPanel.add(this.buttonGUIShoot, buttonsConstraints);
-                    this.buttons.add(this.buttonGUIShoot);
+				this.buttonRotateCounterClockWise =  (ButtonGUI) controlsPanel.getButtonRotateCounterClockWise();
+				this.buttonRotateCounterClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockcounterwise.png")));
+				this.buttonRotateCounterClockWise.setBorder(null);
+				this.buttons.add(this.buttonRotateCounterClockWise);
 
-                    //buttonsConstraints.gridy++;
-                    //this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
-                    this.buttonRotateClockWise = (ButtonGUI) controlsPanel.getButtonRotateClockWise();
-                    this.buttonRotateClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockwise.png")));
-                    this.buttonRotateClockWise.setBorder(null);
-                    //controlsPanel.add(this.buttonRotateClockWise, buttonsConstraints);
-					this.buttons.add(this.buttonRotateClockWise);
+				this.buttonGUISpecialAction = (ButtonGUI) controlsPanel.getButtonGUISpecialAction();
+				this.buttonGUISpecialAction.setIcon(new ImageIcon(ImageManager.getImageCopy("specialAction.png")));
+				this.buttonGUISpecialAction.setBorder(null);
+				this.buttons.add(this.buttonGUISpecialAction);
 
-                    //buttonsConstraints.gridy++;
-                    //this.buttonRotateCounterClockWise =  new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
-                    this.buttonRotateCounterClockWise =  (ButtonGUI) controlsPanel.getButtonRotateCounterClockWise();
-                    this.buttonRotateCounterClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockcounterwise.png")));
-                    this.buttonRotateCounterClockWise.setBorder(null);
-                    //controlsPanel.add(this.buttonRotateCounterClockWise, buttonsConstraints);
-					this.buttons.add(this.buttonRotateCounterClockWise);
+				this.buttonGUIEndOfTurn =(ButtonGUI) controlsPanel.getButtonGUIEndOfTurn();
+				this.buttons.add(this.buttonGUIEndOfTurn);
 
-					//buttonsConstraints.gridy++;
-					//this.buttonGUISpecialAction = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
-					this.buttonGUISpecialAction = (ButtonGUI) controlsPanel.getButtonGUISpecialAction();
-					this.buttonGUISpecialAction.setIcon(new ImageIcon(ImageManager.getImageCopy("specialAction.png")));
-					this.buttonGUISpecialAction.setBorder(null);
-					//controlsPanel.add(this.buttonGUISpecialAction, buttonsConstraints);
-					this.buttons.add(this.buttonGUISpecialAction);
+			//Store buttons in a list
+				this.listOfButtons = new ArrayList<>();
+				listOfButtons.add(this.buttonGUIShoot);
+				listOfButtons.add(this.buttonRotateClockWise);
+				listOfButtons.add(this.buttonRotateCounterClockWise);
+				listOfButtons.add(this.buttonGUISpecialAction);
+				listOfButtons.add(this.buttonGUIEndOfTurn);
 
-					//buttonsConstraints.gridy++;
-					//this.buttonGUIEndOfTurn = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
-					this.buttonGUIEndOfTurn =(ButtonGUI) controlsPanel.getButtonGUIEndOfTurn();
-					//controlsPanel.add(this.buttonGUIEndOfTurn, buttonsConstraints);
-					this.buttons.add(this.buttonGUIEndOfTurn);
+			//Affect text area
+				this.textArea = controlsPanel.getConsoleTextArea();
+				this.textArea.setEditable(false);
 
-
-                //Store buttons in a list // TODO is this useful ?
-                    this.listOfButtons = new ArrayList<>();
-                    listOfButtons.add(this.buttonGUIShoot);
-                    listOfButtons.add(this.buttonRotateClockWise);
-                    listOfButtons.add(this.buttonRotateCounterClockWise);
-                    listOfButtons.add(this.buttonGUISpecialAction);
-                    listOfButtons.add(this.buttonGUIEndOfTurn);
-
-				//Create text area
-					//this.textArea = new JTextArea();
-					this.textArea = controlsPanel.getConsoleTextArea();
-					this.textArea.setEditable(false);
-					//layoutControlPanel.add(this.textArea, BorderLayout.NORTH);
-
-            // Add ButtonPanel in center of the BorderLayout
-			    //layoutControlPanel.add(controlsPanel, BorderLayout.CENTER);
-
-		    //Create PA Panel in the south of BorderLayout
-                //this.PAPanel = new ActionPointGUI();
+		    //Affect PA Panel in the south of BorderLayout
                 this.PAPanel = (ActionPointGUI) controlsPanel.getPAPanel();
                 this.counterPA = controlsPanel.getCounterPA();
                 this.counterPA.setText(this.PAPanel.getCounterPA());
-                //PAPanel.setBackground(Color.GRAY);
-            // Add ButtonPanel in center of the BorderLayout
-                //layoutControlPanel.add(PAPanel, BorderLayout.SOUTH);
 
-        // tweak GridBagConstraints for "action" panel
-            c.fill = GridBagConstraints.BOTH;
-            c.gridx = 1;
-            c.gridy = 0;
-            c.weightx = 1.0;
-            c.weighty = 1.0;
-        // Add LayoutControlPanel to the GeneralPanel
-        contentPane.add(controlsPanel.$$$getRootComponent$$$(), c);
+			// tweak GridBagConstraints for "action" panel
+				c.fill = GridBagConstraints.BOTH;
+				c.gridx = 1;
+				c.gridy = 0;
+				c.weightx = 1.0;
+				c.weighty = 1.0;
+			// Add ControlPanel to the GeneralPanel
+			contentPane.add(controlsPanel.$$$getRootComponent$$$(), c);
     }
 
     /**
