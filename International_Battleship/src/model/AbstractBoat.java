@@ -83,7 +83,9 @@ public abstract class AbstractBoat implements BoatInterface {
                 return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
             }else{
                 this.touchedFragmentIds.add(id);
-                if(this.touchedFragmentIds.size() >= getNbFrontParts()) {this.move = false;}
+                if(this.touchedFragmentIds.size() >= getNbFrontParts()) {
+                    this.move = false;
+                }
                 if(this.getCoords().size() == this.touchedFragmentIds.size()){
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
@@ -471,8 +473,15 @@ public abstract class AbstractBoat implements BoatInterface {
     }
 
     public void setProcessedPosition(ProcessedPosition processedPosition){
+        System.out.println(processedPosition.getBrokenPartIds().toString() + ";" + this.touchedFragmentIds.toString());
         this.facingDirection = processedPosition.direction;
-        this.touchedFragmentIds = processedPosition.brokenPartIds;
+        this.touchedFragmentIds = processedPosition.getBrokenPartIds();
+        if(this.touchedFragmentIds.size() >= getNbFrontParts()) {
+            this.move = false;
+            if(this.touchedFragmentIds.size() == this.getCoords().size()){
+                this.destroy();
+            }
+        }
         this.pivot = processedPosition.pivot;
 
         this.refreshCoords();

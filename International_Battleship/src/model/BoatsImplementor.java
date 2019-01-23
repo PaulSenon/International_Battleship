@@ -73,7 +73,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      */
     public Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
         // check if enough
-        if (! currentPlayer.debitActionPoint(selectedBoat.getRotateCost())){
+        if (! currentPlayer.debitActionPoint(selectedBoat.getShootCost())){
             // if not we donnot shoot
             currentPlayer.undoLastAction();
             return new Pair<>(ResultShoot.FORBIDDEN, null);
