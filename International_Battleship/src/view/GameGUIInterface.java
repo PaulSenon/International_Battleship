@@ -22,7 +22,7 @@ public interface GameGUIInterface {
 
     void setListOfBoat(List<BoatInterface> listOfBoat);
 
-    void initGame(Map<Integer,ProcessedPosition> initBoatPos);
+    void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer);
 
     void setSelectedBoat(ProcessedPosition processedPosition);
 

@@ -1,13 +1,11 @@
 package model;
 
-import tools.BoatFactory;
 import tools.Coord;
 import tools.GameConfig;
 import tools.UniqueIdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PlayersImplementor implements PlayersImplementorInterface {
 

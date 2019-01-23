@@ -6,6 +6,7 @@ import tools.PersonnalException;
 import tools.UniqueIdGenerator;
 
 import javax.swing.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -186,5 +187,5 @@ public class Player implements PlayerInterface {
 	public String toString(){
     	return "Player : " + getName() + " | Port : " + getPortName();
 	}
-
+    
 }

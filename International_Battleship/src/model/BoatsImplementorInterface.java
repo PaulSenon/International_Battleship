@@ -37,4 +37,6 @@ public interface BoatsImplementorInterface {
     List<BoatInterface> getPlayerFleet(PlayerInterface player);
 
     void setProcessedPosition(ProcessedPosition processedPosition);
+
+	Map<Integer, Integer> getBoatsAndPlayersId();
 }

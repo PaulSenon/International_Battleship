@@ -1,5 +1,4 @@
 package model;
-
 import tools.Coord;
 
 public abstract class TargetAction extends SpecialAction {

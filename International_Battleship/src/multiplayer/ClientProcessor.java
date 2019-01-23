@@ -72,6 +72,11 @@ public class ClientProcessor implements Runnable{
 						case "close":
 							closeConnexion = true;
 							break;
+						case "getPlayer":
+							System.out.println("Je suis dans la fonction getPlayer");
+							writer.writeObject(new Player(idPlayer, "Player"+idPlayer,"Port"+idPlayer));
+							writer.flush();
+							break;
 						case "endOfTurn":
 							diffuseMessage((String)response);
 							break;

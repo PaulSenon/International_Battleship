@@ -2,6 +2,7 @@ package model;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import testTools.BaseTests;
 import testTools.Reflection;
 import tools.Coord;

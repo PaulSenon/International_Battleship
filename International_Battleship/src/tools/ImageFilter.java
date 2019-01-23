@@ -108,7 +108,7 @@ public class ImageFilter {
         }
         return tintedImage;
     }
-    
+
 }
 
 

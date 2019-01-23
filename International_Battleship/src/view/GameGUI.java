@@ -20,8 +20,8 @@ import java.util.Map;
 
 public class GameGUI extends JFrame implements GameGUIInterface{
 
+	private static final long serialVersionUID = 7636412061294453620L;
 	private final JTextArea textArea;
-    private static final long serialVersionUID = 7636412061294453620L;
     private ActionPointGUI PAPanel;
     private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
@@ -188,8 +188,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.listOfBoat = listOfBoat;
 	}
 
-	public void initGame(Map<Integer,ProcessedPosition> initBoatPos){
-		this.gridGUI.initGrid(initBoatPos);
+	public void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer){
+		this.gridGUI.initGrid(initBoatPos, boatRelatedToPlayer);
 		this.revalidate();
 		this.repaint();
 	}
