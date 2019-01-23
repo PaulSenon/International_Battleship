@@ -204,6 +204,8 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
         // on affiche les bateau dans les zones visibles
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        //on affiche les mines dans les zones visibles
+        this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         // update action points
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
         // update controls
@@ -259,6 +261,8 @@ public class ControllerClient implements ControllerModelViewInterface {
         // Init visible boats (fragment of enemy boats inside the visible area)
         //      => note: it's useless here but keep it for consistency.
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        //Init visible mines
+        this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         // Init action points
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
 
@@ -292,6 +296,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameModel.setProcessedPosition(processedPosition);
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
     }
 
     public void setupEndTurn() {

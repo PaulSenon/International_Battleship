@@ -256,6 +256,14 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.revalidate();
 		this.repaint();
 	}
+	
+	@Override
+	public void setVisibleMines(List<Coord> visibleCoordCurrentPlayer) {
+		this.gridGUI.setVisibleMines(visibleCoordCurrentPlayer);
+		this.revalidate();
+		this.repaint();
+		
+	}
 
 	public void setControlsEnabled(Boolean enable){
 		for (ButtonGUI button: this.buttons) {

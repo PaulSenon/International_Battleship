@@ -39,6 +39,8 @@ public interface GameGUIInterface {
     void displayResult(ResultShoot first, Coord target);
 
 	void setVisibleBoats(List<Coord> list);
+	
+	void setVisibleMines(List<Coord> list);
 
     void setControlsEnabled(Boolean enable);
 
