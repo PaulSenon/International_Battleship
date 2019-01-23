@@ -36,17 +36,19 @@ public class ImageManager {
 
     private void setExplosionArray(int totalFrames) {
         this.ExplosionArray = new BufferedImage[totalFrames];
-        for (int i=1; i<this.ExplosionArray.length; i++){
-            BufferedImage gifImage = ImageManager.getImageCopy("explosion/explosion" + i + ".png");
-            this.ExplosionArray[i-1] = gifImage;
+        for (int i=0; i<this.ExplosionArray.length; i++){
+        	int j = i+1;
+            BufferedImage gifImage = ImageManager.getImageCopy("explosion/explosion" + j + ".png");
+            this.ExplosionArray[i] = gifImage;
         }
     }
 
     private void setExplomissArray(int totalFrames) {
         this.ExplomissArray = new BufferedImage[totalFrames];
-        for (int i=1; i<this.ExplomissArray.length; i++){
-            BufferedImage gifImage = ImageManager.getImageCopy("explomiss/explomiss" + i + ".png");
-            this.ExplomissArray[i-1] = gifImage;
+        for (int i=0; i<this.ExplomissArray.length; i++){
+        	int j = i+1;
+            BufferedImage gifImage = ImageManager.getImageCopy("explomiss/explomiss" + j + ".png");
+            this.ExplomissArray[i] = gifImage;
         }
     }
 

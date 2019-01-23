@@ -408,7 +408,6 @@ public class GridGUI extends JLayeredPane {
             this.squares.get(target).repaint();
 	}
 
-
 	public boolean boatIsSelected() {
 		if(this.selectedBoat!=null){
 			return true;

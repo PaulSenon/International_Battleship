@@ -268,7 +268,6 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		}
 	}
 
-
     public boolean boatIsSelected(){
     	return this.gridGUI.boatIsSelected();
 	}

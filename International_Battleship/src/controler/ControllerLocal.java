@@ -58,8 +58,6 @@ public class ControllerLocal implements ControllerModelViewInterface {
         }
     }
 
-
-
     /**
      *
      * @param xDest

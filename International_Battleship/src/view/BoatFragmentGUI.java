@@ -179,7 +179,6 @@ public class BoatFragmentGUI extends JLabel{
 		this.image = image;
 	}
 
-
 	public void setNotSelected(){
 		this.isSelected=false;
 		this.repaint();
@@ -202,8 +201,6 @@ public class BoatFragmentGUI extends JLabel{
 			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
 		}
 	}
-
-
 
 	/**
 	 * Method called AUTOMATICALLY on repaint() on this or parent UI components

@@ -44,7 +44,7 @@ public class LauncherBattleShipGame {
 						BoatType.TorpedoBoat
 				},
 				new Color(255, 247, 0, 255).getRGB(),
-				16, //Number of explosion images
+				17, //Number of explosion images
 				8 //Number of explomiss images
 		);
 
