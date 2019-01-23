@@ -15,7 +15,7 @@ public interface GameGUIInterface {
 
 	ActionType getCurrentAction();
 
-    void setProcessedPotion(ProcessedPosition processedPosition);
+    void setProcessedPosition(ProcessedPosition processedPosition);
 
     List<BoatInterface> getListOfBoat();
 
@@ -39,7 +39,13 @@ public interface GameGUIInterface {
 
 	void setVisibleBoats(List<Coord> list);
 
-    public void setControlsEnable(Boolean enable);
+    void setControlsEnabled(Boolean enable);
+
+    void setButtonEnabled(ButtonType type, boolean enabled);
+
+    void resetButtonDefaultState(ButtonType type);
 
     boolean boatIsSelected();
+
+    void setButtonHighLight(ButtonType type, boolean highlighted);
 }

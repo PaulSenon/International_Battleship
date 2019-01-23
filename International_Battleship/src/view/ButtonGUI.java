@@ -4,6 +4,7 @@ package view;
 import tools.ActionType;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ButtonGUI extends JButton{
 
@@ -12,15 +13,16 @@ public class ButtonGUI extends JButton{
 	private String activeText;
 	private ButtonType type;
 	private ButtonType state;
+	private Color defaultColor;
 	
 
 	public ButtonGUI(ButtonType type, String defaultText, String activeText) {
 		super(defaultText);
-
 		this.defaultText = defaultText;
 		this.activeText = activeText;
 		this.state = ButtonType.DEFAULT_STATE;
 		this.type = type;
+		this.defaultColor = this.getForeground();
 	}
 
 	public void resetDefault(){
@@ -74,5 +76,12 @@ public class ButtonGUI extends JButton{
 				System.out.println("Error ButtonGUI wrong action type");
 		}
 	}
-	
+
+	public void setHighlighted(boolean highlighted) {
+		if(highlighted){
+			this.setForeground(Color.RED);
+		}else{
+			this.setForeground(this.defaultColor);
+		}
+	}
 }
