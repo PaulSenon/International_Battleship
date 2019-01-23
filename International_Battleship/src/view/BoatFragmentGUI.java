@@ -161,8 +161,8 @@ public class BoatFragmentGUI extends JLabel{
 					System.out.println("Wrong boat type");
 					break;
 			}
-			this.image = ImageFilter.tintImage(ImageManager.getImageCopy(this.imageName), this.colorPlayer);
-			this.imageSelected = ImageFilter.edgingColoration(ImageFilter.tintImage(ImageManager.getImageCopy(this.imageName), this.colorPlayer));
+			this.image = ImageFilter.tintImage(ImageManager.getImageCopy(this.imageName), this.colorPlayer, false);
+			this.imageSelected = ImageFilter.edgingColoration(ImageFilter.tintImage(ImageManager.getImageCopy(this.imageName), this.colorPlayer, false));
 			this.repaint();
 	}
 
@@ -196,8 +196,8 @@ public class BoatFragmentGUI extends JLabel{
 		}
     	this.direction = direction;
 		try {
-			this.image = ImageFilter.tintImage(ImageManager.getImageCopyRotated(this.imageName, direction.rotation), this.colorPlayer);
-			this.imageSelected = ImageFilter.edgingColoration(ImageFilter.tintImage(ImageManager.getImageCopyRotated(this.imageName, direction.rotation), this.colorPlayer));
+			this.image = ImageFilter.tintImage(ImageManager.getImageCopyRotated(this.imageName, direction.rotation), this.colorPlayer, false);
+			this.imageSelected = ImageFilter.edgingColoration(ImageFilter.tintImage(ImageManager.getImageCopyRotated(this.imageName, direction.rotation), this.colorPlayer, false));
 		} catch (IOException e) {
 			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
 		}

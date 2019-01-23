@@ -3,12 +3,14 @@ package model;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import testTools.BaseTests;
 import testTools.Reflection;
 import tools.Coord;
 import tools.Direction;
 import tools.GameConfig;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,8 @@ public class GameModelTest extends BaseTests {
                 },
                 0,
                 0,
-                0
+                0,
+                new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0)
         );
 
         // create boats implementor

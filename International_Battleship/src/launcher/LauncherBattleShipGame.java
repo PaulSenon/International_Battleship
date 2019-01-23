@@ -12,6 +12,7 @@ import tools.ImageManager;
 import view.GameGUI;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,9 +44,13 @@ public class LauncherBattleShipGame {
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
 				},
-				new Color(255, 247, 0, 255).getRGB(),
+				new Color(255, 247, 0, 255).getRGB(), //Color of edging
 				16, //Number of explosion images
-				8 //Number of explomiss images
+				8, //Number of explomiss images
+				new Color(255,0,0,255), //Color of Player1
+				new Color(0,255,0,255), //Color of Player2
+				new Color(100,100,255,255), //Color of Player3
+				new Color(255,100,255,255) //Color of Player4
 		);
 
 		// setup image manager :

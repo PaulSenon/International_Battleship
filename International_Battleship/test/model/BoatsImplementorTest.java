@@ -10,6 +10,7 @@ import tools.Direction;
 import tools.GameConfig;
 import tools.ProcessedProps;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,8 @@ public class BoatsImplementorTest extends BaseTests {
                 },
                 0,
                 0,
-                0
+                0,
+                new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0)
         );
         List<PlayerInterface> players = new ArrayList<>();
         List<BoatType> boatTypes = new ArrayList<>();

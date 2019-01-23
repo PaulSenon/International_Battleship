@@ -15,6 +15,10 @@ public class GameConfig {
 	private static int edgingColor;
 	private static int numberOfExplosionImages;
 	private static int numberOfExplomissImages;
+	private static Color colorPlayer1;
+	private static Color colorPlayer2;
+	private static Color colorPlayer3;
+	private static Color colorPlayer4;
 
 	private static GameConfig instance = null;
 	
@@ -28,7 +32,11 @@ public class GameConfig {
 			BoatType[] fleet,
 			int edgingColor,
 			int numberOfExplosionImages,
-			int numberOfExplomissImages
+			int numberOfExplomissImages,
+			Color colorPlayer1,
+			Color colorPlayer2,
+			Color colorPlayer3,
+			Color colorPlayer4
 	) {
 		if (instance == null){
 			return forceNewInstance(
@@ -41,7 +49,11 @@ public class GameConfig {
 				fleet,
 				edgingColor,
 				numberOfExplosionImages,
-				numberOfExplomissImages
+				numberOfExplomissImages,
+				colorPlayer1,
+				colorPlayer2,
+				colorPlayer3,
+				colorPlayer4
 			);
 		}
 		return instance;
@@ -57,7 +69,11 @@ public class GameConfig {
 			BoatType[] fleet,
 			int edgingColor,
 			int numberOfExplosionImages,
-			int numberOfExplomissImages
+			int numberOfExplomissImages,
+			Color colorPlayer1,
+			Color colorPlayer2,
+			Color colorPlayer3,
+			Color colorPlayer4
 	){
 		instance = new GameConfig(
 				gameGridWidth,
@@ -69,7 +85,11 @@ public class GameConfig {
 				fleet,
 				edgingColor,
 				numberOfExplosionImages,
-				numberOfExplomissImages
+				numberOfExplomissImages,
+				colorPlayer1,
+				colorPlayer2,
+				colorPlayer3,
+				colorPlayer4
 		);
 		return instance;
 	}
@@ -84,7 +104,11 @@ public class GameConfig {
 			BoatType[] fleet,
 			int edgingColor,
 			int numberOfExplosionImages,
-			int numberOfExplomissImages
+			int numberOfExplomissImages,
+			Color colorPlayer1,
+			Color colorPlayer2,
+			Color colorPlayer3,
+			Color colorPlayer4
 	) {
 		GameConfig.gameGridWidth = gameGridWidth;
 		GameConfig.gameGridHeight = gameGridHeight;
@@ -96,6 +120,10 @@ public class GameConfig {
 		GameConfig.edgingColor = edgingColor;
 		GameConfig.numberOfExplosionImages = numberOfExplosionImages;
 		GameConfig.numberOfExplomissImages = numberOfExplomissImages;
+		GameConfig.colorPlayer1 = colorPlayer1;
+		GameConfig.colorPlayer2 = colorPlayer2;
+		GameConfig.colorPlayer3 = colorPlayer3;
+		GameConfig.colorPlayer4 = colorPlayer4;
 	}
 	
 	public static int getGameGridWidth() {
@@ -123,12 +151,11 @@ public class GameConfig {
 	public static int getNumberOfExplosionImages() {return numberOfExplosionImages;}
 	public static int getNumberOfExplomissImages() {return numberOfExplomissImages;}
 	public static Color[] getColors(){
-		//A REVOIR: FAIT EN DUR POUR TEST
-		Color[] colors = new Color[4];
-		colors[0] = new Color(53,212,53,204);
-		colors[1] = new Color(121,53,55,204);
-		colors[2] = new Color(53,55,212,204);
-		colors[3] = new Color(233,137,11,204);
+		Color[] colors = new Color[getNbMaxPlayer()];
+		colors[0] = colorPlayer1;
+		colors[1] = colorPlayer2;
+		colors[2] = colorPlayer3;
+		colors[3] = colorPlayer4;
 		return colors;
 	}
 }
