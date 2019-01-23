@@ -283,15 +283,14 @@ public class ControllerClient implements ControllerModelViewInterface {
     @Override
     public void EndActionsOfPlayer() {
         this.setupEndTurn();
-        this.gameGUI.setControlsEnabled(this.gameModel.itsTurn());
         this.client.endOfTurn();
     }
 
     public void update(ProcessedPosition processedPosition){
         this.gameGUI.setProcessedPosition(processedPosition);
+        this.gameModel.setProcessedPosition(processedPosition);
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-        this.gameModel.setProcessedPosition(processedPosition);
     }
 
     public void setupEndTurn() {
@@ -303,6 +302,10 @@ public class ControllerClient implements ControllerModelViewInterface {
         // reset action
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // update controls
-        this.routineUpdates();
+        if(this.gameModel.itsTurn()){
+            this.updateControls();
+        }else {
+            this.gameGUI.setControlsEnabled(false);
+        }
     }
 }

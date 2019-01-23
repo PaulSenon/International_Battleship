@@ -53,6 +53,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
                         System.out.println("BoatsImplementor ERROR: Generate fleet, there is too much fleets, please check your game configuration");
                         spawnPosition = new Coord(-1,-1);
                         spawnDirection = Direction.DEFAULT();
+                        return;
                 }
                 boat = BoatFactory.newBoat(boatEntry.getKey(), boatEntry.getValue(), spawnPosition, p.getId());
                 boat.setFacingDirection(spawnDirection);
