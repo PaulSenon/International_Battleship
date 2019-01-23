@@ -12,6 +12,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
 	private List<BoatInterface> boats;
 	private MineImplementor mineImplementor;
+	private PortImplementor portImplementor;
 
 
     public BoatsImplementor(List<PlayerInterface> players) {
@@ -172,7 +173,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         ProcessedProps processedProps = null;
 
         while(!coord.equals(destination)) {
-            coord.addStepDirection(boat.getDirection(), 1);
+            coord.addStepDirection(boat.getDirection(), 1);          
             boat.move(coord);
 
             //Check if new coords of boat meet a mine
@@ -260,6 +261,10 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
         List<BoatInterface> boatsFound;
         for(Coord coord : selectedBoat.getCoords()){
+            //check : new coords are in an ennemy port
+            if(this.portImplementor.checkIfCoordInEnnemyPort(coord, selectedBoat.getPlayerId()))
+            	return false;
+        	
             // check: out of bounds
             if(coord.getX() >= GameConfig.getGameGridWidth()
                 || coord.getX() < 0
@@ -461,4 +466,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 		}
     }
 
+    public void setPortImplementor(PortImplementor portImplementor){
+    	this.portImplementor = portImplementor;
+    }
 }

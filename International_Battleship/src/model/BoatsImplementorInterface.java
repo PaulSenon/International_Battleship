@@ -40,4 +40,6 @@ public interface BoatsImplementorInterface {
     void setProcessedPosition(ProcessedPosition processedPosition);
 
 	Map<Integer, Integer> getBoatsAndPlayersId();
+	
+	void setPortImplementor(PortImplementor portImplementor);
 }

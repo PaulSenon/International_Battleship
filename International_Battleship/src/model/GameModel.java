@@ -49,9 +49,14 @@ public class GameModel implements GameModelInterface{
             // TODO debug, to set the first player... May be not clean...
             this.currentPlayer = playersImplementor.getPlayers().get(0);
             portImplementor = new PortImplementor(playersImplementor.getPlayers());
+            sendPortImplementorToBoatsImplementor();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void sendPortImplementorToBoatsImplementor(){
+    	this.battleshipImplementor.setPortImplementor(this.portImplementor);
     }
 
     public GameModel(boolean isServer) {
