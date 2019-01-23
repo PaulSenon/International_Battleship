@@ -3,6 +3,7 @@ package model;
 import tools.Coord;
 import tools.Pair;
 import tools.ProcessedPosition;
+import tools.ProcessedProps;
 import tools.ResultShoot;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface BoatsImplementorInterface {
 
     ProcessedPosition moveBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord destination);
 
-    ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
+    Pair<ProcessedPosition,ProcessedProps> rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
 
     Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
 
@@ -37,4 +38,6 @@ public interface BoatsImplementorInterface {
     List<BoatInterface> getPlayerFleet(PlayerInterface player);
 
     void setProcessedPosition(ProcessedPosition processedPosition);
+
+	Map<Integer, Integer> getBoatsAndPlayersId();
 }

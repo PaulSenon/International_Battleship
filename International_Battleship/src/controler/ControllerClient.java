@@ -2,27 +2,27 @@ package controler;
 
 
 import model.GameModelInterface;
+import model.exceptions.SelectBoatException;
 import multiplayer.Client;
 import tools.*;
+import view.ButtonType;
 import view.GameGUIInterface;
 
-import javax.swing.*;
+import java.util.List;
 import java.util.Map;
 
 public class ControllerClient implements ControllerModelViewInterface {
 
-    private GameModelInterface gameModel;
-    private GameGUIInterface gameGUI;
+    protected GameModelInterface gameModel;
+    protected GameGUIInterface gameGUI;
     private Client client;
-
-
 
     /**
      * __CONSTRUCTOR__
      * @param gameModel
      * @param gameGUI
      */
-    public ControllerClient(GameModelInterface gameModel, GameGUIInterface gameGUI,Client client) {
+    public ControllerClient(GameModelInterface gameModel, GameGUIInterface gameGUI, Client client) {
         System.out.println("Controller\n");
         this.gameModel = gameModel;
         this.gameGUI = gameGUI;// set latter
@@ -36,23 +36,33 @@ public class ControllerClient implements ControllerModelViewInterface {
      * @param y
      */
     public void selectBoat(int x, int y) {
-//		if(this.gameModel.selectBoat(x, y)){
-//			System.out.println("YES boat has been selected");//pour debug mais je laisse tant que la vue n'est géré
-//		    this.gameGUI.setCurrentAction(ActionType.MOVE);//on change la valeur du ActionType pour la return après
-//            this.gameGUI.setSelectedBoatByCoord(x,y);
-//        }
-
-        if(!this.gameModel.itsTurn())return;
-        ProcessedPosition processedPosition = this.gameModel.selectBoat(x, y);
-        if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.MOVE);
-            this.gameGUI.setSelectedBoat(processedPosition);
+        if(this.tryToSelectBoat(x, y)) {
+            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
         }else{
-            // TODO just a placeholder yet
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            System.out.println("SelectBoatFailed");
+            this.gameGUI.message("Il n'y a pas un de vos bateaux ici.");
         }
     }
+
+    /**
+     * Try to perform boat selection,
+     * true if successful
+     * false if it failed
+     * @param x
+     * @param y
+     * @return isBoatHasBeenSelected
+     */
+    private boolean tryToSelectBoat(int x, int y){
+        try{
+            ProcessedPosition processedPosition = this.gameModel.selectBoat(x, y);
+            this.gameGUI.setSelectedBoat(processedPosition);
+            this.updateControls();
+            return true;
+        }catch (SelectBoatException e){
+            return false;
+        }
+    }
+
+
 
     /**
      *
@@ -60,65 +70,52 @@ public class ControllerClient implements ControllerModelViewInterface {
      * @param yDest
      */
     public void moveBoat(int xDest, int yDest){
+        // Try to select boat first
+        if(this.tryToSelectBoat(xDest, yDest)) return;
+        // Do move action only if select failed...
+
+        // else, perform move action
         ProcessedPosition processedPosition = this.gameModel.moveBoat(xDest, yDest);
         if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
+            // Update position
+            this.sendProcessedPosition(processedPosition);
+            // Do the usual updates
+            this.routineUpdates();
         }else{
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            this.gameGUI.messagePopUp("You must select a boat to perform this action");
         }
-    }
-
-
-    public void update(ProcessedPosition processedPosition){
-        this.gameGUI.setProcessedPotion(processedPosition);
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-        this.gameModel.setProcessedPosition(processedPosition);
     }
 
     /**
      *
      */
     public void rotateBoatClockWise(){
+        // perform rotate action
         ProcessedPosition processedPosition = this.gameModel.rotateBoatClockWise();
         if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.gameModel.unselectBoat();
-            this.gameGUI.setSelectedBoat(null);
-            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
+            // Update position
+            this.sendProcessedPosition(processedPosition);
+            // Do the usual updates
+            this.routineUpdates();
         }else{
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
+            this.gameGUI.messagePopUp("You must select a boat to perform this action");
         }
+
     }
 
     /**
      *
      */
     public void rotateBoatCounterClockWise(){
+        // perform rotate action
         ProcessedPosition processedPosition = this.gameModel.rotateBoatCounterClockWise();
         if(processedPosition != null){
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.setProcessedPotion(processedPosition);
-            this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.gameModel.unselectBoat();
-            this.gameGUI.setSelectedBoat(null);
-            this.client.sendProcessedPosition(processedPosition);//Send proc pos to network
+            // Update position
+            this.sendProcessedPosition(processedPosition);
+            // Do the usual updates
+            this.routineUpdates();
         }else{
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
+            this.gameGUI.messagePopUp("You must select a boat to perform this action");
         }
     }
 
@@ -129,74 +126,187 @@ public class ControllerClient implements ControllerModelViewInterface {
      */
     @Override
     public void shoot(int x, int y) {
-        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(new Coord(x, y));
-        if(result != null){
-            if(result.getFirst() != null){
-                this.gameGUI.setProcessedPotion(result.getSecond());
+        // Try to select boat
+        if(this.tryToSelectBoat(x, y)){
+            this.gameGUI.setCurrentAction(ActionType.DEFAULT()); // SHOOT => DEFAULT
+            return;
+        }
+        // Perform shoot action only if select boat failed
+
+        Coord target = new Coord(x, y);
+        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(target);
+
+        ResultShoot resultShoot = result.getFirst();
+        if (resultShoot == null) System.err.println("Error shoot action");
+
+        // display visual feedback
+        this.gameGUI.displayResult(resultShoot, target);
+
+        // update visual
+        ProcessedPosition processedPosition = result.getSecond();
+        // update if needed
+        if(processedPosition != null){
+            this.sendProcessedPosition(processedPosition);
+        }
+
+        // Do the usual updates
+        this.routineUpdates();
+
+        // DEBUG
+        System.out.println("shoot result : "+resultShoot);
+    }
+
+    @Override
+    public void specialAction(int x, int y) {
+        // Try to select boat
+        if(tryToSelectBoat(x, y)){
+            this.gameGUI.setCurrentAction(ActionType.DEFAULT()); // SPECIALACTION => MOVE
+            return;
+        }
+        // Perform shoot action only if select boat failed
+
+        Coord target = new Coord(x, y);
+        List<Pair<ResultShoot, ProcessedPosition>> results = this.gameModel.specialAction(target);
+        ResultShoot resultShoot;
+        ProcessedPosition processedPosition;
+
+        // TODO will needs rework if not all special targeted actions are some shoot variants :
+        if(results != null){
+            boolean touched = false;
+            for(Pair<ResultShoot, ProcessedPosition> res : results){
+                resultShoot = res.getFirst();
+                processedPosition = res.getSecond();
+
+                if (resultShoot == null) continue; // skip
+
+                this.sendProcessedPosition(processedPosition);
+                if(resultShoot.equals(ResultShoot.TOUCHED)) touched = true;
             }
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            this.gameGUI.message("shoot result : "+result.getFirst());
-            this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-            this.client.sendProcessedPosition(result.getSecond());//Send proc pos to network
-        }else{
-            this.gameGUI.setCurrentAction(ActionType.SELECT);
-            JOptionPane.showMessageDialog(null, "Un bateau doit être sélectionné.", null , JOptionPane.INFORMATION_MESSAGE);
+            if(touched) this.gameGUI.displayResult(ResultShoot.TOUCHED, target);
+            this.routineUpdates();
         }
     }
+
+    /**
+     * It send a processedPosition to classes that need update
+     * (GUI / Network / ...)
+     * @param processedPosition
+     */
+    // TODO move this in an abstract parent and implement it differently for Local and Client controller
+    protected void sendProcessedPosition(ProcessedPosition processedPosition) {
+        this.gameGUI.setProcessedPosition(processedPosition);
+        client.sendProcessedPosition(processedPosition);
+    }
+
+    protected void routineUpdates(){
+        // update visible area
+        // on affiche les zones visibles
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
+        // on affiche les bateau dans les zones visibles
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        // update action points
+        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        // update controls
+        this.updateControls();
+    }
+
+    // TODO
+    protected void updateControls(){
+        // get if there is a selected boat => else disable all buttons but end of turn
+        if(gameModel.hasSelectedBoat()){
+            boolean canShoot = gameModel.canCurrentBoatShoot();
+            gameGUI.setButtonEnabled(ButtonType.SHOOT, canShoot);
+
+            boolean canRotate = gameModel.canCurrentBoatRotate();
+            gameGUI.setButtonEnabled(ButtonType.ROTATECW, canRotate);
+            gameGUI.setButtonEnabled(ButtonType.ROTATECCW, canRotate);
+
+            boolean canSpecialAction = gameModel.canCurrentBoatDoSpecialAction();
+            gameGUI.setButtonEnabled(ButtonType.SPECIALACTION, canSpecialAction);
+
+            if(!canShoot && !canRotate && !canSpecialAction){
+                gameGUI.setButtonHighLight(ButtonType.ENDTURN, true);
+            }else{
+                gameGUI.setButtonHighLight(ButtonType.ENDTURN, false);
+            }
+        }else{
+            gameGUI.setButtonEnabled(ButtonType.SHOOT, false);
+            gameGUI.setButtonEnabled(ButtonType.ROTATECCW, false);
+            gameGUI.setButtonEnabled(ButtonType.ROTATECW, false);
+            gameGUI.setButtonEnabled(ButtonType.SPECIALACTION, false);
+            gameGUI.setButtonHighLight(ButtonType.ENDTURN, false);
+        }
+        gameGUI.setButtonEnabled(ButtonType.ENDTURN, true);
+    }
+
 
     /**
      *
      */
     public void initGame() {
-        // TODO Auto-generated method stub
+        // DEBUG
         System.out.println("test print list of boat");
         System.out.println(this.gameModel.getListOfBoat());
+
+        // Init boats on board
         Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
-        this.gameGUI.initGame(initBoatPos);
-        this.gameGUI.setCurrentAction(ActionType.SELECT);
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        Map<Integer, Integer> boatsRelatedToPlayers = this.gameModel.getBoatsAndPlayersId();
+        this.gameGUI.initGame(initBoatPos, boatsRelatedToPlayers);
+        // Init currentAction
+        this.gameGUI.setCurrentAction(ActionType.INIT());
+        // Init visible area
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
+        // Init visible boats (fragment of enemy boats inside the visible area)
+        //      => note: it's useless here but keep it for consistency.
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        // Init action points
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-        this.gameGUI.setControlsEnable(this.gameModel.itsTurn());
+
+        if(this.gameModel.itsTurn()){
+            this.updateControls();
+        }else {
+            this.gameGUI.setControlsEnabled(false);
+        }
     }
 
     /**
-     *
+     * Used from GUI to request a new action (use from buttons listeners)
      * @param actionType
      */
     public void requestActionType(ActionType actionType){
-        this.gameGUI.setCurrentAction(actionType);
-    }
-
-    /**
-     * FOR DEBUG
-     * @return GameGUIInterface
-     */
-    public GameGUIInterface getGameGUI() {
-        return gameGUI;
+        if(this.gameModel.hasSelectedBoat()){
+            this.gameGUI.setCurrentAction(actionType);
+        }else{
+            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
+        }
     }
 
     @Override
-    public void specialAction(Coord coordSquare) {
-        this.gameModel.specialAction(coordSquare);
-        this.gameGUI.setCurrentAction(ActionType.MOVE);
-        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-    }
-
-	@Override
-	public void EndActionsOfPlayer() {
+    public void EndActionsOfPlayer() {
         this.setupEndTurn();
         this.client.endOfTurn();
+    }
 
-	}
+    public void update(ProcessedPosition processedPosition){
+        this.gameGUI.setProcessedPosition(processedPosition);
+        this.gameModel.setProcessedPosition(processedPosition);
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+    }
 
     public void setupEndTurn() {
+        // end turn
         this.gameModel.EndActionsOfPlayer();
-        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
-        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        // unselect boat
         this.gameModel.unselectBoat();
         this.gameGUI.setSelectedBoat(null);
-        this.gameGUI.setControlsEnable(this.gameModel.itsTurn());
+        // reset action
+        this.gameGUI.setCurrentAction(ActionType.INIT());
+        // update controls
+        if(this.gameModel.itsTurn()){
+            this.updateControls();
+        }else {
+            this.gameGUI.setControlsEnabled(false);
+        }
     }
 }

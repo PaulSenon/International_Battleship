@@ -3,10 +3,12 @@ package view;
 import model.BoatType;
 import tools.Coord;
 import tools.Direction;
+import tools.GameConfig;
 import tools.ImageFilter;
 import tools.ImageManager;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -49,11 +51,13 @@ public class BoatFragmentGUI extends JLabel{
 
 	private boolean isSelected;
 
+	private Color colorPlayer;
+
 	/**
 	 * __CONSTRUCTOR__
 	 * @param coord is the coord associated to this boatFragment
 	 */
-	public BoatFragmentGUI(int boatId, Coord coord, BoatType name, int imageIndex) {
+	public BoatFragmentGUI(int boatId, Coord coord, BoatType name, int imageIndex, int playerPosition) {
 			super();
 
 			// set attributes
@@ -66,6 +70,8 @@ public class BoatFragmentGUI extends JLabel{
 			this.imageName = "";
 			this.fragmentVisible = false;
 			this.isSelected = false;
+			Color[] colors = GameConfig.getColors();
+			this.colorPlayer = colors[playerPosition];
 
 			/*
 			try {
@@ -155,8 +161,8 @@ public class BoatFragmentGUI extends JLabel{
 					System.out.println("Wrong boat type");
 					break;
 			}
-		this.imageSelected = ImageFilter.edgingColoration(ImageManager.getImageCopy(this.imageName));
-		this.image = ImageManager.getImageCopy(this.imageName);
+			this.image = ImageFilter.tintImage(ImageManager.getImageCopy(this.imageName), this.colorPlayer);
+			this.imageSelected = ImageFilter.edgingColoration(ImageFilter.tintImage(ImageManager.getImageCopy(this.imageName), this.colorPlayer));
 			this.repaint();
 	}
 
@@ -190,8 +196,8 @@ public class BoatFragmentGUI extends JLabel{
 		}
     	this.direction = direction;
 		try {
-			this.image = ImageManager.getImageCopyRotated(this.imageName, direction.rotation);
-			this.imageSelected = ImageFilter.edgingColoration(ImageManager.getImageCopyRotated(this.imageName, direction.rotation));
+			this.image = ImageFilter.tintImage(ImageManager.getImageCopyRotated(this.imageName, direction.rotation), this.colorPlayer);
+			this.imageSelected = ImageFilter.edgingColoration(ImageFilter.tintImage(ImageManager.getImageCopyRotated(this.imageName, direction.rotation), this.colorPlayer));
 		} catch (IOException e) {
 			System.out.println("ERROR BoatFragmentGUI : loading rotated copy image failed");
 		}
@@ -208,12 +214,10 @@ public class BoatFragmentGUI extends JLabel{
 		if (!this.isFragmentVisible()) return;
 
         // draw its sprite image on the whole plane
-		if(isSelected) {
+		if(isSelected)
 			g.drawImage(this.imageSelected, 0, 0, getWidth(), getHeight(), this);
-		}
-		else {
+		else
 			g.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
-		}
 
         // display something to show that the fragment is broken
 		if(this.broken){

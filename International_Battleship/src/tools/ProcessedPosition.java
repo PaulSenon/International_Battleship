@@ -3,6 +3,7 @@ package tools;
 import model.BoatType;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,14 +16,14 @@ import java.util.List;
 public class ProcessedPosition implements Serializable{
 
 
-    static final long serialVersionUID = 6734671468768713L;
+    static final long serialVersionUID = 6734671468716873L;
 
     public Direction direction;
     // TODO we do not transfer Coord from model to view. So do we need to change this here ?
     public List<Coord> coords;
     public int boatId;
     public BoatType name;
-    public List<Integer> brokenPartIds;
+    private List<SerInteger> brokenPartIds;
     public Coord pivot;
 
     public ProcessedPosition(
@@ -38,6 +39,31 @@ public class ProcessedPosition implements Serializable{
         this.pivot = pivot;
         this.direction = direction;
         this.coords = coord;
-        this.brokenPartIds = brokenPartIds;
+        List<SerInteger> vals = new ArrayList<>();//C'est dégueu mais ça marche
+        for (int i:brokenPartIds) {
+            vals.add(new SerInteger(i));
+        }
+        this.brokenPartIds = vals;
+    }
+
+    @Override
+    public String toString() {
+        return "ProcessedPosition{" +
+                "direction=" + direction +
+                ", coords=" + coords +
+                ", boatId=" + boatId +
+                ", name=" + name +
+                ", brokenPartIds=" + brokenPartIds +
+                ", pivot=" + pivot +
+                '}';
+    }
+
+
+    public List<Integer>  getBrokenPartIds(){
+        List<Integer> val = new ArrayList<>();
+        for (SerInteger i: brokenPartIds) {
+            val.add(new Integer (i.getVal()));
+        }
+    return val;
     }
 }

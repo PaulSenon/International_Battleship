@@ -1,6 +1,9 @@
 package model;
 
 import tools.Coord;
+import tools.ProcessedPosition;
+import tools.ProcessedProps;
+import tools.StateMine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,4 +50,19 @@ public class Mine {
         }
         return areaOfEffect;
     }
+	
+    /**
+     * @return ProcessedProps
+     */
+    public ProcessedProps getProcessedProps(){
+        return new ProcessedProps(this.idMine, this.coord, this.idPlayer, StateMine.ALIVE);
+    }
+    
+	public int getIdMine() {
+		return idMine;
+	}
+
+	public int getVisibleRadius() {
+		return visibleRadius;
+	}
 }

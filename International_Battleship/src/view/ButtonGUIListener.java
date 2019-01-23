@@ -30,7 +30,7 @@ public class ButtonGUIListener implements ActionListener {
 				if(button.getState() == ButtonType.DEFAULT_STATE){
 					gameController.requestActionType(ActionType.SHOOT);
 				}else if(button.getState() == ButtonType.CANCEL_STATE){
-					gameController.requestActionType(ActionType.MOVE);
+					gameController.requestActionType(ActionType.DEFAULT());
 				}
 				break;
 			case ROTATECW:
@@ -43,7 +43,7 @@ public class ButtonGUIListener implements ActionListener {
 				if(button.getState() == ButtonType.DEFAULT_STATE){
 					gameController.requestActionType(ActionType.SPECIAL);
 				}else if(button.getState() == ButtonType.CANCEL_STATE){
-					gameController.requestActionType(ActionType.MOVE);
+					gameController.requestActionType(ActionType.DEFAULT());
 				}
 				break;
 			case ENDTURN:

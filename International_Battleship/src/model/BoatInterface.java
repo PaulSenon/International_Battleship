@@ -65,4 +65,10 @@ public interface BoatInterface {
 	SpecialActionInterface getSpecialAction();
 
     void setProcessedPosition(ProcessedPosition processedPosition);
+
+	void setDammage(int nbDammage) throws Exception;
+	
+	public List<Integer> getTouchedFragmentIds();
+	
+	public Coord getCoordBehind();
 }

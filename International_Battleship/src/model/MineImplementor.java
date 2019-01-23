@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tools.Coord;
+import tools.ProcessedProps;
+import tools.StateMine;
 import tools.UniqueIdGenerator;
 
 public class MineImplementor {
@@ -13,13 +15,14 @@ public class MineImplementor {
 		this.mines = new ArrayList<>();
 	}
 	
-	public void createMine(Coord coordMine, int idPlayer){
+	public ProcessedProps createMine(Coord coordMine, int idPlayer){
 		if (this.isMined(coordMine)) {
 			System.out.println("Attention une mine existe déjà à cet endroit");
-			return;
+			return null;
 		}
 		Mine mine = new Mine(coordMine,UniqueIdGenerator.getNextId(),idPlayer,0);
 		this.mines.add(mine);
+		return mine.getProcessedProps();
 	}
 	
 	public boolean isMined(Coord coordMine){
@@ -41,17 +44,19 @@ public class MineImplementor {
 		return visibleCoords;
 	}
 	
-	public void destroyMine(Coord coord){
+	public ProcessedProps destroyMine(Coord coord){
 		if(isMined(coord)){
-			for (int i = 0; i < mines.size(); i++) {
-				if (mines.get(i).getCoord().equals(coord)) {
-					mines.remove(i);
-					break;
+			for (int i = 0; i < this.mines.size(); i++) {
+				Mine mine = this.mines.get(i);
+				if (mine.getCoord().equals(coord)) {
+					this.mines.remove(i);
+					return new ProcessedProps(i, coord, mine.getIdPlayer(), StateMine.DESTROY);
 				}
 			}
 		}
 		else{
 			System.out.println("Suppression impossible car il n'y a pas de mine aux coordonnées indiquées");
 		}
+		return null;
 	}
 }

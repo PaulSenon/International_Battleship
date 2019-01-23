@@ -1,13 +1,20 @@
 package model;
 
 
+import model.exceptions.SelectBoatException;
 import tools.*;
 
 import javax.swing.*;
+
+import java.awt.Color;
+import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class GameModel implements GameModelInterface{
 
@@ -21,6 +28,7 @@ public class GameModel implements GameModelInterface{
     private BoatInterface selectedBoat;
     private PlayerInterface currentPlayer;
     private PlayerInterface clientPlayer;
+    private PortImplementor portImplementor;
     private int turn;
 	private int day;
 
@@ -40,6 +48,7 @@ public class GameModel implements GameModelInterface{
             battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
             // TODO debug, to set the first player... May be not clean...
             this.currentPlayer = playersImplementor.getPlayers().get(0);
+            portImplementor = new PortImplementor(playersImplementor.getPlayers());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,7 +73,7 @@ public class GameModel implements GameModelInterface{
 
     public GameModel(List<PlayerInterface> players) {
         // Create UID static instance
-        UniqueIdGenerator.newInstance();
+        UniqueIdGenerator.newInstance(4);
 
         this.selectedBoat = null;
 
@@ -73,7 +82,7 @@ public class GameModel implements GameModelInterface{
             playersImplementor = new PlayersImplementor(players);
 
             battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
-
+            portImplementor = new PortImplementor(playersImplementor.getPlayers());
             setupGame();
 
         } catch (Exception e) {
@@ -110,7 +119,7 @@ public class GameModel implements GameModelInterface{
      * @param yDest is the desired destination y coordinate on the game board
      * @return Coord is the pivot coordinate where the boat is after processing (may no change)
      */
-        public ProcessedPosition moveBoat(int xDest, int yDest) {
+    public ProcessedPosition moveBoat(int xDest, int yDest){
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -140,7 +149,7 @@ public class GameModel implements GameModelInterface{
      *
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoatClockWise() {
+    public ProcessedPosition rotateBoatClockWise(){
         return this.rotateSelectedBoat(true);
     }
 
@@ -153,7 +162,7 @@ public class GameModel implements GameModelInterface{
      *
      * @return ProcessedPositions (coords + direction)
      */
-    public ProcessedPosition rotateBoatCounterClockWise() {
+    public ProcessedPosition rotateBoatCounterClockWise(){
         return this.rotateSelectedBoat(false);
     }
 
@@ -164,7 +173,7 @@ public class GameModel implements GameModelInterface{
      *
      * @return ProcessedPositions (coords + direction)
      */
-    private ProcessedPosition rotateSelectedBoat(boolean clockWise) {
+    private ProcessedPosition rotateSelectedBoat(boolean clockWise){
         // error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -173,8 +182,7 @@ public class GameModel implements GameModelInterface{
         }
 
         // processing : boat rotation
-        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise);
-
+        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise).getFirst();
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
             return processedPosition;
@@ -221,21 +229,20 @@ public class GameModel implements GameModelInterface{
      * @param y is the y coordinate on the game board
      * @return boolean (to tell if it's doing well or not)
      */
-    public ProcessedPosition selectBoat(int x, int y){
+    public ProcessedPosition selectBoat(int x, int y) throws SelectBoatException {
         // transform into coord to use through model
         Coord coord = new Coord(x, y);
 
         // set the selected boat (may return null)
         BoatInterface boat = this.battleshipImplementor.findBoatByCoord(coord);
         if(boat == null){
-            System.out.println("There is no boat here");
-            return null;
+            throw new SelectBoatException("There is no boat here");
         }
         // Verify that the boat belongs to the current player
         if(this.currentPlayer.getId() == this.battleshipImplementor.findPlayerIdFromBoat(boat)){
             this.selectedBoat = boat;
         }else{
-            System.out.println("The boat you selected doesn't belong to you !");
+            throw new SelectBoatException("The boat you selected doesn't belong to you !");
         }
 
         // tell if it doing great or not
@@ -243,14 +250,14 @@ public class GameModel implements GameModelInterface{
         try {
             return this.selectedBoat.getProcessedPosition();
         }catch (Exception e){
-            return null;
+            throw new SelectBoatException("Something went wrong...");
         }
     }
 
     /**
      *
      */
-        public void isEnd(){
+    public void isEnd(){
     }
 
     /**
@@ -287,7 +294,7 @@ public class GameModel implements GameModelInterface{
      */
     @Override
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) {
-    	Pair<ResultShoot, ProcessedPosition> ret =null;
+    	Pair<ResultShoot, ProcessedPosition> ret;
     	// error case :
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
@@ -308,17 +315,42 @@ public class GameModel implements GameModelInterface{
         return this.battleshipImplementor.getBoats();
     }
 
+    public Map<Integer, Integer> getBoatsAndPlayersId(){
+        return this.battleshipImplementor.getBoatsAndPlayersId();
+    }
+
     @Override
     public int getApCurrentPlayer() {
         return this.currentPlayer.getNbActionPoint();
     }
 
     public List<Coord> getVisibleCoords(PlayerInterface player) {
-        return this.battleshipImplementor.getVisibleCoords(player);
+    	List<Coord> visibleCoordsPort = new ArrayList<Coord>(this.portImplementor.getVisibleCoords(player).keySet());
+    	List<Coord> visibleCoordsBoat = this.battleshipImplementor.getVisibleCoords(player);
+    	for (Coord coord: visibleCoordsBoat){
+    		if (!visibleCoordsPort.contains(coord))
+    			visibleCoordsPort.add(coord);
+    	}
+        return visibleCoordsPort;
     }
 
     public List<Coord> getVisibleCoordsCurrentPlayer() {
         return this.getVisibleCoords(this.currentPlayer);
+    }
+
+    public Map <Coord, Color> getPortsCoords(PlayerInterface clientPlayer){
+    	Map<Coord, Color> visibleCoordsBoat = this.portImplementor.getColorOfCoord(this.battleshipImplementor.getVisibleCoords(clientPlayer));
+    	Map<Coord, Color> visibleCoordsPort = this.portImplementor.getVisibleCoords(clientPlayer);
+    	for (Entry<Coord, Color> entry : visibleCoordsBoat.entrySet()){
+    		if(!visibleCoordsPort.containsKey(entry.getKey())){
+    			visibleCoordsPort.put(entry.getKey(), entry.getValue());
+    		}
+    	}
+    	return visibleCoordsPort;
+    }
+
+    public Map <Coord, Color> getPortsCoordsCurrentPlayer() {
+    	return getPortsCoords(this.currentPlayer);
     }
 
     @Override
@@ -443,8 +475,12 @@ public class GameModel implements GameModelInterface{
 		this.playersImplementor = playersImplementor;
 	}
 
+    /**
+     * To check if the current player has a selected boat
+     * @return
+     */
     public boolean hasSelectedBoat(){
-        return this.selectedBoat != null;
+        return this.selectedBoat != null && this.currentPlayer.getId() == this.selectedBoat.getPlayerId();
     }
 
     public void setClientPlayer(PlayerInterface clientPlayer) {
@@ -462,5 +498,26 @@ public class GameModel implements GameModelInterface{
         } else{
             return false;
         }
+    }
+
+    @Override
+    public boolean canCurrentBoatShoot() {
+        if(this.selectedBoat == null || this.currentPlayer == null) return false;
+
+        return this.selectedBoat.getShootCost() <= this.currentPlayer.getNbActionPoint();
+    }
+
+    @Override
+    public boolean canCurrentBoatRotate() {
+        if(this.selectedBoat == null || this.currentPlayer == null) return false;
+
+        return this.selectedBoat.getRotateCost() <= this.currentPlayer.getNbActionPoint();
+    }
+
+    @Override
+    public boolean canCurrentBoatDoSpecialAction() {
+        if(this.selectedBoat == null || this.currentPlayer == null) return false;
+
+        return this.selectedBoat.getSpecialActionCost() <= this.currentPlayer.getNbActionPoint();
     }
 }

@@ -61,6 +61,8 @@ public class ClientProcessor implements Runnable{
 				System.out.println("J'attends une commande client");
 				Object response = read();
 
+				System.out.println("Raw response : " + response);
+
 				//On traite la demande du client
 				if(response instanceof Player){
 					System.out.println(((Player)response).toString());
@@ -70,13 +72,19 @@ public class ClientProcessor implements Runnable{
 						case "close":
 							closeConnexion = true;
 							break;
+						case "getPlayer":
+							System.out.println("Je suis dans la fonction getPlayer");
+							writer.writeObject(new Player(idPlayer, "Player"+idPlayer,"Port"+idPlayer));
+							writer.flush();
+							break;
 						case "endOfTurn":
 							diffuseMessage((String)response);
 							break;
 					}
 
 				}else if(response instanceof ProcessedPosition){
-					diffuse((ProcessedPosition)response);
+					ProcessedPosition pp = (ProcessedPosition)response;
+					diffuse(pp);
 				}
 
 

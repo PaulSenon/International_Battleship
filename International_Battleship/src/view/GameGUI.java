@@ -9,6 +9,7 @@ import tools.ProcessedPosition;
 import tools.ResultShoot;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -19,24 +20,21 @@ import java.util.Map;
 
 public class GameGUI extends JFrame implements GameGUIInterface{
 
+	private static final long serialVersionUID = 7636412061294453620L;
 	private final JTextArea textArea;
-    private static final long serialVersionUID = 7636412061294453620L;
     private ActionPointGUI PAPanel;
     private List<BoatInterface> listOfBoat;
     private GridGUI gridGUI;
     private List<ButtonGUI> buttons;
-    private ButtonGUI buttonGUITirer;
+    private ButtonGUI buttonGUIShoot;
     private ButtonGUI buttonRotateCounterClockWise;
 	private ButtonGUI buttonRotateClockWise;
-    private ButtonGUI buttonGUIDéplacer;
-    private ButtonGUI buttonGUIActionSpéciale;
-    public ButtonGUI battleShipButtonGUI;
+    private ButtonGUI buttonGUISpecialAction;
     public ButtonGUI buttonGUIFinTour;
-    public GridGUI battleShipGridGUI;
 
     public List<ButtonGUI> listOfButtons;
 
-    public ActionType actionType;
+    public ActionType currentAction;
 
 
     // Constructor
@@ -77,9 +75,9 @@ public class GameGUI extends JFrame implements GameGUIInterface{
                 controlsPanel.setBackground(Color.GRAY);
 
                 // Create of Button in the "actions" panel
-                    this.buttonGUITirer = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
-                    controlsPanel.add(this.buttonGUITirer, buttonsConstraints);
-                    this.buttons.add(this.buttonGUITirer);
+                    this.buttonGUIShoot = new ButtonGUI(ButtonType.SHOOT, "Tirer", "Annuler");
+                    controlsPanel.add(this.buttonGUIShoot, buttonsConstraints);
+                    this.buttons.add(this.buttonGUIShoot);
 
                     buttonsConstraints.gridy++;
                     this.buttonRotateClockWise =  new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
@@ -92,9 +90,9 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 					this.buttons.add(this.buttonRotateCounterClockWise);
 
 					buttonsConstraints.gridy++;
-					this.buttonGUIActionSpéciale = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
-					controlsPanel.add(this.buttonGUIActionSpéciale, buttonsConstraints);
-					this.buttons.add(this.buttonGUIActionSpéciale);
+					this.buttonGUISpecialAction = new ButtonGUI(ButtonType.SPECIALACTION, "Action Spéciale", "Annuler");
+					controlsPanel.add(this.buttonGUISpecialAction, buttonsConstraints);
+					this.buttons.add(this.buttonGUISpecialAction);
 
 					buttonsConstraints.gridy++;
 					this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
@@ -104,10 +102,10 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
                 //Store buttons in a list // TODO is this useful ?
                     this.listOfButtons = new ArrayList<>();
-                    listOfButtons.add(this.buttonGUITirer);
+                    listOfButtons.add(this.buttonGUIShoot);
                     listOfButtons.add(this.buttonRotateClockWise);
                     listOfButtons.add(this.buttonRotateCounterClockWise);
-                    listOfButtons.add(this.buttonGUIActionSpéciale);
+                    listOfButtons.add(this.buttonGUISpecialAction);
                     listOfButtons.add(this.buttonGUIFinTour);
 
 				//Create text area
@@ -142,20 +140,19 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		// Create and attach event listener on grid GUI
 		EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
 		this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
-
 		ActionListener buttonListener = new ButtonGUIListener(gameController);
-		this.buttonGUITirer.addActionListener(buttonListener);
+		this.buttonGUIShoot.addActionListener(buttonListener);
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
 		this.buttonRotateClockWise.addActionListener(buttonListener);
-		this.buttonGUIActionSpéciale.addActionListener(buttonListener);
+		this.buttonGUISpecialAction.addActionListener(buttonListener);
 		this.buttonGUIFinTour.addActionListener(buttonListener);
 	}
 
 	@Override
-	public void setCurrentAction(ActionType actionType) {
-		this.actionType = actionType;
-		this.gridGUI.setCurrentAction(actionType);
-		System.out.println("GameGUI : Action is now : "+this.actionType);
+	public void setCurrentAction(ActionType currentAction) {
+		this.currentAction = currentAction;
+		this.gridGUI.setCurrentAction(currentAction);
+		System.out.println("GameGUI : Action is now : "+this.currentAction);
 
 		notifyChanges();
 	}
@@ -166,7 +163,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	private void notifyChanges(){
     	// notify all buttons
 		for(ButtonGUI button : this.listOfButtons){
-			button.notifyActionChanged(this.actionType);
+			button.notifyActionChanged(this.currentAction);
 		}
 
 		// add some other notif here if you need it
@@ -174,11 +171,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 
 	@Override
 	public ActionType getCurrentAction() {
-		return this.actionType;
+		return this.currentAction;
 	}
 
 	@Override
-	public void setProcessedPotion(ProcessedPosition processedPosition) {
+	public void setProcessedPosition(ProcessedPosition processedPosition) {
 		this.gridGUI.setProcessedPosition(processedPosition);
 	}
 
@@ -191,8 +188,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.listOfBoat = listOfBoat;
 	}
 
-	public void initGame(Map<Integer,ProcessedPosition> initBoatPos){
-		this.gridGUI.initGrid(initBoatPos);
+	public void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer){
+		this.gridGUI.initGrid(initBoatPos, boatRelatedToPlayer);
 		this.revalidate();
 		this.repaint();
 	}
@@ -208,8 +205,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	}
 
     @Override
-	public void setVisibleCoord(List<Coord> visibleCoords){
-		this.gridGUI.setVisibleCoords(visibleCoords);
+	public void setVisibleCoord(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort){
+		this.gridGUI.setVisibleCoords(visibleCoords, visibleCoordsPort);
 	}
 
 	/**
@@ -238,13 +235,19 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     }
 
 	public void displayResult(ResultShoot result, Coord target){
-		this.gridGUI.displayResult(result, target);
+		if(result != ResultShoot.FORBIDDEN){
+			this.gridGUI.displayResult(result, target);
+		}
 		if(!result.equals(ResultShoot.DESTROYED)) {
 			this.textArea.setText("");
 		}
 		else {
 			this.textArea.setText("Le bateau ciblé a été détruit.");
 		}
+
+		// TODO c'est pas beau mais sinon
+		this.revalidate();
+		this.repaint();
     }
 
 	@Override
@@ -254,13 +257,39 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.repaint();
 	}
 
-	public void setControlsEnable(Boolean enable){
+	public void setControlsEnabled(Boolean enable){
 		for (ButtonGUI button: this.buttons) {
 			button.setEnabled(enable);
 		}
 	}
 
+	public void setButtonEnabled(ButtonType type, boolean enabled){
+    	for(ButtonGUI button: this.buttons){
+    		if(button.getType() == type){
+    			button.setEnabled(enabled);
+			}
+		}
+	}
+
+	public void resetButtonDefaultState(ButtonType type){
+		for(ButtonGUI button: this.buttons){
+			if(button.getType() == type){
+				button.resetDefault();
+			}
+		}
+	}
+
+	public void setButtonHighLight(ButtonType type, boolean highlighted) {
+		for(ButtonGUI button: this.buttons){
+			if(button.getType() == type){
+				button.setHighlighted(highlighted);
+			}
+		}
+	}
+
+
     public boolean boatIsSelected(){
     	return this.gridGUI.boatIsSelected();
 	}
+
 }

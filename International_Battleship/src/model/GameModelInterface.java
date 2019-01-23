@@ -1,8 +1,10 @@
 package model;
 
 
+import model.exceptions.SelectBoatException;
 import tools.*;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public interface GameModelInterface {
 
     ProcessedPosition rotateBoatCounterClockWise();
 
-    ProcessedPosition selectBoat(int x, int y);
+    ProcessedPosition selectBoat(int x, int y) throws SelectBoatException;
 
     void isEnd();
 
@@ -60,4 +62,17 @@ public interface GameModelInterface {
     PlayerInterface getClientPlayer();
 
     boolean itsTurn();
+
+    Map <Coord, Color>  getPortsCoordsCurrentPlayer();
+
+    Map <Coord, Color>  getPortsCoords(PlayerInterface clientPlayer);
+
+	Map<Integer, Integer> getBoatsAndPlayersId();
+
+    boolean canCurrentBoatShoot();
+
+    boolean canCurrentBoatRotate();
+
+    boolean canCurrentBoatDoSpecialAction();
+
 }

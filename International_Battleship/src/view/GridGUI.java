@@ -5,6 +5,7 @@ import model.BoatType;
 import tools.*;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,9 +15,9 @@ import java.util.Timer;
 
 
 public class GridGUI extends JLayeredPane {
+	private static final long serialVersionUID = 1L;
 	private final int delay = 10;
 	private Timer animator;
-	private static final long serialVersionUID = 1L;
 
 	// Map of Coord <=> Square
 	private HashMap<Coord, SquareGUI> squares;
@@ -32,7 +33,11 @@ public class GridGUI extends JLayeredPane {
 
 	private ActionType currentAction;
 
-	/**
+	private List<BufferedImage> fogs;
+	private List<BufferedImage> seas;
+
+
+    /**
      * __CONSTRUCTOR__
      */
     	public GridGUI() {
@@ -43,6 +48,26 @@ public class GridGUI extends JLayeredPane {
 		this.boatFragments = new HashMap<Coord, BoatFragmentGUI>();
 		this.selectedSquare = null;
 		this.selectedBoat = new ArrayList<>();
+
+		// load images
+        this.fogs = new ArrayList<>();
+        try {
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
+            fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.seas = new ArrayList<>();
+        try {
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.EAST.rotation));
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.WEST.rotation));
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.NORTH.rotation));
+            seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.SOUTH.rotation));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 		// init display
 		this.setLayout(new CustomGridLayoutManager());
@@ -92,6 +117,7 @@ public class GridGUI extends JLayeredPane {
 	 * @param processedPosition
 	 */
 	public void setProcessedPosition(int boatId, ProcessedPosition processedPosition){
+		//TODO problem with boat id network sync
 		List<BoatFragmentGUI> boat = this.getBoatFragmentsById(boatId);
 		this.setProcessedPosForBoat(boat, processedPosition);
 	}
@@ -119,7 +145,7 @@ public class GridGUI extends JLayeredPane {
 			this.boatFragments.remove(fragment.getCoord());
 			// update fragment prop
 			fragment.setCoord(dest);
-			fragment.setBroken(processedPosition.brokenPartIds.contains(i));
+			fragment.setBroken(processedPosition.getBrokenPartIds().contains(i));
 			// remove from UI
 			this.squares.get(dest).remove(fragment);
 
@@ -144,15 +170,27 @@ public class GridGUI extends JLayeredPane {
 	 * TODO write description
 	 * @param initBoatPos
 	 */
-	public void initGrid(Map<Integer, ProcessedPosition> initBoatPos) {
+	public void initGrid(Map<Integer, ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer) {
 		int i;
+		int playerPosition = -1;
+		int previousId = -1;
+		int currentId;
 		// foreach boat to create
 		for (Map.Entry<Integer, ProcessedPosition> boatEntry : initBoatPos.entrySet()) {
 			i = 0;
+			Integer player;
+			if (boatRelatedToPlayer.containsKey(boatEntry.getKey())){
+				player = boatRelatedToPlayer.get(boatEntry.getKey());
+				currentId = player.intValue();
+				if (currentId != previousId){
+					previousId = currentId;
+					playerPosition ++;
+				}
+			}
 			// foreach boatFragment to create
 			for (Coord coord : boatEntry.getValue().coords) {
 				System.out.println("Fragment de " + boatEntry.getValue().name + " généré au coord : " + coord);
-				BoatFragmentGUI boatFragment = (BoatFragmentGUI) createBoatFragments(boatEntry.getKey(), coord, boatEntry.getValue().name, i, boatEntry.getValue().direction);
+				BoatFragmentGUI boatFragment = (BoatFragmentGUI) createBoatFragments(boatEntry.getKey(), coord, boatEntry.getValue().name, i, boatEntry.getValue().direction, playerPosition);
 				try{
 					this.squares.get(coord).add(boatFragment);
 				}catch(Exception e){
@@ -197,9 +235,9 @@ public class GridGUI extends JLayeredPane {
      * @param coord is the coordinate of the SquareGUI where to create the boatFragmentGUI
      * @return JLabel is the created boatFragmentGUI
      */
-    private JLabel createBoatFragments(int boatId, Coord coord, BoatType name, int index, Direction direction){
+    private JLabel createBoatFragments(int boatId, Coord coord, BoatType name, int index, Direction direction, int playerPosition){
         BoatFragmentGUI fragment = null;
-		fragment = new BoatFragmentGUI(boatId, coord, name, index);
+		fragment = new BoatFragmentGUI(boatId, coord, name, index, playerPosition);
 		fragment.rotate(direction);
         this.boatFragments.put(coord, fragment);
         return fragment;
@@ -328,35 +366,22 @@ public class GridGUI extends JLayeredPane {
 		return currentAction;
 	}
 
-	public void setVisibleCoords(List<Coord> visibleCoords){
-		List<BufferedImage> fogs = new ArrayList<>();
-		try {
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.EAST.rotation));
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.WEST.rotation));
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.NORTH.rotation));
-			fogs.add(ImageManager.getImageCopyRotated("fog.png",Direction.SOUTH.rotation));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		List<BufferedImage> seas = new ArrayList<>();
-		try {
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.EAST.rotation));
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.WEST.rotation));
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.NORTH.rotation));
-			seas.add(ImageManager.getImageCopyRotated("sea.jpg",Direction.SOUTH.rotation));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void setVisibleCoords(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort){
 		for (Map.Entry<Coord, SquareGUI> entry : this.squares.entrySet()) {
 			Coord coord = entry.getKey();
 			SquareGUI square = entry.getValue();
 			Random random = new Random();
-			int randomDirection = random.nextInt(fogs.size());
+			int randomDirection = random.nextInt(this.fogs.size());
 			if (visibleCoords.contains(coord)) {
-				square.image = seas.get(randomDirection);
+				square.image = this.seas.get(randomDirection);
+				if (visibleCoordsPort.containsKey(coord)){
+					Color color = visibleCoordsPort.get(coord);
+					if (color != null)
+						square.image = ImageFilter.tintImage(square.image, color);
+				}
 				square.repaint();
 			} else {
-				square.image = fogs.get(randomDirection);
+				square.image = this.fogs.get(randomDirection);
 				square.repaint();
 			}
 		}
@@ -379,12 +404,8 @@ public class GridGUI extends JLayeredPane {
 			JLabel explosion = new Explosion(result);
 			this.squares.get(target).add(explosion, 0);
 			this.squares.remove(explosion);
-	}
-
-	public void displayResultSpecial(ResultShoot result, Coord target) {
-		JLabel explosion = new Explosion(result);
-		this.squares.get(target).add(explosion, 0);
-		this.squares.remove(explosion);
+            this.squares.get(target).revalidate();
+            this.squares.get(target).repaint();
 	}
 
 
