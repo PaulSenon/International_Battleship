@@ -73,7 +73,7 @@ public class GameModel implements GameModelInterface{
 
     public GameModel(List<PlayerInterface> players) {
         // Create UID static instance
-        UniqueIdGenerator.newInstance();
+        UniqueIdGenerator.newInstance(4);
 
         this.selectedBoat = null;
 
@@ -82,7 +82,7 @@ public class GameModel implements GameModelInterface{
             playersImplementor = new PlayersImplementor(players);
 
             battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
-
+            portImplementor = new PortImplementor(playersImplementor.getPlayers());
             setupGame();
 
         } catch (Exception e) {

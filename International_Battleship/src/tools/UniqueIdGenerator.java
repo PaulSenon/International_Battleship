@@ -18,4 +18,10 @@ public class UniqueIdGenerator {
         UniqueIdGenerator.id++;
         return UniqueIdGenerator.id;
     }
+    
+    public static UniqueIdGenerator newInstance(int i) {
+        if (instance == null)
+            instance = new UniqueIdGenerator(i);
+        return instance;
+    }
 }
