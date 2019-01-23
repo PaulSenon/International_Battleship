@@ -49,12 +49,17 @@ public class LauncherBattleShipGame {
 				new Color(255, 247, 0, 255).getRGB()
 		);
 
+		System.out.println(System.getProperty("os.name"));
 		final JFrame jframe = new JFrame("Menu");
-		jframe.setSize(300, 500);
+		jframe.setSize(1130, 800);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = jframe.getContentPane();
+		c.setLayout(new BorderLayout(10,0));
+		final JLabel img = new JLabel(new ImageIcon(ImageManager.getImageCopy("background.png")));
+		c.add(img, BorderLayout.CENTER);
 		final JPanel jp = new JPanel();
-		c.add(jp);
+		jp.setBackground(new Color(0,2,7));
+		c.add(jp, BorderLayout.SOUTH);
 
 
 		//Init of console on launcher
@@ -66,8 +71,6 @@ public class LauncherBattleShipGame {
 
 		//Redirect Standard output to launcher
 		PrintStream printStream = new PrintStream(new ConsoleOutputStream(textArea));
-		//System.setOut(printStream);
-		//System.setErr(printStream);
 		final JEditorPane editText = new JEditorPane();
 
 
@@ -120,7 +123,6 @@ public class LauncherBattleShipGame {
 		jp.add(join);
 		jp.add(editText);
 		jp.add(close);
-		//jp.add(textArea);
 
 		jframe.setVisible(true);
 	}
@@ -132,11 +134,11 @@ public class LauncherBattleShipGame {
 	public static void launchMultiplayer(JEditorPane editText,JPanel jp){
 		final Server server = new Server(editText.getText());
 		server.open();
-		try {
+		/*try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 		//Thread t = new Thread(new Client(editText.getText(),8080));
 		//t.start();
 
@@ -149,6 +151,7 @@ public class LauncherBattleShipGame {
 		});
 
 		jp.add(start);
+		jp.revalidate();
 		jp.repaint();
 
 	}

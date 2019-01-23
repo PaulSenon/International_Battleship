@@ -86,7 +86,8 @@ public class ImageManager {
                 "fire.png",
                 "rotateclockcounterwise.png",
                 "rotateclockwise.png",
-                "specialAction.png"
+                "specialAction.png",
+                "background.png"
         };
 
         for(String name : imageNames){

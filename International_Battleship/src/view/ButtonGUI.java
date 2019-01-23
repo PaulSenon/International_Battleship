@@ -4,6 +4,7 @@ package view;
 import tools.ActionType;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ButtonGUI extends JButton{
 
@@ -74,5 +75,13 @@ public class ButtonGUI extends JButton{
 				System.out.println("Error ButtonGUI wrong action type");
 		}
 	}
-	
+
+	@Override
+	public void setBackground(Color bg) {
+		super.setBackground(bg);
+		if(System.getProperty("os.name")== "Mac OS X"){
+			this.setOpaque(true);
+			this.setBorderPainted(false);
+		}
+	}
 }

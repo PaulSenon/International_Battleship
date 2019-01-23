@@ -35,7 +35,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     // Constructor
     public GameGUI(){
     	super();
-    	this.buttons = new ArrayList<>();
+    	this.setMinimumSize(new Dimension(1200, 800));
+		this.buttons = new ArrayList<>();
     	Container contentPane = this.getContentPane();
         contentPane.setLayout(new GridBagLayout());
 
@@ -80,6 +81,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 				this.buttons.add(this.buttonGUISpecialAction);
 
 				this.buttonGUIEndOfTurn =(ButtonGUI) controlsPanel.getButtonGUIEndOfTurn();
+				this.buttonGUIEndOfTurn.setBackground(Color.black);
 				this.buttons.add(this.buttonGUIEndOfTurn);
 
 			//Store buttons in a list
