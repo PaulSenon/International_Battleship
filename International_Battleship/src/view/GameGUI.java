@@ -9,6 +9,7 @@ import tools.ProcessedPosition;
 import tools.ResultShoot;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -139,7 +140,6 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		// Create and attach event listener on grid GUI
 		EventListener mouseEventListener = new GridGUIListener( this.gridGUI, gameController);
 		this.gridGUI.addMouseListener((MouseListener) mouseEventListener);
-
 		ActionListener buttonListener = new ButtonGUIListener(gameController);
 		this.buttonGUIShoot.addActionListener(buttonListener);
 		this.buttonRotateCounterClockWise.addActionListener(buttonListener);
@@ -205,8 +205,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 	}
 
     @Override
-	public void setVisibleCoord(List<Coord> visibleCoords){
-		this.gridGUI.setVisibleCoords(visibleCoords);
+	public void setVisibleCoord(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort){
+		this.gridGUI.setVisibleCoords(visibleCoords, visibleCoordsPort);
 	}
 
 	/**

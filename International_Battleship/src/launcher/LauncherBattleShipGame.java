@@ -25,10 +25,10 @@ public class LauncherBattleShipGame {
 
 		// setup game config :
 		GameConfig.newInstance(
-				25, // gameGridWidth
-				25, // gameGridHeight
+				40, // gameGridWidth
+				40, // gameGridHeight
 				20, // maxActionPoint
-                7, // portSize
+                9, // portSize
                 4, // nbMaxPlayer
 				new String[]{
 						"José",

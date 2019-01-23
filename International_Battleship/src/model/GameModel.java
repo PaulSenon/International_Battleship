@@ -5,10 +5,15 @@ import model.exceptions.SelectBoatException;
 import tools.*;
 
 import javax.swing.*;
+
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class GameModel implements GameModelInterface{
 
@@ -22,6 +27,7 @@ public class GameModel implements GameModelInterface{
     private BoatInterface selectedBoat;
     private PlayerInterface currentPlayer;
     private PlayerInterface clientPlayer;
+    private PortImplementor portImplementor;
     private int turn;
 	private int day;
 
@@ -41,6 +47,7 @@ public class GameModel implements GameModelInterface{
             battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
             // TODO debug, to set the first player... May be not clean...
             this.currentPlayer = playersImplementor.getPlayers().get(0);
+            portImplementor = new PortImplementor(playersImplementor.getPlayers());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -313,11 +320,32 @@ public class GameModel implements GameModelInterface{
     }
 
     public List<Coord> getVisibleCoords(PlayerInterface player) {
-        return this.battleshipImplementor.getVisibleCoords(player);
+    	List<Coord> visibleCoordsPort = new ArrayList<Coord>(this.portImplementor.getVisibleCoords(player).keySet());
+    	List<Coord> visibleCoordsBoat = this.battleshipImplementor.getVisibleCoords(player);
+    	for (Coord coord: visibleCoordsBoat){
+    		if (!visibleCoordsPort.contains(coord))
+    			visibleCoordsPort.add(coord);
+    	}
+        return visibleCoordsPort;
     }
 
     public List<Coord> getVisibleCoordsCurrentPlayer() {
         return this.getVisibleCoords(this.currentPlayer);
+    }
+    
+    public Map <Coord, Color> getPortsCoords(PlayerInterface clientPlayer){
+    	Map<Coord, Color> visibleCoordsBoat = this.portImplementor.getColorOfCoord(this.battleshipImplementor.getVisibleCoords(clientPlayer));
+    	Map<Coord, Color> visibleCoordsPort = this.portImplementor.getVisibleCoords(clientPlayer);
+    	for (Entry<Coord, Color> entry : visibleCoordsBoat.entrySet()){
+    		if(!visibleCoordsPort.containsKey(entry.getKey())){
+    			visibleCoordsPort.put(entry.getKey(), entry.getValue());
+    		}
+    	}
+    	return visibleCoordsPort;
+    }
+    
+    public Map <Coord, Color> getPortsCoordsCurrentPlayer() {
+    	return getPortsCoords(this.currentPlayer);
     }
 
     @Override

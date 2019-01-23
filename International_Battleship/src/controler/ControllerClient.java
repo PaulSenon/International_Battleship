@@ -201,7 +201,7 @@ public class ControllerClient implements ControllerModelViewInterface {
     protected void routineUpdates(){
         // update visible area
         // on affiche les zones visibles
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
         // on affiche les bateau dans les zones visibles
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         // update action points
@@ -254,7 +254,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         // Init currentAction
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // Init visible area
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
         // Init visible boats (fragment of enemy boats inside the visible area)
         //      => note: it's useless here but keep it for consistency.
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
@@ -289,7 +289,7 @@ public class ControllerClient implements ControllerModelViewInterface {
     public void update(ProcessedPosition processedPosition){
         this.gameGUI.setProcessedPosition(processedPosition);
         this.gameModel.setProcessedPosition(processedPosition);
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
     }
 
