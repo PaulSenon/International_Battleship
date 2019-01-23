@@ -30,15 +30,15 @@ public class ImageManager {
         ImageManager.images = new HashMap<>();
         ImageManager.basePath = defineResourcesBasePath();
         ImageManager.preLoadImages();
-        this.setExplosionArray(17);
-        this.setExplomissArray(27);
+        this.setExplosionArray(GameConfig.getNumberOfExplosionImages());
+        this.setExplomissArray(GameConfig.getNumberOfExplomissImages());
     }
 
     private void setExplosionArray(int totalFrames) {
         this.ExplosionArray = new BufferedImage[totalFrames];
         for (int i=1; i<this.ExplosionArray.length; i++){
             BufferedImage gifImage = ImageManager.getImageCopy("explosion/explosion" + i + ".png");
-            this.ExplosionArray[i] = gifImage;
+            this.ExplosionArray[i-1] = gifImage;
         }
     }
 
@@ -46,7 +46,7 @@ public class ImageManager {
         this.ExplomissArray = new BufferedImage[totalFrames];
         for (int i=1; i<this.ExplomissArray.length; i++){
             BufferedImage gifImage = ImageManager.getImageCopy("explomiss/explomiss" + i + ".png");
-            this.ExplomissArray[i] = gifImage;
+            this.ExplomissArray[i-1] = gifImage;
         }
     }
 

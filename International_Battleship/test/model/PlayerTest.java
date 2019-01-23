@@ -2,12 +2,9 @@ package model;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import testTools.BaseTests;
 import tools.GameConfig;
 import tools.PersonnalException;
-
-import java.awt.*;
 
 public class PlayerTest extends BaseTests {
 
@@ -33,7 +30,10 @@ public class PlayerTest extends BaseTests {
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
 				},
-				new Color(255, 247, 0, 255).getRGB()
+				0,
+				0,
+				0
+
 		);
 	}
 

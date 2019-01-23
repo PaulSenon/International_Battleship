@@ -39,6 +39,8 @@ public class BoatsImplementorTest extends BaseTests {
                         BoatType.Sentinel,
                         BoatType.TorpedoBoat
                 },
+                0,
+                0,
                 0
         );
         List<PlayerInterface> players = new ArrayList<>();
