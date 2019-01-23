@@ -304,7 +304,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // update controls
         if(this.gameModel.itsTurn()){
-            this.updateControls();
+            this.routineUpdates();
         }else {
             this.gameGUI.setControlsEnabled(false);
         }

@@ -14,7 +14,7 @@ public class ButtonGUI extends JButton{
 	private ButtonType type;
 	private ButtonType state;
 	private Color defaultColor;
-	
+
 
 	public ButtonGUI(ButtonType type, String defaultText, String activeText) {
 		super(defaultText);
@@ -22,7 +22,7 @@ public class ButtonGUI extends JButton{
 		this.activeText = activeText;
 		this.state = ButtonType.DEFAULT_STATE;
 		this.type = type;
-		this.defaultColor = this.getForeground();
+		this.defaultColor = null;
 	}
 
 	public void resetDefault(){
@@ -78,10 +78,22 @@ public class ButtonGUI extends JButton{
 	}
 
 	public void setHighlighted(boolean highlighted) {
+		if(this.defaultColor == null){
+			this.defaultColor = this.getForeground();
+		}
 		if(highlighted){
 			this.setForeground(Color.RED);
 		}else{
 			this.setForeground(this.defaultColor);
+		}
+	}
+
+	@Override
+	public void setBackground(Color bg) {
+		super.setBackground(bg);
+		if(System.getProperty("os.name").equals("Mac OS X")){
+			this.setOpaque(true);
+			this.setBorderPainted(false);
 		}
 	}
 }
