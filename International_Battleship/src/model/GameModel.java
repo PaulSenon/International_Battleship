@@ -24,7 +24,7 @@ public class GameModel implements GameModelInterface{
     private PlayersImplementorInterface playersImplementor;
     
     // The implementor use to manage mines
-    private Mines playersImplementor;
+    private MineImplementorInterface minesImplementor;
 
 	// The selected boat (may be null)
     private BoatInterface selectedBoat;
@@ -46,6 +46,7 @@ public class GameModel implements GameModelInterface{
         this.turn = 1;
 
         try {
+        	minesImplementor = new MineImplementor();
             playersImplementor = new PlayersImplementor(GameConfig.getPlayers());
             battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
             // TODO debug, to set the first player... May be not clean...
@@ -82,7 +83,7 @@ public class GameModel implements GameModelInterface{
         try {
 
             playersImplementor = new PlayersImplementor(players);
-
+            minesImplementor = new MineImplementor();
             battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
             portImplementor = new PortImplementor(playersImplementor.getPlayers());
             setupGame();
@@ -105,7 +106,7 @@ public class GameModel implements GameModelInterface{
     }
 
     @Override
-    public void     setupGame() {
+    public void setupGame() {
         battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
         this.currentPlayer = playersImplementor.getPlayers().get(0);
     }
@@ -184,7 +185,7 @@ public class GameModel implements GameModelInterface{
         }
 
         // processing : boat rotation
-        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise).getFirst();
+        ProcessedPosition processedPosition = this.battleshipImplementor.rotateBoat(this.currentPlayer, this.selectedBoat, clockWise);
         // regarder si toutes les coords sont ok (sortie de plateau && déclanchement mines)
         if(this.isNewPosOk(processedPosition.coords)){
             return processedPosition;
@@ -319,7 +320,7 @@ public class GameModel implements GameModelInterface{
     
 	@Override
 	public Map<Integer, ProcessedProps> getListOfMine() {
-		return this.mine;
+		return this.minesImplementor.getListOfMines();
 	}
 
     public Map<Integer, Integer> getBoatsAndPlayersId(){
@@ -528,8 +529,12 @@ public class GameModel implements GameModelInterface{
         return this.selectedBoat.getSpecialActionCost() <= this.currentPlayer.getNbActionPoint();
     }
 
-    public ProcessedProps createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat){
-    	//TODO
-    	return this.battleshipImplementor.createMine(currentPlayer, selectedBoat);
+    public void createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat){
+    	this.battleshipImplementor.createMine(currentPlayer, selectedBoat);
     }
+
+	@Override
+	public List<ProcessedProps> getProcessedPropsToUpdate() {
+		return this.minesImplementor.flushProcessedPropsMineToUpdate();
+	}
 }

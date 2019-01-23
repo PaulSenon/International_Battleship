@@ -1,16 +1,21 @@
 package model;
 
 import java.util.List;
+import java.util.Map;
 
 import tools.Coord;
 import tools.ProcessedProps;
 
 public interface MineImplementorInterface {
-	public ProcessedProps createMine(Coord coordMine, int idPlayer);
+	void createMine(Coord coordMine, int idPlayer);
 	
-	public boolean isMined(Coord coordMine);
+	boolean isMined(Coord coordMine);
 	
-	public List<Coord> getVisibleCoords(int playerId);
+	List<Coord> getVisibleCoords(int playerId);
 	
-	public ProcessedProps destroyMine(Coord coord);
+	void destroyMine(Coord coord);
+
+	Map<Integer, ProcessedProps> getListOfMines();
+	
+	List<ProcessedProps> flushProcessedPropsMineToUpdate();
 }

@@ -192,6 +192,16 @@ public class ControllerLocal implements ControllerModelViewInterface {
 	protected void sendProcessedPosition(ProcessedPosition processedPosition) {
         this.gameGUI.setProcessedPosition(processedPosition);
     }
+	
+    /**
+     * It send a processedProps to classes that need update
+     * (GUI / Network / ...)
+     * @param processedPosition
+     */
+    // TODO move this in an abstract parent and implement it differently for Local and Client controller
+	protected void sendProcessedProps(List<ProcessedProps> processedProps) {
+        this.gameGUI.setProcessedProps(processedProps);
+    }
 
     protected void routineUpdates(){
         // update visible area
@@ -203,6 +213,9 @@ public class ControllerLocal implements ControllerModelViewInterface {
         this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoordsCurrentPlayer());
         // update action points
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+        //Send processedProps to multi
+        this.sendProcessedProps(this.gameModel.getProcessedPropsToUpdate());
+        
         // update controls
         this.updateControls();
     }
@@ -247,8 +260,9 @@ public class ControllerLocal implements ControllerModelViewInterface {
         // Init boats on board
         Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
         Map<Integer, Integer> boatsRelatedToPlayers = this.gameModel.getBoatsAndPlayersId();
-        Map<Integer, ProcessedProps> initMinesPos = this.gameModel.getListofMine();
-        this.gameGUI.initGame(initBoatPos, boatsRelatedToPlayers);
+        Map<Integer, ProcessedProps> initMinesPos = this.gameModel.getListOfMine();
+        
+        this.gameGUI.initGame(initBoatPos, initMinesPos, boatsRelatedToPlayers);
         // Init currentAction
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // Init visible area

@@ -253,7 +253,9 @@ public class ControllerClient implements ControllerModelViewInterface {
         // Init boats on board
         Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
         Map<Integer, Integer> boatsRelatedToPlayers = this.gameModel.getBoatsAndPlayersId();
-        this.gameGUI.initGame(initBoatPos, boatsRelatedToPlayers);
+        Map<Integer, ProcessedProps> initMinesPos = this.gameModel.getListOfMine();
+
+        this.gameGUI.initGame(initBoatPos, initMinesPos, boatsRelatedToPlayers);
         // Init currentAction
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // Init visible area

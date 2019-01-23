@@ -114,6 +114,12 @@ public class GridGUI extends JLayeredPane {
 		List<BoatFragmentGUI> boat = this.getBoatFragmentsById(processedPosition.boatId);
 		this.setProcessedPosForBoat(boat, processedPosition);
 	}
+	
+	public void setProcessedProps(List<ProcessedProps> processedProps) {
+		if(processedProps == null) return;
+		this.setProcessedPropsForMine(processedProps);
+		
+	}
 
 	/**
 	 * TODO write description
@@ -169,12 +175,30 @@ public class GridGUI extends JLayeredPane {
 			i++;
 		}
 	}
+	
+	/**
+	 * TODO write description
+	 * @param boatFragments
+	 * @param processedPosition
+	 */
+	private void setProcessedPropsForMine(List<ProcessedProps> processedProps){
+		for (ProcessedProps props : processedProps) {
+			if(props.getState() == StateMine.DESTROY){
+				this.squares.get(props.getCoord()).remove(this.mines.get(props.getCoord()));
+				this.mines.remove(props.getCoord());
+			}else{
+				MineGUI mine = (MineGUI) this.createMines(props.getIdMine(), props.getCoord());
+				this.squares.get(props.getCoord()).add(mine);
+				this.mines.put(props.getCoord(), mine);
+			}
+		}
+	}
 
 	/**
 	 * TODO write description
 	 * @param initBoatPos
 	 */
-	public void initGrid(Map<Integer, ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer) {
+	public void initGrid(Map<Integer, ProcessedPosition> initBoatPos, Map<Integer, ProcessedProps> initMinesPos, Map<Integer, Integer> boatRelatedToPlayer) {
 		int i;
 		int playerPosition = -1;
 		int previousId = -1;
@@ -206,9 +230,13 @@ public class GridGUI extends JLayeredPane {
 //			this.listOfBoat.add(new BoatGUI(type, initBoatPos.get(type).coords, initBoatPos.get(type).direction));
 		}
 		
-		//Test to create mine
-		MineGUI mine = (MineGUI) this.createMines(1, new Coord(5, 5));
-		this.squares.get(new Coord(5, 5)).add(mine);
+		//foreach mine to create
+		for (Map.Entry<Integer, ProcessedProps> mineEntry : initMinesPos.entrySet()) {
+			MineGUI mine = (MineGUI) this.createMines(mineEntry.getKey(), mineEntry.getValue().getCoord());
+			this.squares.get(mineEntry.getValue().getCoord()).add(mine);
+		}
+		
+		
 	}
 
     /**
@@ -448,4 +476,6 @@ public class GridGUI extends JLayeredPane {
 		}
 		return false;
 	}
+
+
 }

@@ -15,7 +15,7 @@ public interface BoatsImplementorInterface {
 
     ProcessedPosition moveBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord destination);
 
-    Pair<ProcessedPosition,ProcessedProps> rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
+    ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
 
     Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
 
@@ -41,5 +41,5 @@ public interface BoatsImplementorInterface {
 
 	Map<Integer, Integer> getBoatsAndPlayersId();
 
-    ProcessedProps createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat);
+    void createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat);
 }

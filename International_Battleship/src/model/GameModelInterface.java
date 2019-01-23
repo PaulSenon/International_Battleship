@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface GameModelInterface {
-    PlayerInterface getCurrentPlayer();
+	PlayerInterface getCurrentPlayer();
 
     ProcessedPosition moveBoat(int xDest, int yDest);
 
@@ -76,5 +76,9 @@ public interface GameModelInterface {
     boolean canCurrentBoatRotate();
 
     boolean canCurrentBoatDoSpecialAction();
+
+    List<ProcessedProps> getProcessedPropsToUpdate();
+	
+	void createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat);
 
 }

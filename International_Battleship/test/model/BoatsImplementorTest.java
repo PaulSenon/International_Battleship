@@ -19,6 +19,7 @@ public class BoatsImplementorTest extends BaseTests {
 
     private BoatsImplementor boatsImplementor;
     private PlayerInterface player;
+    //private MineImplementorInterface 
 
     @Before
     public void setUp() throws Exception {

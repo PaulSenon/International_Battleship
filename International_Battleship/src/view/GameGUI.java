@@ -6,6 +6,7 @@ import model.BoatInterface;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
+import tools.ProcessedProps;
 import tools.ResultShoot;
 
 import javax.swing.*;
@@ -179,6 +180,11 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.gridGUI.setProcessedPosition(processedPosition);
 	}
 
+    @Override
+	public void setProcessedProps(List<ProcessedProps> processedProps) {
+		this.gridGUI.setProcessedProps(processedProps);
+	}
+	
 	public List<BoatInterface> getListOfBoat() {
 		return this.listOfBoat;
 	}
@@ -188,8 +194,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.listOfBoat = listOfBoat;
 	}
 
-	public void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer){
-		this.gridGUI.initGrid(initBoatPos, boatRelatedToPlayer);
+	public void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, ProcessedProps> initMinesPos, Map<Integer, Integer> boatRelatedToPlayer){
+		this.gridGUI.initGrid(initBoatPos, initMinesPos, boatRelatedToPlayer);
 		this.revalidate();
 		this.repaint();
 	}
@@ -299,5 +305,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     public boolean boatIsSelected(){
     	return this.gridGUI.boatIsSelected();
 	}
+
+	
 
 }
