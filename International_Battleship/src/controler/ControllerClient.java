@@ -160,10 +160,10 @@ public class ControllerClient implements ControllerModelViewInterface {
     public void specialAction(int x, int y) {
         // Try to select boat
         if(tryToSelectBoat(x, y)){
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.resetButtonDefaultState(ButtonType.SPECIALACTION);
+            this.gameGUI.setCurrentAction(ActionType.DEFAULT()); // SPECIALACTION => MOVE
             return;
         }
+        // Perform shoot action only if select boat failed
 
         Coord target = new Coord(x, y);
         List<Pair<ResultShoot, ProcessedPosition>> results = this.gameModel.specialAction(target);
@@ -179,14 +179,11 @@ public class ControllerClient implements ControllerModelViewInterface {
 
                 if (resultShoot == null) continue; // skip
 
-                this.gameGUI.setProcessedPosition(processedPosition);
+                this.sendProcessedPosition(processedPosition);
                 if(resultShoot.equals(ResultShoot.TOUCHED)) touched = true;
             }
             if(touched) this.gameGUI.displayResult(ResultShoot.TOUCHED, target);
-            this.actionRoutine();
-        }else{
-            this.gameGUI.setCurrentAction(ActionType.DEFAULT());
-            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
+            this.routineUpdates();
         }
     }
 
@@ -241,25 +238,6 @@ public class ControllerClient implements ControllerModelViewInterface {
         }
         gameGUI.setButtonEnabled(ButtonType.ENDTURN, true);
     }
-
-    // TODO DELETE
-    private void actionRoutine(){
-        this.actionRoutine(ActionType.DEFAULT());
-    }
-
-    // TODO DELETE
-    private void actionRoutine(ActionType nexActionType){
-        // reset current action to default
-        this.gameGUI.setCurrentAction(nexActionType);
-        // update visible area
-        // on affiche les zones visibles
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer());
-        // on affiche les bateau dans les zones visibles
-        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
-        // update action points
-        this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
-    }
-
 
 
     /**
