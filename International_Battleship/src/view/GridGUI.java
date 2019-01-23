@@ -331,11 +331,6 @@ public class GridGUI extends JLayeredPane {
     	return squares.get(coord);
     }
 
-	public void messageToUser(ResultShoot shoot) {
-		String resultOfShoot = shoot.toString();
-		JOptionPane.showMessageDialog(null, resultOfShoot, null , JOptionPane.INFORMATION_MESSAGE);
-	}
-
     /**
      * It take some mouse click position and find the targeted square
      * @param  xEvent (int) x coordinate of the mouse pointer (from click event)

@@ -4,6 +4,7 @@ import controler.ControllerClient;
 import model.GameModel;
 import model.Player;
 import model.PlayerInterface;
+import tools.MessageManager;
 import tools.ProcessedPosition;
 import tools.ProcessedProps;
 import view.GameGUI;
@@ -79,6 +80,9 @@ public class Client implements Runnable{
                             controller = new ControllerClient(gm, gameGUI, this);
                             gameGUI.initListeners(controller);
                             gameGUI.setVisible(true);
+
+                            //setup message manager
+                            MessageManager.addDisplay("GUI", gameGUI);
                         }
                     }
                 }

@@ -26,13 +26,9 @@ public interface GameGUIInterface {
 
     void setSelectedBoat(ProcessedPosition processedPosition);
 
-    void message(String message);
-
     void setNbAP(int actionPoint);
 
     void disableAction();
-
-    void messagePopUp(String message);
 
     void setVisibleCoord(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort);
 

@@ -3,6 +3,7 @@ package view;
 import controler.ControllerModelViewInterface;
 import tools.ActionType;
 import tools.Coord;
+import tools.MessageManager;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -20,6 +21,9 @@ public class GridGUIListener implements EventListener, MouseListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		// reset txt console GUI
+		MessageManager.displayMessageConsole("GUI", "");
+
 	    // TODO URGENT
 		Coord coordSquare = gridGUI.selectSquare(e.getX(), e.getY());
 

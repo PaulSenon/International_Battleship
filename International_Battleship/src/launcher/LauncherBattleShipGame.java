@@ -10,6 +10,7 @@ import multiplayer.Server;
 import tools.ConsoleOutputStream;
 import tools.GameConfig;
 import tools.ImageManager;
+import tools.MessageManager;
 import view.GameGUI;
 
 import javax.swing.*;
@@ -55,9 +56,12 @@ public class LauncherBattleShipGame {
 		);
 
 		// setup image manager :
-				ImageManager.newInstance();
+			ImageManager.newInstance();
 // setup processedPropsManager :
 			ProcessedPropsManager.newInstance();
+
+		// setup Message manager :
+			MessageManager.newInstance();
 
 		final JFrame jframe = new JFrame("Menu");
 		jframe.setPreferredSize(new Dimension(1130, 800));
@@ -179,6 +183,8 @@ public class LauncherBattleShipGame {
 		gameGUI.setVisible(true);
 		jframe.setVisible(false);//Hide the launcher
 
+		//setup message manager
+		MessageManager.addDisplay("GUI", gameGUI);
 	}
 	/**
 	 * Permet de générer le plateau de jeu
