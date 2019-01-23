@@ -6,6 +6,7 @@ import testTools.BaseTests;
 import testTools.Reflection;
 import tools.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,8 @@ public class BoatsImplementorTest extends BaseTests {
                 },
                 0,
                 0,
-                0
+                0,
+                new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0)
         );
         ProcessedPropsManager.getInstance();
         List<PlayerInterface> players = new ArrayList<>();

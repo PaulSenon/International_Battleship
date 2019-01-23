@@ -456,7 +456,7 @@ public class GridGUI extends JLayeredPane {
 				if (visibleCoordsPort.containsKey(coord)){
 					Color color = visibleCoordsPort.get(coord);
 					if (color != null)
-						square.image = ImageFilter.tintImage(square.image, color);
+						square.image = ImageFilter.tintImage(square.image, color, true);
 				}
 				square.repaint();
 			} else {

@@ -84,7 +84,7 @@ public class ImageFilter {
         return image;
     }
 
-    public static BufferedImage tintImage(BufferedImage image, Color color){
+    public static BufferedImage tintImage(BufferedImage image, Color color, boolean sea){
         BufferedImage tintedImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TRANSLUCENT);
         Graphics2D graphics = tintedImage.createGraphics();
         graphics.drawImage(image, 0, 0, null);
@@ -93,6 +93,8 @@ public class ImageFilter {
         float g = (float) color.getGreen() / 255;
         float b = (float) color.getBlue() / 255;
         float a = (float) color.getAlpha() / 255;
+        if (sea)
+        	a = (float) a/2;
         for (int i = 0; i < tintedImage.getWidth(); i++){
             for (int j = 0; j < tintedImage.getHeight(); j++){
                 int ax = tintedImage.getColorModel().getAlpha(tintedImage.getRaster().getDataElements(i, j, null));
