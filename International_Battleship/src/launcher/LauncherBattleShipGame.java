@@ -52,7 +52,9 @@ public class LauncherBattleShipGame {
 				ImageManager.newInstance();
 
 		final JFrame jframe = new JFrame("Menu");
-		jframe.setSize(1130, 800);
+		jframe.setPreferredSize(new Dimension(1130, 800));
+		jframe.setMinimumSize(new Dimension(1130, 800));
+		jframe.setResizable(false);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = jframe.getContentPane();
 		c.setLayout(new BorderLayout(10,0));
