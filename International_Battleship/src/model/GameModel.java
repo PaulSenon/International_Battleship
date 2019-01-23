@@ -105,6 +105,7 @@ public class GameModel implements GameModelInterface{
     @Override
     public void     setupGame() {
         battleshipImplementor = new BoatsImplementor(playersImplementor.getPlayers());
+        portImplementor = new PortImplementor(playersImplementor.getPlayers());
         this.currentPlayer = playersImplementor.getPlayers().get(0);
     }
 

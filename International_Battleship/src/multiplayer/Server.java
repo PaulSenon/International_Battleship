@@ -100,7 +100,7 @@ public class Server {
      */
     public void startGame(){
         gameStarted = true;
-        gameModel.setupGame();
+        //gameModel.setupGame();
         for (ClientProcessor c :clientList) {
             c.startGame(players);
         }
