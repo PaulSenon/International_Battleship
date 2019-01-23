@@ -8,6 +8,7 @@ import testTools.Reflection;
 import tools.Coord;
 import tools.Direction;
 import tools.GameConfig;
+import tools.ProcessedProps;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -428,6 +429,47 @@ public class BoatsImplementorTest extends BaseTests {
         boat.moveAutorization();
         this.boatsImplementor.moveBoat(this.player, boat, coord); // should fail
         assertEquals(new Coord(25,25), boat.getCoord());
+    }
+    
+    @Test
+    public void testCreateMine(){
+    	//Check for boat of size 5
+    	AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 5, Direction.EAST);
+    	ProcessedProps resultat = this.boatsImplementor.createMine(this.player, boat);
+    	assertEquals(new Coord(7, 10),resultat.getCoord());
+
+    	//Check for boat of size 3
+    	boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 3, Direction.SOUTH);
+    	resultat = this.boatsImplementor.createMine(this.player, boat);
+    	assertEquals(new Coord(10, 8),resultat.getCoord());
+    	
+    	//Check impossible to create a mine because there is already a mine
+    	resultat = this.boatsImplementor.createMine(this.player, boat);
+    	assertEquals(null,resultat);
+    	
+    	//Check impossible to create a mine because there is already a boat
+        List<BoatInterface> boats = new ArrayList<>(); // create a boat on the map that block rotation
+    	AbstractBoat boat1 = this.objGenerator.generateTestBoat(new Coord(5, 5), 1, Direction.NORTH);
+    	AbstractBoat boat2 = this.objGenerator.generateTestBoat(new Coord(5, 6), 1, Direction.NORTH);
+        boats.add(boat1);
+        boats.add(boat2);
+        Reflection.setFieldByReflection(this.boatsImplementor, "boats", boats);
+    	resultat = this.boatsImplementor.createMine(this.player, boat1);
+    	assertEquals(null,resultat);
+    }
+    
+    @Test
+    public void testTriggerMine(){
+    	//Check if we have no meet a mine
+    	AbstractBoat boat1 = this.objGenerator.generateTestBoat(new Coord(10, 10), 5, Direction.EAST);
+    	ProcessedProps processedProps = this.boatsImplementor.createMine(this.player, boat1);
+    	ProcessedProps resultat = this.boatsImplementor.triggerMine(boat1);
+    	assertEquals(resultat,null);
+    	
+    	//Check if we have meet a mine
+    	AbstractBoat boat2 = this.objGenerator.generateTestBoat(new Coord(7, 10), 5, Direction.EAST);
+    	resultat = this.boatsImplementor.triggerMine(boat2);
+    	assertEquals(resultat.getCoord(),new Coord(7,10));
     }
 
 }
