@@ -3,18 +3,16 @@ package model;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import testTools.BaseTests;
 import testTools.Reflection;
 import tools.Coord;
 import tools.Direction;
 import tools.GameConfig;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class GameModelTest extends BaseTests {
     private GameModel gameModel;
@@ -42,7 +40,9 @@ public class GameModelTest extends BaseTests {
                         BoatType.Sentinel,
                         BoatType.TorpedoBoat
                 },
-                new Color(255, 247, 0, 255).getRGB()
+                0,
+                0,
+                0
         );
 
         // create boats implementor
