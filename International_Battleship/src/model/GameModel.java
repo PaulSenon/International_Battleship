@@ -8,7 +8,6 @@ import javax.swing.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +22,9 @@ public class GameModel implements GameModelInterface{
 
     // The implementor use to manage players
     private PlayersImplementorInterface playersImplementor;
+    
+    // The implementor use to manage mines
+    private Mines playersImplementor;
 
 	// The selected boat (may be null)
     private BoatInterface selectedBoat;
@@ -314,6 +316,11 @@ public class GameModel implements GameModelInterface{
     public Map<Integer, ProcessedPosition> getListOfBoat(){
         return this.battleshipImplementor.getBoats();
     }
+    
+	@Override
+	public Map<Integer, ProcessedProps> getListOfMine() {
+		return this.mine;
+	}
 
     public Map<Integer, Integer> getBoatsAndPlayersId(){
         return this.battleshipImplementor.getBoatsAndPlayersId();

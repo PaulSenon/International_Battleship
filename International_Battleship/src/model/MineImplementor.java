@@ -8,7 +8,7 @@ import tools.ProcessedProps;
 import tools.StateMine;
 import tools.UniqueIdGenerator;
 
-public class MineImplementor {
+public class MineImplementor implements MineImplementorInterface{
 	private List<Mine> mines;
 
 	public MineImplementor(){

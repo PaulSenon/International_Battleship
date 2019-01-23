@@ -207,8 +207,8 @@ public class GridGUI extends JLayeredPane {
 		}
 		
 		//Test to create mine
-		MineGUI mine = (MineGUI) this.createMines(1, new Coord(2, 2));
-		this.squares.get(new Coord(2, 2)).add(mine);
+		MineGUI mine = (MineGUI) this.createMines(1, new Coord(5, 5));
+		this.squares.get(new Coord(5, 5)).add(mine);
 	}
 
     /**

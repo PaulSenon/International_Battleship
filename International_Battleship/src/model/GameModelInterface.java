@@ -24,6 +24,8 @@ public interface GameModelInterface {
     Pair<ResultShoot, ProcessedPosition> shoot(Coord target);
 
     Map<Integer, ProcessedPosition> getListOfBoat();
+    
+    Map<Integer, ProcessedProps> getListOfMine();
 
     int getApCurrentPlayer();
 
