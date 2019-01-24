@@ -108,6 +108,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             if (resultShoot == ResultShoot.DESTROYED) {
                 boat.destroy();
             }
+            switch (resultShoot){
+                case TOUCHED:
+                    MessageManager.broadcastMessageConsole("Touched !");
+                    break;
+                case ALREADY_TOUCHED:
+                    MessageManager.broadcastMessageConsole("Already touched ...");
+                    break;
+            }
             this.createFx(target, resultShoot.fxType);
             return(processedPosition);
         } catch (Exception e) { // TODO catch a custom exception like a "ShootException"

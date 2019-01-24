@@ -80,7 +80,6 @@ public abstract class AbstractBoat implements BoatInterface {
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws Exception {
             int id = this.getIdOfFragment(target);
             if(this.touchedFragmentIds.contains(id)){
-                MessageManager.broadcastMessageConsole("Already touched...");
                 return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
             }else{
                 this.touchedFragmentIds.add(id);
@@ -91,7 +90,6 @@ public abstract class AbstractBoat implements BoatInterface {
                 	this.destroy();
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
-                MessageManager.broadcastMessageConsole("Touched !");
                 return new Pair<>(ResultShoot.TOUCHED, this.getProcessedPosition());
             }
 	}
