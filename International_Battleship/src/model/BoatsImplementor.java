@@ -85,7 +85,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         }
 
         if (this.portImplementor.isInPort(target)){
-            // TODO message manager "You cannot shoot in an enemy port"
+            MessageManager.broadcastMessageConsole("You cannot shoot in a port");
             currentPlayer.undoLastAction();
             return null;
         }
@@ -258,6 +258,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         // get its position
         ProcessedPosition processedPosition = selectedBoat.getProcessedPosition();
 
+        // check : boat can move (enough health)
+        if(!selectedBoat.getMove()){
+            currentPlayer.undoLastAction();
+            return selectedBoat.getProcessedPosition();
+        }
 
         // check if OK
         if(!this.areCoordsAccessible(selectedBoat)){
@@ -294,7 +299,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
         List<BoatInterface> boatsFound;
         for(Coord coord : selectedBoat.getCoords()){
-            //check : new coords are in an ennemy port
+            // check : new coords are in an ennemy port
             if(this.portImplementor.checkIfCoordInEnnemyPort(coord, selectedBoat.getPlayerId())){
                 return false;
             }
@@ -458,6 +463,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 				try {
 					this.mineImplementor.destroyMine(coord);
 					this.createFx(coord, FxType.EXPLOSION);
+					MessageManager.broadcastMessageConsole("A mine has been triggered !");
 
 					selectedBoat.setDammage(1);
 				} catch (Exception e) {

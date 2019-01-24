@@ -278,7 +278,7 @@ public class GameGUI extends JFrame implements GameGUIInterface, MessageDisplayI
 
 	@Override
 	public void displayMessageConsole(String msg) {
-		this.textArea.setText(msg);
+		this.textArea.setText("Console > "+msg);
 	}
 
 	@Override

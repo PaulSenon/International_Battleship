@@ -71,4 +71,6 @@ public interface BoatInterface {
 	List<Integer> getTouchedFragmentIds();
 	
 	Coord getCoordBehind();
+
+    boolean getMove();
 }

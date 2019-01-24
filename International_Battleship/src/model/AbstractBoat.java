@@ -11,7 +11,7 @@ import static tools.Direction.DEFAULT;
 
 public abstract class AbstractBoat implements BoatInterface {
 
-    public boolean move;
+    private boolean move;
     private boolean destroyed;
     protected Coord pivot;
 	protected SpecialActionInterface mySpecialAction;
@@ -80,16 +80,18 @@ public abstract class AbstractBoat implements BoatInterface {
 	public Pair<ResultShoot, ProcessedPosition> shoot(Coord target) throws Exception {
             int id = this.getIdOfFragment(target);
             if(this.touchedFragmentIds.contains(id)){
+                MessageManager.broadcastMessageConsole("Already touched...");
                 return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
             }else{
                 this.touchedFragmentIds.add(id);
-                if(this.touchedFragmentIds.size() >= getNbFrontParts()) {
+                if(this.touchedFragmentIds.size() >= getNbBackParts()) {
                     this.move = false;
                 }
                 if(this.getCoords().size() == this.touchedFragmentIds.size()){
                 	this.destroy();
                     return new Pair<>(ResultShoot.DESTROYED, this.getProcessedPosition());
                 }
+                MessageManager.broadcastMessageConsole("Touched !");
                 return new Pair<>(ResultShoot.TOUCHED, this.getProcessedPosition());
             }
 	}
@@ -463,6 +465,7 @@ public abstract class AbstractBoat implements BoatInterface {
     public void destroy(){
         this.coordsVisibleToBeProcessed = true;
         this.destroyed = true;
+        MessageManager.broadcastMessageConsole("A boat has been destroyed");
     }
 
     public boolean getDestroy(){
@@ -552,4 +555,9 @@ public abstract class AbstractBoat implements BoatInterface {
 		}
 		return pivot;
 	}
+
+    @Override
+    public boolean getMove() {
+        return this.move;
+    }
 }

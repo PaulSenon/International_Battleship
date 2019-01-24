@@ -27,4 +27,8 @@ public class Submarine extends AbstractBoat {
     	return this.size;
     }
 
+    @Override
+    public int getSpecialActionCost() {
+        return 4;
+    }
 }
