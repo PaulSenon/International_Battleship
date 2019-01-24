@@ -90,7 +90,7 @@ public class LauncherBattleShipGame {
 
 
 		//Bouton pour lancer le solo
-		JButton solo = new JButton("Solo");
+		JButton solo = new JButton("Hot Seat");
 		solo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -103,7 +103,7 @@ public class LauncherBattleShipGame {
 		});
 
 		//Bouton pour lancer le multijoueur
-		JButton multi = new JButton("Multi");
+		JButton multi = new JButton("Host");
 		multi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -161,6 +161,8 @@ public class LauncherBattleShipGame {
 		jp.add(start);
 		jp.revalidate();
 		jp.repaint();
+
+		joinMultiplayer(editText);
 
 	}
 
