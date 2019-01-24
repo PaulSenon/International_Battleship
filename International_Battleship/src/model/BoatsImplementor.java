@@ -11,13 +11,13 @@ import java.util.Map;
 public class BoatsImplementor implements BoatsImplementorInterface {
 
 	private List<BoatInterface> boats;
-	private MineImplementor mineImplementor;
+	private MineImplementorInterface mineImplementor;
 
 
-    public BoatsImplementor(List<PlayerInterface> players) {
+    public BoatsImplementor(List<PlayerInterface> players, MineImplementorInterface mineImplementor) {
         this.boats = new ArrayList<>();
         this.generateBoatsFromFactory(players);
-        this.mineImplementor = new MineImplementor();
+        this.mineImplementor = mineImplementor;
     }
 
     /**
@@ -74,29 +74,41 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param target to select the destination coordinates
      * @return result of shot
      */
-    public Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
+    public ProcessedPosition shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
         // check if enough
         if (! currentPlayer.debitActionPoint(selectedBoat.getShootCost())){
             // if not we donnot shoot
             currentPlayer.undoLastAction();
-            return new Pair<>(ResultShoot.FORBIDDEN, null);
+            return null;
         }
 
+        return this.shoot(currentPlayer, selectedBoat, target);
+    }
+
+    /**
+     * It just shoot, not AP consumed (to be used in special action)
+     */
+    private ProcessedPosition shoot(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target){
         BoatInterface boat = findBoatByCoord(target);
         try {
-            Pair<ResultShoot, ProcessedPosition> resultShoot = boat.shoot(target);
-            if (resultShoot.getFirst().equals(ResultShoot.DESTROYED)) {
+            Pair<ResultShoot, ProcessedPosition> result = boat.shoot(target);
+            ResultShoot resultShoot =  result.getFirst();
+            ProcessedPosition processedPosition = result.getSecond();
+
+            if (resultShoot == ResultShoot.DESTROYED) {
                 boat.destroy();
             }
-            return(resultShoot);
+            this.createFx(target, resultShoot.fxType);
+            return(result.getSecond());
         } catch (Exception e) { // TODO catch a custom exception like a "ShootException"
-            return new Pair<>(ResultShoot.MISSED, null);
+            this.createFx(target, ResultShoot.MISSED.fxType);
+            return null;
         }
 
     }
 
 	@Override
-	public List<Pair<ResultShoot, ProcessedPosition>> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
+	public List<ProcessedPosition> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
         // check if enough AP
         if (! currentPlayer.debitActionPoint(selectedBoat.getSpecialActionCost())){
             // if not we donnot shoot
@@ -109,15 +121,20 @@ public class BoatsImplementor implements BoatsImplementorInterface {
          *  It's ok in a first time we we should find a way to move this behavior in a proper class.
          *  But problem is how to access boats other things...
          */
-        if(selectedBoat.getSpecialAction().getClass().equals(SpecialZoneAOE.class)){
-            List<Pair<ResultShoot, ProcessedPosition>> result = new ArrayList<>();
-            List<Coord> coords = ((SpecialZoneAOE)selectedBoat.getSpecialAction()).getEffectZone(target);
+        if(selectedBoat.getSpecialAction().getClass().equals(SpecialZoneAOE.class)) {
+            // SHOOT AOE
+            List<ProcessedPosition> result = new ArrayList<>();
+            List<Coord> coords = ((SpecialZoneAOE) selectedBoat.getSpecialAction()).getEffectZone(target);
             for (Coord coord : coords) {
-                result.add(this.shootBoat(currentPlayer, selectedBoat, coord));
-                currentPlayer.creditActionPoint(1);
+                result.add(this.shoot(currentPlayer, selectedBoat, coord));
             }
             return result;
+        }else if(selectedBoat.getSpecialAction().getClass().equals(SpecialActionMine.class)){
+            // DROP MINE
+            // TODO throw error and catch here to undo PA cost
+            this.createMine(currentPlayer, selectedBoat);
         }else{
+            // TODO other type of special action
             selectedBoat.actionSpecial(target);
         }
         return null;
@@ -150,7 +167,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         //Prohibit the boat to move
         selectedBoat.hasMoved();
         //Return ProcessedPosition
-        return this.moveBoatStepByStep(selectedBoat, destination).getFirst();
+        return this.moveBoatStepByStep(selectedBoat, destination);
     }
 
     /**
@@ -160,7 +177,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param destination is the desired destination for the boat
      * @return ProcessedPositions (coords + direction)
      */
-    private Pair<ProcessedPosition,ProcessedProps> moveBoatStepByStep(BoatInterface boat, Coord destination){
+    private ProcessedPosition moveBoatStepByStep(BoatInterface boat, Coord destination){
         // TODO sauvegarder valeur pivot bateau
         // TODO déplacer le bateau de 1 pas dans sa direction, et tant que ça marche, on continu jusqu'à destination
         // TODO appeler this.areCoordsAccessible(boat) à chaque fois. Si ça fail on stop
@@ -169,14 +186,13 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         // TODO => DONE
         Coord coord = new Coord(boat.getPivot().getX(), boat.getPivot().getY());
         Coord savedPivot = new Coord(boat.getPivot().getX(), boat.getPivot().getY());
-        ProcessedProps processedProps = null;
 
         while(!coord.equals(destination)) {
             coord.addStepDirection(boat.getDirection(), 1);
             boat.move(coord);
 
             //Check if new coords of boat meet a mine
-            processedProps = this.triggerMine(boat);
+            this.triggerMine(boat);
 
             //Check if new coords of boat meet a boat
             if (!this.areCoordsAccessible(boat)) {
@@ -186,11 +202,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
                 boat.moveHard(coord);
                 // cancel historic of our multiple calls to move()
                 //boat.setLastPosition(coord);
-                return new Pair<ProcessedPosition, ProcessedProps>(boat.getProcessedPosition(), processedProps);
+                return boat.getProcessedPosition();
             }
         }
         //boat.setLastPosition(destination);
-        return new Pair<ProcessedPosition, ProcessedProps>(boat.getProcessedPosition(), processedProps);
+        return boat.getProcessedPosition();
     }
 
     /**
@@ -203,12 +219,12 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param clockWise direction of rotation
      * @return ProcessedPositions (coords + direction)
      */
-    public Pair<ProcessedPosition, ProcessedProps> rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise){
+    public ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise){
     	// check if enough
         if (! currentPlayer.debitActionPoint(selectedBoat.getRotateCost())){
             // if not we donnot rotate
             currentPlayer.undoLastAction();
-            return new Pair<ProcessedPosition, ProcessedProps>(selectedBoat.getProcessedPosition(), null);
+            return selectedBoat.getProcessedPosition();
         }
 
         // rotate the boat
@@ -219,7 +235,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         }
 
     	//Check if new coords of boat meet a mine
-    	ProcessedProps processedProps = this.triggerMine(selectedBoat);
+    	this.triggerMine(selectedBoat);
 
         // get its position
         ProcessedPosition processedPosition = selectedBoat.getProcessedPosition();
@@ -230,11 +246,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             // if boat collision, undo the move
             selectedBoat.undoLastMove();
             currentPlayer.undoLastAction();
-            return new Pair<ProcessedPosition, ProcessedProps>(selectedBoat.getProcessedPosition(), processedProps);
+            return selectedBoat.getProcessedPosition();
         }
 
         // else, it's OK, return new pos
-        return new Pair<ProcessedPosition, ProcessedProps>(processedPosition, processedProps);
+        return processedPosition;
     }
 
     /**
@@ -413,20 +429,20 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 	 * @param selectedBoat
 	 * @return Coord of mine if we found mine. If not we return null
 	 */
-	public ProcessedProps triggerMine(BoatInterface selectedBoat){
-		ProcessedProps processedProps = null;
+	public void triggerMine(BoatInterface selectedBoat){
 		for(Coord coord : selectedBoat.getCoords()){
 			if(this.mineImplementor.isMined(coord)){
 				try {
+					this.mineImplementor.destroyMine(coord);
+					this.createFx(coord, FxType.EXPLOSION);
+
 					selectedBoat.setDammage(1);
-					processedProps = this.mineImplementor.destroyMine(coord);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
         }
-		return processedProps;
 	}
 
 	@Override
@@ -452,13 +468,43 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * @param selectedBoat
      * @return ProcessedProps
      */
-    public ProcessedProps createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat){
+    public void createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat){
     	//Check if we have no mine and no boat at the destination
-    	if (this.triggerMine(selectedBoat) == null && this.areCoordsAccessible(selectedBoat) && this.findBoatByCoord(selectedBoat.getCoordBehind()) ==null) {
-    		return this.mineImplementor.createMine(selectedBoat.getCoordBehind(), currentPlayer.getId());
-		}else{
-			return null;
+    	if (isCoordAccessible(selectedBoat.getCoordBehind())) {
+    		this.mineImplementor.createMine(selectedBoat.getCoordBehind(), currentPlayer.getId());
 		}
+    }
+
+    @Override
+    public void generateRandomMines(int i) {
+        // TODO
+        // this is temporary
+        this.mineImplementor.createMine(new Coord(15,15), -1);
+        this.mineImplementor.createMine(new Coord(8,2), -1);
+        this.mineImplementor.createMine(new Coord(30,20), -1);
+        this.mineImplementor.createMine(new Coord(10,4), -1);
+        this.mineImplementor.createMine(new Coord(20,15), -1);
+    }
+
+    private boolean isCoordAccessible(Coord coord){
+        // check: out of bounds
+        if(coord.getX() >= GameConfig.getGameGridWidth()
+            || coord.getX() < 0
+            || coord.getY() >= GameConfig.getGameGridHeight()
+            || coord.getY() < 0)
+        {
+            return false;
+        }
+        // check: boat collision
+        BoatInterface boatsFound = this.findBoatByCoord(coord);
+        if(boatsFound != null){
+        	return false;
+        }
+        return true;
+    }
+
+    private void createFx(Coord coord, FxType type){
+        ProcessedPropsManager.addToQueue(new ProcessedProps(PropsType.FX, coord, type));
     }
 
 }

@@ -529,4 +529,27 @@ public abstract class AbstractBoat implements BoatInterface {
 		}
 		return pivot;
 	}
+	
+	public Coord getCoordHead(){
+		Coord pivot = new Coord(this.pivot.getX(), this.pivot.getY());
+		int shift = this.getNbFrontParts()-1;
+		
+		switch (this.getDirection()) {
+		case EAST:
+			pivot.addStepDirection(Direction.WEST, shift);
+			break;
+		case WEST:
+			pivot.addStepDirection(Direction.EAST, shift);
+			break;
+		case SOUTH:
+			pivot.addStepDirection(Direction.NORTH, shift);
+			break;
+		case NORTH:
+			pivot.addStepDirection(Direction.SOUTH, shift);
+			break;
+		default:
+			break;
+		}
+		return pivot;
+	}
 }

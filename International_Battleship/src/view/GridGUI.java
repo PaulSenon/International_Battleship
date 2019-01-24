@@ -5,7 +5,6 @@ import model.BoatType;
 import tools.*;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -32,6 +31,8 @@ public class GridGUI extends JLayeredPane {
 	private List<BoatFragmentGUI> selectedBoat;
 
 	private ActionType currentAction;
+	
+	private HashMap<Coord, MineGUI> mines;
 
 	private List<BufferedImage> fogs;
 	private List<BufferedImage> seas;
@@ -46,6 +47,7 @@ public class GridGUI extends JLayeredPane {
 		// init class attributes
 		this.squares = new HashMap<Coord, SquareGUI>();
 		this.boatFragments = new HashMap<Coord, BoatFragmentGUI>();
+		this.mines = new HashMap<Coord, MineGUI>();
 		this.selectedSquare = null;
 		this.selectedBoat = new ArrayList<>();
 
@@ -112,12 +114,37 @@ public class GridGUI extends JLayeredPane {
 	}
 
 	/**
+	 * Process a list of processedProps of any type
+	 * @param processedProps
+	 */
+	public void setProcessedProps(List<ProcessedProps> processedProps) {
+		if(processedProps == null) return;
+		for (ProcessedProps props : processedProps) {
+			setProcessedProps(props);
+		}
+	}
+
+	/**
+	 * process one processedprops
+	 * @param props
+	 */
+	public void setProcessedProps(ProcessedProps props) {
+		switch (props.type){
+			case MINE:
+				this.setProcessedPropsForMine(props);
+				break;
+			case FX:
+				this.setProcessedPropsForFx(props);
+				break;
+		}
+	}
+
+	/**
 	 * TODO write description
 	 * @param boatId
 	 * @param processedPosition
 	 */
 	public void setProcessedPosition(int boatId, ProcessedPosition processedPosition){
-		//TODO problem with boat id network sync
 		List<BoatFragmentGUI> boat = this.getBoatFragmentsById(boatId);
 		this.setProcessedPosForBoat(boat, processedPosition);
 	}
@@ -132,7 +159,7 @@ public class GridGUI extends JLayeredPane {
 
 		// move fragments
 		// TODO may need a rework, no so clean,
-		// TODO but mind we MUST do to loop, because if some of new pos == last pos,
+		// TODO but mind we MUST do two loop, because if some of new pos == last pos,
 		// TODO we cannot have multiple ref for the same coord in boatFragments
 
 		int i = 0;
@@ -160,9 +187,50 @@ public class GridGUI extends JLayeredPane {
 
 			// add in GUI
 			this.squares.get(dest).add(fragment);
-			this.repaint();
 
 			i++;
+		}
+		this.repaint();
+	}
+
+	/**
+	 *
+	 * @param props (type must be PropsType.MINE)
+	 */
+	private void setProcessedPropsForMine(ProcessedProps props){
+		if(props.type != PropsType.MINE)return;
+
+		if(props.stateMine == StateMine.DESTROY){
+			this.squares.get(props.coord).remove(this.mines.get(props.coord));
+			this.mines.remove(props.coord);
+		}else if (!this.mines.containsKey(props.coord)){
+			MineGUI mine = (MineGUI) this.createMines(props.idMine, props.coord);
+			this.squares.get(props.coord).add(mine);
+			this.mines.put(props.coord, mine);
+		}
+	}
+
+	/**
+	 * Process FX props to display fx
+	 * @param props (type must be PropsType.FX)
+	 */
+	private void setProcessedPropsForFx(ProcessedProps props){
+		if(props.type != PropsType.FX)return;
+
+		JLabel fx = null;
+		switch (props.typeFx){
+			case EXPLOSION:
+			case SPLASH:
+				fx = new Explosion(props.typeFx);
+			default:
+				// none
+				break;
+		}
+		if(fx != null){
+			this.squares.get(props.coord).add(fx, 0);
+			this.squares.remove(fx);
+			this.squares.get(props.coord).revalidate();
+			this.squares.get(props.coord).repaint();
 		}
 	}
 
@@ -170,7 +238,7 @@ public class GridGUI extends JLayeredPane {
 	 * TODO write description
 	 * @param initBoatPos
 	 */
-	public void initGrid(Map<Integer, ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer) {
+	public void initGrid(Map<Integer, ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer, List<ProcessedProps> processedProps) {
 		int i;
 		int playerPosition = -1;
 		int previousId = -1;
@@ -198,9 +266,8 @@ public class GridGUI extends JLayeredPane {
 				}
 				i++;
 			}
-			// create boat with processedPotion and type, and add store it
-//			this.listOfBoat.add(new BoatGUI(type, initBoatPos.get(type).coords, initBoatPos.get(type).direction));
 		}
+		this.setProcessedProps(processedProps);
 	}
 
     /**
@@ -241,6 +308,18 @@ public class GridGUI extends JLayeredPane {
 		fragment.rotate(direction);
         this.boatFragments.put(coord, fragment);
         return fragment;
+    }
+    
+    /**
+     * It create a mine at coord and add it to mines Map
+     * @param coord is the coordinate of the MineGUI where to create the MineGUI
+     * @return JLabel is the created MineGUI
+     */
+    private JLabel createMines(int mineId, Coord coord){
+        MineGUI mine = null;
+		mine = new MineGUI(mineId, coord);
+        this.mines.put(coord, mine);
+        return mine;
     }
 
 	/**
@@ -399,13 +478,18 @@ public class GridGUI extends JLayeredPane {
 			}
 		}
 	}
-
-	public void displayResult(ResultShoot result, Coord target) {
-			JLabel explosion = new Explosion(result);
-			this.squares.get(target).add(explosion, 0);
-			this.squares.remove(explosion);
-            this.squares.get(target).revalidate();
-            this.squares.get(target).repaint();
+	
+	public void setVisibleMines(List<Coord> visibleCoordCurrentPlayer) {
+		for (Map.Entry<Coord, MineGUI> entry : this.mines.entrySet()) {
+			Coord coord = entry.getKey();
+			MineGUI mine = entry.getValue();
+			if(visibleCoordCurrentPlayer.contains(coord)){
+				mine.setMineVisible(true);
+			}
+			else{
+				mine.setMineVisible(false);
+			}
+		}
 	}
 
 
@@ -415,4 +499,6 @@ public class GridGUI extends JLayeredPane {
 		}
 		return false;
 	}
+
+
 }

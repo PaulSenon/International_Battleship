@@ -7,6 +7,7 @@ import model.GameModel;
 import model.Player;
 import model.PlayerInterface;
 import tools.ProcessedPosition;
+import tools.ProcessedProps;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -85,6 +86,9 @@ public class ClientProcessor implements Runnable{
 				}else if(response instanceof ProcessedPosition){
 					ProcessedPosition pp = (ProcessedPosition)response;
 					diffuse(pp);
+				}else if(response instanceof ProcessedProps) {
+					ProcessedProps pp = (ProcessedProps) response;
+					diffuse(pp);
 				}
 
 
@@ -126,6 +130,14 @@ public class ClientProcessor implements Runnable{
 		server.update(processedPosition,idPlayer);
 	}
 
+	/**
+	 * Diffuse the processedPosition to the server which should update all the
+	 * client expect the one attache to this clientProcessor
+	 * @param processedProps
+	 */
+	public void diffuse(ProcessedProps processedProps){
+		server.update(processedProps,idPlayer);
+	}
 
 	public int getID(){
 		return this.idPlayer;
@@ -138,6 +150,20 @@ public class ClientProcessor implements Runnable{
 	public void update(ProcessedPosition processedPosition){
 		try {
 			writer.writeObject(processedPosition);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//TODO faire pour des Object
+	/**
+	 * This method update the model and the client view after receive the order from the server
+	 * @param processedProps
+	 */
+	public void update(ProcessedProps processedProps){
+		try {
+			writer.writeObject(processedProps);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

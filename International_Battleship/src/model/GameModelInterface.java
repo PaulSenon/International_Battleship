@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface GameModelInterface {
-    PlayerInterface getCurrentPlayer();
+	PlayerInterface getCurrentPlayer();
 
     ProcessedPosition moveBoat(int xDest, int yDest);
 
@@ -21,9 +21,11 @@ public interface GameModelInterface {
 
     void isEnd();
 
-    Pair<ResultShoot, ProcessedPosition> shoot(Coord target);
+    ProcessedPosition shoot(Coord target);
 
     Map<Integer, ProcessedPosition> getListOfBoat();
+    
+    Map<Integer, ProcessedProps> getListOfMine();
 
     int getApCurrentPlayer();
 
@@ -35,7 +37,7 @@ public interface GameModelInterface {
 
     List<BoatInterface> getVisibleBoatsCurrentPlayer();
 
-	List<Pair<ResultShoot, ProcessedPosition>> specialAction(Coord coordSquare);
+	List<ProcessedPosition> specialAction(Coord coordSquare);
 
 	void EndActionsOfPlayer();
 
@@ -75,4 +77,9 @@ public interface GameModelInterface {
 
     boolean canCurrentBoatDoSpecialAction();
 
+    List<ProcessedProps> getProcessedPropsToUpdate();
+
+    boolean isInstantActionForCurrentBoat();
+
+    void setProcessedPosition(ProcessedProps processedProps);
 }
