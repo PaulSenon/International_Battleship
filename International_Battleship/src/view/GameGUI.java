@@ -109,6 +109,7 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 				c.weighty = 1.0;
 			// Add ControlPanel to the GeneralPanel
 			contentPane.add(controlsPanel.$$$getRootComponent$$$(), c);
+			
     }
 
     /**
