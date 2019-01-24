@@ -312,6 +312,7 @@ public class ControllerClient implements ControllerModelViewInterface {
     public void setupEndTurn() {
         // end turn
         this.gameModel.EndActionsOfPlayer();
+        System.err.println(this.gameModel.getClientPlayer().toString() +" : "+ this.gameModel.getListOfBoat().toString());
         // unselect boat
         this.gameModel.unselectBoat();
         this.gameGUI.setSelectedBoat(null);
@@ -320,6 +321,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         // update controls
         if(this.gameModel.itsTurn()){
             this.routineUpdates();
+
         }else {
             this.gameGUI.setControlsEnabled(false);
         }
