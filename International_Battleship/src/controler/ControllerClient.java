@@ -39,7 +39,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         if(this.tryToSelectBoat(x, y)) {
             this.gameGUI.setCurrentAction(ActionType.DEFAULT());
         }else{
-            MessageManager.broadcastMessageConsole("Il n'y a pas un de vos bateaux ici.");
+            MessageManager.displayMessageConsole("GUI", "There is no boat to select here...");
         }
     }
 
@@ -320,8 +320,8 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // update controls
         if(this.gameModel.itsTurn()){
+            MessageManager.displayMessagePopUp("GUI", "It's your turn !");
             this.routineUpdates();
-
         }else {
             this.gameGUI.setControlsEnabled(false);
         }

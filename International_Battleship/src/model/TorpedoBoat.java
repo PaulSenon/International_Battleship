@@ -26,4 +26,9 @@ public class TorpedoBoat extends AbstractBoat {
     public int getSize() {
     	return this.size;
     }
+
+    @Override
+    public int getSpecialActionCost() {
+        return 2;
+    }
 }

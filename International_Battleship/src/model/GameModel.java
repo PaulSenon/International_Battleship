@@ -415,6 +415,7 @@ public class GameModel implements GameModelInterface{
 	@Override
 	public void initTurn() {
 		this.turn++;
+		MessageManager.broadcastMessageConsole("It's your turn : "+this.currentPlayer.getName());
 		this.currentPlayer.creditActionPoint(this.currentPlayer.getMaxActionPoint()); //pour initialiser les PA
         allowAllBoatToMove();
 	}
@@ -554,7 +555,6 @@ public class GameModel implements GameModelInterface{
             || playerToTest == null
             || this.portImplementor.isInPort(this.selectedBoat.getPivot())
         ) return false;
-
         return this.selectedBoat.getSpecialActionCost() <= this.currentPlayer.getNbActionPoint();
     }
 

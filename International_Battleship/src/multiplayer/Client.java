@@ -4,6 +4,7 @@ import controler.ControllerClient;
 import model.GameModel;
 import model.Player;
 import model.PlayerInterface;
+import tools.MessageDisplayInterface;
 import tools.MessageManager;
 import tools.ProcessedPosition;
 import tools.ProcessedProps;
@@ -18,7 +19,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
 
-public class Client implements Runnable{
+public class Client implements Runnable, MessageDisplayInterface {
 
     private Socket connexion = null;
     private ObjectOutputStream writer = null;
@@ -83,6 +84,8 @@ public class Client implements Runnable{
 
                             //setup message manager
                             MessageManager.addDisplay("GUI", gameGUI);
+                            MessageManager.addDisplay("NET", this);
+
                         }
                     }
                 }
@@ -102,6 +105,8 @@ public class Client implements Runnable{
                         case "endOfTurn":
                             controller.setupEndTurn();
                             break;
+                        default:
+                            MessageManager.displayMessageConsole("GUI", (String)answer);
                     }
                 }
             }
@@ -156,8 +161,12 @@ public class Client implements Runnable{
     }
 
     public void endOfTurn(){
+        this.sendMessage("endOfTurn");
+    }
+
+    public void sendMessage(String message){
         try {
-            writer.writeObject("endOfTurn");
+            writer.writeObject(message);
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -173,5 +182,20 @@ public class Client implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void displayMessage(String msg) {
+        this.sendMessage(msg);
+    }
+
+    @Override
+    public void displayMessageConsole(String msg) {
+        this.displayMessage(msg);
+    }
+
+    @Override
+    public void displayMessagePopUp(String msg) {
+        this.displayMessage(msg);
     }
 }

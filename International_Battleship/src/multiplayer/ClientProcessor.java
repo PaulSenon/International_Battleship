@@ -81,6 +81,8 @@ public class ClientProcessor implements Runnable{
 						case "endOfTurn":
 							diffuseMessage((String)response);
 							break;
+						default:
+							diffuseMessage((String)response);
 					}
 
 				}else if(response instanceof ProcessedPosition){

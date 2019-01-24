@@ -57,9 +57,8 @@ public class LauncherBattleShipGame {
 
 		// setup image manager :
 			ImageManager.newInstance();
-// setup processedPropsManager :
+		// setup processedPropsManager :
 			ProcessedPropsManager.newInstance();
-
 		// setup Message manager :
 			MessageManager.newInstance();
 

@@ -132,7 +132,7 @@ public class Player implements PlayerInterface {
 		int verifDebitPossible = this.nbActionPoint - value;
 		if (verifDebitPossible < 0) {
 			// TODO remove this, not the responsibility of the game model
-			MessageManager.broadcastMessagePopUp("Not enought Action Point");
+			MessageManager.displayMessageConsole("GUI", "Not enough Action Point");
 			return false;
 		}
 		else {

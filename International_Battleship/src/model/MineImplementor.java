@@ -16,11 +16,12 @@ public class MineImplementor implements MineImplementorInterface{
 	
 	public void createMine(Coord coordMine, int idPlayer){
 		if (this.isMined(coordMine)) {
-			System.out.println("Attention une mine existe déjà à cet endroit");
+			MessageManager.broadcastMessageConsole("There is already a mine here !");
 			return;
 		}
 		Mine mine = new Mine(coordMine,UniqueIdGenerator.getNextId(),idPlayer,0);
 		this.mines.add(mine);
+		MessageManager.broadcastMessageConsole("Bomb has been planted !");
 		ProcessedPropsManager.addToQueue(mine.getProcessedProps());
 	}
 	
