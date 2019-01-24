@@ -12,12 +12,14 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
 	private List<BoatInterface> boats;
 	private MineImplementorInterface mineImplementor;
+	private PortImplementorInterface portImplementor;
 
 
     public BoatsImplementor(List<PlayerInterface> players, MineImplementorInterface mineImplementor) {
         this.boats = new ArrayList<>();
         this.generateBoatsFromFactory(players);
         this.mineImplementor = mineImplementor;
+        this.portImplementor = null;
     }
 
     /**
@@ -76,12 +78,17 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      */
     public ProcessedPosition shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target) {
         // check if enough
-        if (! currentPlayer.debitActionPoint(selectedBoat.getShootCost())){
+        if (!currentPlayer.debitActionPoint(selectedBoat.getShootCost())){
             // if not we donnot shoot
             currentPlayer.undoLastAction();
             return null;
         }
 
+        if (this.portImplementor.isInPort(target)){
+            // TODO message manager "You cannot shoot in an enemy port"
+            currentPlayer.undoLastAction();
+            return null;
+        }
         return this.shoot(currentPlayer, selectedBoat, target);
     }
 
@@ -89,6 +96,9 @@ public class BoatsImplementor implements BoatsImplementorInterface {
      * It just shoot, not AP consumed (to be used in special action)
      */
     private ProcessedPosition shoot(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target){
+        if (this.portImplementor.isInPort(target)){
+            return null;
+        }
         BoatInterface boat = findBoatByCoord(target);
         try {
             Pair<ResultShoot, ProcessedPosition> result = boat.shoot(target);
@@ -99,7 +109,7 @@ public class BoatsImplementor implements BoatsImplementorInterface {
                 boat.destroy();
             }
             this.createFx(target, resultShoot.fxType);
-            return(result.getSecond());
+            return(processedPosition);
         } catch (Exception e) { // TODO catch a custom exception like a "ShootException"
             this.createFx(target, ResultShoot.MISSED.fxType);
             return null;
@@ -125,8 +135,16 @@ public class BoatsImplementor implements BoatsImplementorInterface {
             // SHOOT AOE
             List<ProcessedPosition> result = new ArrayList<>();
             List<Coord> coords = ((SpecialZoneAOE) selectedBoat.getSpecialAction()).getEffectZone(target);
+            int nbCoordInPort = 0;
             for (Coord coord : coords) {
+                if(this.portImplementor.isInPort(coord)){
+                    nbCoordInPort++;
+                }
+
                 result.add(this.shoot(currentPlayer, selectedBoat, coord));
+            }
+            if (nbCoordInPort == coords.size()){
+                currentPlayer.undoLastAction();
             }
             return result;
         }else if(selectedBoat.getSpecialAction().getClass().equals(SpecialActionMine.class)){
@@ -276,6 +294,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
 
         List<BoatInterface> boatsFound;
         for(Coord coord : selectedBoat.getCoords()){
+            //check : new coords are in an ennemy port
+            if(this.portImplementor.checkIfCoordInEnnemyPort(coord, selectedBoat.getPlayerId())){
+                return false;
+            }
+
             // check: out of bounds
             if(coord.getX() >= GameConfig.getGameGridWidth()
                 || coord.getX() < 0
@@ -484,6 +507,11 @@ public class BoatsImplementor implements BoatsImplementorInterface {
         this.mineImplementor.createMine(new Coord(30,20), -1);
         this.mineImplementor.createMine(new Coord(10,4), -1);
         this.mineImplementor.createMine(new Coord(20,15), -1);
+    }
+
+    @Override
+    public void setPortImplementor(PortImplementorInterface portImplementor) {
+        this.portImplementor = portImplementor;
     }
 
     private boolean isCoordAccessible(Coord coord){

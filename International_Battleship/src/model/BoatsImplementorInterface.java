@@ -40,4 +40,6 @@ public interface BoatsImplementorInterface {
     void createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat);
 
     void generateRandomMines(int i);
+
+    void setPortImplementor(PortImplementorInterface portImplementor);
 }

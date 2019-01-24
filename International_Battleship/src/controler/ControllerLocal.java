@@ -255,6 +255,8 @@ public class ControllerLocal implements ControllerModelViewInterface {
         this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoordsCurrentPlayer());
         // Init action points
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+
+        this.updateControls();
     }
 
     /**
