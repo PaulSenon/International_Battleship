@@ -64,21 +64,25 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 				this.buttonGUIShoot = (ButtonGUI) controlsPanel.getButtonGUIShoot();
 				this.buttonGUIShoot.setIcon(new ImageIcon(ImageManager.getImageCopy("fire.png")));
 				this.buttonGUIShoot.setBorder(null);
+				this.buttonGUIShoot.setBackground(Color.black);
 				this.buttons.add(this.buttonGUIShoot);
 
 				this.buttonRotateClockWise = (ButtonGUI) controlsPanel.getButtonRotateClockWise();
 				this.buttonRotateClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockwise.png")));
 				this.buttonRotateClockWise.setBorder(null);
+				this.buttonRotateClockWise.setBackground(Color.black);
 				this.buttons.add(this.buttonRotateClockWise);
 
 				this.buttonRotateCounterClockWise =  (ButtonGUI) controlsPanel.getButtonRotateCounterClockWise();
 				this.buttonRotateCounterClockWise.setIcon(new ImageIcon(ImageManager.getImageCopy("rotateclockcounterwise.png")));
 				this.buttonRotateCounterClockWise.setBorder(null);
+				this.buttonRotateCounterClockWise.setBackground(Color.black);
 				this.buttons.add(this.buttonRotateCounterClockWise);
 
 				this.buttonGUISpecialAction = (ButtonGUI) controlsPanel.getButtonGUISpecialAction();
 				this.buttonGUISpecialAction.setIcon(new ImageIcon(ImageManager.getImageCopy("specialAction.png")));
 				this.buttonGUISpecialAction.setBorder(null);
+				this.buttonGUISpecialAction.setBackground(Color.black);
 				this.buttons.add(this.buttonGUISpecialAction);
 
 				this.buttonGUIEndOfTurn =(ButtonGUI) controlsPanel.getButtonGUIEndOfTurn();

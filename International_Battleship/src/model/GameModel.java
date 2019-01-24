@@ -375,7 +375,7 @@ public class GameModel implements GameModelInterface{
 			endDay();
 			if (this.playersImplementor.idWinner() != -1) {
 			    // TODO remove this, not responsibility of the game model :
-				JOptionPane.showMessageDialog(null, "C'est la fin du jeu ! Le gagnant est " + this.playersImplementor.findById(this.playersImplementor.idWinner()).getName(), null , JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "It's Finished !! And the winner is " + this.playersImplementor.findById(this.playersImplementor.idWinner()).getName(), null , JOptionPane.INFORMATION_MESSAGE);
 			}
 			initDay();
 		}

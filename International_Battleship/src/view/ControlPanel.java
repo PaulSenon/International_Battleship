@@ -22,11 +22,11 @@ public class ControlPanel {
     private JLabel CounterPA;
 
     private void createUIComponents() {
-        this.buttonGUIShoot = new ButtonGUI(ButtonType.SHOOT, "", "Annuler");
-        this.buttonRotateClockWise = new ButtonGUI(ButtonType.ROTATECW, "RotateCW", "");
-        this.buttonRotateCounterClockWise = new ButtonGUI(ButtonType.ROTATECCW, "RotateCCW", "");
-        this.buttonGUISpecialAction = new ButtonGUI(ButtonType.SPECIALACTION, "", "Annuler");
-        this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "Fin de tour", "Annuler");
+        this.buttonGUIShoot = new ButtonGUI(ButtonType.SHOOT, "", "Cancel");
+        this.buttonRotateClockWise = new ButtonGUI(ButtonType.ROTATECW, "", "");
+        this.buttonRotateCounterClockWise = new ButtonGUI(ButtonType.ROTATECCW, "", "");
+        this.buttonGUISpecialAction = new ButtonGUI(ButtonType.SPECIALACTION, "", "Cancel");
+        this.buttonGUIFinTour = new ButtonGUI(ButtonType.ENDTURN, "End of turn", "Cancel");
         this.PAPanel = new ActionPointGUI();
 
     }
@@ -163,7 +163,6 @@ public class ControlPanel {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(10, 10, 10, 10);
         ActionSpecialButtonPanel.add(SpecialActionLabel, gbc);
-        buttonGUISpecialAction.setBackground(new Color(-16777216));
         buttonGUISpecialAction.setEnabled(true);
         Font buttonGUISpecialActionFont = this.$$$getFont$$$("Consolas", Font.BOLD, 14, buttonGUISpecialAction.getFont());
         if (buttonGUISpecialActionFont != null) buttonGUISpecialAction.setFont(buttonGUISpecialActionFont);
@@ -269,7 +268,6 @@ public class ControlPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
         ButtonGUI.add(ShootButtonPanel, gbc);
         ShootButtonPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-15964156)), null));
-        buttonGUIShoot.setBackground(new Color(-16777216));
         buttonGUIShoot.setEnabled(true);
         Font buttonGUIShootFont = this.$$$getFont$$$("Consolas", Font.BOLD, 14, buttonGUIShoot.getFont());
         if (buttonGUIShootFont != null) buttonGUIShoot.setFont(buttonGUIShootFont);
@@ -280,6 +278,7 @@ public class ControlPanel {
         gbc.gridy = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
+        gbc.insets = new Insets(10, 10, 10, 10);
         ShootButtonPanel.add(buttonGUIShoot, gbc);
         final JLabel label7 = new JLabel();
         Font label7Font = this.$$$getFont$$$("Consolas", Font.BOLD, 20, label7.getFont());
@@ -310,6 +309,7 @@ public class ControlPanel {
         RotateButtonPanel = new JPanel();
         RotateButtonPanel.setLayout(new GridBagLayout());
         RotateButtonPanel.setBackground(new Color(-16777216));
+        RotateButtonPanel.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -318,7 +318,6 @@ public class ControlPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(10, 10, 10, 10);
         ButtonGUI.add(RotateButtonPanel, gbc);
-        buttonRotateClockWise.setBackground(new Color(-16777216));
         buttonRotateClockWise.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -326,8 +325,10 @@ public class ControlPanel {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
         RotateButtonPanel.add(buttonRotateClockWise, gbc);
-        buttonRotateCounterClockWise.setBackground(new Color(-16777216));
+        buttonRotateCounterClockWise.setBorderPainted(true);
+        buttonRotateCounterClockWise.setSelected(false);
         buttonRotateCounterClockWise.setText("");
         buttonRotateCounterClockWise.setVisible(true);
         gbc = new GridBagConstraints();
@@ -336,6 +337,7 @@ public class ControlPanel {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
         RotateButtonPanel.add(buttonRotateCounterClockWise, gbc);
         PAPanel.setBackground(new Color(-16777216));
         PAPanel.setMaximumSize(new Dimension(10, 999999999));
@@ -350,12 +352,11 @@ public class ControlPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(10, 10, 10, 10);
         ControlPanel.add(PAPanel, gbc);
-        buttonGUIFinTour.setBackground(new Color(-16777216));
         buttonGUIFinTour.setEnabled(true);
         Font buttonGUIFinTourFont = this.$$$getFont$$$("Consolas", Font.BOLD, 14, buttonGUIFinTour.getFont());
         if (buttonGUIFinTourFont != null) buttonGUIFinTour.setFont(buttonGUIFinTourFont);
         buttonGUIFinTour.setForeground(new Color(-1));
-        buttonGUIFinTour.setText("Fin de tour ");
+        buttonGUIFinTour.setText("End of turn");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
