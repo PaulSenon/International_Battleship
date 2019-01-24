@@ -1,11 +1,6 @@
 package model;
 
-import tools.Coord;
-import tools.GameConfig;
-import tools.PersonnalException;
-import tools.UniqueIdGenerator;
-
-import javax.swing.*;
+import tools.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,7 +132,7 @@ public class Player implements PlayerInterface {
 		int verifDebitPossible = this.nbActionPoint - value;
 		if (verifDebitPossible < 0) {
 			// TODO remove this, not the responsibility of the game model
-			JOptionPane.showMessageDialog(null, "Not enought Action Point", null , JOptionPane.INFORMATION_MESSAGE);
+			MessageManager.broadcastMessagePopUp("Not enought Action Point");
 			return false;
 		}
 		else {

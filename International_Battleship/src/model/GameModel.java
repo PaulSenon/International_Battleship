@@ -4,7 +4,6 @@ package model;
 import model.exceptions.SelectBoatException;
 import tools.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -396,7 +395,7 @@ public class GameModel implements GameModelInterface{
 			endDay();
 			if (this.playersImplementor.idWinner() != -1) {
 			    // TODO remove this, not responsibility of the game model :
-				JOptionPane.showMessageDialog(null, "It's Finished !! And the winner is " + this.playersImplementor.findById(this.playersImplementor.idWinner()).getName(), null , JOptionPane.INFORMATION_MESSAGE);
+				MessageManager.broadcastMessagePopUp("It's Finished !! And the winner is " + this.playersImplementor.findById(this.playersImplementor.idWinner()).getName());
 			}
 			initDay();
 		}

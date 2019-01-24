@@ -15,7 +15,7 @@ import java.util.EventListener;
 import java.util.List;
 import java.util.Map;
 
-public class GameGUI extends JFrame implements GameGUIInterface{
+public class GameGUI extends JFrame implements GameGUIInterface, MessageDisplayInterface{
 
 	private static final long serialVersionUID = 7636412061294453620L;
 	private final JTextArea textArea;
@@ -100,6 +100,8 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 			//Affect text area
 				this.textArea = controlsPanel.getConsoleTextArea();
 				this.textArea.setEditable(false);
+
+
 
 		    //Affect PA Panel in the south of BorderLayout
                 this.PAPanel = (ActionPointGUI) controlsPanel.getPAPanel();
@@ -187,16 +189,6 @@ public class GameGUI extends JFrame implements GameGUIInterface{
 		this.repaint();
 	}
 
-	@Override
-	public void message(String message) {
-		// TODO add visual
-		System.out.println("MESSAGE TO USER : "+message);
-	}
-
-	public void messagePopUp(String message){
-		JOptionPane.showMessageDialog(null, message, null , JOptionPane.INFORMATION_MESSAGE);
-	}
-
     @Override
 	public void setVisibleCoord(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort){
 		this.gridGUI.setVisibleCoords(visibleCoords, visibleCoordsPort);
@@ -278,4 +270,20 @@ public class GameGUI extends JFrame implements GameGUIInterface{
     	return this.gridGUI.boatIsSelected();
 	}
 
+	@Override
+	public void displayMessage(String msg) {
+		this.displayMessageConsole(msg);
+		this.displayMessagePopUp(msg);
+	}
+
+	@Override
+	public void displayMessageConsole(String msg) {
+		this.textArea.setText(msg);
+	}
+
+	@Override
+	public void displayMessagePopUp(String msg) {
+		JOptionPane.showMessageDialog(null, msg, null , JOptionPane.INFORMATION_MESSAGE);
+
+	}
 }

@@ -35,7 +35,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
         if(this.tryToSelectBoat(x, y)) {
             this.gameGUI.setCurrentAction(ActionType.DEFAULT());
         }else{
-            this.gameGUI.message("Il n'y a pas un de vos bateaux ici.");
+            MessageManager.broadcastMessageConsole("Il n'y a pas un de vos bateaux ici.");
         }
 	}
 
@@ -78,7 +78,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             // Do the usual updates
             this.routineUpdates();
         }else{
-            this.gameGUI.messagePopUp("You must select a boat to perform this action");
+            MessageManager.broadcastMessagePopUp("You must select a boat to perform this action");
         }
     }
 
@@ -94,7 +94,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             // Do the usual updates
             this.routineUpdates();
         }else{
-            this.gameGUI.messagePopUp("You must select a boat to perform this action");
+            MessageManager.broadcastMessagePopUp("You must select a boat to perform this action");
         }
 
     }
@@ -111,7 +111,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             // Do the usual updates
             this.routineUpdates();
         }else{
-            this.gameGUI.messagePopUp("You must select a boat to perform this action");
+            MessageManager.broadcastMessagePopUp("You must select a boat to perform this action");
         }
     }
 
@@ -271,7 +271,7 @@ public class ControllerLocal implements ControllerModelViewInterface {
             }
             this.gameGUI.setCurrentAction(actionType);
         }else{
-            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
+            MessageManager.broadcastMessagePopUp("Un bateau doit être sélectionné.");
         }
     }
 
