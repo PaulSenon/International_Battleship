@@ -49,6 +49,7 @@ public class GameModel implements GameModelInterface{
             // TODO debug, to set the first player... May be not clean...
             this.currentPlayer = this.playersImplementor.getPlayers().get(0);
             this.portImplementor = new PortImplementor(this.playersImplementor.getPlayers());
+            this.battleshipImplementor.setPortImplementor(this.portImplementor);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,6 +82,7 @@ public class GameModel implements GameModelInterface{
             this.minesImplementor = new MineImplementor();
             this.playersImplementor = new PlayersImplementor(players);
             this.portImplementor = new PortImplementor(this.playersImplementor.getPlayers());
+
             setupGame();
 
         } catch (Exception e) {
@@ -103,6 +105,7 @@ public class GameModel implements GameModelInterface{
     @Override
     public void setupGame() {
         this.battleshipImplementor = new BoatsImplementor(this.playersImplementor.getPlayers(), this.minesImplementor);
+        this.battleshipImplementor.setPortImplementor(this.portImplementor);
         this.currentPlayer = playersImplementor.getPlayers().get(0);
         this.battleshipImplementor.generateRandomMines(20);
     }
@@ -303,10 +306,6 @@ public class GameModel implements GameModelInterface{
         if(this.selectedBoat == null){
             // TODO just placeholder yet.
             System.out.println("No boat has been selected");
-        }
-        if (this.portImplementor.isInPort(target)){
-            // TODO message manager "You cannot shoot in an enemy port"
-            return null;
         }
 		ProcessedPosition ret = battleshipImplementor.shootBoat(this.currentPlayer, this.selectedBoat, target);
         endActionRoutine();
@@ -520,7 +519,17 @@ public class GameModel implements GameModelInterface{
 
     @Override
     public boolean canCurrentBoatShoot() {
-        if(this.selectedBoat == null || this.currentPlayer == null || this.portImplementor.isInPort(this.selectedBoat.getPivot())){
+        PlayerInterface playerToTest = null;
+        if(this.clientPlayer == null){
+            playerToTest = this.currentPlayer;
+        }else {
+            playerToTest = this.clientPlayer;
+        }
+        if(
+            this.selectedBoat == null
+            || playerToTest == null
+            || this.portImplementor.isInPort(this.selectedBoat.getPivot())
+        ){
             return false;
         }
         return this.selectedBoat.getShootCost() <= this.currentPlayer.getNbActionPoint();
@@ -535,7 +544,17 @@ public class GameModel implements GameModelInterface{
 
     @Override
     public boolean canCurrentBoatDoSpecialAction() {
-        if(this.selectedBoat == null || this.currentPlayer == null) return false;
+        PlayerInterface playerToTest = null;
+        if(this.clientPlayer == null){
+            playerToTest = this.currentPlayer;
+        }else {
+            playerToTest = this.clientPlayer;
+        }
+        if(
+            this.selectedBoat == null
+            || playerToTest == null
+            || this.portImplementor.isInPort(this.selectedBoat.getPivot())
+        ) return false;
 
         return this.selectedBoat.getSpecialActionCost() <= this.currentPlayer.getNbActionPoint();
     }

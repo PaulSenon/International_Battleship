@@ -59,4 +59,14 @@ public class PortImplementor implements PortImplementorInterface {
 		return false;
 	}
 
+	public boolean checkIfCoordInEnnemyPort(Coord coord, int playerId) {
+		for(Port port: this.ports){
+			if (port.getPlayerIdInModel() == playerId)
+				continue;
+			if (port.getCoords().contains(coord))
+				return true;
+		}
+		return false;
+	}
+
 }
