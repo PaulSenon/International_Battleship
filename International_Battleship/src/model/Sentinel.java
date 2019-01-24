@@ -7,7 +7,7 @@ public class Sentinel extends AbstractBoat {
 
     public Sentinel(int id, Coord pivot, int playerId) {
         super(BoatType.Sentinel, id, pivot, playerId);
-        this.mySpecialAction = new SpecialZoneAOE(1);
+        this.mySpecialAction = new SpecialActionMine();
 //                new TargetAction(){
 //            @Override
 //            public void doAction(Coord target) {
@@ -27,4 +27,8 @@ public class Sentinel extends AbstractBoat {
     	return this.size;
     }
 
+    @Override
+    public int getSpecialActionCost() {
+        return 3;
+    }
 }

@@ -4,14 +4,17 @@ import controler.ControllerLocal;
 import controler.ControllerModelViewInterface;
 import model.BoatType;
 import model.GameModel;
+import model.ProcessedPropsManager;
 import multiplayer.Client;
 import multiplayer.Server;
 import tools.ConsoleOutputStream;
 import tools.GameConfig;
 import tools.ImageManager;
+import tools.MessageManager;
 import view.GameGUI;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,16 +46,26 @@ public class LauncherBattleShipGame {
 						BoatType.Sentinel,
 						BoatType.TorpedoBoat
 				},
-				new Color(255, 247, 0, 255).getRGB(),
+				new Color(255, 247, 0, 255).getRGB(), //Color of edging
 				16, //Number of explosion images
-				8 //Number of explomiss images
+				8, //Number of explomiss images
+				new Color(255,0,0,255), //Color of Player1
+				new Color(0,255,0,255), //Color of Player2
+				new Color(100,100,255,255), //Color of Player3
+				new Color(255,100,255,255) //Color of Player4
 		);
 
 		// setup image manager :
-				ImageManager.newInstance();
+			ImageManager.newInstance();
+		// setup processedPropsManager :
+			ProcessedPropsManager.newInstance();
+		// setup Message manager :
+			MessageManager.newInstance();
 
 		final JFrame jframe = new JFrame("Menu");
-		jframe.setSize(1130, 800);
+		jframe.setPreferredSize(new Dimension(1130, 800));
+		jframe.setMinimumSize(new Dimension(1130, 800));
+		jframe.setResizable(false);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = jframe.getContentPane();
 		c.setLayout(new BorderLayout(10,0));
@@ -76,7 +89,7 @@ public class LauncherBattleShipGame {
 
 
 		//Bouton pour lancer le solo
-		JButton solo = new JButton("Solo");
+		JButton solo = new JButton("Hot Seat");
 		solo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -89,7 +102,7 @@ public class LauncherBattleShipGame {
 		});
 
 		//Bouton pour lancer le multijoueur
-		JButton multi = new JButton("Multi");
+		JButton multi = new JButton("Host");
 		multi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -148,6 +161,8 @@ public class LauncherBattleShipGame {
 		jp.revalidate();
 		jp.repaint();
 
+		joinMultiplayer(editText);
+
 	}
 
 	/**
@@ -169,6 +184,8 @@ public class LauncherBattleShipGame {
 		gameGUI.setVisible(true);
 		jframe.setVisible(false);//Hide the launcher
 
+		//setup message manager
+		MessageManager.addDisplay("GUI", gameGUI);
 	}
 	/**
 	 * Permet de générer le plateau de jeu

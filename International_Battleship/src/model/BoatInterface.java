@@ -68,7 +68,9 @@ public interface BoatInterface {
 
 	void setDammage(int nbDammage) throws Exception;
 	
-	public List<Integer> getTouchedFragmentIds();
+	List<Integer> getTouchedFragmentIds();
 	
-	public Coord getCoordBehind();
+	Coord getCoordBehind();
+
+    boolean getMove();
 }

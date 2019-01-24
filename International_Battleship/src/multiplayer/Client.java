@@ -1,20 +1,25 @@
 package multiplayer;
 
 import controler.ControllerClient;
-import controler.ControllerLocal;
-import model.*;
+import model.GameModel;
+import model.Player;
+import model.PlayerInterface;
+import tools.MessageDisplayInterface;
+import tools.MessageManager;
 import tools.ProcessedPosition;
+import tools.ProcessedProps;
 import view.GameGUI;
-import view.GameGUIInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
 
-public class Client implements Runnable{
+public class Client implements Runnable, MessageDisplayInterface {
 
     private Socket connexion = null;
     private ObjectOutputStream writer = null;
@@ -76,6 +81,11 @@ public class Client implements Runnable{
                             controller = new ControllerClient(gm, gameGUI, this);
                             gameGUI.initListeners(controller);
                             gameGUI.setVisible(true);
+
+                            //setup message manager
+                            MessageManager.addDisplay("GUI", gameGUI);
+                            MessageManager.addDisplay("NET", this);
+
                         }
                     }
                 }
@@ -86,11 +96,17 @@ public class Client implements Runnable{
                 if (answer instanceof ProcessedPosition) {
                     ProcessedPosition pp = (ProcessedPosition) answer;
                     controller.update(pp);
+                }else if (answer instanceof ProcessedProps) {
+                    ProcessedProps pp = (ProcessedProps) answer;
+                    controller.update(pp);
+
                 }else if(answer instanceof String){
                     switch ((String)answer){
                         case "endOfTurn":
                             controller.setupEndTurn();
                             break;
+                        default:
+                            MessageManager.displayMessageConsole("GUI", (String)answer);
                     }
                 }
             }
@@ -145,11 +161,41 @@ public class Client implements Runnable{
     }
 
     public void endOfTurn(){
+        this.sendMessage("endOfTurn");
+    }
+
+    public void sendMessage(String message){
         try {
-            writer.writeObject("endOfTurn");
+            writer.writeObject(message);
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendProcessedProps(List<ProcessedProps> processedProps) {
+        for (ProcessedProps pp : processedProps) {
+            try {
+                writer.writeObject(pp);
+                writer.flush();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void displayMessage(String msg) {
+        this.sendMessage(msg);
+    }
+
+    @Override
+    public void displayMessageConsole(String msg) {
+        this.displayMessage(msg);
+    }
+
+    @Override
+    public void displayMessagePopUp(String msg) {
+        this.displayMessage(msg);
     }
 }

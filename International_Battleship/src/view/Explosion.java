@@ -1,7 +1,7 @@
 package view;
 
+import tools.FxType;
 import tools.ImageManager;
-import tools.ResultShoot;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,31 +11,34 @@ import java.awt.image.BufferedImage;
 
 
 public class Explosion extends JLabel implements ActionListener {
-    private final BufferedImage[] explosionArray;
-    private final BufferedImage[] exploMissArray;
+    private final BufferedImage[] imageArray;
     private final Timer animator;
-    private boolean missed;
-    private boolean touched;
     private int delay = 50;
     private int currentFrame = 0;
+    private FxType type;
 
     /**
      * Constructor of animation
-     * @param result
+     * @param fxType
      */
-    public Explosion(ResultShoot result) {
+    public Explosion(FxType fxType) {
         super();
-        if (result.equals(ResultShoot.MISSED)){
-            this.missed = true;
-        }else{
-            this.touched = true;
+        this.type = fxType;
+
+        switch (fxType){
+            case EXPLOSION:
+                this.imageArray = ImageManager.getExplosionArray();
+                break;
+            case SPLASH:
+                this.imageArray = ImageManager.getExplomissArray();
+                break;
+            default:
+                System.err.println("Requested FxType:"+fxType.name()+" not supported yet");
+                this.imageArray = null;
         }
 
-        this.explosionArray = ImageManager.getExplosionArray();
-        this.exploMissArray = ImageManager.getExplomissArray();
         animator = new Timer(this.delay, this);
         animator.start();
-        //this.repaint();
     }
 
     /**
@@ -45,23 +48,8 @@ public class Explosion extends JLabel implements ActionListener {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        //Display explosion when touched
-        if (this.touched == true) {
-            if (currentFrame >= explosionArray.length -1) {
-                this.touched = false;
-                currentFrame = 0;
-            }
-            g.drawImage(this.explosionArray[currentFrame], 0, 0, getWidth(), getHeight(), this);
-            currentFrame++;
-        }
-
-        //Display explosion when missed
-        if (this.missed == true) {
-            if (currentFrame >= exploMissArray.length - 1) {
-                this.missed = false;
-                currentFrame = 0;
-            }
-            g.drawImage(this.exploMissArray[currentFrame], 0, 0, getWidth(), getHeight(), this);
+        if (currentFrame < this.imageArray.length ) {
+            g.drawImage(this.imageArray[currentFrame], 0, 0, getWidth(), getHeight(), this);
             currentFrame++;
         }
     }

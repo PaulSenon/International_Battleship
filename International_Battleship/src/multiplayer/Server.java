@@ -3,6 +3,7 @@ package multiplayer;
 import model.GameModel;
 import model.PlayerInterface;
 import tools.ProcessedPosition;
+import tools.ProcessedProps;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -100,7 +101,7 @@ public class Server {
      */
     public void startGame(){
         gameStarted = true;
-        gameModel.setupGame();
+//        gameModel.setupGame();
         for (ClientProcessor c :clientList) {
             c.startGame(players);
         }
@@ -116,6 +117,20 @@ public class Server {
         for (ClientProcessor c :clientList) {
             if(c.getID() != from){
                 c.update(processedPosition);
+            }
+        }
+    }
+
+    /**
+     * Notify each client that the client "form" has done something
+     * Then they will update both their model and their GUI
+     * @param processedProps
+     * @param from
+     */
+    public void update(ProcessedProps processedProps, int from){
+        for (ClientProcessor c :clientList) {
+            if(c.getID() != from){
+                c.update(processedProps);
             }
         }
     }

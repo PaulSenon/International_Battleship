@@ -7,7 +7,7 @@ public class Cruiser extends AbstractBoat {
 
     public Cruiser(int id, Coord pivot, int playerId) {
         super(BoatType.Cruiser, id, pivot, playerId);
-        this.mySpecialAction = new SpecialZoneAOE(1);
+        this.mySpecialAction = new SpecialZoneAOE(2);
 //                new TargetAction() {
 //            @Override
 //            public void doAction(Coord target) {
@@ -25,5 +25,10 @@ public class Cruiser extends AbstractBoat {
 
     public int getSize( ) {
     	return this.size;
+    }
+
+    @Override
+    public int getSpecialActionCost() {
+        return 11;
     }
 }

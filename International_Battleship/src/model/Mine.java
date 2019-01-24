@@ -1,8 +1,8 @@
 package model;
 
 import tools.Coord;
-import tools.ProcessedPosition;
 import tools.ProcessedProps;
+import tools.PropsType;
 import tools.StateMine;
 
 import java.util.ArrayList;
@@ -14,12 +14,14 @@ public class Mine {
 	private Coord coord;
 	private int idPlayer;
 	private int visibleRadius;
+	private StateMine state;
 	
 	public Mine(Coord coord, int idMine, int idPlayer, int visibleRadius){
 		this.coord = coord;
 		this.idMine = idMine;
 		this.idPlayer = idPlayer;
 		this.visibleRadius = visibleRadius;
+		this.state = StateMine.ALIVE;
 	}
 	
 	public Coord getCoord() {
@@ -50,12 +52,16 @@ public class Mine {
         }
         return areaOfEffect;
     }
+
+    public void destroy(){
+		this.state = StateMine.DESTROY;
+	}
 	
     /**
      * @return ProcessedProps
      */
     public ProcessedProps getProcessedProps(){
-        return new ProcessedProps(this.idMine, this.coord, this.idPlayer, StateMine.ALIVE);
+        return new ProcessedProps(PropsType.MINE, this.idMine, this.coord, this.idPlayer, this.state, this.visibleRadius);
     }
     
 	public int getIdMine() {

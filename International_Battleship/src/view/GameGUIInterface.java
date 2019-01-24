@@ -4,9 +4,9 @@ import model.BoatInterface;
 import tools.ActionType;
 import tools.Coord;
 import tools.ProcessedPosition;
-import tools.ResultShoot;
+import tools.ProcessedProps;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -22,23 +22,19 @@ public interface GameGUIInterface {
 
     void setListOfBoat(List<BoatInterface> listOfBoat);
 
-    void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer);
+    void initGame(Map<Integer,ProcessedPosition> initBoatPos, Map<Integer, Integer> boatRelatedToPlayer, List<ProcessedProps> processedProps);
 
     void setSelectedBoat(ProcessedPosition processedPosition);
-
-    void message(String message);
 
     void setNbAP(int actionPoint);
 
     void disableAction();
 
-    void messagePopUp(String message);
-
     void setVisibleCoord(List<Coord> visibleCoords, Map <Coord, Color> visibleCoordsPort);
 
-    void displayResult(ResultShoot first, Coord target);
-
 	void setVisibleBoats(List<Coord> list);
+	
+	void setVisibleMines(List<Coord> list);
 
     void setControlsEnabled(Boolean enable);
 
@@ -49,4 +45,7 @@ public interface GameGUIInterface {
     boolean boatIsSelected();
 
     void setButtonHighLight(ButtonType type, boolean highlighted);
+
+	void setProcessedProps(List<ProcessedProps> processedProps);
+	void setProcessedProps(ProcessedProps processedProps);
 }

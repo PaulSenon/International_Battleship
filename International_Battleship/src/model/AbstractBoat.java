@@ -11,7 +11,7 @@ import static tools.Direction.DEFAULT;
 
 public abstract class AbstractBoat implements BoatInterface {
 
-    public boolean move;
+    private boolean move;
     private boolean destroyed;
     protected Coord pivot;
 	protected SpecialActionInterface mySpecialAction;
@@ -83,7 +83,7 @@ public abstract class AbstractBoat implements BoatInterface {
                 return new Pair<>(ResultShoot.ALREADY_TOUCHED, this.getProcessedPosition());
             }else{
                 this.touchedFragmentIds.add(id);
-                if(this.touchedFragmentIds.size() >= getNbFrontParts()) {
+                if(this.touchedFragmentIds.size() >= getNbBackParts()) {
                     this.move = false;
                 }
                 if(this.getCoords().size() == this.touchedFragmentIds.size()){
@@ -463,6 +463,7 @@ public abstract class AbstractBoat implements BoatInterface {
     public void destroy(){
         this.coordsVisibleToBeProcessed = true;
         this.destroyed = true;
+        MessageManager.broadcastMessageConsole("A boat has been destroyed");
     }
 
     public boolean getDestroy(){
@@ -529,4 +530,32 @@ public abstract class AbstractBoat implements BoatInterface {
 		}
 		return pivot;
 	}
+	
+	public Coord getCoordHead(){
+		Coord pivot = new Coord(this.pivot.getX(), this.pivot.getY());
+		int shift = this.getNbFrontParts()-1;
+		
+		switch (this.getDirection()) {
+		case EAST:
+			pivot.addStepDirection(Direction.WEST, shift);
+			break;
+		case WEST:
+			pivot.addStepDirection(Direction.EAST, shift);
+			break;
+		case SOUTH:
+			pivot.addStepDirection(Direction.NORTH, shift);
+			break;
+		case NORTH:
+			pivot.addStepDirection(Direction.SOUTH, shift);
+			break;
+		default:
+			break;
+		}
+		return pivot;
+	}
+
+    @Override
+    public boolean getMove() {
+        return this.move;
+    }
 }

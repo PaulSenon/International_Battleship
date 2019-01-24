@@ -39,7 +39,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         if(this.tryToSelectBoat(x, y)) {
             this.gameGUI.setCurrentAction(ActionType.DEFAULT());
         }else{
-            this.gameGUI.message("Il n'y a pas un de vos bateaux ici.");
+            MessageManager.displayMessageConsole("GUI", "There is no boat to select here...");
         }
     }
 
@@ -82,7 +82,7 @@ public class ControllerClient implements ControllerModelViewInterface {
             // Do the usual updates
             this.routineUpdates();
         }else{
-            this.gameGUI.messagePopUp("You must select a boat to perform this action");
+            MessageManager.broadcastMessagePopUp("You must select a boat to perform this action");
         }
     }
 
@@ -98,7 +98,7 @@ public class ControllerClient implements ControllerModelViewInterface {
             // Do the usual updates
             this.routineUpdates();
         }else{
-            this.gameGUI.messagePopUp("You must select a boat to perform this action");
+            MessageManager.broadcastMessagePopUp("You must select a boat to perform this action");
         }
 
     }
@@ -115,7 +115,7 @@ public class ControllerClient implements ControllerModelViewInterface {
             // Do the usual updates
             this.routineUpdates();
         }else{
-            this.gameGUI.messagePopUp("You must select a boat to perform this action");
+            MessageManager.broadcastMessagePopUp("You must select a boat to perform this action");
         }
     }
 
@@ -134,16 +134,10 @@ public class ControllerClient implements ControllerModelViewInterface {
         // Perform shoot action only if select boat failed
 
         Coord target = new Coord(x, y);
-        Pair<ResultShoot, ProcessedPosition> result = this.gameModel.shoot(target);
-
-        ResultShoot resultShoot = result.getFirst();
-        if (resultShoot == null) System.err.println("Error shoot action");
-
-        // display visual feedback
-        this.gameGUI.displayResult(resultShoot, target);
+        ProcessedPosition result = this.gameModel.shoot(target);
 
         // update visual
-        ProcessedPosition processedPosition = result.getSecond();
+        ProcessedPosition processedPosition = result;
         // update if needed
         if(processedPosition != null){
             this.sendProcessedPosition(processedPosition);
@@ -151,9 +145,6 @@ public class ControllerClient implements ControllerModelViewInterface {
 
         // Do the usual updates
         this.routineUpdates();
-
-        // DEBUG
-        System.out.println("shoot result : "+resultShoot);
     }
 
     @Override
@@ -166,25 +157,15 @@ public class ControllerClient implements ControllerModelViewInterface {
         // Perform shoot action only if select boat failed
 
         Coord target = new Coord(x, y);
-        List<Pair<ResultShoot, ProcessedPosition>> results = this.gameModel.specialAction(target);
-        ResultShoot resultShoot;
-        ProcessedPosition processedPosition;
+        List<ProcessedPosition> results = this.gameModel.specialAction(target);
 
-        // TODO will needs rework if not all special targeted actions are some shoot variants :
         if(results != null){
-            boolean touched = false;
-            for(Pair<ResultShoot, ProcessedPosition> res : results){
-                resultShoot = res.getFirst();
-                processedPosition = res.getSecond();
-
-                if (resultShoot == null) continue; // skip
-
+            for(ProcessedPosition processedPosition : results){
                 this.sendProcessedPosition(processedPosition);
-                if(resultShoot.equals(ResultShoot.TOUCHED)) touched = true;
             }
-            if(touched) this.gameGUI.displayResult(ResultShoot.TOUCHED, target);
-            this.routineUpdates();
         }
+
+        this.routineUpdates();
     }
 
     /**
@@ -198,14 +179,31 @@ public class ControllerClient implements ControllerModelViewInterface {
         client.sendProcessedPosition(processedPosition);
     }
 
+    /**
+     * It send a processedProps to classes that need update
+     * (GUI / Network / ...)
+     * @param processedProps
+     */
+    // TODO move this in an abstract parent and implement it differently for Local and Client controller
+    protected void sendProcessedProps(List<ProcessedProps> processedProps) {
+        this.gameGUI.setProcessedProps(processedProps);
+        client.sendProcessedProps(processedProps);
+
+    }
+
     protected void routineUpdates(){
         // update visible area
+        //Send processedProps to multi
+        this.sendProcessedProps(this.gameModel.getProcessedPropsToUpdate());
         // on affiche les zones visibles
-        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoordsCurrentPlayer(), this.gameModel.getPortsCoordsCurrentPlayer());
         // on affiche les bateau dans les zones visibles
-        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoordsCurrentPlayer());
+        //on affiche les mines dans les zones visibles
+        this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoordsCurrentPlayer());
         // update action points
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
+
         // update controls
         this.updateControls();
     }
@@ -251,7 +249,9 @@ public class ControllerClient implements ControllerModelViewInterface {
         // Init boats on board
         Map<Integer,ProcessedPosition> initBoatPos = this.gameModel.getListOfBoat();
         Map<Integer, Integer> boatsRelatedToPlayers = this.gameModel.getBoatsAndPlayersId();
-        this.gameGUI.initGame(initBoatPos, boatsRelatedToPlayers);
+        List<ProcessedProps> processedProps = this.gameModel.getProcessedPropsToUpdate();
+
+        this.gameGUI.initGame(initBoatPos, boatsRelatedToPlayers, processedProps);
         // Init currentAction
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // Init visible area
@@ -259,6 +259,8 @@ public class ControllerClient implements ControllerModelViewInterface {
         // Init visible boats (fragment of enemy boats inside the visible area)
         //      => note: it's useless here but keep it for consistency.
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        //Init visible mines
+        this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
         // Init action points
         this.gameGUI.setNbAP(this.gameModel.getApCurrentPlayer());
 
@@ -275,9 +277,13 @@ public class ControllerClient implements ControllerModelViewInterface {
      */
     public void requestActionType(ActionType actionType){
         if(this.gameModel.hasSelectedBoat()){
+            if(actionType == ActionType.SPECIAL && this.gameModel.isInstantActionForCurrentBoat()){
+                this.specialAction(-1,-1);
+                return;
+            }
             this.gameGUI.setCurrentAction(actionType);
         }else{
-            this.gameGUI.messagePopUp("Un bateau doit être sélectionné.");
+            MessageManager.broadcastMessagePopUp("Un bateau doit être sélectionné.");
         }
     }
 
@@ -292,11 +298,21 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameModel.setProcessedPosition(processedPosition);
         this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
         this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+    }
+
+    public void update(ProcessedProps processedProps){
+        this.gameGUI.setProcessedProps(processedProps);
+        this.gameModel.setProcessedPosition(processedProps);
+        this.gameGUI.setVisibleCoord(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()), this.gameModel.getPortsCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleBoats(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
+        this.gameGUI.setVisibleMines(this.gameModel.getVisibleCoords(this.gameModel.getClientPlayer()));
     }
 
     public void setupEndTurn() {
         // end turn
         this.gameModel.EndActionsOfPlayer();
+        System.err.println(this.gameModel.getClientPlayer().toString() +" : "+ this.gameModel.getListOfBoat().toString());
         // unselect boat
         this.gameModel.unselectBoat();
         this.gameGUI.setSelectedBoat(null);
@@ -304,6 +320,7 @@ public class ControllerClient implements ControllerModelViewInterface {
         this.gameGUI.setCurrentAction(ActionType.INIT());
         // update controls
         if(this.gameModel.itsTurn()){
+            MessageManager.displayMessagePopUp("GUI", "It's your turn !");
             this.routineUpdates();
         }else {
             this.gameGUI.setControlsEnabled(false);

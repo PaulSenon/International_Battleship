@@ -3,6 +3,7 @@ package view;
 
 import controler.ControllerModelViewInterface;
 import tools.ActionType;
+import tools.MessageManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,9 @@ public class ButtonGUIListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// reset txt console GUI
+		MessageManager.displayMessageConsole("GUI", "");
+
 		ButtonGUI button;
 		try{
 			button = (ButtonGUI) e.getSource();

@@ -7,7 +7,7 @@ public class TorpedoBoat extends AbstractBoat {
 
     public TorpedoBoat(int id, Coord pivot, int playerId) {
         super(BoatType.TorpedoBoat, id, pivot, playerId);
-        this.mySpecialAction = new SpecialZoneAOE(1);
+        this.mySpecialAction = new SpecialActionMine();
 //                new InstantAction(){
 //            @Override
 //            public void doAction(Coord target) {
@@ -25,5 +25,10 @@ public class TorpedoBoat extends AbstractBoat {
 
     public int getSize() {
     	return this.size;
+    }
+
+    @Override
+    public int getSpecialActionCost() {
+        return 2;
     }
 }

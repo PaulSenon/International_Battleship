@@ -3,12 +3,14 @@ package model;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import testTools.BaseTests;
 import testTools.Reflection;
 import tools.Coord;
 import tools.Direction;
 import tools.GameConfig;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class GameModelTest extends BaseTests {
     private GameModel gameModel;
     private BoatsImplementor boatsImplementor;
+    private PortImplementorInterface portImplementor;
 
     @Before
     public void setUp() throws Exception {
@@ -42,13 +45,16 @@ public class GameModelTest extends BaseTests {
                 },
                 0,
                 0,
-                0
+                0,
+                new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0)
         );
 
         // create boats implementor
         List<PlayerInterface> players = new ArrayList<>();
         List<BoatType> boatTypes = new ArrayList<>();
-        this.boatsImplementor = new BoatsImplementor(players);
+        this.boatsImplementor = new BoatsImplementor(players, new MineImplementor());
+        this.portImplementor = new PortImplementor(players);
+        this.boatsImplementor.setPortImplementor(this.portImplementor);
 
         // add some test boats on the game board
         // TODO change values

@@ -1,13 +1,13 @@
 package model;
 
-import java.awt.Color;
+import tools.Coord;
+import tools.GameConfig;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import tools.Coord;
-import tools.GameConfig;
 
 public class PortImplementor implements PortImplementorInterface {
 
@@ -27,7 +27,7 @@ public class PortImplementor implements PortImplementorInterface {
 		Map <Coord, Color> visibleCoords = new HashMap<Coord, Color>();
 		for(Port port: this.ports){
 			if (port.getPlayerIdInModel() == player.getId())
-					visibleCoords = port.getVisibleCoords();
+				visibleCoords = port.getVisibleCoords();
 		}
 		return visibleCoords;
 	}
@@ -50,5 +50,23 @@ public class PortImplementor implements PortImplementorInterface {
 		}
 		return null;
 	}
-	
+
+	public boolean isInPort(Coord coord) {
+		for (Port port: this.ports){
+			if (port.getCoords().contains(coord))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean checkIfCoordInEnnemyPort(Coord coord, int playerId) {
+		for(Port port: this.ports){
+			if (port.getPlayerIdInModel() == playerId)
+				continue;
+			if (port.getCoords().contains(coord))
+				return true;
+		}
+		return false;
+	}
+
 }

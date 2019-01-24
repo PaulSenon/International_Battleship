@@ -2,23 +2,23 @@ package model;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import testTools.BaseTests;
 import testTools.Reflection;
-import tools.Coord;
-import tools.Direction;
-import tools.GameConfig;
-import tools.ProcessedProps;
+import tools.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BoatsImplementorTest extends BaseTests {
 
     private BoatsImplementor boatsImplementor;
     private PlayerInterface player;
+    private MineImplementorInterface mineImplementor;
+    private PortImplementorInterface portImplementor;
 
     @Before
     public void setUp() throws Exception {
@@ -43,12 +43,17 @@ public class BoatsImplementorTest extends BaseTests {
                 },
                 0,
                 0,
-                0
+                0,
+                new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0)
         );
+        ProcessedPropsManager.getInstance();
         List<PlayerInterface> players = new ArrayList<>();
         List<BoatType> boatTypes = new ArrayList<>();
         this.player = new Player(1, "", "");
-        this.boatsImplementor = new BoatsImplementor(players);
+        this.mineImplementor = new MineImplementor();
+        this.boatsImplementor = new BoatsImplementor(players, this.mineImplementor);
+        this.portImplementor = new PortImplementor(players);
+        this.boatsImplementor.setPortImplementor(this.portImplementor);
     }
 
     @Test
@@ -433,20 +438,25 @@ public class BoatsImplementorTest extends BaseTests {
     
     @Test
     public void testCreateMine(){
+        // get the private list of mines of the MineImplementor
+        List<Mine> mines = (List<Mine>)Reflection.getFieldByReflection(mineImplementor, "mines");
+
     	//Check for boat of size 5
     	AbstractBoat boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 5, Direction.EAST);
-    	ProcessedProps resultat = this.boatsImplementor.createMine(this.player, boat);
-    	assertEquals(new Coord(7, 10),resultat.getCoord());
+    	this.boatsImplementor.createMine(this.player, boat);
+    	assertTrue(this.mineImplementor.isMined(new Coord(7,10)));
+        assertEquals(1,mines.size());
 
     	//Check for boat of size 3
     	boat = this.objGenerator.generateTestBoat(new Coord(10, 10), 3, Direction.SOUTH);
-    	resultat = this.boatsImplementor.createMine(this.player, boat);
-    	assertEquals(new Coord(10, 8),resultat.getCoord());
-    	
+    	this.boatsImplementor.createMine(this.player, boat);
+    	assertTrue(this.mineImplementor.isMined(new Coord(10,8)));
+        assertEquals(2,mines.size());
+
     	//Check impossible to create a mine because there is already a mine
-    	resultat = this.boatsImplementor.createMine(this.player, boat);
-    	assertEquals(null,resultat);
-    	
+    	this.boatsImplementor.createMine(this.player, boat);
+        assertEquals(2,mines.size());
+
     	//Check impossible to create a mine because there is already a boat
         List<BoatInterface> boats = new ArrayList<>(); // create a boat on the map that block rotation
     	AbstractBoat boat1 = this.objGenerator.generateTestBoat(new Coord(5, 5), 1, Direction.NORTH);
@@ -454,22 +464,40 @@ public class BoatsImplementorTest extends BaseTests {
         boats.add(boat1);
         boats.add(boat2);
         Reflection.setFieldByReflection(this.boatsImplementor, "boats", boats);
-    	resultat = this.boatsImplementor.createMine(this.player, boat1);
-    	assertEquals(null,resultat);
+    	this.boatsImplementor.createMine(this.player, boat1);
+        assertEquals(2,mines.size());
     }
     
     @Test
     public void testTriggerMine(){
-    	//Check if we have no meet a mine
+        // get the private list of mines of the MineImplementor
+        List<Mine> mines = (List<Mine>)Reflection.getFieldByReflection(mineImplementor, "mines");
+
+        List<ProcessedProps> processedProps = ProcessedPropsManager.flushQueue();
+        assertEquals(0, processedProps.size());
+
+        //Check if we have no meet a mine
     	AbstractBoat boat1 = this.objGenerator.generateTestBoat(new Coord(10, 10), 5, Direction.EAST);
-    	ProcessedProps processedProps = this.boatsImplementor.createMine(this.player, boat1);
-    	ProcessedProps resultat = this.boatsImplementor.triggerMine(boat1);
-    	assertEquals(resultat,null);
-    	
+
+        assertEquals(0,mines.size()); // test init state
+    	this.boatsImplementor.createMine(this.player, boat1);
+        ProcessedPropsManager.flushQueue(); // we want the queue to be empty
+
+    	this.boatsImplementor.triggerMine(boat1);
+        processedProps = ProcessedPropsManager.flushQueue();
+        assertEquals(0, processedProps.size()); // no update expected
+        assertTrue(mines.size() >= 1); // still a mine expected
+
     	//Check if we have meet a mine
     	AbstractBoat boat2 = this.objGenerator.generateTestBoat(new Coord(7, 10), 5, Direction.EAST);
-    	resultat = this.boatsImplementor.triggerMine(boat2);
-    	assertEquals(resultat.getCoord(),new Coord(7,10));
+
+        ProcessedPropsManager.flushQueue(); // we want the queue to be empty
+    	this.boatsImplementor.triggerMine(boat2);
+        processedProps = ProcessedPropsManager.flushQueue();
+        assertTrue(processedProps.size() >= 1); // one update expected
+        assertEquals(new Coord(7,10), processedProps.get(0).coord); // one update expected
+        assertEquals(StateMine.DESTROY, processedProps.get(0).stateMine); // one update expected
+        assertEquals(0,mines.size()); // expect empty mines list
     }
 
 }

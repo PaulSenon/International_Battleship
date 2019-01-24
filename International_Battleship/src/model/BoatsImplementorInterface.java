@@ -1,10 +1,6 @@
 package model;
 
-import tools.Coord;
-import tools.Pair;
-import tools.ProcessedPosition;
-import tools.ProcessedProps;
-import tools.ResultShoot;
+import tools.*;
 
 import java.util.List;
 import java.util.Map;
@@ -15,9 +11,9 @@ public interface BoatsImplementorInterface {
 
     ProcessedPosition moveBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord destination);
 
-    Pair<ProcessedPosition,ProcessedProps> rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
+    ProcessedPosition rotateBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, boolean clockWise);
 
-    Pair<ResultShoot, ProcessedPosition> shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
+    ProcessedPosition shootBoat(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
 
     ProcessedPosition undoLastBoatMove(BoatInterface selectedBoat);
 
@@ -29,7 +25,7 @@ public interface BoatsImplementorInterface {
 
     List<BoatInterface> getVisibleBoats(PlayerInterface player);
 
-	List<Pair<ResultShoot, ProcessedPosition>> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
+	List<ProcessedPosition> specialAction(PlayerInterface currentPlayer, BoatInterface selectedBoat, Coord target);
 
 	BoatInterface findBoayById(int boatId);
 
@@ -40,4 +36,10 @@ public interface BoatsImplementorInterface {
     void setProcessedPosition(ProcessedPosition processedPosition);
 
 	Map<Integer, Integer> getBoatsAndPlayersId();
+
+    void createMine(PlayerInterface currentPlayer, BoatInterface selectedBoat);
+
+    void generateRandomMines(int i);
+
+    void setPortImplementor(PortImplementorInterface portImplementor);
 }

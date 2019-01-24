@@ -1,7 +1,10 @@
 package model;
 
+import java.awt.Color;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import testTools.BaseTests;
 import tools.GameConfig;
 import tools.PersonnalException;
@@ -32,7 +35,8 @@ public class PlayerTest extends BaseTests {
 				},
 				0,
 				0,
-				0
+				0,
+				new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0),new Color(0,0,0,0)
 
 		);
 	}

@@ -1,28 +1,28 @@
 package model;
 
+import tools.*;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import tools.Coord;
-import tools.ProcessedProps;
-import tools.StateMine;
-import tools.UniqueIdGenerator;
-
-public class MineImplementor {
+public class MineImplementor implements MineImplementorInterface{
 	private List<Mine> mines;
 
 	public MineImplementor(){
 		this.mines = new ArrayList<>();
 	}
 	
-	public ProcessedProps createMine(Coord coordMine, int idPlayer){
+	public void createMine(Coord coordMine, int idPlayer){
 		if (this.isMined(coordMine)) {
-			System.out.println("Attention une mine existe déjà à cet endroit");
-			return null;
+			MessageManager.broadcastMessageConsole("There is already a mine here !");
+			return;
 		}
 		Mine mine = new Mine(coordMine,UniqueIdGenerator.getNextId(),idPlayer,0);
 		this.mines.add(mine);
-		return mine.getProcessedProps();
+		MessageManager.broadcastMessageConsole("Bomb has been planted !");
+		ProcessedPropsManager.addToQueue(mine.getProcessedProps());
 	}
 	
 	public boolean isMined(Coord coordMine){
@@ -44,19 +44,46 @@ public class MineImplementor {
 		return visibleCoords;
 	}
 	
-	public ProcessedProps destroyMine(Coord coord){
-		if(isMined(coord)){
-			for (int i = 0; i < this.mines.size(); i++) {
-				Mine mine = this.mines.get(i);
-				if (mine.getCoord().equals(coord)) {
-					this.mines.remove(i);
-					return new ProcessedProps(i, coord, mine.getIdPlayer(), StateMine.DESTROY);
-				}
+	public void destroyMine(Coord coord){
+		for(Mine mine: this.mines){
+			if(mine.getCoord().equals(coord)){
+				this.mines.remove(mine);
+				mine.destroy();
+				ProcessedPropsManager.addToQueue(mine.getProcessedProps());
+				return;
 			}
 		}
-		else{
-			System.out.println("Suppression impossible car il n'y a pas de mine aux coordonnées indiquées");
-		}
-		return null;
 	}
+
+	@Override
+	public Map<Integer, ProcessedProps> getListOfMines() {
+        Map<Integer,ProcessedProps> mineInitPos = new HashMap<>();
+        for (Mine mine: this.mines) {
+            mineInitPos.put(mine.getIdMine(),mine.getProcessedProps());
+        }
+        return mineInitPos;
+	}
+
+	@Override
+	public void processMineProcessedProps(ProcessedProps processedProps) {
+		if(processedProps == null || processedProps.type != PropsType.MINE) return;
+
+		switch (processedProps.stateMine){
+			case ALIVE:
+				Mine mine = new Mine(processedProps.coord,processedProps.idMine,processedProps.idPlayer,processedProps.visibleRadius);
+				this.mines.add(mine);
+				break;
+			case DESTROY:
+				for (Mine mine2: this.mines) {
+					if(mine2.getIdMine() == processedProps.idMine){
+						this.mines.remove(mine2);
+						mine2.destroy();
+						break;
+					}
+				}
+				break;
+		}
+	}
+
+
 }
