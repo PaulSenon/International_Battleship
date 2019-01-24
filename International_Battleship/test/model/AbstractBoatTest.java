@@ -16,6 +16,7 @@ public class AbstractBoatTest extends BaseTests {
 
     @Before
     public void setUp() throws Exception {
+        MessageManager.getInstance();
         this.boat = this.objGenerator.generateTestBoat(new Coord(10,10), 5, Direction.EAST);
     }
 
