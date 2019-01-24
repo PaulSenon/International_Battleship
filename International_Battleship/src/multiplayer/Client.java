@@ -83,8 +83,8 @@ public class Client implements Runnable, MessageDisplayInterface {
                             gameGUI.setVisible(true);
 
                             //setup message manager
-                            MessageManager.addDisplay("GUI"+this.player.getId(), gameGUI);
-                            MessageManager.addDisplay("NET"+this.player.getId(), this);
+                            MessageManager.addDisplay("GUI", gameGUI);
+                            MessageManager.addDisplay("NET", this);
 
                         }
                     }
